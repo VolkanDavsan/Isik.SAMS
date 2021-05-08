@@ -1,0 +1,341 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="StudentApprovalManagementModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="SAMS_Administrator">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Email" Type="nvarchar" MaxLength="100" />
+    <Property Name="FirstName" Type="nvarchar" MaxLength="100" />
+    <Property Name="LastName" Type="nvarchar" MaxLength="100" />
+  </EntityType>
+  <EntityType Name="SAMS_ApplicationStatus">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="StatusName" Type="nvarchar" MaxLength="100" />
+  </EntityType>
+  <EntityType Name="SAMS_Department">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="CreatedBy" Type="int" />
+    <Property Name="CreatedTime" Type="datetime" />
+    <Property Name="ChangedBy" Type="int" />
+    <Property Name="ChangedTime" Type="datetime" />
+    <Property Name="DepartmentName" Type="nvarchar" MaxLength="500" />
+  </EntityType>
+  <EntityType Name="SAMS_Files">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="StudentApplicationId" Type="int" />
+    <Property Name="FileName" Type="nvarchar" MaxLength="100" />
+    <Property Name="FileCreateDate" Type="datetime" />
+    <Property Name="FileData" Type="varbinary(max)" />
+  </EntityType>
+  <EntityType Name="SAMS_Program">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="CreatedBy" Type="int" />
+    <Property Name="CreatedTime" Type="datetime" />
+    <Property Name="ChangedBy" Type="int" />
+    <Property Name="ChangedTime" Type="datetime" />
+    <Property Name="ProgramName" Type="nvarchar" MaxLength="500" />
+  </EntityType>
+  <EntityType Name="SAMS_StudentApplications">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="CreatedTime" Type="datetime" />
+    <Property Name="Email" Type="nvarchar" MaxLength="100" />
+    <Property Name="StudentFirstName" Type="nvarchar" MaxLength="100" />
+    <Property Name="StudentLastName" Type="nvarchar" MaxLength="100" />
+    <Property Name="DepartmentId" Type="int" />
+    <Property Name="ApprovedBy" Type="int" />
+    <Property Name="Status" Type="int" />
+    <Property Name="EnrolledBy" Type="int" />
+    <Property Name="ProgramId" Type="int" />
+  </EntityType>
+  <EntityType Name="SAMS_Users">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="CreatedBy" Type="int" />
+    <Property Name="CreatedTime" Type="datetime" />
+    <Property Name="ChangedBy" Type="int" />
+    <Property Name="ChangedTime" Type="datetime" />
+    <Property Name="UserType" Type="int" />
+    <Property Name="Email" Type="nvarchar" MaxLength="100" />
+    <Property Name="Password" Type="nvarchar" MaxLength="100" />
+    <Property Name="FirstName" Type="nvarchar" MaxLength="100" />
+    <Property Name="LastName" Type="nvarchar" MaxLength="100" />
+    <Property Name="PhoneNumber" Type="nvarchar" MaxLength="100" />
+    <Property Name="DepartmentId" Type="int" />
+    <Property Name="ProgramId" Type="int" />
+  </EntityType>
+  <EntityType Name="SAMS_UserType">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="UserTypeName" Type="nvarchar" MaxLength="100" />
+  </EntityType>
+  <Association Name="FK_ApprovedBy_StudentApplications">
+    <End Role="SAMS_Users" Type="Self.SAMS_Users" Multiplicity="0..1" />
+    <End Role="SAMS_StudentApplications" Type="Self.SAMS_StudentApplications" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="SAMS_Users">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="SAMS_StudentApplications">
+        <PropertyRef Name="ApprovedBy" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_ChangedBy_Department">
+    <End Role="SAMS_Administrator" Type="Self.SAMS_Administrator" Multiplicity="0..1" />
+    <End Role="SAMS_Department" Type="Self.SAMS_Department" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="SAMS_Administrator">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="SAMS_Department">
+        <PropertyRef Name="ChangedBy" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_ChangedBy_Program">
+    <End Role="SAMS_Administrator" Type="Self.SAMS_Administrator" Multiplicity="0..1" />
+    <End Role="SAMS_Program" Type="Self.SAMS_Program" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="SAMS_Administrator">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="SAMS_Program">
+        <PropertyRef Name="ChangedBy" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_ChangedBy_Users">
+    <End Role="SAMS_Administrator" Type="Self.SAMS_Administrator" Multiplicity="0..1" />
+    <End Role="SAMS_Users" Type="Self.SAMS_Users" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="SAMS_Administrator">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="SAMS_Users">
+        <PropertyRef Name="ChangedBy" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_CreatedBy_Department">
+    <End Role="SAMS_Administrator" Type="Self.SAMS_Administrator" Multiplicity="0..1" />
+    <End Role="SAMS_Department" Type="Self.SAMS_Department" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="SAMS_Administrator">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="SAMS_Department">
+        <PropertyRef Name="CreatedBy" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_CreatedBy_Program">
+    <End Role="SAMS_Administrator" Type="Self.SAMS_Administrator" Multiplicity="0..1" />
+    <End Role="SAMS_Program" Type="Self.SAMS_Program" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="SAMS_Administrator">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="SAMS_Program">
+        <PropertyRef Name="CreatedBy" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_CreatedBy_Users">
+    <End Role="SAMS_Administrator" Type="Self.SAMS_Administrator" Multiplicity="0..1" />
+    <End Role="SAMS_Users" Type="Self.SAMS_Users" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="SAMS_Administrator">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="SAMS_Users">
+        <PropertyRef Name="CreatedBy" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_DepartmentId_StudentApplications">
+    <End Role="SAMS_Department" Type="Self.SAMS_Department" Multiplicity="0..1" />
+    <End Role="SAMS_StudentApplications" Type="Self.SAMS_StudentApplications" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="SAMS_Department">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="SAMS_StudentApplications">
+        <PropertyRef Name="DepartmentId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_DepartmentId_Users">
+    <End Role="SAMS_Department" Type="Self.SAMS_Department" Multiplicity="0..1" />
+    <End Role="SAMS_Users" Type="Self.SAMS_Users" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="SAMS_Department">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="SAMS_Users">
+        <PropertyRef Name="DepartmentId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_EnrolledBy_StudentApplications">
+    <End Role="SAMS_Users" Type="Self.SAMS_Users" Multiplicity="0..1" />
+    <End Role="SAMS_StudentApplications" Type="Self.SAMS_StudentApplications" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="SAMS_Users">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="SAMS_StudentApplications">
+        <PropertyRef Name="EnrolledBy" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_ProgramId_StudentApplications">
+    <End Role="SAMS_Program" Type="Self.SAMS_Program" Multiplicity="0..1" />
+    <End Role="SAMS_StudentApplications" Type="Self.SAMS_StudentApplications" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="SAMS_Program">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="SAMS_StudentApplications">
+        <PropertyRef Name="ProgramId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_ProgramId_Users">
+    <End Role="SAMS_Program" Type="Self.SAMS_Program" Multiplicity="0..1" />
+    <End Role="SAMS_Users" Type="Self.SAMS_Users" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="SAMS_Program">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="SAMS_Users">
+        <PropertyRef Name="ProgramId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Status_StudentApplications">
+    <End Role="SAMS_ApplicationStatus" Type="Self.SAMS_ApplicationStatus" Multiplicity="0..1" />
+    <End Role="SAMS_StudentApplications" Type="Self.SAMS_StudentApplications" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="SAMS_ApplicationStatus">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="SAMS_StudentApplications">
+        <PropertyRef Name="Status" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_StudentApplicationId_Files">
+    <End Role="SAMS_StudentApplications" Type="Self.SAMS_StudentApplications" Multiplicity="0..1" />
+    <End Role="SAMS_Files" Type="Self.SAMS_Files" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="SAMS_StudentApplications">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="SAMS_Files">
+        <PropertyRef Name="StudentApplicationId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_UserType_Users">
+    <End Role="SAMS_UserType" Type="Self.SAMS_UserType" Multiplicity="0..1" />
+    <End Role="SAMS_Users" Type="Self.SAMS_Users" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="SAMS_UserType">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="SAMS_Users">
+        <PropertyRef Name="UserType" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="StudentApprovalManagementModelStoreContainer">
+    <EntitySet Name="SAMS_Administrator" EntityType="Self.SAMS_Administrator" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="SAMS_ApplicationStatus" EntityType="Self.SAMS_ApplicationStatus" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="SAMS_Department" EntityType="Self.SAMS_Department" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="SAMS_Files" EntityType="Self.SAMS_Files" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="SAMS_Program" EntityType="Self.SAMS_Program" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="SAMS_StudentApplications" EntityType="Self.SAMS_StudentApplications" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="SAMS_Users" EntityType="Self.SAMS_Users" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="SAMS_UserType" EntityType="Self.SAMS_UserType" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="FK_ApprovedBy_StudentApplications" Association="Self.FK_ApprovedBy_StudentApplications">
+      <End Role="SAMS_Users" EntitySet="SAMS_Users" />
+      <End Role="SAMS_StudentApplications" EntitySet="SAMS_StudentApplications" />
+    </AssociationSet>
+    <AssociationSet Name="FK_ChangedBy_Department" Association="Self.FK_ChangedBy_Department">
+      <End Role="SAMS_Administrator" EntitySet="SAMS_Administrator" />
+      <End Role="SAMS_Department" EntitySet="SAMS_Department" />
+    </AssociationSet>
+    <AssociationSet Name="FK_ChangedBy_Program" Association="Self.FK_ChangedBy_Program">
+      <End Role="SAMS_Administrator" EntitySet="SAMS_Administrator" />
+      <End Role="SAMS_Program" EntitySet="SAMS_Program" />
+    </AssociationSet>
+    <AssociationSet Name="FK_ChangedBy_Users" Association="Self.FK_ChangedBy_Users">
+      <End Role="SAMS_Administrator" EntitySet="SAMS_Administrator" />
+      <End Role="SAMS_Users" EntitySet="SAMS_Users" />
+    </AssociationSet>
+    <AssociationSet Name="FK_CreatedBy_Department" Association="Self.FK_CreatedBy_Department">
+      <End Role="SAMS_Administrator" EntitySet="SAMS_Administrator" />
+      <End Role="SAMS_Department" EntitySet="SAMS_Department" />
+    </AssociationSet>
+    <AssociationSet Name="FK_CreatedBy_Program" Association="Self.FK_CreatedBy_Program">
+      <End Role="SAMS_Administrator" EntitySet="SAMS_Administrator" />
+      <End Role="SAMS_Program" EntitySet="SAMS_Program" />
+    </AssociationSet>
+    <AssociationSet Name="FK_CreatedBy_Users" Association="Self.FK_CreatedBy_Users">
+      <End Role="SAMS_Administrator" EntitySet="SAMS_Administrator" />
+      <End Role="SAMS_Users" EntitySet="SAMS_Users" />
+    </AssociationSet>
+    <AssociationSet Name="FK_DepartmentId_StudentApplications" Association="Self.FK_DepartmentId_StudentApplications">
+      <End Role="SAMS_Department" EntitySet="SAMS_Department" />
+      <End Role="SAMS_StudentApplications" EntitySet="SAMS_StudentApplications" />
+    </AssociationSet>
+    <AssociationSet Name="FK_DepartmentId_Users" Association="Self.FK_DepartmentId_Users">
+      <End Role="SAMS_Department" EntitySet="SAMS_Department" />
+      <End Role="SAMS_Users" EntitySet="SAMS_Users" />
+    </AssociationSet>
+    <AssociationSet Name="FK_EnrolledBy_StudentApplications" Association="Self.FK_EnrolledBy_StudentApplications">
+      <End Role="SAMS_Users" EntitySet="SAMS_Users" />
+      <End Role="SAMS_StudentApplications" EntitySet="SAMS_StudentApplications" />
+    </AssociationSet>
+    <AssociationSet Name="FK_ProgramId_StudentApplications" Association="Self.FK_ProgramId_StudentApplications">
+      <End Role="SAMS_Program" EntitySet="SAMS_Program" />
+      <End Role="SAMS_StudentApplications" EntitySet="SAMS_StudentApplications" />
+    </AssociationSet>
+    <AssociationSet Name="FK_ProgramId_Users" Association="Self.FK_ProgramId_Users">
+      <End Role="SAMS_Program" EntitySet="SAMS_Program" />
+      <End Role="SAMS_Users" EntitySet="SAMS_Users" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Status_StudentApplications" Association="Self.FK_Status_StudentApplications">
+      <End Role="SAMS_ApplicationStatus" EntitySet="SAMS_ApplicationStatus" />
+      <End Role="SAMS_StudentApplications" EntitySet="SAMS_StudentApplications" />
+    </AssociationSet>
+    <AssociationSet Name="FK_StudentApplicationId_Files" Association="Self.FK_StudentApplicationId_Files">
+      <End Role="SAMS_StudentApplications" EntitySet="SAMS_StudentApplications" />
+      <End Role="SAMS_Files" EntitySet="SAMS_Files" />
+    </AssociationSet>
+    <AssociationSet Name="FK_UserType_Users" Association="Self.FK_UserType_Users">
+      <End Role="SAMS_UserType" EntitySet="SAMS_UserType" />
+      <End Role="SAMS_Users" EntitySet="SAMS_Users" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>
