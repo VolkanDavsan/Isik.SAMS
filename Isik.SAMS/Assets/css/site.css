@@ -1,0 +1,297 @@
+﻿.hide {
+    display: none !important;
+}
+
+.pull-right {
+    float: right !important;
+}
+
+
+.pull-left {
+    float: left !important;
+}
+
+.btn {
+    box-shadow: none !important;
+}
+
+    .btn:hover, .btn:focus {
+        transform: none !important;
+    }
+
+
+.k-header {
+    padding: 10px;
+}
+
+.k-icon {
+    color: #fff !important;
+}
+
+.k-grid td {
+    border-width: 0 0 1px 0 !important;
+}
+
+.widget-header {
+    padding: 0 20px !important;
+}
+
+.widget .widget-header h4 {
+    padding: 15px 0px !important;
+}
+
+.widget .widget-header .btn {
+    margin-top: 10px !important;
+}
+
+.widget-content-area {
+    padding: 10px 20px 20px 20px;
+}
+
+.input-group mapInput .input-group-addon {
+    width: 40px;
+    line-height: 38px;
+    text-align: center;
+    border: 1px #ccc solid;
+    border-left: 0px;
+}
+
+.form-horizontal {
+    padding: 10px 10px 0 10px;
+}
+
+    .form-horizontal .k-widget.k-dropdown.k-header {
+        width: 100% !important;
+        background: #fff;
+        border: 1px solid #bfc9d4;
+        border-radius: 5px;
+    }
+
+    .form-horizontal .k-dropdown.k-header {
+        padding: 0 !important;
+    }
+
+
+        .form-horizontal .k-dropdown.k-header .k-dropdown-wrap {
+            padding: 10px !important;
+            background: #fff !important;
+        }
+
+    .form-horizontal .with-errors {
+        color: red;
+        font-size: 11px;
+        position: absolute;
+        right: 10px;
+        bottom: -6px;
+        background: #fff;
+        padding: 4px;
+        height: 14px;
+        line-height: 6px;
+    }
+
+    .form-horizontal .form-group {
+        position: relative;
+        margin-bottom: 20px !important;
+    }
+
+    .form-horizontal label {
+        margin-bottom: 0px !important;
+        position: absolute;
+        font-size: 14px;
+        z-index: 9999;
+        background: #fff;
+        padding: 3px;
+        left: 15px;
+        top: -12px;
+    }
+
+    .form-horizontal .form-control {
+        padding: 1rem 1.25rem .50rem 1.25rem;
+        font-size: 14px !important;
+    }
+
+        .form-horizontal .form-control::-webkit-input-placeholder {
+            font-size: 14px !important;
+            display: none;
+        }
+
+        .form-horizontal .form-control::-ms-input-placeholder {
+            font-size: 14px !important;
+            display: none;
+        }
+
+        .form-horizontal .form-control::placeholder {
+            font-size: 14px !important;
+            display: none;
+        }
+
+
+    .form-horizontal .has-error.has-danger .form-control {
+        border-color: red;
+    }
+
+        .form-horizontal .has-error.has-danger .form-control::-webkit-input-placeholder { /* Edge */
+            color: red;
+        }
+
+        .form-horizontal .has-error.has-danger .form-control:-ms-input-placeholder { /* Internet Explorer 10-11 */
+            color: red;
+        }
+
+        .form-horizontal .has-error.has-danger .form-control::placeholder {
+            color: red;
+        }
+
+
+
+.tab-pane {
+    padding: 15px;
+    background: #fff;
+    border-bottom: 1px solid #e0e6ed;
+    border-left: 1px solid #e0e6ed;
+    border-right: 1px solid #e0e6ed;
+}
+
+.filtermenu h5 {
+    font-weight: bold;
+    font-size: 14px;
+    margin-bottom: 10px;
+}
+
+.folder-list {
+    padding: 0px !important;
+}
+
+    .folder-list li a {
+        color: #666666;
+        display: block;
+        padding: 5px 0;
+        cursor: pointer;
+    }
+
+        .folder-list li a.active {
+            font-weight: bold;
+        }
+
+    .folder-list li {
+        border-bottom: 1px solid #e7eaec;
+        display: block;
+    }
+
+        .folder-list li i {
+            margin-right: 8px;
+            /* color: #3d4d5d; */
+        }
+
+.category-list li a {
+    color: #666666;
+    display: block;
+    padding: 5px 0;
+    cursor: pointer;
+}
+
+    .category-list li a.active {
+        font-weight: bold;
+    }
+
+.category-list li {
+    display: block;
+}
+
+    .category-list li i {
+        margin-right: 8px;
+        color: #3d4d5d;
+    }
+
+    .category-list li a .text-navy {
+        color: #1ab394;
+    }
+
+    .category-list li a .text-primary {
+        color: #1c84c6;
+    }
+
+    .category-list li a .text-info {
+        color: #23c6c8;
+    }
+
+    .category-list li a .text-danger {
+        color: #EF5352;
+    }
+
+    .category-list li a .text-warning {
+        color: #F8AC59;
+    }
+
+.file-manager h5.tag-title {
+    margin-top: 20px;
+}
+
+.tag-list li {
+    float: left;
+}
+
+    .tag-list li a {
+        font-size: 10px;
+        background-color: #f3f3f4;
+        padding: 5px 12px;
+        color: inherit;
+        border-radius: 2px;
+        border: 1px solid #e7eaec;
+        margin-right: 5px;
+        margin-top: 5px;
+        display: block;
+        cursor: pointer;
+    }
+
+        .tag-list li a.active {
+            font-weight: bold;
+        }
+
+/**RadioButtonlar için*/
+
+
+.akilliRadioGrup {
+    padding-top: 0px !important;
+}
+
+    .akilliRadioGrup > input {
+        display: none;
+    }
+
+    .akilliRadioGrup > label {
+        border: 1px solid #ccc;
+        padding: 7px 6px 7px 6px;
+        margin: 0px -1px 0px 0px;
+        float: left;
+        cursor: pointer;
+    }
+
+    .akilliRadioGrup > input:checked + label {
+        background-color: #1ab394;
+        color: #fff;
+    }
+
+form fieldset {
+    border: 1px #cfcfcf solid !important;
+    padding: 0px 25px 5px 25px !important;
+    margin: 0 0 20px 0 !important;
+    -webkit-box-shadow: 0px 0px 0px 0px #000;
+    box-shadow: 0px 0px 0px 0px #000;
+    border-radius: 0px;
+}
+
+
+
+
+    form fieldset legend {
+        font-size: 16px !important;
+        font-weight: bold !important;
+        text-align: left !important;
+        width: auto;
+        padding: 0 10px;
+        border-bottom: none;
+        color: #000;
+        margin-left: 15px;
+        margin-bottom: 15px !important;
+    }

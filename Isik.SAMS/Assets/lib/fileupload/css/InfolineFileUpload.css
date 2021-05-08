@@ -1,0 +1,107 @@
+﻿
+/*InfolineFileUpload*/
+.fileupload-container {
+    width: 100%;
+    padding: 10px;
+    background: #eee;
+    position: relative;
+}
+
+    .fileupload-container [data-task="upload"] {
+        overflow: hidden;
+    }
+
+    .fileupload-container .drop-container {
+        position: absolute;
+        left: 0px;
+        top: 0px;
+        width: 100%;
+        height: 100%;
+        z-index: 99;
+        background: rgba(0,0,0,0.8);
+        color: #fff;
+        font-weight: bold;
+        text-align: center;
+        padding: 30px;
+        line-height: 60px;
+    }
+
+.fileupload-content {
+    width: 100%;
+    max-height: 300px;
+    list-style-type: none;
+    padding: 0px;
+    overflow: auto;
+    margin-bottom: 0px;
+}
+
+    .fileupload-content li div.file-container {
+        border: 1px #ccc solid;
+        padding: 5px;
+        background: #fff;
+        border-radius: 2px;
+    }
+
+    .fileupload-content li {
+        margin-top: 10px;
+        padding-left: 5px;
+        padding-right: 5px;
+    }
+
+        .fileupload-content li div.file-image {
+            width: 36px;
+            float: left;
+        }
+
+
+            .fileupload-content li div.file-image img {
+                height: 48px;
+            }
+
+        .fileupload-content li div.file-desc {
+            float: left;
+            width: calc(100% - 121px);
+            height: 48px;
+            overflow: hidden;
+        }
+
+@media (min-width: 992px) {
+
+    .fileupload-content li div.file-desc > div {
+        position: relative;
+        top: 50%;
+        transform: translateY(-50%);
+        padding: 0 10px;
+    }
+}
+
+.fileupload-content li div.file-button {
+    width: 72px;
+    float: left;
+    height: 48px;
+}
+
+    .fileupload-content li div.file-button [class^="icon-"]:before, .fileupload-content li div.file-button [class*=" icon-"]:before {
+        margin-left: 0px !important;
+    }
+
+
+.fileupload-content .file-item button {
+    margin: 1px 0px;
+    width: 34px;
+    margin: 1px 0px !important;
+}
+
+
+.fileupload-content .file-info {
+    background: #fcf8e3;
+    border: 1px #faebcc solid;
+    text-align: center;
+    margin-bottom: 3px;
+    line-height: 20px;
+    padding: 10px;
+    width: calc(100% - 1px);
+}
+
+
+/*InfolineFileUpload*/

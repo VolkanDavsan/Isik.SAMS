@@ -1,0 +1,817 @@
+﻿.none {
+    pointer-events: none;
+    opacity: 0.4;
+}
+
+ul.fileuplad-property {
+    list-style-type: none;
+    padding-left: 0px;
+    line-height: 17px;
+    font-size: 11.7px;
+    margin-top: 12px;
+    margin-bottom: 0px;
+}
+
+.none-upload {
+    pointer-events: none;
+    opacity: 0.4;
+}
+
+.p0 {
+    padding: 0px;
+}
+
+.mb-14 {
+    margin-bottom: 14px;
+}
+
+.folder-list li {
+    display: block;
+    margin-bottom: 18px;
+    background-color: #e7eaec66;
+    border: 1px solid #e4e4e46b;
+    /*border: none !important;*/
+}
+
+    .folder-list li i {
+        font-size: 33px;
+    }
+
+.ibox-content {
+    border: none;
+}
+
+.folder-list li form {
+    color: #666666;
+    display: block;
+    padding: 5px 0;
+    background: none;
+}
+
+.cursor-pointer {
+    cursor: pointer;
+}
+
+li.text-center:last-child {
+    margin-bottom: 0px;
+}
+
+
+[data-created], [data-filename] {
+    font-size: 15px;
+    display: inline-block;
+    width: 100%;
+    color: red;
+}
+
+.carousel-inner > .item > a > img, .carousel-inner > .item > img, .img-responsive, .thumbnail a > img, .thumbnail > img {
+    height: 100% !important;
+}
+
+[type="search"] {
+    text-align: center;
+    border-right: none;
+}
+
+.search-icon-border {
+    border: 1px solid #cccccc;
+    border-left: none;
+}
+
+.fUpload {
+    border-bottom: 1px solid #80808038;
+    margin: 0px 0px 20px 0px;
+    padding-bottom: 10px;
+}
+
+.upload {
+    background: #005a99d1 !important;
+    color: white;
+    border-radius: 5px;
+}
+
+    .upload > form {
+        background: none;
+    }
+
+[data-task="open"] {
+    cursor: pointer;
+}
+
+.upload span.with-errors {
+    position: absolute;
+    bottom: -8px;
+    left: 20px;
+}
+
+.upload ul.list-unstyled li {
+    color: white;
+    background: #ed5565;
+    margin-top: 19px;
+    font-size: 10px;
+}
+
+
+.dropfiles-content.dropfiles-content-default .file {
+    min-height: 115px;
+    clear: right;
+}
+.dropfiles-content-default .dropfiles_list .file small{
+max-width: 219px;
+    overflow: hidden;
+    display: inline-block;
+    
+}
+.dropfiles-content-default .dropfiles_list .file {
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    background: #fff;
+    padding: 7px !important;
+    margin: 10px;
+}
+
+.dropfiles-content.dropfiles-content-default .dropfiles_list .filecontent {
+    margin-left: 0px;
+    min-width: 219px;
+    padding-top: 7px;
+}
+
+.dropfiles-container-default .dropfiles_list {
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-flex-wrap: wrap;
+    -ms-flex-wrap: wrap;
+    flex-wrap: wrap;
+    clear: both;
+    position: relative;
+}
+
+    .dropfiles-container-default .dropfiles_list .file .filecontent h3 span {
+        width: 70%;
+        display: flex;
+        font-size: 12px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+.dropfiles_list form {
+    padding: 0px;
+}
+
+.dropfiles_list .alert {
+    display: inline-table;
+    padding: 10px !important;
+    margin: 10px;
+    width: 75%;
+}
+
+.background-none {
+    background-color: #fff !important;
+}
+
+
+
+.dropfiles-content.dropfiles-content-default .file .filecontent > div.ext {
+    height: 80px;
+    width: 50px;
+    float: left;
+    background: url("/Content/SYS_Files/img/new_icons/neutral.png") center center transparent no-repeat;
+    color: #fff;
+    position: relative;
+    margin-right: 15px;
+}
+
+
+.dropfiles-content-ggd.dropfiles-content .dropfilescategory .dropblock div.ext {
+    background-image: url("/Content/SYS_Files/img/new_icons/folder.png");
+    color: transparent;
+}
+
+    .dropfiles-content-ggd.dropfiles-content .dropfilescategory .dropblock div.ext.back {
+        background-image: url("/Content/SYS_Files/img/new_icons/folder-back.png");
+        color: transparent;
+    }
+
+.dropfiles-content.dropfiles-content-default .file .filecontent > div.ext.doc,
+.dropfiles-content-ggd .dropblock div.ext.doc, #dropfiles-box-ggd .dropblock div.ext.doc,
+.dropfiles-content-table.dropfiles-content span.ext.doc,
+.dropfiles-content-tree .dropblock div.ext.doc, #dropfiles-box-tree .dropblock div.ext.doc {
+    background-image: url("/Content/SYS_Files/img/new_icons/doc.png");
+    color: transparent;
+}
+
+.dropfiles-content.dropfiles-content-tree.dropfiles-content-multi ul li .dropfile-file.ext.doc {
+    background-image: url("/Content/SYS_Files/img/new_icons/doc.png");
+}
+
+.dropfiles-content.dropfiles-content-default .file .filecontent > div.ext.docx,
+.dropfiles-content-ggd .dropblock div.ext.docx, #dropfiles-box-ggd .dropblock div.ext.docx,
+.dropfiles-content-table.dropfiles-content span.ext.docx,
+.dropfiles-content-tree .dropblock div.ext.docx, #dropfiles-box-tree .dropblock div.ext.docx {
+    background-image: url("/Content/SYS_Files/img/new_icons/docx.png");
+    color: transparent;
+}
+
+.dropfiles-content.dropfiles-content-tree.dropfiles-content-multi ul li .dropfile-file.ext.docx {
+    background-image: url("/Content/SYS_Files/img/new_icons/small/docx.png");
+}
+
+.dropfiles-content.dropfiles-content-default .file .filecontent > div.ext.xls,
+.dropfiles-content-ggd .dropblock div.ext.xls, #dropfiles-box-ggd .dropblock div.ext.xls,
+.dropfiles-content-table.dropfiles-content span.ext.xls,
+.dropfiles-content-tree .dropblock div.ext.xls, #dropfiles-box-tree .dropblock div.ext.xls {
+    background-image: url("/Content/SYS_Files/img/new_icons/xls.png");
+    color: transparent;
+}
+
+.dropfiles-content.dropfiles-content-tree.dropfiles-content-multi ul li .dropfile-file.ext.xls {
+    background-image: url("/Content/SYS_Files/img/new_icons/small/xls.png");
+}
+
+.dropfiles-content.dropfiles-content-default .file .filecontent > div.ext.xlsx,
+.dropfiles-content-ggd .dropblock div.ext.xlsx, #dropfiles-box-ggd .dropblock div.ext.xlsx,
+.dropfiles-content-table.dropfiles-content span.ext.xlsx,
+.dropfiles-content-tree .dropblock div.ext.xlsx, #dropfiles-box-tree .dropblock div.ext.xlsx {
+    background-image: url("/Content/SYS_Files/img/new_icons/xlsx.png");
+    color: transparent;
+}
+
+.dropfiles-content.dropfiles-content-tree.dropfiles-content-multi ul li .dropfile-file.ext.xlsx {
+    background-image: url("/Content/SYS_Files/img/new_icons/small/xlsx.png");
+}
+
+.dropfiles-content.dropfiles-content-default .file .filecontent > div.ext.ppt,
+.dropfiles-content-ggd .dropblock div.ext.ppt, #dropfiles-box-ggd .dropblock div.ext.ppt,
+.dropfiles-content-table.dropfiles-content span.ext.ppt,
+.dropfiles-content-tree .dropblock div.ext.ppt, #dropfiles-box-tree .dropblock div.ext.ppt {
+    background-image: url("/Content/SYS_Files/img/new_icons/ppt.png");
+    color: transparent;
+}
+
+.dropfiles-content.dropfiles-content-tree.dropfiles-content-multi ul li .dropfile-file.ext.ppt {
+    background-image: url("/Content/SYS_Files/img/new_icons/small/ppt.png");
+}
+
+.dropfiles-content.dropfiles-content-default .file .filecontent > div.ext.pptx,
+.dropfiles-content-ggd .dropblock div.ext.pptx, #dropfiles-box-ggd .dropblock div.ext.pptx,
+.dropfiles-content-table.dropfiles-content span.ext.pptx,
+.dropfiles-content-tree .dropblock div.ext.pptx, #dropfiles-box-tree .dropblock div.ext.pptx {
+    background-image: url("/Content/SYS_Files/img/new_icons/pptx.png");
+    color: transparent;
+}
+
+.dropfiles-content.dropfiles-content-tree.dropfiles-content-multi ul li .dropfile-file.ext.pptx {
+    background-image: url("/Content/SYS_Files/img/new_icons/small/pptx.png");
+}
+
+.dropfiles-content.dropfiles-content-default .file .filecontent > div.ext.pdf,
+.dropfiles-content-ggd .dropblock div.ext.pdf, #dropfiles-box-ggd .dropblock div.ext.pdf,
+.dropfiles-content-table.dropfiles-content span.ext.pdf,
+.dropfiles-content-tree .dropblock div.ext.pdf, #dropfiles-box-tree .dropblock div.ext.pdf {
+    background-image: url("/Content/SYS_Files/img/new_icons/pdf.png");
+    color: transparent;
+}
+
+.dropfiles-content.dropfiles-content-tree.dropfiles-content-multi ul li .dropfile-file.ext.pdf {
+    background-image: url("/Content/SYS_Files/img/new_icons/small/pdf.png");
+}
+
+.dropfiles-content.dropfiles-content-default .file .filecontent > div.ext.txt,
+.dropfiles-content-ggd .dropblock div.ext.txt, #dropfiles-box-ggd .dropblock div.ext.txt,
+.dropfiles-content-table.dropfiles-content span.ext.txt,
+.dropfiles-content-tree .dropblock div.ext.txt, #dropfiles-box-tree .dropblock div.ext.txt {
+    background-image: url("/Content/SYS_Files/img/new_icons/txt.png");
+    color: transparent;
+}
+
+.dropfiles-content.dropfiles-content-tree.dropfiles-content-multi ul li .dropfile-file.ext.txt {
+    background-image: url("/Content/SYS_Files/img/new_icons/small/txt.png");
+}
+
+.dropfiles-content.dropfiles-content-default .file .filecontent > div.ext.csv,
+.dropfiles-content-ggd .dropblock div.ext.csv, #dropfiles-box-ggd .dropblock div.ext.csv,
+.dropfiles-content-table.dropfiles-content span.ext.csv,
+.dropfiles-content-tree .dropblock div.ext.csv, #dropfiles-box-tree .dropblock div.ext.csv {
+    background-image: url("/Content/SYS_Files/img/new_icons/csv.png");
+    color: transparent;
+}
+
+.dropfiles-content.dropfiles-content-tree.dropfiles-content-multi ul li .dropfile-file.ext.csv {
+    background-image: url("/Content/SYS_Files/img/new_icons/small/csv.png");
+}
+
+.dropfiles-content.dropfiles-content-default .file .filecontent > div.ext.avi,
+.dropfiles-content-ggd .dropblock div.ext.avi, #dropfiles-box-ggd .dropblock div.ext.avi,
+.dropfiles-content-table.dropfiles-content span.ext.avi,
+.dropfiles-content-tree .dropblock div.ext.avi, #dropfiles-box-tree .dropblock div.ext.avi {
+    background-image: url("/Content/SYS_Files/img/new_icons/avi.png");
+    color: transparent;
+}
+
+.dropfiles-content.dropfiles-content-tree.dropfiles-content-multi ul li .dropfile-file.ext.avi {
+    background-image: url("/Content/SYS_Files/img/new_icons/small/avi.png");
+}
+
+.dropfiles-content.dropfiles-content-default .file .filecontent > div.ext.mp4,
+.dropfiles-content-ggd .dropblock div.ext.mp4, #dropfiles-box-ggd .dropblock div.ext.mp4,
+.dropfiles-content-table.dropfiles-content span.ext.mp4,
+.dropfiles-content-tree .dropblock div.ext.mp4, #dropfiles-box-tree .dropblock div.ext.mp4 {
+    background-image: url("/Content/SYS_Files/img/new_icons/mp4.png");
+    color: transparent;
+}
+
+.dropfiles-content.dropfiles-content-tree.dropfiles-content-multi ul li .dropfile-file.ext.mp4 {
+    background-image: url("/Content/SYS_Files/img/new_icons/small/mp4.png");
+}
+
+.dropfiles-content.dropfiles-content-default .file .filecontent > div.ext.mov,
+.dropfiles-content-ggd .dropblock div.ext.mov, #dropfiles-box-ggd .dropblock div.ext.mov,
+.dropfiles-content-table.dropfiles-content span.ext.mov,
+.dropfiles-content-tree .dropblock div.ext.mov, #dropfiles-box-tree .dropblock div.ext.mov {
+    background-image: url("/Content/SYS_Files/img/new_icons/mov.png");
+    color: transparent;
+}
+
+.dropfiles-content.dropfiles-content-tree.dropfiles-content-multi ul li .dropfile-file.ext.mov {
+    background-image: url("/Content/SYS_Files/img/new_icons/small/mov.png");
+}
+
+.dropfiles-content.dropfiles-content-default .file .filecontent > div.ext.fla,
+.dropfiles-content-ggd .dropblock div.ext.fla, #dropfiles-box-ggd .dropblock div.ext.fla,
+.dropfiles-content-table.dropfiles-content span.ext.fla,
+.dropfiles-content-tree .dropblock div.ext.fla, #dropfiles-box-tree .dropblock div.ext.fla {
+    background-image: url("/Content/SYS_Files/img/new_icons/fla.png");
+    color: transparent;
+}
+
+.dropfiles-content.dropfiles-content-tree.dropfiles-content-multi ul li .dropfile-file.ext.fla {
+    background-image: url("/Content/SYS_Files/img/new_icons/small/fla.png");
+}
+
+.dropfiles-content.dropfiles-content-default .file .filecontent > div.ext.flv,
+.dropfiles-content-ggd .dropblock div.ext.flv, #dropfiles-box-ggd .dropblock div.ext.flv,
+.dropfiles-content-table.dropfiles-content span.ext.flv,
+.dropfiles-content-tree .dropblock div.ext.flv, #dropfiles-box-tree .dropblock div.ext.flv {
+    background-image: url("/Content/SYS_Files/img/new_icons/flv.png");
+    color: transparent;
+}
+
+.dropfiles-content.dropfiles-content-tree.dropfiles-content-multi ul li .dropfile-file.ext.flv {
+    background-image: url("/Content/SYS_Files/img/new_icons/small/flv.png");
+}
+
+.dropfiles-content.dropfiles-content-default .file .filecontent > div.ext.flac,
+.dropfiles-content-ggd .dropblock div.ext.flac, #dropfiles-box-ggd .dropblock div.ext.flac,
+.dropfiles-content-table.dropfiles-content span.ext.flac,
+.dropfiles-content-tree .dropblock div.ext.flac, #dropfiles-box-tree .dropblock div.ext.flac {
+    background-image: url("/Content/SYS_Files/img/new_icons/flac.png");
+    color: transparent;
+}
+
+.dropfiles-content.dropfiles-content-tree.dropfiles-content-multi ul li .dropfile-file.ext.flac {
+    background-image: url("/Content/SYS_Files/img/new_icons/small/flac.png");
+}
+
+.dropfiles-content.dropfiles-content-default .file .filecontent > div.ext.mpg,
+.dropfiles-content-ggd .dropblock div.ext.mpg, #dropfiles-box-ggd .dropblock div.ext.mpg,
+.dropfiles-content-table.dropfiles-content span.ext.mpg,
+.dropfiles-content-tree .dropblock div.ext.mpg, #dropfiles-box-tree .dropblock div.ext.mpg {
+    background-image: url("/Content/SYS_Files/img/new_icons/mpg.png");
+    color: transparent;
+}
+
+.dropfiles-content.dropfiles-content-tree.dropfiles-content-multi ul li .dropfile-file.ext.mpg {
+    background-image: url("/Content/SYS_Files/img/new_icons/small/mpg.png");
+}
+
+.dropfiles-content.dropfiles-content-default .file .filecontent > div.ext.ogg,
+.dropfiles-content-ggd .dropblock div.ext.ogg, #dropfiles-box-ggd .dropblock div.ext.ogg,
+.dropfiles-content-table.dropfiles-content span.ext.ogg,
+.dropfiles-content-tree .dropblock div.ext.ogg, #dropfiles-box-tree .dropblock div.ext.ogg {
+    background-image: url("/Content/SYS_Files/img/new_icons/ogg.png");
+    color: transparent;
+}
+
+.dropfiles-content.dropfiles-content-tree.dropfiles-content-multi ul li .dropfile-file.ext.ogg {
+    background-image: url("/Content/SYS_Files/img/new_icons/small/ogg.png");
+}
+
+.dropfiles-content.dropfiles-content-default .file .filecontent > div.ext.rm,
+.dropfiles-content-ggd .dropblock div.ext.rm, #dropfiles-box-ggd .dropblock div.ext.rm,
+.dropfiles-content-table.dropfiles-content span.ext.rm,
+.dropfiles-content-tree .dropblock div.ext.rm, #dropfiles-box-tree .dropblock div.ext.rm {
+    background-image: url("/Content/SYS_Files/img/new_icons/rm.png");
+    color: transparent;
+}
+
+.dropfiles-content.dropfiles-content-tree.dropfiles-content-multi ul li .dropfile-file.ext.rm {
+    background-image: url("/Content/SYS_Files/img/new_icons/small/rm.png");
+}
+
+.dropfiles-content.dropfiles-content-default .file .filecontent > div.ext.wav,
+.dropfiles-content-ggd .dropblock div.ext.wav, #dropfiles-box-ggd .dropblock div.ext.wav,
+.dropfiles-content-table.dropfiles-content span.ext.wav,
+.dropfiles-content-tree .dropblock div.ext.wav, #dropfiles-box-tree .dropblock div.ext.wav {
+    background-image: url("/Content/SYS_Files/img/new_icons/wav.png");
+    color: transparent;
+}
+
+.dropfiles-content.dropfiles-content-tree.dropfiles-content-multi ul li .dropfile-file.ext.wav {
+    background-image: url("/Content/SYS_Files/img/new_icons/small/wav.png");
+}
+
+.dropfiles-content.dropfiles-content-default .file .filecontent > div.ext.mp3,
+.dropfiles-content-ggd .dropblock div.ext.mp3, #dropfiles-box-ggd .dropblock div.ext.mp3,
+.dropfiles-content-table.dropfiles-content span.ext.mp3,
+.dropfiles-content-tree .dropblock div.ext.mp3, #dropfiles-box-tree .dropblock div.ext.mp3 {
+    background-image: url("/Content/SYS_Files/img/new_icons/mp3.png");
+    color: transparent;
+}
+
+.dropfiles-content.dropfiles-content-tree.dropfiles-content-multi ul li .dropfile-file.ext.mp3 {
+    background-image: url("/Content/SYS_Files/img/new_icons/small/mp3.png");
+}
+
+.dropfiles-content.dropfiles-content-default .file .filecontent > div.ext.wmv,
+.dropfiles-content-ggd .dropblock div.ext.wmv, #dropfiles-box-ggd .dropblock div.ext.wmv,
+.dropfiles-content-table.dropfiles-content span.ext.wmv,
+.dropfiles-content-tree .dropblock div.ext.wmv, #dropfiles-box-tree .dropblock div.ext.wmv {
+    background-image: url("/Content/SYS_Files/img/new_icons/wmv.png");
+    color: transparent;
+}
+
+.dropfiles-content.dropfiles-content-tree.dropfiles-content-multi ul li .dropfile-file.ext.wmv {
+    background-image: url("/Content/SYS_Files/img/new_icons/small/wmv.png");
+}
+
+.dropfiles-content.dropfiles-content-default .file .filecontent > div.ext.wma,
+.dropfiles-content-ggd .dropblock div.ext.wma, #dropfiles-box-ggd .dropblock div.ext.wma,
+.dropfiles-content-table.dropfiles-content span.ext.wma,
+.dropfiles-content-tree .dropblock div.ext.wma #dropfiles-box-tree .dropblock div.ext.wma {
+    background-image: url("/Content/SYS_Files/img/new_icons/wma.png");
+    color: transparent;
+}
+
+.dropfiles-content.dropfiles-content-tree.dropfiles-content-multi ul li .dropfile-file.ext.wma {
+    background-image: url("/Content/SYS_Files/img/new_icons/small/wma.png");
+}
+
+.dropfiles-content.dropfiles-content-default .file .filecontent > div.ext.mkv,
+.dropfiles-content-ggd .dropblock div.ext.mkv, #dropfiles-box-ggd .dropblock div.ext.mkv,
+.dropfiles-content-table.dropfiles-content span.ext.mkv,
+.dropfiles-content-tree .dropblock div.ext.mkv, #dropfiles-box-tree .dropblock div.ext.mkv {
+    background-image: url("/Content/SYS_Files/img/new_icons/mkv.png");
+    color: transparent;
+}
+
+.dropfiles-content.dropfiles-content-tree.dropfiles-content-multi ul li .dropfile-file.ext.mkv {
+    background-image: url("/Content/SYS_Files/img/new_icons/small/mkv.png");
+}
+
+.dropfiles-content.dropfiles-content-default .file .filecontent > div.ext.mpeg,
+.dropfiles-content-ggd .dropblock div.ext.mpeg, #dropfiles-box-ggd .dropblock div.ext.mpeg,
+.dropfiles-content-table.dropfiles-content span.ext.mpeg,
+.dropfiles-content-tree .dropblock div.ext.mpeg, #dropfiles-box-tree .dropblock div.ext.mpeg {
+    background-image: url("/Content/SYS_Files/img/new_icons/mpeg.png");
+    color: transparent;
+}
+
+.dropfiles-content.dropfiles-content-tree.dropfiles-content-multi ul li .dropfile-file.ext.mpeg {
+    background-image: url("/Content/SYS_Files/img/new_icons/small/mpeg.png");
+}
+
+.dropfiles-content.dropfiles-content-default .file .filecontent > div.ext.gif,
+.dropfiles-content-ggd .dropblock div.ext.gif, #dropfiles-box-ggd .dropblock div.ext.gif,
+.dropfiles-content-table.dropfiles-content span.ext.gif,
+.dropfiles-content-tree .dropblock div.ext.gif, #dropfiles-box-tree .dropblock div.ext.gif {
+    background-image: url("/Content/SYS_Files/img/new_icons/gif.png");
+    color: transparent;
+}
+
+.dropfiles-content.dropfiles-content-tree.dropfiles-content-multi ul li .dropfile-file.ext.gif {
+    background-image: url("/Content/SYS_Files/img/new_icons/small/gif.png");
+}
+
+.dropfiles-content.dropfiles-content-default .file .filecontent > div.ext.jpg,
+.dropfiles-content-ggd .dropblock div.ext.jpg, #dropfiles-box-ggd .dropblock div.ext.jpg,
+.dropfiles-content-table.dropfiles-content span.ext.jpg,
+.dropfiles-content-tree .dropblock div.ext.jpg, #dropfiles-box-tree .dropblock div.ext.jpg {
+    background-image: url("/Content/SYS_Files/img/new_icons/jpg.png");
+    color: transparent;
+}
+.dropfiles-content.dropfiles-content-default .file .filecontent > div.ext.jpeg,
+.dropfiles-content-ggd .dropblock div.ext.jpeg, #dropfiles-box-ggd .dropblock div.ext.jpeg,
+.dropfiles-content-table.dropfiles-content span.ext.jpeg,
+.dropfiles-content-tree .dropblock div.ext.jpeg, #dropfiles-box-tree .dropblock div.ext.jpeg {
+    background-image: url("/Content/SYS_Files/img/new_icons/jpeg.png");
+    color: transparent;
+}
+
+.dropfiles-content.dropfiles-content-tree.dropfiles-content-multi ul li .dropfile-file.ext.jpg {
+    background-image: url("/Content/SYS_Files/img/new_icons/small/jpg.png");
+}
+
+.dropfiles-content.dropfiles-content-tree.dropfiles-content-multi ul li .dropfile-file.ext.jpeg {
+    background-image: url("/Content/SYS_Files/img/new_icons/small/jpeg.png");
+}
+
+
+.dropfiles-content.dropfiles-content-default .file .filecontent > div.ext.png,
+.dropfiles-content-ggd .dropblock div.ext.png, #dropfiles-box-ggd .dropblock div.ext.png,
+.dropfiles-content-table.dropfiles-content span.ext.png,
+.dropfiles-content-tree .dropblock div.ext.png, #dropfiles-box-tree .dropblock div.ext.png {
+    background-image: url("/Content/SYS_Files/img/new_icons/png.png");
+    color: transparent;
+}
+
+.dropfiles-content.dropfiles-content-tree.dropfiles-content-multi ul li .dropfile-file.ext.png {
+    background-image: url("/Content/SYS_Files/img/new_icons/small/png.png");
+}
+
+.dropfiles-content.dropfiles-content-default .file .filecontent > div.ext.bmp,
+.dropfiles-content-ggd .dropblock div.ext.bmp, #dropfiles-box-ggd .dropblock div.ext.bmp,
+.dropfiles-content-table.dropfiles-content span.ext.bmp,
+.dropfiles-content-tree .dropblock div.ext.bmp, #dropfiles-box-tree .dropblock div.ext.bmp {
+    background-image: url("/Content/SYS_Files/img/new_icons/bmp.png");
+    color: transparent;
+}
+
+.dropfiles-content.dropfiles-content-tree.dropfiles-content-multi ul li .dropfile-file.ext.bmp {
+    background-image: url("/Content/SYS_Files/img/new_icons/small/bmp.png");
+}
+
+.dropfiles-content.dropfiles-content-default .file .filecontent > div.ext.svg,
+.dropfiles-content-ggd .dropblock div.ext.svg, #dropfiles-box-ggd .dropblock div.ext.svg,
+.dropfiles-content-table.dropfiles-content span.ext.svg,
+.dropfiles-content-tree .dropblock div.ext.svg, #dropfiles-box-tree .dropblock div.ext.svg {
+    background-image: url("/Content/SYS_Files/img/new_icons/svg.png");
+    color: transparent;
+}
+
+.dropfiles-content.dropfiles-content-tree.dropfiles-content-multi ul li .dropfile-file.ext.svg {
+    background-image: url("/Content/SYS_Files/img/new_icons/small/svg.png");
+}
+
+.dropfiles-content.dropfiles-content-default .file .filecontent > div.ext.psd,
+.dropfiles-content-ggd .dropblock div.ext.psd, #dropfiles-box-ggd .dropblock div.ext.psd,
+.dropfiles-content-table.dropfiles-content span.ext.psd,
+.dropfiles-content-tree .dropblock div.ext.psd, #dropfiles-box-tree .dropblock div.ext.psd {
+    background-image: url("/Content/SYS_Files/img/new_icons/psd.png");
+    color: transparent;
+}
+
+.dropfiles-content.dropfiles-content-tree.dropfiles-content-multi ul li .dropfile-file.ext.psd {
+    background-image: url("/Content/SYS_Files/img/new_icons/small/psd.png");
+}
+
+.dropfiles-content.dropfiles-content-default .file .filecontent > div.ext.ai,
+.dropfiles-content-ggd .dropblock div.ext.ai, #dropfiles-box-ggd .dropblock div.ext.ai,
+.dropfiles-content-table.dropfiles-content span.ext.ai,
+.dropfiles-content-tree .dropblock div.ext.ai, #dropfiles-box-tree .dropblock div.ext.ai {
+    background-image: url("/Content/SYS_Files/img/new_icons/ai.png");
+    color: transparent;
+}
+
+.dropfiles-content.dropfiles-content-tree.dropfiles-content-multi ul li .dropfile-file.ext.ai {
+    background-image: url("/Content/SYS_Files/img/new_icons/small/ai.png");
+}
+
+.dropfiles-content.dropfiles-content-default .file .filecontent > div.ext.eps,
+.dropfiles-content-ggd .dropblock div.ext.eps, #dropfiles-box-ggd .dropblock div.ext.eps,
+.dropfiles-content-table.dropfiles-content span.ext.eps,
+.dropfiles-content-tree .dropblock div.ext.eps, #dropfiles-box-tree .dropblock div.ext.eps {
+    background-image: url("/Content/SYS_Files/img/new_icons/eps.png");
+    color: transparent;
+}
+
+.dropfiles-content.dropfiles-content-tree.dropfiles-content-multi ul li .dropfile-file.ext.eps {
+    background-image: url("/Content/SYS_Files/img/new_icons/small/eps.png");
+}
+
+.dropfiles-content.dropfiles-content-default .file .filecontent > div.ext.html,
+.dropfiles-content-ggd .dropblock div.ext.html, #dropfiles-box-ggd .dropblock div.ext.html,
+.dropfiles-content-table.dropfiles-content span.ext.html,
+.dropfiles-content-tree .dropblock div.ext.html, #dropfiles-box-tree .dropblock div.ext.html {
+    background-image: url("/Content/SYS_Files/img/new_icons/html.png");
+    color: transparent;
+}
+
+.dropfiles-content.dropfiles-content-tree.dropfiles-content-multi ul li .dropfile-file.ext.html {
+    background-image: url("/Content/SYS_Files/img/new_icons/small/html.png");
+}
+
+.dropfiles-content.dropfiles-content-default .file .filecontent > div.ext.css,
+.dropfiles-content-ggd .dropblock div.ext.css, #dropfiles-box-ggd .dropblock div.ext.css,
+.dropfiles-content-table.dropfiles-content span.ext.css,
+.dropfiles-content-tree .dropblock div.ext.css, #dropfiles-box-tree .dropblock div.ext.css {
+    background-image: url("/Content/SYS_Files/img/new_icons/css.png");
+    color: transparent;
+}
+
+.dropfiles-content.dropfiles-content-tree.dropfiles-content-multi ul li .dropfile-file.ext.css {
+    background-image: url("/Content/SYS_Files/img/new_icons/small/css.png");
+}
+
+.dropfiles-content.dropfiles-content-default .file .filecontent > div.ext.sql,
+.dropfiles-content-ggd .dropblock div.ext.sql, #dropfiles-box-ggd .dropblock div.ext.sql,
+.dropfiles-content-table.dropfiles-content span.ext.sql,
+.dropfiles-content-tree .dropblock div.ext.sql, #dropfiles-box-tree .dropblock div.ext.sql {
+    background-image: url("/Content/SYS_Files/img/new_icons/sql.png");
+    color: transparent;
+}
+
+.dropfiles-content.dropfiles-content-tree.dropfiles-content-multi ul li .dropfile-file.ext.sql {
+    background-image: url("/Content/SYS_Files/img/new_icons/small/sql.png");
+}
+
+.dropfiles-content.dropfiles-content-default .file .filecontent > div.ext.dll,
+.dropfiles-content-ggd .dropblock div.ext.dll, #dropfiles-box-ggd .dropblock div.ext.dll,
+.dropfiles-content-table.dropfiles-content span.ext.dll,
+.dropfiles-content-tree .dropblock div.ext.dll, #dropfiles-box-tree .dropblock div.ext.dll {
+    background-image: url("/Content/SYS_Files/img/new_icons/dll.png");
+    color: transparent;
+}
+
+.dropfiles-content.dropfiles-content-tree.dropfiles-content-multi ul li .dropfile-file.ext.dll {
+    background-image: url("/Content/SYS_Files/img/new_icons/small/dll.png");
+}
+
+.dropfiles-content.dropfiles-content-default .file .filecontent > div.ext.xml,
+.dropfiles-content-ggd .dropblock div.ext.xml, #dropfiles-box-ggd .dropblock div.ext.xml,
+.dropfiles-content-table.dropfiles-content span.ext.xml,
+.dropfiles-content-tree .dropblock div.ext.xml, #dropfiles-box-tree .dropblock div.ext.xml {
+    background-image: url("/Content/SYS_Files/img/new_icons/xml.png");
+    color: transparent;
+}
+
+.dropfiles-content.dropfiles-content-tree.dropfiles-content-multi ul li .dropfile-file.ext.xml {
+    background-image: url("/Content/SYS_Files/img/new_icons/small/xml.png");
+}
+
+.dropfiles-content.dropfiles-content-default .file .filecontent > div.ext.iso,
+.dropfiles-content-ggd .dropblock div.ext.iso, #dropfiles-box-ggd .dropblock div.ext.iso,
+.dropfiles-content-table.dropfiles-content span.ext.iso,
+.dropfiles-content-tree .dropblock div.ext.iso, #dropfiles-box-tree .dropblock div.ext.iso {
+    background-image: url("/Content/SYS_Files/img/new_icons/iso.png");
+    color: transparent;
+}
+
+.dropfiles-content.dropfiles-content-tree.dropfiles-content-multi ul li .dropfile-file.ext.iso {
+    background-image: url("/Content/SYS_Files/img/new_icons/small/iso.png");
+}
+
+.dropfiles-content.dropfiles-content-default .file .filecontent > div.ext.zip,
+.dropfiles-content-ggd .dropblock div.ext.zip, #dropfiles-box-ggd .dropblock div.ext.zip,
+.dropfiles-content-table.dropfiles-content span.ext.zip,
+.dropfiles-content-tree .dropblock div.ext.zip, #dropfiles-box-tree .dropblock div.ext.zip {
+    background-image: url("/Content/SYS_Files/img/new_icons/zip.png");
+    color: transparent;
+}
+
+.dropfiles-content.dropfiles-content-tree.dropfiles-content-multi ul li .dropfile-file.ext.zip {
+    background-image: url("/Content/SYS_Files/img/new_icons/small/zip.png");
+}
+
+.dropfiles-content.dropfiles-content-default .file .filecontent > div.ext.rar,
+.dropfiles-content-ggd .dropblock div.ext.rar, #dropfiles-box-ggd .dropblock div.ext.rar,
+.dropfiles-content-table.dropfiles-content span.ext.rar,
+.dropfiles-content-tree .dropblock div.ext.rar, #dropfiles-box-tree .dropblock div.ext.rar {
+    background-image: url("/Content/SYS_Files/img/new_icons/rar.png");
+    color: transparent;
+}
+
+.dropfiles-content.dropfiles-content-tree.dropfiles-content-multi ul li .dropfile-file.ext.rar {
+    background-image: url("/Content/SYS_Files/img/new_icons/small/rar.png");
+}
+
+.dropfiles-content.dropfiles-content-default .file .filecontent > div.ext.exe,
+.dropfiles-content-ggd .dropblock div.ext.exe, #dropfiles-box-ggd .dropblock div.ext.exe,
+.dropfiles-content-table.dropfiles-content span.ext.exe,
+.dropfiles-content-tree .dropblock div.ext.exe, #dropfiles-box-tree .dropblock div.ext.exe {
+    background-image: url("/Content/SYS_Files/img/new_icons/exe.png");
+    color: transparent;
+}
+
+.dropfiles-content.dropfiles-content-tree.dropfiles-content-multi ul li .dropfile-file.ext.exe {
+    background-image: url("/Content/SYS_Files/img/new_icons/small/exe.png");
+}
+
+.dropfiles-content.dropfiles-content-default .file .filecontent > div.ext.otf,
+.dropfiles-content-ggd .dropblock div.ext.otf, #dropfiles-box-ggd .dropblock div.ext.otf,
+.dropfiles-content-table.dropfiles-content span.ext.otf,
+.dropfiles-content-tree .dropblock div.ext.otf, #dropfiles-box-tree .dropblock div.ext.otf {
+    background-image: url("/Content/SYS_Files/img/new_icons/otf.png");
+    color: transparent;
+}
+
+.dropfiles-content.dropfiles-content-tree.dropfiles-content-multi ul li .dropfile-file.ext.otf {
+    background-image: url("/Content/SYS_Files/img/new_icons/small/otf.png");
+}
+
+.dropfiles-content.dropfiles-content-default .file .filecontent > div.ext.asf,
+.dropfiles-content-ggd .dropblock div.ext.asf, #dropfiles-box-ggd .dropblock div.ext.asf,
+.dropfiles-content-table.dropfiles-content span.ext.asf,
+.dropfiles-content-tree .dropblock div.ext.asf, #dropfiles-box-tree .dropblock div.ext.asf {
+    background-image: url("/Content/SYS_Files/img/new_icons/asf.png");
+    color: transparent;
+}
+
+.dropfiles-content.dropfiles-content-tree.dropfiles-content-multi ul li .dropfile-file.ext.asf {
+    background-image: url("/Content/SYS_Files/img/new_icons/small/asf.png");
+}
+
+.dropfiles-content.dropfiles-content-default .file .filecontent > div.ext.ico,
+.dropfiles-content-ggd .dropblock div.ext.ico, #dropfiles-box-ggd .dropblock div.ext.ico,
+.dropfiles-content-table.dropfiles-content span.ext.ico,
+.dropfiles-content-tree .dropblock div.ext.ico, #dropfiles-box-tree .dropblock div.ext.ico {
+    background-image: url("/Content/SYS_Files/img/new_icons/ico.png");
+    color: transparent;
+}
+
+.dropfiles-content.dropfiles-content-tree.dropfiles-content-multi ul li .dropfile-file.ext.ico {
+    background-image: url("/Content/SYS_Files/img/new_icons/small/ico.png");
+}
+
+.dropfiles-content.dropfiles-content-default .file .filecontent > div.ext.raw,
+.dropfiles-content-ggd .dropblock div.ext.raw, #dropfiles-box-ggd .dropblock div.ext.raw,
+.dropfiles-content-table.dropfiles-content span.ext.raw,
+.dropfiles-content-tree .dropblock div.ext.raw, #dropfiles-box-tree .dropblock div.ext.raw {
+    background-image: url("/Content/SYS_Files/img/new_icons/raw.png");
+    color: transparent;
+}
+
+.dropfiles-content.dropfiles-content-tree.dropfiles-content-multi ul li .dropfile-file.ext.raw {
+    background-image: url("/Content/SYS_Files/img/new_icons/small/raw.png");
+}
+
+.dropfiles-content.dropfiles-content-default .file .filecontent > div.ext.sys,
+.dropfiles-content-ggd .dropblock div.ext.sys, #dropfiles-box-ggd .dropblock div.ext.sys,
+.dropfiles-content-table.dropfiles-content span.ext.sys,
+.dropfiles-content-tree .dropblock div.ext.sys, #dropfiles-box-tree .dropblock div.ext.sys {
+    background-image: url("/Content/SYS_Files/img/new_icons/sys.png");
+    color: transparent;
+}
+
+.dropfiles-content.dropfiles-content-tree.dropfiles-content-multi ul li .dropfile-file.ext.sys {
+    background-image: url("/Content/SYS_Files/img/new_icons/small/sys.png");
+}
+
+.dropfiles-content.dropfiles-content-default .file .filecontent > div.ext.tiff,
+.dropfiles-content-ggd .dropblock div.ext.tiff, #dropfiles-box-ggd .dropblock div.ext.tiff,
+.dropfiles-content-table.dropfiles-content span.ext.tiff,
+.dropfiles-content-tree .dropblock div.ext.tiff, #dropfiles-box-tree .dropblock div.ext.tiff {
+    background-image: url("/Content/SYS_Files/img/new_icons/tiff.png");
+    color: transparent;
+}
+
+.dropfiles-content.dropfiles-content-tree.dropfiles-content-multi ul li .dropfile-file.ext.tiff {
+    background-image: url("/Content/SYS_Files/img/new_icons/small/tiff.png");
+}
+
+
+.dropfiles-preview-file {
+    margin-top: 10px;
+    display: block;
+    font-weight: bold;
+}
+
+.dropfiles-content-multi {
+    width: 100%;
+    box-sizing: border-box;
+    margin-bottom: 10px;
+    background: #eee;
+}
+
+
+.filepathcopy {
+    position: absolute;
+    z-index: 9;
+    background: #ff9900;
+    font-size: 12px;
+    padding: 2px;
+    color: white;
+    bottom: 3px;
+}
+
+.file-right {
+    padding-top: 3px;
+}
+
+.p015 {
+    padding: 0 15px;
+}
+
+.dropzoneloading {
+    position: absolute;
+    background: #00000099;
+    width: 100%;
+    height: 100%;
+    z-index: 9;
+    text-align: center;
+    line-height: 112px;
+    font-size: 17px;
+    color: white;
+}
