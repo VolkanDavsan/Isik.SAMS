@@ -1,0 +1,181 @@
+﻿@model Isik.SAMS.Models.Entity.SAMS_Program
+
+@{
+    ViewBag.Title = "Program Oluştur";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@using (Html.BeginForm("Insert", "Program", FormMethod.Post, new Dictionary<string, object>() {
+    { "class", "form-horizontal" },
+    { "role", "form" },
+    { "id", "Program" },
+    { "data-selector", "modalContainer" },
+    { "data-formType", "Ajax" }
+}))
+{
+    @Html.AntiForgeryToken()
+    @Html.HiddenFor(model => model.Id)
+
+
+    <div class="row">
+
+        <div class="form-group col-md-6">
+            <label class="req" for="code">Program Name</label>
+            @Html.TextBoxFor(model => model.ProgramName, new Dictionary<string, object>()
+            {
+                {"class", "form-control"},
+                {"placeholder", "Lütfen Şirket Kodu giriniz.."}
+            })
+        </div>
+        @*<div class="form-group col-md-6">
+                <label class="req" for="title">Şirket Adı</label>
+                @Html.TextBoxFor(model => model.title, new Dictionary<string, object>()
+                {
+                    {"class", "form-control"},
+                    {"placeholder", "Lütfen Şirket Adı giriniz.."}
+                }).Validate(Validations.TextEverywhere(true))
+            </div>
+            <div class="form-group col-md-4">
+                <label for="email">Şirket Eposta</label>
+                @Html.TextBoxFor(model => model.email, new Dictionary<string, object>()
+                {
+                    {"class", "form-control"},
+                    {"placeholder", "Lütfen Şirket Eposta giriniz.."}
+                }).Validate(Validations.EMail(false))
+            </div>
+            <div class="form-group col-md-4">
+                <label for="phone">Şirket Telefon</label>
+                @Html.TextBoxFor(model => model.phone, new Dictionary<string, object>()
+                {
+                    {"class", "form-control"},
+                    {"placeholder", "Lütfen Şirket Telefon giriniz.."}
+                }).Validate(Validations.TelefonNo(false))
+            </div>
+
+
+            <div class="form-group col-md-4">
+                <label for="fax">Şirket Faks</label>
+                @Html.TextBoxFor(model => model.fax, new Dictionary<string, object>()
+                {
+                    {"class", "form-control"},
+                    {"placeholder", "Lütfen Şirket Faks giriniz.."}
+                }).Validate(Validations.FaksNo(false))
+            </div>
+            <div class="form-group col-md-12">
+                <label for="location">Şirket Konumu</label>
+                @(
+                     Html.Akilli().MapInputFor(a => a.location).
+                     HelpText("Lütfen Şirket Konumu seçiniz.").
+                     HtmlAttributes(new Dictionary<string, object>()
+                     {
+                         {"class", "form-control"},
+                         {"placeholder", "Lütfen Şirket Konumu Giriniz.."}
+                     }).
+                     Opened(false).
+                     ZoomLevel(5).
+                     Navigation(false).
+                     Searchable(true)
+                 )
+            </div>
+            <div class="form-group col-md-4">
+                <label for="locationId">Şirket Ülke/İl/İlçe</label>
+                @(
+                      Html.Akilli()
+                      .DropDownListFor(model => model.locationId)
+                      .OptionLabel("Lütfen Şirket Ülke/İl/İlçe seçiniz..")
+                      .DataTextField("pid_Title")
+                      .DataValueField("id")
+                      .Action(b => b.Action("DataSourceDropDown", "VWUT_Location", new { area = "UT" }))
+                      .Filter<VWUT_Location>(a=>a.type==(int)EnumUT_LocationType.İlce)
+                      .Sort(x => x.Add("pid_Title").Ascending())
+                      .Execute()
+                )
+            </div>
+
+
+
+
+            <div class="form-group col-md-8">
+                <label for="openAddress">Şirket Açık Adresi</label>
+                @Html.TextAreaFor(model => model.openAddress, new Dictionary<string, object>()
+                {
+                    {"class", "form-control"},
+                    {"placeholder", "Lütfen Şirket Açık Adresi giriniz.."}
+                }).Validate(Validations.TextEverywhere(false))
+            </div>
+
+            <div class="form-group col-md-6">
+                <label for="taxType">Şirket Ticari Tipi</label>
+                @(
+                     Html.Akilli().
+                     DropDownListFor(model => model.taxType).
+                     OptionLabel("Lütfen Şirket Ticari Tipi seçiniz..").
+                     DataTextField("enumDescription").
+                     DataValueField("Id").
+                     Action(b => b.Action("GetEnums", "General", new { area = string.Empty })).
+                     Filter<Infoline.HR.BusinessData.SYS_Enums>(a => a.tableName == "CMP_Company" && a.fieldName == "taxType").
+                     Sort(x => x.Add("enumDescription").Ascending()).
+                     Execute("enumKey")
+                 )
+            </div>
+
+
+
+            <div class="form-group col-md-6">
+                <label for="taxCommercialTitle">Fatura Ticari Ünvanı</label>
+                @Html.TextBoxFor(model => model.taxCommercialTitle, new Dictionary<string, object>()
+                {
+                    {"class", "form-control"},
+                    {"placeholder", "Lütfen Fatura Ticari Ünvanı giriniz.."}
+                }).Validate(Validations.TextEverywhere(false))
+            </div>
+
+
+
+            <div class="form-group col-md-12">
+                <label for="invoiceAddress">Fatura Adresi</label>
+                @Html.TextAreaFor(model => model.invoiceAddress, new Dictionary<string, object>()
+                {
+                    {"class", "form-control"},
+                    {"placeholder", "Lütfen Fatura Adresi giriniz.."}
+                }).Validate(Validations.TextEverywhere(false))
+            </div>
+
+
+
+            <div class="form-group col-md-6">
+                <label for="taxOfficeId">Vergi Dairesi</label>
+                @(
+                      Html.Akilli()
+                      .DropDownListFor(model => model.taxOfficeId)
+                      .OptionLabel("Lütfen Vergi Dairesi seçiniz..")
+                      .DataTextField("title")
+                      .DataValueField("id")
+                      .Action(b => b.Action("DataSourceDropDown", "VWUT_TaxOffice", new { area = "UT" }))
+                      .BasicInsert(Url.Action("Insert","VWUT_TaxOffice",new { area ="UT"}),"title",false)
+                      .Sort(x => x.Add("code").Ascending())
+                      .Execute()
+                )
+            </div>
+
+
+
+            <div class="form-group col-md-6">
+                <label for="taxNumber">Vergi Numarası</label>
+                @Html.TextBoxFor(model => model.taxNumber, new Dictionary<string, object>()
+                {
+                    {"class", "form-control"},
+                    {"placeholder", "Lütfen Vergi Numarası giriniz.."}
+                }).Validate(Validations.TaxNumber(false))
+            </div>*@
+    </div>
+
+
+
+
+    <div class="buttons">
+        <button class="btn btn-md btn-danger pull-left" data-task="modalClose">Close</button>
+        <button class="btn btn-md btn-success pull-right" type="submit">Save</button>
+    </div>
+
+}
+
