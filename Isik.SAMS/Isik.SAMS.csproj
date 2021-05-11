@@ -130,6 +130,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\DepartmentController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\ProgramController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -5954,6 +5955,8 @@
     <Content Include="Scripts\kendo\2021.1.330\cultures\kendo.culture.dv-MV.min.js.map" />
     <Content Include="Scripts\kendo\2021.1.330\cultures\kendo.culture.dua.min.js.map" />
     <Content Include="Scripts\kendo\2021.1.330\cultures\kendo.culture.dua-CM.min.js.map" />
+    <Content Include="Views\Program\Index.cshtml" />
+    <Content Include="Views\Program\Insert.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
