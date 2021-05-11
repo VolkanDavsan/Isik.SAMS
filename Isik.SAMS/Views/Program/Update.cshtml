@@ -1,10 +1,9 @@
 ﻿@model Isik.SAMS.Models.Entity.SAMS_Program
-
 @{
-    ViewBag.Title = "Create Program";
+    ViewBag.Title = "Update";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-@using (Html.BeginForm("Insert", "Program", FormMethod.Post, new Dictionary<string, object>() {
+@using (Html.BeginForm("Update", "Program", FormMethod.Post, new Dictionary<string, object>() {
     { "class", "form-horizontal" },
     { "role", "form" },
     { "id", "Program" },

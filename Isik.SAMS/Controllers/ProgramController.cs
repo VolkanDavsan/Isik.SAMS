@@ -31,5 +31,29 @@ namespace Isik.SAMS.Controllers
 
             return View(); // RedirectToAction("Index");
         }
+        public ActionResult Delete(int id)
+        {
+            var program = db.SAMS_Program.Find(id);
+            db.SAMS_Program.Remove(program);
+            db.SaveChanges();
+            return RedirectToAction("Index");
+        }
+        [HttpGet]
+        public ActionResult Update()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult Update(SAMS_Program p1)
+        {
+            var program = db.SAMS_Program.Find(p1.Id);
+            program.ProgramName = p1.ProgramName;
+            program.CreatedTime = p1.CreatedTime;
+            db.SaveChanges();
+            return RedirectToAction("Index");
+
+
+        }
     }
 }

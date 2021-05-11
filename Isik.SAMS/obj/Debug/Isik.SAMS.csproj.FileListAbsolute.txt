@@ -82,4 +82,3 @@ C:\Users\Volkan\source\repos\Isik.SAMS\Isik.SAMS\bin\EntityFramework.SqlServer.d
 C:\Users\Volkan\source\repos\Isik.SAMS\Isik.SAMS\bin\EntityFramework.xml
 C:\Users\Volkan\source\repos\Isik.SAMS\Isik.SAMS\bin\EntityFramework.SqlServer.xml
 C:\Users\Volkan\source\repos\Isik.SAMS\Isik.SAMS\bin\GridMvc.dll
-C:\Users\Volkan\source\repos\Isik.SAMS\Isik.SAMS\bin\Kendo.Mvc.dll

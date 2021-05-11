@@ -6,71 +6,41 @@
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-@*<div class="col-12">
-        <div class="statbox widget box box-shadow">
-            <div class="widget-header">
-                <div class="row">
-                    <div class="col-xl-8 col-md-8 col-sm-8 col-8">
-                        <h4>Şirket Tanımları</h4>
-                    </div>
-                    <div class="col-xl-4 col-md-4 col-sm-4 col-4">
-                        <a class="btn btn-primary btn-sm pull-right ml-1" data-task="Insert" data-method="GET" data-href="@Url.Action("Insert","VWCMP_Company",new { area="CMP" })">
-                            <i class="icon-plus-circle"></i> Şirket Tanımları Oluştur
-                        </a>
-                        <a href="#" data-task="Insert" data-import="Excel" data-modal="true" title="Excel'den Şirket Ekle" class="btn btn-primary btn-sm pull-right ml-1"
-                           data-properties="@Infoline.Framework.Helper.ExcelImportHelper.GetSchema(typeof(CMP_CompanyExcelImport), "CMP_Company")" data-gridRefresh="VWCMP_Company"
-                           data-post="@Url.Action("Import","VWCMP_Company",new { area="CMP"})">
-                            <i class="icon-upload"></i> Excel'den Oluştur
-                        </a>
-                    </div>
-                </div>
-            </div>
-            <div class="widget-content widget-content-area">
-                @(Html.Akilli()
-        .Grid<Infoline.HR.BusinessData.VWCMP_Company>("VWCMP_Company")
-        .DataSource(x => x.Ajax().Read(r => r.Action("DataSource", "VWCMP_Company", new { area = "CMP" })).PageSize(25))
-        .Columns(x =>
-        {
-            x.Bound(y => y.code).Title("Şirket Kodu").Width(150);
-            x.Bound(y => y.title).Title("Şirket Adı").Width(150);
-            x.Bound(y => y.email).Title("Şirket Eposta").Width(150);
-            x.Bound(y => y.phone).Title("Şirket Telefon").Width(150);
-            //x.Bound(y => y.locationId_Title).Title("Şirket Ülke/İl/İlçe").Width(150);
-            x.Bound(y => y.openAddress).Title("Şirket Açık Adresi").Width(150);
-            x.Bound(y => y.taxType_Title).Title("Şirket Ticari Tipi").Width(150);
-            x.Bound(y => y.taxCommercialTitle).Title("Fatura Ticari Ünvanı").Width(150);
-        })
-        .Scrollable(x => x.Height(600))
-        .Selectable(x => x.Mode(GridSelectionMode.Single))
-        .ToolBar(x =>
-        {
-            x.Custom().Text("<i data-original-title='Şirket Tanımları Düzenle' class='icon-edit'></i>").HtmlAttributes(new Dictionary<string, object>() { { "data-show", "single" }, { "data-method", "GET" } }).Url(Url.Action("Update", "VWCMP_Company", new { area = "CMP" }));
-            x.Custom().Text("<i data-original-title='Şirket Tanımları Detayı' class='icon-info-circled'></i>").HtmlAttributes(new Dictionary<string, object>() { { "data-show", "single" }, { "data-default", "" } }).Url(Url.Action("Detail", "VWCMP_Company", new { area = "CMP" }));
-            x.Custom().Text("<i data-original-title='Şirket Tanımları Sil' class='icon-trash'></i>").HtmlAttributes(new Dictionary<string, object>() { { "data-ask", "" } }).Url(Url.Action("Delete", "VWCMP_Company", new { area = "CMP" }));
-        }))
-            </div>
-        </div>
-    </div>*@
+
 <div class="col-12">
     <div class="statbox widget box box-shadow">
         <div class="widget-header">
             <div class="row">
                 <div class="col-xl-8 col-md-8 col-sm-8 col-8">
-                    <h4>Departman Tanımları</h4>
+                    <h4>Department List</h4>
                 </div>
                 <div class="col-xl-4 col-md-4 col-sm-4 col-4">
-                    <a class="btn btn-primary btn-sm pull-right ml-1" data-task="Insert" data-method="GET" data-href="@Url.Action("Insert","Department")">
-                        <i class="icon-plus-circle"></i> Departman Oluştur
+                    <a class="btn btn-primary btn-sm pull-right ml-1" data-task="Insert" data-method="GET" data-toggle="modal" data-href="@Url.Action("Insert","Department")">
+                        <i class="icon-plus-circle"></i> Create New Department
                     </a>
                 </div>
             </div>
         </div>
         <div class="widget-content widget-content-area">
             @Html.Grid(Model).Columns(columns =>
-              {
-                  columns.Add(c => c.DepartmentName).Titled("Department Name");
-                  columns.Add(c => c.Id).Titled("ID").Filterable(true);
-              }).WithPaging(25).Sortable(true)
+       {
+       columns.Add(c => c.DepartmentName).Titled("Department Name");
+       columns.Add(c => c.Id).Titled("ID").Filterable(true);
+       columns.Add()
+           .Titled("")
+           .Filterable(true)
+           .Sanitized(false)
+           .Encoded(false)
+           .RenderValueAs(c => @<text><a class="icon-trash-1" href="/Department/Delete/@c.Id"></a> <a style="margin-left:15px;" class="icon-edit" data-task="Insert" data-method="GET" data-href="@Url.Action("Update","Department", new { id = c.Id})"></a></text>);
+            @*columns.Add()
+            .Titled("")
+            .Filterable(true)
+            .Sanitized(false)
+            .Encoded(false)
+            .RenderValueAs(c => @<text><a class="icon-edit" data-task="Insert" data-method="GET" data-href="@Url.Action("Update","Department", new { id = c.Id})"></a></text>);*@
+
+
+            }).WithPaging(25).Sortable(true).EmptyText("There is no data available.")
         </div>
     </div>
 </div>
