@@ -6,6 +6,7 @@
     </Key>
     <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
     <Property Name="Email" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="Password" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
     <Property Name="FirstName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
     <Property Name="LastName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
     <NavigationProperty Name="SAMS_Department" Relationship="Self.FK_ChangedBy_Department" FromRole="SAMS_Administrator" ToRole="SAMS_Department" />

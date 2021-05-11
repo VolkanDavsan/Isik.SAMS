@@ -4,6 +4,8 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using Isik.SAMS.Models.Entity;
+using Kendo.Mvc.Extensions;
+using Kendo.Mvc.UI;
 namespace Isik.SAMS.Controllers
 {
     public class DepartmentController : Controller
@@ -12,8 +14,10 @@ namespace Isik.SAMS.Controllers
         StudentApprovalManagementEntities db = new StudentApprovalManagementEntities();
         public ActionResult Index()
         {
+            
             var values = db.SAMS_Department.ToList();
-            return View(values);
+            var dep = values.AsEnumerable();
+            return View(dep);
         }
         [HttpGet]
         public ActionResult Insert()
