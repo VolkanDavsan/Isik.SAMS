@@ -30,7 +30,9 @@
            .Filterable(true)
            .Sanitized(false)
            .Encoded(false)
-           .RenderValueAs(c => @<text><a class="icon-trash-1" href="/Program/Delete/@c.Id"></a> <a style="margin-left:15px;" class="icon-edit" data-task="Insert" data-method="GET" data-href="@Url.Action("Update","Program", new { id = c.Id})"></a></text>);
+           .RenderValueAs(c => @<text>
+            <a class="icon-trash-1" href="/Program/Delete/@c.Id"></a>
+            <a style="margin-left:15px;" class="icon-edit" data-task="Insert" data-method="GET" data-href="@Url.Action("Update","Program", new {Id = c.Id})"></a></text>);
 }).WithPaging(10).Sortable(true).EmptyText("There is no data available.")
         </div>
     </div>

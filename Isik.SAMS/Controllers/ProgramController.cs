@@ -39,9 +39,10 @@ namespace Isik.SAMS.Controllers
             return RedirectToAction("Index");
         }
         [HttpGet]
-        public ActionResult Update()
+        public ActionResult Update(int Id)
         {
-            return View();
+            var program = db.SAMS_Program.Find(Id);            
+            return View(program);
         }
 
         [HttpPost]
