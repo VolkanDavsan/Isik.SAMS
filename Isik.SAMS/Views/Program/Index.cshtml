@@ -4,11 +4,25 @@
 @model List<SAMS_Program>
 @{
     ViewBag.Title = "Index";
+    string a = ViewBag.Message;
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+
+
 <div class="col-12">
     <div class="statbox widget box box-shadow">
         <div class="widget-header">
+            @if (ViewBag.Message != null)
+            {
+                <div class="row pull-right ml-1">
+                    <div class="alert alert-warning alert-dismissible fade show pull-right" role="alert">
+                        <b>@ViewBag.Message </b>
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                </div>
+            }
             <div class="row">
                 <div class="col-xl-8 col-md-8 col-sm-8 col-8">
                     <h4>Program List</h4>
@@ -31,10 +45,18 @@
            .Sanitized(false)
            .Encoded(false)
            .RenderValueAs(c => @<text>
-            <a class="icon-trash-1" href="/Program/Delete/@c.Id"></a>
-            <a style="margin-left:15px;" class="icon-edit" data-task="Insert" data-method="GET" data-href="@Url.Action("Update","Program", new {Id = c.Id})"></a></text>);
+        <a class="icon-trash-1" href="/Program/Delete/@c.Id"></a>
+        <a style="margin-left:15px;" class="icon-edit" data-task="Insert" data-method="GET" data-href="@Url.Action("Update","Program", new {Id = c.Id})"></a></text>);
 }).WithPaging(10).Sortable(true).EmptyText("There is no data available.")
         </div>
     </div>
 </div>
+
+
+
+
+
+
+
+
 

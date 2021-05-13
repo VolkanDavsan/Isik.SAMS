@@ -6,8 +6,7 @@
 @using (Html.BeginForm("Update", "Department", FormMethod.Post, new Dictionary<string, object>() {
     { "class", "form-horizontal" },
     { "role", "form" },
-    { "data-selector", "modalContainer" },
-    { "data-formType", "Ajax" }
+    { "data-selector", "modalContainer" }
 }))
 {
     @Html.AntiForgeryToken()
@@ -25,9 +24,6 @@
             })
         </div>
     </div>
-
-
-
 
     <div class="buttons">
         <button class="btn btn-md btn-danger pull-left" data-task="modalClose">Close</button>
