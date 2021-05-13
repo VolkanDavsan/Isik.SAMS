@@ -73,14 +73,26 @@ namespace Isik.SAMS.Controllers
             return RedirectToAction("Index", new { alertMessage = alertMessage });
 
         }
-        public ActionResult Delete(int id)
+        public JsonResult Delete(int id)
         {
+            bool result = false;
             var program = db.SAMS_Program.Find(id);
-            db.SAMS_Program.Remove(program);
-            db.SaveChanges();
-            string alertMessage = "2";
-            return RedirectToAction("Index", new { alertMessage = alertMessage });
+            if(program != null)
+            {
+                db.SAMS_Program.Remove(program);
+                db.SaveChanges();
+                result = true;
+            }
+            return Json(result, JsonRequestBehavior.AllowGet);
         }
+        //public ActionResult Delete(int id)
+        //{
+        //    var program = db.SAMS_Program.Find(id);
+        //    db.SAMS_Program.Remove(program);
+        //    db.SaveChanges();
+        //    string alertMessage = "2";
+        //    return RedirectToAction("Index", new { alertMessage = alertMessage });
+        //}
         [HttpGet]
         public ActionResult Update(int Id)
         {
