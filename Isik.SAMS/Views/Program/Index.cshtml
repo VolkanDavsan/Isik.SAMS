@@ -62,31 +62,49 @@
             text: "Are you sure that you want to delete this Program?",
             type: "warning",
             showCancelButton: true,
-            closeOnConfirm: false,
             confirmButtonText: "Yes, delete it!",
             confirmButtonColor: "#ec6c62"
-        }, function () {
-            $.ajax({
-                dataType: 'JSON',
-                type: 'POST',
-                async: false,
-                timeout: 600000,
-                url: "/Program/Delete?id=" + id,
-                success: function (res) {
-                    swal({
-                        title: "Deleted!",
-                        text: "Your file was successfully deleted!",
-                        type: "success"
-                    }, function () {
-                        setTimeout(function () { location.reload(); }, 1);
-                    })
-                },
-                error: function () {
-                    swal("Oops", "We couldn't connect to the server!", "error");
-                }
-            })
+        }).then((result) => {
+            if (result) {
+                $.ajax({
+                    dataType: 'JSON',
+                    type: 'POST',
+                    async: false,
+                    timeout: 600000,
+                    url: "/Program/Delete?id=" + id,
+                    success: function () {
+                        showDeleteMessage();                     
+                        //swal({
+                        //    title: "Deleted!",
+                        //    text: "Your file was successfully deleted!",
+                        //    type: "success"
+                        //}).then((res) => {
+                        //    if (res) {
+                        //        setTimeout(function () { location.reload(true); }, 1);
+                        //    }
+                        //})
+                    },
+                    error: function () {
+                        swal("Oops", "We couldn't connect to the server!", "error");
+                    }
+                });
+            }
+        })
+    }
+
+    function showDeleteMessage() {
+        $.ajax({
+            type: "POST",
+            url: '/Program/Index',
+            data: '{ alertMessage: "2"}',
+            contentType: "application/json; charset=utf-8",
+            dataType: "text",
+            success: function (r) {
+                 
+            }
         });
     }
+
     //function deleteTask(id) {
     //    swal({
     //        title: "Are you sure?",
