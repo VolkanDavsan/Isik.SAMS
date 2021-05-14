@@ -1,0 +1,88 @@
+﻿@model Isik.SAMS.Models.Entity.SAMS_Users
+@{
+    ViewBag.Title = "Add Account";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@using (Html.BeginForm("Insert", "Account", FormMethod.Post, new Dictionary<string, object>() {
+    { "class", "form-horizontal" },
+    { "role", "form" },
+    { "id", "Account" },
+    { "data-selector", "modalContainer" }
+}))
+{
+    @Html.AntiForgeryToken()
+    @Html.HiddenFor(model => model.Id)
+
+    <div class="row">
+        <div class="form-group col-md-6">
+            <label class="req" for="code">First Name</label>
+            @Html.TextBoxFor(model => model.FirstName, new Dictionary<string, object>()
+            {
+                {"class", "form-control"},
+                {"placeholder", "Please enter the First Name"}
+            })
+        </div>
+        <div class="form-group col-md-6">
+            <label class="req" for="code">Last Name</label>
+            @Html.TextBoxFor(model => model.LastName, new Dictionary<string, object>()
+            {
+                {"class", "form-control"},
+                {"placeholder", "Please enter the First Name"}
+            })
+        </div>
+        <div class="form-group col-md-6">
+            <label class="req" for="code">Email</label>
+            @Html.TextBoxFor(model => model.Email, new Dictionary<string, object>()
+            {
+                {"class", "form-control"},
+                {"placeholder", "Please enter the First Name"}
+            })
+        </div>
+        <div class="form-group col-md-6">
+            <label class="req" for="code">Password</label>
+            @Html.PasswordFor(model => model.Password, new Dictionary<string, object>()
+            {
+                {"class", "form-control"},
+                {"placeholder", "Please enter the First Name"}
+            })
+        </div>
+        <div class="form-group col-md-6">
+            <label class="req" for="code">Confirm Password</label>
+            @Html.PasswordFor(model => model.Password, new Dictionary<string, object>()
+            {
+                {"class", "form-control"},
+                {"placeholder", "Please enter the First Name"}
+            })
+        </div>
+        <div class="form-group col-md-6">
+            <label class="req" for="code">User Type</label>
+            <div class="form-check">
+                HeadofDepartment
+                @Html.RadioButtonFor(model => model.UserType, "1", new { @id = "rbHoD", @onclick = "showHideProgram()" })
+                Secretary
+                @Html.RadioButtonFor(model => model.UserType, "2", new { @id = "rbSec", @onclick = "showHideProgram()" })
+            </div>
+        </div>
+        <div class="form-group col-md-6" id="ddlDepartment">
+            <label class="req" for="code">Department</label>
+            @Html.DropDownListFor(model => model.DepartmentId, ViewBag.Departments as SelectList, new { @class = "form-control" })
+        </div>
+        <div class="form-group col-md-6" id="ddlProgram" style="display:none">
+            <label class="req" for="code">Program</label>
+            @Html.DropDownListFor(model => model.ProgramId, ViewBag.Programs as SelectList, new { @class = "form-control" })
+        </div>
+    </div>
+    <div class="buttons">
+        <button class="btn btn-md btn-danger pull-left" data-dismiss="modal">Close</button>
+        <button class="btn btn-md btn-success pull-right" type="submit" OnClick="">Save</button>
+    </div>
+    <script type="text/javascript">
+        function showHideProgram() {
+            var element = document.getElementById("ddlProgram");
+            var rbHoD = document.getElementById("rbHoD");
+            element.style.display = rbHoD.checked ? "none" : "block";
+        }
+    </script>
+}
+
