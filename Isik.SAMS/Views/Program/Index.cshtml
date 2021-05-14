@@ -73,34 +73,36 @@
                     timeout: 600000,
                     url: "/Program/Delete?id=" + id,
                     success: function () {
-                        showDeleteMessage();                     
-                        //swal({
-                        //    title: "Deleted!",
-                        //    text: "Your file was successfully deleted!",
-                        //    type: "success"
-                        //}).then((res) => {
-                        //    if (res) {
-                        //        setTimeout(function () { location.reload(true); }, 1);
-                        //    }
-                        //})
+                        showDeleteMessage();
+                        location.reload(true);
+
                     },
+                    //setTimeout(function () { location.reload(true); }, 1);
+                    //swal({
+                    //    title: "Deleted!",
+                    //    text: "Your file was successfully deleted!",
+                    //    type: "success"
+                    //}).then((res) => {
+                    //    if (res) {
+                    //        setTimeout(function () { location.reload(true); }, 1);
+                    //    }
+                    //})
                     error: function () {
                         swal("Oops", "We couldn't connect to the server!", "error");
                     }
                 });
             }
-        })
+        }); 
     }
 
     function showDeleteMessage() {
         $.ajax({
             type: "POST",
-            url: '/Program/Index',
-            data: '{ alertMessage: "2"}',
+            url: '/Program/DeleteMessage',
             contentType: "application/json; charset=utf-8",
             dataType: "text",
-            success: function (r) {
-                 
+            succses: function (response) {
+                window.location.href = "/Program/";
             }
         });
     }

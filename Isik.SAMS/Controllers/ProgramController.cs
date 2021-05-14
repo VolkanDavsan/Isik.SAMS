@@ -8,54 +8,37 @@ using Isik.SAMS.Models.Entity;
 namespace Isik.SAMS.Controllers
 {
     public class ProgramController : Controller
-    {
+    {        
         // GET: Program
         StudentApprovalManagementEntities db = new StudentApprovalManagementEntities();
-        public ActionResult Index(string alertMessage)
+        public string setMessage(string alertMessage)
         {
-            string message = alertMessage;
-            var values = db.SAMS_Program.ToList();
-            if (message == "1")
+            string message = "";
+            
+            if (alertMessage == "1")
             {
-                ViewBag.Message = "Succesfully inserted.";
+                message = "Succesfully inserted.";
             }
-            else if (message == "2")
+            else if (alertMessage == "2")
             {
-                ViewBag.Message = "Succesfully deleted.";
+                message = "Succesfully deleted.";
             }
-            else if (message == "3")
+            else if (alertMessage == "3")
             {
-                ViewBag.Message = "Succesfully updated.";
+                message = "Succesfully updated.";
             }
-            else if (message == "4")
+            else if (alertMessage == "4")
             {
-                ViewBag.Message = "Operation failed.";
+                message = "Operation failed.";
             }
-            return View(values);
+            return message;
         }
-
-        //public ActionResult Index(string message)
-        //{
-        //    var values = db.SAMS_Program.ToList();
-        //    if (message == "1")
-        //    {
-        //        ViewBag.Message = "Succesfully inserted.";
-        //    }
-        //    else if (message == "2")
-        //    {
-        //        ViewBag.Message = "Succesfully deleted.";
-        //    }
-        //    else if (message == "3")
-        //    {
-        //        ViewBag.Message = "Succesfully updated.";
-        //    }
-        //    else
-        //    {
-        //        ViewBag.Message = "Operation failed.";
-        //    }
-        //    return View(values);
-        //}
-
+        public ActionResult Index()
+        {
+            var model = db.SAMS_Program.ToList();
+            ViewBag.Message = TempData["message"] == null ? null : setMessage(TempData["message"].ToString());
+            return View(model);
+        }
         [HttpGet]
         public ActionResult Insert()
         {
@@ -64,14 +47,18 @@ namespace Isik.SAMS.Controllers
         [HttpPost]
         public ActionResult Insert(SAMS_Program s1)
         {
-            string alertMessage;
             s1.CreatedBy = 1; // adminId when the session created
             s1.CreatedTime = DateTime.Now;
             db.SAMS_Program.Add(s1);
             db.SaveChanges();
-            alertMessage = "1";
-            return RedirectToAction("Index", new { alertMessage = alertMessage });
-
+            TempData["Message"] = "1";
+            return RedirectToAction("Index");
+        }
+        public ActionResult DeleteMessage()
+        {
+            TempData["Message"] = "2";
+            TempData.Keep("Message");
+            return RedirectToAction("Index");
         }
         public JsonResult Delete(int id)
         {
@@ -85,14 +72,6 @@ namespace Isik.SAMS.Controllers
             }
             return Json(result, JsonRequestBehavior.AllowGet);
         }
-        //public ActionResult Delete(int id)
-        //{
-        //    var program = db.SAMS_Program.Find(id);
-        //    db.SAMS_Program.Remove(program);
-        //    db.SaveChanges();
-        //    string alertMessage = "2";
-        //    return RedirectToAction("Index", new { alertMessage = alertMessage });
-        //}
         [HttpGet]
         public ActionResult Update(int Id)
         {
@@ -107,8 +86,8 @@ namespace Isik.SAMS.Controllers
             program.ProgramName = p1.ProgramName;
             program.CreatedTime = p1.CreatedTime;
             db.SaveChanges();
-            string alertMessage = "3";
-            return RedirectToAction("Index", new { alertMessage = alertMessage });
+            TempData["Message"] = "3";
+            return RedirectToAction("Index");
         }
     }
 }
