@@ -39,7 +39,7 @@ namespace Isik.SAMS.Controllers
         public ActionResult Index()
         {
             var model = db.SAMS_Users.ToList();
-            ViewBag.Message = TempData["message"] == null ? null : setMessage(TempData["message"].ToString());
+            ViewBag.Message = TempData["Message"] == null ? null : setMessage(TempData["Message"].ToString());
             return View(model);
         }
         [HttpGet]
@@ -59,7 +59,7 @@ namespace Isik.SAMS.Controllers
         [HttpPost]
         public ActionResult Insert(SAMS_Users s1)
         {
-            s1.CreatedBy = 1; // adminId when the session created
+            s1.CreatedBy = Convert.ToInt32(Session["AdminId"]); // adminId when the session created
             s1.CreatedTime = DateTime.Now;
             db.SAMS_Users.Add(s1);
             db.SaveChanges();
@@ -68,11 +68,25 @@ namespace Isik.SAMS.Controllers
         }
         public ActionResult DeleteMessage()
         {
-            TempData["Message"] = "2";
+            if (TempData["isDeleted"] != null)
+            {
+                TempData["Message"] = "4";
+            }
+            else
+            {
+                TempData["Message"] = "2";
+            }
+
             TempData.Keep("Message");
             return RedirectToAction("Index");
         }
-        public JsonResult Delete(int id)
+        [HttpGet]
+        public ActionResult Delete()
+        {
+            TempData["Message"] = "4";
+            return RedirectToAction("Index");
+        }
+        public JsonResult Delete(int? id)
         {
             bool result = false;
             var user = db.SAMS_Users.Find(id);
@@ -82,47 +96,73 @@ namespace Isik.SAMS.Controllers
                 db.SaveChanges();
                 result = true;
             }
-            return Json(result, JsonRequestBehavior.AllowGet);
-        }
-        [HttpGet]
-        public ActionResult Update(int Id)
-        {
-            var program = db.SAMS_Users.Find(Id);
-            ViewBag.Departments = new SelectList(db.SAMS_Department.ToList(), "Id", "DepartmentName");
-            ViewBag.Programs = new SelectList(db.SAMS_Program.ToList(), "Id", "ProgramName");
-            foreach (SelectListItem a in ViewBag.Departments)
+            else
             {
-                if (Convert.ToInt32(a.Value) == program.DepartmentId)
-                {
-                    a.Selected = true;
-                }
+                TempData["isDeleted"] = false;
+                TempData.Keep("isDeleted");
             }
+            return Json(result, JsonRequestBehavior.AllowGet);
 
-            if (program.UserType != 2)
+        }
+
+        [HttpGet]
+        public ActionResult Update(int? Id)
+        {
+            if (Id != null)
             {
-                foreach (SelectListItem a in ViewBag.Programs)
+                var user = db.SAMS_Users.Find(Id);
+                ViewBag.Departments = new SelectList(db.SAMS_Department.ToList(), "Id", "DepartmentName");
+                ViewBag.Programs = new SelectList(db.SAMS_Program.ToList(), "Id", "ProgramName");
+                foreach (SelectListItem a in ViewBag.Departments)
                 {
-                    if (Convert.ToInt32(a.Value) == program.ProgramId)
+                    if (Convert.ToInt32(a.Value) == user.DepartmentId)
                     {
                         a.Selected = true;
                     }
                 }
+
+                if (user.UserType != 2)
+                {
+                    foreach (SelectListItem a in ViewBag.Programs)
+                    {
+                        if (Convert.ToInt32(a.Value) == user.ProgramId)
+                        {
+                            a.Selected = true;
+                        }
+                    }
+                }
+                return View(user);
             }
-            return View(program);
+            else
+            {
+                return RedirectToAction("Index");
+            }
         }
 
         [HttpPost]
         public ActionResult Update(SAMS_Users p1)
         {
-            var user = db.SAMS_Users.Find(p1.Id);
-            user.FirstName = p1.FirstName;
-            user.LastName = p1.LastName;
-            user.UserType = p1.UserType;
-            user.Email = p1.Email;
-            db.SaveChanges();
-            TempData["Message"] = "3";
-            return RedirectToAction("Index");
+            if (p1 != null)
+            {
+                var user = db.SAMS_Users.Find(p1.Id);
+                user.ChangedTime = DateTime.Now;
+                user.ChangedBy = Convert.ToInt32(Session["AdminId"]);
+                user.FirstName = p1.FirstName;
+                user.LastName = p1.LastName;
+                user.UserType = p1.UserType;
+                user.PhoneNumber = p1.PhoneNumber;
+                user.Email = p1.Email;
+                db.SaveChanges();
+                TempData["Message"] = "3";
+                return RedirectToAction("Index");
+            }
+            else
+            {
+                TempData["Message"] = "4";
+                return RedirectToAction("Index");
+            }
         }
+
     }
 
 }

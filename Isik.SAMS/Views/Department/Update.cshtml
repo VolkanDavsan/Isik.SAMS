@@ -2,6 +2,14 @@
 @{
     ViewBag.Title = "Update Department";
     Layout = "~/Views/Shared/_Layout.cshtml";
+    if (Session["UserId"] != null && Session["AdminId"] == null)
+    {
+        Response.Redirect("/Home/Index");
+    }
+    else if (Session["UserId"] == null && Session["AdminId"] == null)
+    {
+        Response.Redirect("/Login/Index");
+    }
 }
 @using (Html.BeginForm("Update", "Department", FormMethod.Post, new Dictionary<string, object>() {
     { "class", "form-horizontal" },

@@ -11,7 +11,9 @@ namespace Isik.SAMS.Models.Entity
 {
     using System;
     using System.Collections.Generic;
-    
+    using System.ComponentModel;
+    using System.ComponentModel.DataAnnotations;
+
     public partial class SAMS_Users
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
@@ -27,7 +29,12 @@ namespace Isik.SAMS.Models.Entity
         public Nullable<int> ChangedBy { get; set; }
         public Nullable<System.DateTime> ChangedTime { get; set; }
         public Nullable<int> UserType { get; set; }
+        [DisplayName("E-Mail")]        
+        [Required(ErrorMessage="The Email Field is required")]
         public string Email { get; set; }
+        [DisplayName("Password")]
+        [DataType(DataType.Password)]
+        [Required(ErrorMessage = "The Password Field is required")]
         public string Password { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }

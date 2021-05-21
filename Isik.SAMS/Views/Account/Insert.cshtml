@@ -2,6 +2,14 @@
 @{
     ViewBag.Title = "Add Account";
     Layout = "~/Views/Shared/_Layout.cshtml";
+    if (Session["UserId"] != null && Session["AdminId"] == null)
+    {
+        Response.Redirect("/Home/Index");
+    }
+    else if (Session["UserId"] == null && Session["AdminId"] == null)
+    {
+        Response.Redirect("/Login/Index");
+    }
 }
 
 @using (Html.BeginForm("Insert", "Account", FormMethod.Post, new Dictionary<string, object>() {
@@ -40,6 +48,15 @@
             })
         </div>
         <div class="form-group col-md-6">
+            <label class="req" for="code">Phone Number</label>
+            @Html.TextBoxFor(model => model.PhoneNumber, new Dictionary<string, object>()
+            {
+                {"class", "form-control"},
+                {"placeholder", "Please enter the Phone Number"},
+                {"type", "number" }
+            })
+        </div>
+        <div class="form-group col-md-6">
             <label class="req" for="code">Password</label>
             @Html.PasswordFor(model => model.Password, new Dictionary<string, object>()
             {
@@ -57,11 +74,11 @@
         </div>
         <div class="form-group col-md-6">
             <label class="req" for="code">User Type</label>
-            <div class="form-check">
-                HeadofDepartment
+            <div class="form-check" style="margin-top:20px">
                 @Html.RadioButtonFor(model => model.UserType, "1", new { @id = "rbHoD", @onclick = "showHideProgram()" })
-                Secretary
+                <label for="rbHoD">Head of Department</label>
                 @Html.RadioButtonFor(model => model.UserType, "2", new { @id = "rbSec", @onclick = "showHideProgram()" })
+                <label for="rbSec" style="margin-top:20px">Secretary</label>
             </div>
         </div>
         <div class="form-group col-md-6" id="ddlDepartment">
@@ -78,6 +95,13 @@
         <button class="btn btn-md btn-success pull-right" type="submit" OnClick="">Save</button>
     </div>
     <script type="text/javascript">
+
+        window.onload(function () {
+            var element = document.getElementById("ddlProgram");
+            var rbHoD = document.getElementById("rbHoD");
+            element.style.display = rbHoD.checked ? "none" : "block";
+        })
+
         function showHideProgram() {
             var element = document.getElementById("ddlProgram");
             var rbHoD = document.getElementById("rbHoD");

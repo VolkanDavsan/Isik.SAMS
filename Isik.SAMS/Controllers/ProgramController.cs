@@ -8,13 +8,13 @@ using Isik.SAMS.Models.Entity;
 namespace Isik.SAMS.Controllers
 {
     public class ProgramController : Controller
-    {        
+    {
         // GET: Program
         StudentApprovalManagementEntities db = new StudentApprovalManagementEntities();
         public string setMessage(string alertMessage)
         {
             string message = "";
-            
+
             if (alertMessage == "1")
             {
                 message = "Succesfully inserted.";
@@ -47,7 +47,7 @@ namespace Isik.SAMS.Controllers
         [HttpPost]
         public ActionResult Insert(SAMS_Program s1)
         {
-            s1.CreatedBy = 1; // adminId when the session created
+            s1.CreatedBy = Convert.ToInt32(Session["AdminId"]); // adminId when the session created
             s1.CreatedTime = DateTime.Now;
             db.SAMS_Program.Add(s1);
             db.SaveChanges();
@@ -56,38 +56,73 @@ namespace Isik.SAMS.Controllers
         }
         public ActionResult DeleteMessage()
         {
-            TempData["Message"] = "2";
+            if (TempData["isDeleted"] != null)
+            {
+                TempData["Message"] = "4";
+            }
+            else
+            {
+                TempData["Message"] = "2";
+            }
+
             TempData.Keep("Message");
+            return RedirectToAction("Index");
+        }
+        [HttpGet]
+        public ActionResult Delete()
+        {
+            TempData["Message"] = "4";
             return RedirectToAction("Index");
         }
         public JsonResult Delete(int id)
         {
             bool result = false;
             var program = db.SAMS_Program.Find(id);
-            if(program != null)
+            if (program != null)
             {
                 db.SAMS_Program.Remove(program);
                 db.SaveChanges();
                 result = true;
             }
+            else
+            {
+                TempData["isDeleted"] = false;
+                TempData.Keep("isDeleted");
+            }
             return Json(result, JsonRequestBehavior.AllowGet);
         }
         [HttpGet]
-        public ActionResult Update(int Id)
+        public ActionResult Update(int? Id)
         {
-            var program = db.SAMS_Program.Find(Id);
-            return View(program);
+            if (Id != null)
+            {
+                var program = db.SAMS_Program.Find(Id);
+                return View(program);
+            }
+            else
+            {
+                return RedirectToAction("Index");
+            }
         }
 
         [HttpPost]
         public ActionResult Update(SAMS_Program p1)
         {
-            var program = db.SAMS_Program.Find(p1.Id);
-            program.ProgramName = p1.ProgramName;
-            program.CreatedTime = p1.CreatedTime;
-            db.SaveChanges();
-            TempData["Message"] = "3";
-            return RedirectToAction("Index");
+            if (p1 != null)
+            {
+                var program = db.SAMS_Program.Find(p1.Id);
+                program.ProgramName = p1.ProgramName;
+                program.ChangedTime = DateTime.Now;
+                program.ChangedBy = Convert.ToInt32(Session["AdminId"]);
+                db.SaveChanges();
+                TempData["Message"] = "3";
+                return RedirectToAction("Index");
+            }
+            else
+            {
+                TempData["Message"] = "4";
+                return RedirectToAction("Index");
+            }
         }
     }
 }

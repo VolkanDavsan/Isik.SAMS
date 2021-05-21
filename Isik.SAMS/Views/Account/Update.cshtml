@@ -2,6 +2,14 @@
 @{
     ViewBag.Title = "Update Account";
     Layout = "~/Views/Shared/_Layout.cshtml";
+    if (Session["UserId"] != null && Session["AdminId"] == null)
+    {
+        Response.Redirect("/Home/Index");
+    }
+    else if (Session["UserId"] == null && Session["AdminId"] == null)
+    {
+        Response.Redirect("/Login/Index");
+    }
 }
 
 @using (Html.BeginForm("Update", "Account", FormMethod.Post, new Dictionary<string, object>() {
@@ -40,28 +48,22 @@
             })
         </div>
         <div class="form-group col-md-6">
-            <label class="req" for="code">Password</label>
-            @Html.PasswordFor(model => model.Password, new Dictionary<string, object>()
+            <label class="req" for="code">Phone Number</label>
+            @Html.TextBoxFor(model => model.PhoneNumber, new Dictionary<string, object>()
             {
                 {"class", "form-control"},
-                {"placeholder", "Please enter the First Name"}
+                {"placeholder", "Please enter the Phone Number"},
+                {"type", "number" }
             })
         </div>
-        <div class="form-group col-md-6">
-            <label class="req" for="code">Confirm Password</label>
-            @Html.PasswordFor(model => model.Password, new Dictionary<string, object>()
-            {
-                {"class", "form-control"},
-                {"placeholder", "Please enter the First Name"}
-            })
-        </div>
+
         <div class="form-group col-md-6">
             <label class="req" for="code">User Type</label>
-            <div class="form-check">
-                HeadofDepartment
-                @Html.RadioButtonFor(model => model.UserType, "1", new { @id = "rbHoD", @onclick = "showHideProgram()" })
-                Secretary
-                @Html.RadioButtonFor(model => model.UserType, "2", new { @id = "rbSec", @onclick = "showHideProgram()" })
+            <div class="form-check" style="margin-top:20px" onload="onload()">
+                @Html.RadioButtonFor(model => model.UserType, "2", new { @id = "rbHoD", @onclick = "showHideProgram()", @class = "pull-right" })
+                <label for="rbHoD">Head of Department</label>
+                @Html.RadioButtonFor(model => model.UserType, "1", new { @id = "rbSec", @onclick = "showHideProgram()", @class = "pull-right" })
+                <label for="rbSec" style="margin-top:20px">Secretary</label>
             </div>
         </div>
         <div class="form-group col-md-6" id="ddlDepartment">
@@ -72,12 +74,57 @@
             <label class="req" for="code">Program</label>
             @Html.DropDownListFor(model => model.ProgramId, ViewBag.Programs as SelectList, new { @class = "form-control" })
         </div>
+        <div class="form-group col-md-6" id="password" style="display:none">
+            <label class="req" for="code">Password</label>
+            @Html.PasswordFor(model => model.Password, new Dictionary<string, object>()
+            {
+                {"class", "form-control"},
+                {"placeholder", "Please enter the Password"}
+            })
+        </div>
+        <div class="form-group col-md-6" id="confirmPassword" style="display:none">
+            <label class="req" for="code">Confirm Password</label>
+            @Html.PasswordFor(model => model.Password, new Dictionary<string, object>()
+            {
+                {"class", "form-control"},
+                {"placeholder", "Please enter the password again."}
+            })
+        </div>
+
     </div>
     <div class="buttons">
         <button class="btn btn-md btn-danger pull-left" data-dismiss="modal">Close</button>
+        <div style="position: absolute; left:42.5%; bottom:8%">
+            <a id="changePassword" onclick="changePassword()">Change Password</a>
+        </div>
         <button class="btn btn-md btn-success pull-right" type="submit" OnClick="">Save</button>
     </div>
     <script type="text/javascript">
+
+        function changePassword() {
+            var passwords = document.getElementById("password");
+            var changePassword = document.getElementById("confirmPassword");
+            if (passwords.style.display == "block") {
+                passwords.style.display = "none";
+                changePassword.style.display = "none";
+            } else {
+                passwords.style.display = "block";
+                changePassword.style.display = "block";
+            }
+        }
+
+        $(window).load(function () {
+            var element = document.getElementById("ddlProgram");
+            var rbSec = document.getElementById("rbSec");
+            element.style.display = rbSec.checked ? "none" : "block";
+        });
+
+        //window.onload = function onload() {
+        //    var element = document.getElementById("ddlProgram");
+        //    var rbHoD = document.getElementById("rbHoD");
+        //    element.style.display = rbHoD.checked ? "none" : "block";
+        //}
+
         function showHideProgram() {
             var element = document.getElementById("ddlProgram");
             var rbHoD = document.getElementById("rbHoD");

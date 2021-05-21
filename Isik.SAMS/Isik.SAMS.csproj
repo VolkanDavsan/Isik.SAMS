@@ -134,6 +134,7 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\DepartmentController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\LoginController.cs" />
     <Compile Include="Controllers\ProgramController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -2195,6 +2196,11 @@
     <Content Include="Assets\lib\jquery-ui\images\ui-icons_ffffff_256x240.png" />
     <Content Include="Assets\lib\jquery-ui\jquery-ui.min.css" />
     <Content Include="Assets\lib\jquery-ui\jquery-ui.min.js" />
+    <None Include="Assets\lib\jquery-validate\jquery.validate-vsdoc.js" />
+    <Content Include="Assets\lib\jquery-validate\jquery.validate.js" />
+    <Content Include="Assets\lib\jquery-validate\jquery.validate.min.js" />
+    <Content Include="Assets\lib\jquery-validate\jquery.validate.unobtrusive.js" />
+    <Content Include="Assets\lib\jquery-validate\jquery.validate.unobtrusive.min.js" />
     <Content Include="Assets\lib\jquery\jquery-3.1.1.min.js" />
     <Content Include="Assets\lib\jquery\jquery-3.6.0.min.js" />
     <Content Include="Assets\lib\jquery\jquery-migrate-3.0.0.min.js" />
@@ -4216,6 +4222,7 @@
     <Content Include="Views\Account\Index.cshtml" />
     <Content Include="Views\Account\Insert.cshtml" />
     <Content Include="Views\Account\Update.cshtml" />
+    <Content Include="Views\Login\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

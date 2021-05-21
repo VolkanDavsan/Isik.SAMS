@@ -34,7 +34,7 @@ namespace Isik.SAMS.Controllers
             return message;
         }
         public ActionResult Index()
-        {            
+        {
             var values = db.SAMS_Department.ToList();
             ViewBag.Message = TempData["message"] == null ? null : setMessage(TempData["message"].ToString());
             return View(values);
@@ -47,7 +47,7 @@ namespace Isik.SAMS.Controllers
         [HttpPost]
         public ActionResult Insert(SAMS_Department s1)
         {
-            s1.CreatedBy = 1; //session adminId
+            s1.CreatedBy = Convert.ToInt32(Session["AdminId"]); //session adminId
             s1.CreatedTime = DateTime.Now;
             db.SAMS_Department.Add(s1);
             db.SaveChanges();
@@ -56,8 +56,22 @@ namespace Isik.SAMS.Controllers
         }
         public ActionResult DeleteMessage()
         {
-            TempData["Message"] = "2";
+            if (TempData["isDeleted"] != null)
+            {
+                TempData["Message"] = "4";
+            }
+            else
+            {
+                TempData["Message"] = "2";
+            }
+
             TempData.Keep("Message");
+            return RedirectToAction("Index");
+        }
+        [HttpGet]
+        public ActionResult Delete()
+        {
+            TempData["Message"] = "4";
             return RedirectToAction("Index");
         }
         public JsonResult Delete(int id)
@@ -70,24 +84,45 @@ namespace Isik.SAMS.Controllers
                 db.SaveChanges();
                 result = true;
             }
+            else
+            {
+                TempData["isDeleted"] = false;
+                TempData.Keep("isDeleted");
+            }
             return Json(result, JsonRequestBehavior.AllowGet);
         }
         [HttpGet]
-        public ActionResult Update(int Id)
+        public ActionResult Update(int? Id)
         {
-            var department = db.SAMS_Department.Find(Id);  
-            return View(department);
+            if (Id != null)
+            {
+                var department = db.SAMS_Department.Find(Id);
+                return View(department);
+            }
+            else
+            {
+                return RedirectToAction("Index");
+            }
         }
 
         [HttpPost]
         public ActionResult Update(SAMS_Department s1)
         {
-            var department = db.SAMS_Department.Find(s1.Id);
-            department.DepartmentName = s1.DepartmentName;
-            department.CreatedTime = s1.CreatedTime;
-            db.SaveChanges();
-            TempData["Message"] = "3";
-            return RedirectToAction("Index");
+            if (s1 != null)
+            {
+                var department = db.SAMS_Department.Find(s1.Id);
+                department.DepartmentName = s1.DepartmentName;
+                department.ChangedTime = DateTime.Now;
+                department.ChangedBy = Convert.ToInt32(Session["AdminId"]);
+                db.SaveChanges();
+                TempData["Message"] = "3";
+                return RedirectToAction("Index");
+            }
+            else
+            {
+                TempData["Message"] = "4";
+                return RedirectToAction("Index");
+            }
         }
     }
 }
