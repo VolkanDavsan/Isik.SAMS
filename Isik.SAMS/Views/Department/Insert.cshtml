@@ -31,7 +31,10 @@
             @Html.TextBoxFor(model => model.DepartmentName, new Dictionary<string, object>()
             {
                 {"class", "form-control"},
-                {"placeholder", "Please enter a department name."}
+                {"placeholder", "Please enter a department name."},
+                {"required", "" },
+           {"oninvalid","this.setCustomValidity('Please enter a department name.')" },
+           {"oninput","this.setCustomValidity('')" }
             })
         </div>
     </div>

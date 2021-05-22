@@ -28,7 +28,10 @@
             @Html.TextBoxFor(model => model.FirstName, new Dictionary<string, object>()
             {
                 {"class", "form-control"},
-                {"placeholder", "Please enter the First Name"}
+                {"placeholder", "Please enter the First Name"},
+                           {"required", "" },
+           {"oninvalid","this.setCustomValidity('Please enter a first name.')" },
+           {"oninput","this.setCustomValidity('')" }
             })
         </div>
         <div class="form-group col-md-6">
@@ -36,7 +39,10 @@
             @Html.TextBoxFor(model => model.LastName, new Dictionary<string, object>()
             {
                 {"class", "form-control"},
-                {"placeholder", "Please enter the First Name"}
+                {"placeholder", "Please enter the Last Name"},
+                           {"required", "" },
+           {"oninvalid","this.setCustomValidity('Please enter a last name.')" },
+           {"oninput","this.setCustomValidity('')" }
             })
         </div>
         <div class="form-group col-md-6">
@@ -44,7 +50,10 @@
             @Html.TextBoxFor(model => model.Email, new Dictionary<string, object>()
             {
                 {"class", "form-control"},
-                {"placeholder", "Please enter the First Name"}
+                {"placeholder", "Please enter the e-mail."},
+                           {"required", "" },
+           {"oninvalid","this.setCustomValidity('Please enter an e-mail.')" },
+           {"oninput","this.setCustomValidity('')" }
             })
         </div>
         <div class="form-group col-md-6">
@@ -53,7 +62,10 @@
             {
                 {"class", "form-control"},
                 {"placeholder", "Please enter the Phone Number"},
-                {"type", "number" }
+                {"type", "number" },
+                           {"required", "" },
+           {"oninvalid","this.setCustomValidity('Please enter a phone number.')" },
+           {"oninput","this.setCustomValidity('')" }
             })
         </div>
 
@@ -79,7 +91,10 @@
             @Html.PasswordFor(model => model.Password, new Dictionary<string, object>()
             {
                 {"class", "form-control"},
-                {"placeholder", "Please enter the Password"}
+                {"placeholder", "Please enter the Password"},
+                           {"required", "" },
+           {"oninvalid","this.setCustomValidity('Please enter the password.')" },
+           {"oninput","this.setCustomValidity('')" }
             })
         </div>
         <div class="form-group col-md-6" id="confirmPassword" style="display:none">
@@ -87,7 +102,10 @@
             @Html.PasswordFor(model => model.Password, new Dictionary<string, object>()
             {
                 {"class", "form-control"},
-                {"placeholder", "Please enter the password again."}
+                {"placeholder", "Please enter the password again."},
+                           {"required", "" },
+           {"oninvalid","this.setCustomValidity('Please enter the password.')" },
+           {"oninput","this.setCustomValidity('')" }
             })
         </div>
 
