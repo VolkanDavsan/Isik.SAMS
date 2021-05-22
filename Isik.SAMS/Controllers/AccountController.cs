@@ -14,32 +14,11 @@ namespace Isik.SAMS.Controllers
     {
         // GET: Account
         StudentApprovalManagementEntities db = new StudentApprovalManagementEntities();
-        public string setMessage(string alertMessage)
-        {
-            string message = "";
-
-            if (alertMessage == "1")
-            {
-                message = "Succesfully inserted.";
-            }
-            else if (alertMessage == "2")
-            {
-                message = "Succesfully deleted.";
-            }
-            else if (alertMessage == "3")
-            {
-                message = "Succesfully updated.";
-            }
-            else if (alertMessage == "4")
-            {
-                message = "Operation failed.";
-            }
-            return message;
-        }
         public ActionResult Index()
         {
             var model = db.SAMS_Users.ToList();
-            ViewBag.Message = TempData["Message"] == null ? null : setMessage(TempData["Message"].ToString());
+            ViewBag.Message = TempData["message"] == null ? null : TempData["message"].ToString();
+            ViewBag.MessageClass = TempData["messageClass"] == null ? null : TempData["messageClass"].ToString();
             return View(model);
         }
         [HttpGet]
@@ -59,22 +38,35 @@ namespace Isik.SAMS.Controllers
         [HttpPost]
         public ActionResult Insert(SAMS_Users s1)
         {
-            s1.CreatedBy = Convert.ToInt32(Session["AdminId"]); // adminId when the session created
-            s1.CreatedTime = DateTime.Now;
-            db.SAMS_Users.Add(s1);
-            db.SaveChanges();
-            TempData["Message"] = "1";
-            return RedirectToAction("Index");
+            var user = db.SAMS_Users.Where(x => x.Email == s1.Email).FirstOrDefault();
+            if (user != null)
+            {
+                TempData["Message"] = "There is a user with E-Mail '" + user.Email + "' already.";
+                TempData["messageClass"] = "alert-warning";
+                return RedirectToAction("Index");
+            }
+            else
+            {
+                s1.CreatedBy = Convert.ToInt32(Session["AdminId"]); // adminId when the session created
+                s1.CreatedTime = DateTime.Now;
+                db.SAMS_Users.Add(s1);
+                db.SaveChanges();
+                TempData["Message"] = "Succesfully inserted.";
+                TempData["messageClass"] = "alert-success";
+                return RedirectToAction("Index");
+            }
         }
         public ActionResult DeleteMessage()
         {
             if (TempData["isDeleted"] != null)
             {
-                TempData["Message"] = "4";
+                TempData["Message"] = "Operation failed.";
+                TempData["messageClass"] = "alert-danger";
             }
             else
             {
-                TempData["Message"] = "2";
+                TempData["Message"] = "Succesfully deleted.";
+                TempData["messageClass"] = "alert-success";
             }
 
             TempData.Keep("Message");
@@ -83,7 +75,8 @@ namespace Isik.SAMS.Controllers
         [HttpGet]
         public ActionResult Delete()
         {
-            TempData["Message"] = "4";
+            TempData["Message"] = "Operation failed.";
+            TempData["messageClass"] = "alert-danger";
             return RedirectToAction("Index");
         }
         public JsonResult Delete(int? id)
@@ -153,12 +146,14 @@ namespace Isik.SAMS.Controllers
                 user.PhoneNumber = p1.PhoneNumber;
                 user.Email = p1.Email;
                 db.SaveChanges();
-                TempData["Message"] = "3";
+                TempData["Message"] = "Succesfully updated.";
+                TempData["messageClass"] = "alert-success";
                 return RedirectToAction("Index");
             }
             else
             {
-                TempData["Message"] = "4";
+                TempData["Message"] = "Operation failed.";
+                TempData["messageClass"] = "alert-danger";
                 return RedirectToAction("Index");
             }
         }

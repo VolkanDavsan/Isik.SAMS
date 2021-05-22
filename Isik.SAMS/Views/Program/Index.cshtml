@@ -20,7 +20,7 @@
 {
     <div class="col-12">
         <div class="pull-right">
-            <div class="alert alert-success alert-dismissible fade show pull-right" role="alert">
+            <div class="alert @ViewBag.MessageClass alert-dismissible fade show pull-right" role="alert">
                 <b>@ViewBag.Message </b>
                 <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
@@ -83,7 +83,6 @@
                     success: function () {
                         showDeleteMessage();
                         location.reload(true);
-
                     },
                     error: function () {
                         swal("Oops", "We couldn't connect to the server!", "error");

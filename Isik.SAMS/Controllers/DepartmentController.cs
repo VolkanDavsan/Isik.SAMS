@@ -11,32 +11,11 @@ namespace Isik.SAMS.Controllers
     {
         // GET: Department
         StudentApprovalManagementEntities db = new StudentApprovalManagementEntities();
-        public string setMessage(string alertMessage)
-        {
-            string message = "";
-
-            if (alertMessage == "1")
-            {
-                message = "Succesfully inserted.";
-            }
-            else if (alertMessage == "2")
-            {
-                message = "Succesfully deleted.";
-            }
-            else if (alertMessage == "3")
-            {
-                message = "Succesfully updated.";
-            }
-            else if (alertMessage == "4")
-            {
-                message = "Operation failed.";
-            }
-            return message;
-        }
         public ActionResult Index()
         {
             var values = db.SAMS_Department.ToList();
-            ViewBag.Message = TempData["message"] == null ? null : setMessage(TempData["message"].ToString());
+            ViewBag.Message = TempData["message"] == null ? null : TempData["message"].ToString();
+            ViewBag.MessageClass = TempData["messageClass"] == null ? null : TempData["messageClass"].ToString();
             return View(values);
         }
         [HttpGet]
@@ -47,22 +26,35 @@ namespace Isik.SAMS.Controllers
         [HttpPost]
         public ActionResult Insert(SAMS_Department s1)
         {
-            s1.CreatedBy = Convert.ToInt32(Session["AdminId"]); //session adminId
-            s1.CreatedTime = DateTime.Now;
-            db.SAMS_Department.Add(s1);
-            db.SaveChanges();
-            TempData["Message"] = "1";
-            return RedirectToAction("Index");
+            var department = db.SAMS_Department.Where(x => x.DepartmentName == s1.DepartmentName).FirstOrDefault();
+            if (department != null)
+            {
+                TempData["Message"] = "There is a program named '" + department.DepartmentName + "' already.";
+                TempData["messageClass"] = "alert-warning";
+                return RedirectToAction("Index");
+            }
+            else
+            {
+                s1.CreatedBy = Convert.ToInt32(Session["AdminId"]); //session adminId
+                s1.CreatedTime = DateTime.Now;
+                db.SAMS_Department.Add(s1);
+                db.SaveChanges();
+                TempData["Message"] = "Succesfully inserted";
+                TempData["messageClass"] = "alert-success";
+                return RedirectToAction("Index");
+            }
         }
         public ActionResult DeleteMessage()
         {
             if (TempData["isDeleted"] != null)
             {
-                TempData["Message"] = "4";
+                TempData["Message"] = "Operation failed.";
+                TempData["messageClass"] = "alert-danger";
             }
             else
             {
-                TempData["Message"] = "2";
+                TempData["Message"] = "Succesfully deleted.";
+                TempData["messageClass"] = "alert-success";
             }
 
             TempData.Keep("Message");
@@ -71,7 +63,8 @@ namespace Isik.SAMS.Controllers
         [HttpGet]
         public ActionResult Delete()
         {
-            TempData["Message"] = "4";
+            TempData["Message"] = "Operation failed.";
+            TempData["messageClass"] = "alert-danger";
             return RedirectToAction("Index");
         }
         public JsonResult Delete(int id)
@@ -108,21 +101,32 @@ namespace Isik.SAMS.Controllers
         [HttpPost]
         public ActionResult Update(SAMS_Department s1)
         {
-            if (s1 != null)
+            var updatedDepartment = db.SAMS_Department.Where(x => x.DepartmentName == s1.DepartmentName).FirstOrDefault();
+            if (updatedDepartment == null)
             {
-                var department = db.SAMS_Department.Find(s1.Id);
-                department.DepartmentName = s1.DepartmentName;
-                department.ChangedTime = DateTime.Now;
-                department.ChangedBy = Convert.ToInt32(Session["AdminId"]);
-                db.SaveChanges();
-                TempData["Message"] = "3";
+                if (s1 != null)
+                {
+                    var department = db.SAMS_Department.Find(s1.Id);
+                    department.DepartmentName = s1.DepartmentName;
+                    department.ChangedTime = DateTime.Now;
+                    department.ChangedBy = Convert.ToInt32(Session["AdminId"]);
+                    db.SaveChanges();
+                    TempData["Message"] = "Succesfully updated.";
+                    return RedirectToAction("Index");
+                }
+                else
+                {
+                    TempData["Message"] = "Operation failed.";
+                    return RedirectToAction("Index");
+                }
+            } else
+            {
+                TempData["Message"] = "There is a department named '" + s1.DepartmentName + "' already.";
+                TempData["messageClass"] = "alert-warning";
                 return RedirectToAction("Index");
             }
-            else
-            {
-                TempData["Message"] = "4";
-                return RedirectToAction("Index");
-            }
+
+                
         }
     }
 }

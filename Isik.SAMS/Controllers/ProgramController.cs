@@ -11,32 +11,11 @@ namespace Isik.SAMS.Controllers
     {
         // GET: Program
         StudentApprovalManagementEntities db = new StudentApprovalManagementEntities();
-        public string setMessage(string alertMessage)
-        {
-            string message = "";
-
-            if (alertMessage == "1")
-            {
-                message = "Succesfully inserted.";
-            }
-            else if (alertMessage == "2")
-            {
-                message = "Succesfully deleted.";
-            }
-            else if (alertMessage == "3")
-            {
-                message = "Succesfully updated.";
-            }
-            else if (alertMessage == "4")
-            {
-                message = "Operation failed.";
-            }
-            return message;
-        }
         public ActionResult Index()
         {
             var model = db.SAMS_Program.ToList();
-            ViewBag.Message = TempData["message"] == null ? null : setMessage(TempData["message"].ToString());
+            ViewBag.Message = TempData["message"] == null ? null : TempData["message"].ToString();
+            ViewBag.MessageClass = TempData["messageClass"] == null ? null : TempData["messageClass"].ToString();
             return View(model);
         }
         [HttpGet]
@@ -47,22 +26,35 @@ namespace Isik.SAMS.Controllers
         [HttpPost]
         public ActionResult Insert(SAMS_Program s1)
         {
-            s1.CreatedBy = Convert.ToInt32(Session["AdminId"]); // adminId when the session created
-            s1.CreatedTime = DateTime.Now;
-            db.SAMS_Program.Add(s1);
-            db.SaveChanges();
-            TempData["Message"] = "1";
-            return RedirectToAction("Index");
+            var program = db.SAMS_Program.Where(x => x.ProgramName == s1.ProgramName).FirstOrDefault();
+            if(program != null)
+            {
+                TempData["Message"] = "There is a program named '" + program.ProgramName + "' already.";
+                TempData["messageClass"] = "alert-warning";
+                return RedirectToAction("Index");
+            } else
+            {
+                s1.CreatedBy = Convert.ToInt32(Session["AdminId"]); // adminId when the session created
+                s1.CreatedTime = DateTime.Now;
+                db.SAMS_Program.Add(s1);
+                db.SaveChanges();
+                TempData["Message"] = "Succesfully inserted.";
+                TempData["messageClass"] = "alert-success";
+                return RedirectToAction("Index");
+            }
+
         }
         public ActionResult DeleteMessage()
         {
             if (TempData["isDeleted"] != null)
             {
-                TempData["Message"] = "4";
+                TempData["Message"] = "Operation failed.";
+                TempData["messageClass"] = "alert-danger";
             }
             else
             {
-                TempData["Message"] = "2";
+                TempData["Message"] = "Succesfully deleted.";
+                TempData["messageClass"] = "alert-success";
             }
 
             TempData.Keep("Message");
@@ -71,7 +63,8 @@ namespace Isik.SAMS.Controllers
         [HttpGet]
         public ActionResult Delete()
         {
-            TempData["Message"] = "4";
+            TempData["Message"] = "Operation failed.";
+            TempData["messageClass"] = "alert-danger";
             return RedirectToAction("Index");
         }
         public JsonResult Delete(int id)
@@ -108,21 +101,33 @@ namespace Isik.SAMS.Controllers
         [HttpPost]
         public ActionResult Update(SAMS_Program p1)
         {
-            if (p1 != null)
+            var updatedProgram = db.SAMS_Program.Where(x => x.ProgramName == p1.ProgramName).FirstOrDefault();
+            if (updatedProgram == null)
             {
-                var program = db.SAMS_Program.Find(p1.Id);
-                program.ProgramName = p1.ProgramName;
-                program.ChangedTime = DateTime.Now;
-                program.ChangedBy = Convert.ToInt32(Session["AdminId"]);
-                db.SaveChanges();
-                TempData["Message"] = "3";
+                if (p1 != null)
+                {
+                    var program = db.SAMS_Program.Find(p1.Id);
+                    program.ProgramName = p1.ProgramName;
+                    program.ChangedTime = DateTime.Now;
+                    program.ChangedBy = Convert.ToInt32(Session["AdminId"]);
+                    db.SaveChanges();
+                    TempData["Message"] = "Succesfully updated.";
+                    TempData["messageClass"] = "alert-success";
+                    return RedirectToAction("Index");
+                }
+                else
+                {
+                    TempData["Message"] = "Operation failed.";
+                    TempData["messageClass"] = "alert-danger";
+                    return RedirectToAction("Index");
+                }
+            } else
+            {
+                TempData["Message"] = "There is a program named '" + p1.ProgramName + "' already.";
+                TempData["messageClass"] = "alert-warning";
                 return RedirectToAction("Index");
             }
-            else
-            {
-                TempData["Message"] = "4";
-                return RedirectToAction("Index");
-            }
+            
         }
     }
 }
