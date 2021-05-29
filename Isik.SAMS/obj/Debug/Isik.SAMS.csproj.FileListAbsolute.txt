@@ -334,3 +334,13 @@ C:\Isik.SAMS\Isik.SAMS\obj\Debug\Isik.SAMS.csproj.CoreCompileInputs.cache
 C:\Isik.SAMS\Isik.SAMS\obj\Debug\Isik.SAMS.csproj.CopyComplete
 C:\Isik.SAMS\Isik.SAMS\obj\Debug\Isik.SAMS.dll
 C:\Isik.SAMS\Isik.SAMS\obj\Debug\Isik.SAMS.pdb
+C:\SAMS\Isik.SAMS\Isik.SAMS\bin\BouncyCastle.Crypto.dll
+C:\SAMS\Isik.SAMS\Isik.SAMS\bin\MailKit.dll
+C:\SAMS\Isik.SAMS\Isik.SAMS\bin\MimeKit.dll
+C:\SAMS\Isik.SAMS\Isik.SAMS\bin\System.Buffers.dll
+C:\SAMS\Isik.SAMS\Isik.SAMS\bin\BouncyCastle.Crypto.xml
+C:\SAMS\Isik.SAMS\Isik.SAMS\bin\MailKit.pdb
+C:\SAMS\Isik.SAMS\Isik.SAMS\bin\MailKit.xml
+C:\SAMS\Isik.SAMS\Isik.SAMS\bin\MimeKit.pdb
+C:\SAMS\Isik.SAMS\Isik.SAMS\bin\MimeKit.xml
+C:\SAMS\Isik.SAMS\Isik.SAMS\bin\System.Buffers.xml

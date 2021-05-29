@@ -48,7 +48,6 @@
             @Html.Grid(Model).Columns(columns =>
               {
                   columns.Add(c => c.ProgramName).Titled("Program Name");
-                  columns.Add(c => c.Id).Titled("ID").Filterable(true);
                         columns.Add()
            .Titled("")
            .Filterable(true)

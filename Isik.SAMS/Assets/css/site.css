@@ -2,6 +2,12 @@
     display: none !important;
 }
 
+.req {
+    content: "*";
+    margin-left: 5px;
+    color: #f00;
+}
+
 .pull-right {
     float: right !important;
 }

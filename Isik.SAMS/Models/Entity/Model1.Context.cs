@@ -25,7 +25,6 @@ namespace Isik.SAMS.Models.Entity
             throw new UnintentionalCodeFirstException();
         }
     
-        public virtual DbSet<SAMS_Administrator> SAMS_Administrator { get; set; }
         public virtual DbSet<SAMS_ApplicationStatus> SAMS_ApplicationStatus { get; set; }
         public virtual DbSet<SAMS_Department> SAMS_Department { get; set; }
         public virtual DbSet<SAMS_Files> SAMS_Files { get; set; }

@@ -74,6 +74,7 @@
             <div class="form-check" style="margin-top:20px" onload="onload()">
                 @Html.RadioButtonFor(model => model.UserType, "2", new { @id = "rbHoD", @onclick = "showHideProgram()", @class = "pull-right" })
                 <label for="rbHoD">Head of Department</label>
+                <br />
                 @Html.RadioButtonFor(model => model.UserType, "1", new { @id = "rbSec", @onclick = "showHideProgram()", @class = "pull-right" })
                 <label for="rbSec" style="margin-top:20px">Secretary</label>
             </div>
@@ -92,18 +93,18 @@
             {
                 {"class", "form-control"},
                 {"placeholder", "Please enter the Password"},
-                           {"required", "" },
+           {"id", "pswd" },
            {"oninvalid","this.setCustomValidity('Please enter the password.')" },
            {"oninput","this.setCustomValidity('')" }
             })
         </div>
         <div class="form-group col-md-6" id="confirmPassword" style="display:none">
             <label class="req" for="code">Confirm Password</label>
-            @Html.PasswordFor(model => model.Password, new Dictionary<string, object>()
+            @Html.PasswordFor(model => model.ConfirmPassword, new Dictionary<string, object>()
             {
                 {"class", "form-control"},
                 {"placeholder", "Please enter the password again."},
-                           {"required", "" },
+           {"id", "pswd1" },
            {"oninvalid","this.setCustomValidity('Please enter the password.')" },
            {"oninput","this.setCustomValidity('')" }
             })
@@ -120,12 +121,19 @@
     <script type="text/javascript">
 
         function changePassword() {
+            debugger;
             var passwords = document.getElementById("password");
-            var changePassword = document.getElementById("confirmPassword");
+            var changePassword = document.getElementById("confirmPassword");            
             if (passwords.style.display == "block") {
+                document.getElementById("pswd").removeAttribute('required');
+                document.getElementById("pswd1").removeAttribute('required');
+                document.getElementById("pswd1").value = "";
+                document.getElementById("pswd").value = "";
                 passwords.style.display = "none";
                 changePassword.style.display = "none";
             } else {
+                document.getElementById("pswd1").setAttribute('required', '');
+                document.getElementById("pswd").setAttribute('required', '')
                 passwords.style.display = "block";
                 changePassword.style.display = "block";
             }

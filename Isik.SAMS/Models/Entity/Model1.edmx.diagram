@@ -4,21 +4,14 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="243e4c158eb3406899f121a0b92b0c04" Name="Diagram1">
-        <EntityTypeShape EntityType="StudentApprovalManagementModel.SAMS_Administrator" Width="1.5" PointX="0.75" PointY="6.625" IsExpanded="true" />
+      <Diagram DiagramId="243e4c158eb3406899f121a0b92b0c04" Name="Diagram1" ZoomLevel="86">
         <EntityTypeShape EntityType="StudentApprovalManagementModel.SAMS_ApplicationStatus" Width="1.5" PointX="3" PointY="2.25" IsExpanded="true" />
         <EntityTypeShape EntityType="StudentApprovalManagementModel.SAMS_Department" Width="1.5" PointX="3" PointY="4.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="StudentApprovalManagementModel.SAMS_Files" Width="1.5" PointX="7.5" PointY="12.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="StudentApprovalManagementModel.SAMS_Files" Width="1.5" PointX="10.75" PointY="9.125" IsExpanded="true" />
         <EntityTypeShape EntityType="StudentApprovalManagementModel.SAMS_Program" Width="1.5" PointX="3" PointY="8.625" IsExpanded="true" />
         <EntityTypeShape EntityType="StudentApprovalManagementModel.SAMS_StudentApplications" Width="1.5" PointX="5.25" PointY="6.125" IsExpanded="true" />
         <EntityTypeShape EntityType="StudentApprovalManagementModel.SAMS_Users" Width="1.5" PointX="8.25" PointY="5.75" IsExpanded="true" />
         <EntityTypeShape EntityType="StudentApprovalManagementModel.SAMS_UserType" Width="1.5" PointX="6" PointY="3.375" IsExpanded="true" />
-        <AssociationConnector Association="StudentApprovalManagementModel.FK_ChangedBy_Department" ManuallyRouted="false" />
-        <AssociationConnector Association="StudentApprovalManagementModel.FK_ChangedBy_Program" ManuallyRouted="false" />
-        <AssociationConnector Association="StudentApprovalManagementModel.FK_ChangedBy_Users" ManuallyRouted="false" />
-        <AssociationConnector Association="StudentApprovalManagementModel.FK_CreatedBy_Department" ManuallyRouted="false" />
-        <AssociationConnector Association="StudentApprovalManagementModel.FK_CreatedBy_Program" ManuallyRouted="false" />
-        <AssociationConnector Association="StudentApprovalManagementModel.FK_CreatedBy_Users" ManuallyRouted="false" />
         <AssociationConnector Association="StudentApprovalManagementModel.FK_Status_StudentApplications" ManuallyRouted="false" />
         <AssociationConnector Association="StudentApprovalManagementModel.FK_DepartmentId_StudentApplications" ManuallyRouted="false" />
         <AssociationConnector Association="StudentApprovalManagementModel.FK_DepartmentId_Users" ManuallyRouted="false" />

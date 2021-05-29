@@ -35,7 +35,7 @@
             <div class="form-form-wrap">
                 <div class="form-container">
                     <div class="form-content">
-                        <h1 class="">Log In to <a href="index.html"><span class="brand-name">ISIK SAMS</span></a></h1>
+                        <h1 class="">Log In to <a href="@Url.Action("Index", "Login", new { area = "" })"><span class="brand-name">ISIK SAMS</span></a></h1>
                         <div id="login">
                             @using (Html.BeginForm("Authorize", "Login", FormMethod.Post, new Dictionary<string, object>() {
                                 { "class", "text-left" }
@@ -81,13 +81,11 @@
                                     </div>
 
                                     <div class="field-wrapper">
-                                        <a href="auth_pass_recovery.html" class="forgot-pass-link">Forgot Password?</a>
+                                        <a href="@Url.Action("ForgotPassword", "Login", new { area = "" })" class="forgot-pass-link">Forgot Password?</a>
                                     </div>
                                 </div>
                             }
                         </div>
-                        <p class="terms-conditions">© 2020 All Rights Reserved. <a href="index.html">CORK</a> is a product of Designreset. <a href="javascript:void(0);">Cookie Preferences</a>, <a href="javascript:void(0);">Privacy</a>, and <a href="javascript:void(0);">Terms</a>.</p>
-
                     </div>
                 </div>
             </div>

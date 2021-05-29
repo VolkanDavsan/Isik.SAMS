@@ -28,8 +28,6 @@ namespace Isik.SAMS.Models.Entity
         public Nullable<System.DateTime> ChangedTime { get; set; }
         public string ProgramName { get; set; }
     
-        public virtual SAMS_Administrator SAMS_Administrator { get; set; }
-        public virtual SAMS_Administrator SAMS_Administrator1 { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<SAMS_StudentApplications> SAMS_StudentApplications { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

@@ -49,8 +49,8 @@
        {
        columns.Add(c => c.FirstName).Titled("First Name");
        columns.Add(c => c.LastName).Titled("Last Name");
-       columns.Add(c => c.DepartmentId).Titled("Department Id");
-       columns.Add(c => c.ProgramId).Titled("Program Id");
+       columns.Add(c => c.DepartmentName).Titled("Department Name");
+       columns.Add(c => c.ProgramName).Titled("Program Name");
        columns.Add(c => c.UserType).Titled("User Type").RenderValueAs(c => c.UserType == 1 ? "Secretary" : "Head of Department");
        //columns.Add(c => c.Id).Titled("ID").Filterable(true);
        columns.Add()

@@ -1,0 +1,68 @@
+﻿@model Isik.SAMS.Models.Entity.SAMS_Users
+
+@{
+    ViewBag.Title = "Change Password";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    if (Session["UserId"] == null && Session["AdminId"] == null)
+    {
+        Response.Redirect("/Login/Index");
+    }
+}
+
+@using (Html.BeginForm("Update", "Profile", FormMethod.Post, new Dictionary<string, object>() {
+    { "class", "form-horizontal" },
+    { "role", "form" },
+    { "id", "Account" },
+    { "data-selector", "modalContainer" }
+}))
+{
+    @Html.AntiForgeryToken()
+    @Html.HiddenFor(model => model.Id)
+    <div class="row">
+        <div class="form-group col-md-12">
+            <label class="req" for="code">Old Password</label>
+            @Html.PasswordFor(model => model.Password, new Dictionary<string, object>()
+            {
+                {"class", "form-control"},
+                {"id", "oldPassword" },
+                {"placeholder", "Please enter the Password"},
+                {"required", "" },
+                {"oninvalid","this.setCustomValidity('Please enter the password.')" },
+                {"oninput","this.setCustomValidity('')" }
+            })
+        </div>
+        <div class="form-group col-md-12">
+            <label class="req" for="code">New Password</label>
+            @Html.PasswordFor(model => model.NewPassword, new Dictionary<string, object>()
+            {
+                {"class", "form-control"},
+                {"placeholder", "Please enter the Password"},
+                {"required", "" },
+                {"oninvalid","this.setCustomValidity('Please enter the password.')" },
+                {"oninput","this.setCustomValidity('')" }
+            })
+        </div>
+        <div class="form-group col-md-12" id="confirmPassword">
+            <label class="req" for="code">Confirm New Password</label>
+            @Html.PasswordFor(model => model.ConfirmPassword, new Dictionary<string, object>()
+            {
+                {"class", "form-control"},
+                {"placeholder", "Please enter the password again."},
+                {"required", "" },
+                {"oninvalid","this.setCustomValidity('Please enter the password.')" },
+                {"oninput","this.setCustomValidity('')" }
+            })
+        </div>
+    </div>
+    <div class="buttons">
+        <button class="btn btn-md btn-danger pull-left" data-dismiss="modal">Close</button>
+        <button class="btn btn-md btn-success pull-right" type="submit" OnClick="">Save</button>
+    </div>
+    <script type="text/javascript">
+
+    </script>
+}
+
+
+

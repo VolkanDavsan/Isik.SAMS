@@ -16,7 +16,21 @@ namespace Isik.SAMS.Controllers
         StudentApprovalManagementEntities db = new StudentApprovalManagementEntities();
         public ActionResult Index()
         {
-            var model = db.SAMS_Users.ToList();
+            var model = db.SAMS_Users.Where(x => x.UserType != 1002).ToList();
+            foreach (var a in model)
+            {
+                var dep = db.SAMS_Department.Find(a.DepartmentId);
+                a.DepartmentName = dep.DepartmentName;
+                
+                var prog = db.SAMS_Program.Find(a.ProgramId);
+                if(prog != null)
+                {
+                    a.ProgramName = prog.ProgramName;
+                } else
+                {
+                    a.ProgramName = "None";
+                }            
+            }
             ViewBag.Message = TempData["message"] == null ? null : TempData["message"].ToString();
             ViewBag.MessageClass = TempData["messageClass"] == null ? null : TempData["messageClass"].ToString();
             return View(model);
@@ -47,12 +61,24 @@ namespace Isik.SAMS.Controllers
             }
             else
             {
-                s1.CreatedBy = Convert.ToInt32(Session["AdminId"]); // adminId when the session created
-                s1.CreatedTime = DateTime.Now;
-                db.SAMS_Users.Add(s1);
-                db.SaveChanges();
-                TempData["Message"] = "Succesfully inserted.";
-                TempData["messageClass"] = "alert-success";
+                if(s1.Password != s1.ConfirmPassword)
+                {
+                    TempData["Message"] = "New Password and Confirm Password do not match.";
+                    TempData["messageClass"] = "alert-warning";
+                } else
+                {
+                    s1.CreatedBy = Convert.ToInt32(Session["AdminId"]); // adminId when the session created
+                    s1.CreatedTime = DateTime.Now;
+                    if (s1.UserType == 2)
+                    {
+                        s1.ProgramId = null;
+                    }
+                    db.SAMS_Users.Add(s1);
+                    db.SaveChanges();
+                    TempData["Message"] = "Succesfully inserted.";
+                    TempData["messageClass"] = "alert-success";
+                }
+
                 return RedirectToAction("Index");
             }
         }
@@ -137,17 +163,33 @@ namespace Isik.SAMS.Controllers
         {
             if (p1 != null)
             {
-                var user = db.SAMS_Users.Find(p1.Id);
-                user.ChangedTime = DateTime.Now;
-                user.ChangedBy = Convert.ToInt32(Session["AdminId"]);
-                user.FirstName = p1.FirstName;
-                user.LastName = p1.LastName;
-                user.UserType = p1.UserType;
-                user.PhoneNumber = p1.PhoneNumber;
-                user.Email = p1.Email;
-                db.SaveChanges();
-                TempData["Message"] = "Succesfully updated.";
-                TempData["messageClass"] = "alert-success";
+                if (p1.Password != p1.ConfirmPassword)
+                {
+                    TempData["Message"] = "New Password and Confirm Password do not match.";
+                    TempData["messageClass"] = "alert-warning";
+                } else {
+                    var user = db.SAMS_Users.Find(p1.Id);
+                    user.ChangedTime = DateTime.Now;
+                    user.ChangedBy = Convert.ToInt32(Session["AdminId"]);
+                    user.FirstName = p1.FirstName;
+                    user.LastName = p1.LastName;
+                    user.UserType = p1.UserType;
+                    user.PhoneNumber = p1.PhoneNumber;
+                    user.Email = p1.Email;
+                    if (p1.UserType == 2)
+                    {
+                        p1.ProgramId = null;
+                    }
+                    user.DepartmentId = p1.DepartmentId;
+                    user.ProgramId = p1.ProgramId;
+                    if (p1.Password != null)
+                    {
+                        user.Password = p1.Password;
+                    }
+                    db.SaveChanges();
+                    TempData["Message"] = "Succesfully updated.";
+                    TempData["messageClass"] = "alert-success";
+                }
                 return RedirectToAction("Index");
             }
             else

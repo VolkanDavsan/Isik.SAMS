@@ -41,9 +41,11 @@ namespace Isik.SAMS.Models.Entity
         public string PhoneNumber { get; set; }
         public Nullable<int> DepartmentId { get; set; }
         public Nullable<int> ProgramId { get; set; }
-    
-        public virtual SAMS_Administrator SAMS_Administrator { get; set; }
-        public virtual SAMS_Administrator SAMS_Administrator1 { get; set; }
+        public string DepartmentName { get; set; }
+        public string ProgramName { get; set; }
+        public string NewPassword { get; set; }
+        public string ConfirmPassword { get; set; }
+        public int RecoveryCode { get; set; }
         public virtual SAMS_Department SAMS_Department { get; set; }
         public virtual SAMS_Program SAMS_Program { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
