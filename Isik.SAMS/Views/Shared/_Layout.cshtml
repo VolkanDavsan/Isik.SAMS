@@ -8,23 +8,22 @@
     <title>@ViewBag.Title</title>
     <link rel="icon" type="image/x-icon" href="#">
 
-
+    <link href="assets/css/auth/user-profile.css" rel="stylesheet" type="text/css">
     <link href="https://fonts.googleapis.com/css?family=Quicksand:400,500,600,700&display=swap" rel="stylesheet">
     <link href="/Assets/lib/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
     <link href="/Assets/lib/Fontello/css/fontello.css" rel="stylesheet" />
     <link href="/Assets/V1/assets/css/plugins.css" rel="stylesheet" type="text/css" />
     <link href="/Assets/V1/assets/css/components/tabs-accordian/custom-tabs.css" rel="stylesheet" />
-    <link href="/Assets/lib/kendo/css/kendo.common.min.css" rel="stylesheet" />
-    <link href="/Assets/lib/kendo/css/kendo.material.min.css" rel="stylesheet" />
-    <link href="/Assets/lib/kendo/css/kendo.material.mobile.min.css" rel="stylesheet" />
-    <link href="/Assets/lib/Harita/fonts/MapIcon/flaticon.css" rel="stylesheet" />
+    @*<link href="/Assets/lib/kendo/css/o.common.min.css" rel="stylesheet" />
+    <link href="/Assets/lib/kendo/css/kenkenddo.material.min.css" rel="stylesheet" />
+    <link href="/Assets/lib/kendo/css/kendo.material.mobile.min.css" rel="stylesheet" />*@
+    @*<link href="/Assets/lib/Harita/fonts/MapIcon/flaticon.css" rel="stylesheet" />
     <link href="/Assets/lib/Harita/css/ol.custom.css" rel="stylesheet" />
-    <link href="/Assets/lib/fileupload/css/InfolineFileUpload.css" rel="stylesheet" />
+    <link href="/Assets/lib/fileupload/css/InfolineFileUpload.css" rel="stylesheet" />*@
     <link href="/Assets/lib/bootstrap-dialog/css/bootstrap-dialog.min.css" rel="stylesheet" />
     <link href="/Assets/lib/loadingmodal/css/jquery.loadingModal.min.css" rel="stylesheet" type="text/css" />
     <link href="/Assets/lib/toastr/css/toastr.min.css" rel="stylesheet" type="text/css" />
     <link href="/Assets/lib/sweetalerts/sweetalert2.min.css" rel="stylesheet" />
-    <link href="/Assets/V1/assets/css/plugins.css" rel="stylesheet" type="text/css" />
     <link href="/Assets/css/site.css" rel="stylesheet" />
     <link href="~/Assets/lib/apex/apexcharts.css" rel="stylesheet" />
     <link href="~/Assets/css/Dashboard/dash_1.css" rel="stylesheet" />
@@ -37,12 +36,12 @@
     <script src="/Assets/lib/bootstrap/js/popper.min.js"></script>
     <script src="/Assets/lib/font-icons/feather/feather.min.js"></script>
     <script src="/Assets/lib/bootstrap/js/bootstrap.min.js"></script>
-    <script src="/Assets/lib/kendo/js/kendo.all.min.js"></script>
+    @*<script src="/Assets/lib/kendo/js/kendo.all.min.js"></script>
     <script src="/Assets/lib/kendo/js/kendo.aspnetmvc.min.js"></script>
     <script src="/Assets/lib/kendo/js/cultures/kendo.culture.en-US.min.js"></script>
     <script src="/Assets/lib/kendo/js/messages/kendo.messages.en-US.min.js"></script>
     <script src="/Assets/lib/kendo/js/cultures/kendo.culture.tr-TR.min.js"></script>
-    <script src="/Assets/lib/kendo/js/messages/kendo.messages.tr-TR.min.js"></script>
+    <script src="/Assets/lib/kendo/js/messages/kendo.messages.tr-TR.min.js"></script>*@
 
     <script src="/Assets/lib/jquery-cookie/jquery.cookie.js"></script>
     <script src="/Assets/lib/linq/jquery.linq.min.js"></script>
@@ -153,13 +152,13 @@
                             </div>
                         </div>
                         <div class="dropdown-item">
-                            <a href="@Url.Action("Profile", "Auth", new { area = "" })">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-user"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg> <span>Profil</span>
+                            <a href="@Url.Action("Index", "Profile", new { area = "" })">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-user"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg> <span>Profile</span>
                             </a>
                         </div>
                         <div class="dropdown-item">
                             <a href="@Url.Action("Logout", "Login", new { area = "" })">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-log-out"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line></svg> <span>Çıkış</span>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-log-out"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line></svg> <span>Quit</span>
                             </a>
                         </div>
                     </div>
