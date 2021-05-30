@@ -573,6 +573,7 @@
     <Content Include="Assets\img\figure.jpg" />
     <Content Include="Assets\img\fr.png" />
     <Content Include="Assets\img\jp.png" />
+    <Content Include="Assets\img\loginimg.jpg" />
     <Content Include="Assets\img\mindset.svg" />
     <Content Include="Assets\img\unkown-profile-foto.jpg" />
     <Content Include="Assets\img\workoftime.jpg" />
