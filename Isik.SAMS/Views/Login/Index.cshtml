@@ -35,6 +35,19 @@
             <div class="form-form-wrap">
                 <div class="form-container">
                     <div class="form-content">
+                        @if (ViewBag.Message != null)
+                        {
+                            <div class="col-12">
+                                <div class="pull-right">
+                                    <div class="alert @ViewBag.MessageClass alert-dismissible fade show pull-right" role="alert">
+                                        <b>@ViewBag.Message </b>
+                                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        }
                         <h1 class="">Log In to <a href="@Url.Action("Index", "Login", new { area = "" })"><span class="brand-name">ISIK SAMS</span></a></h1>
                         <div id="login">
                             @using (Html.BeginForm("Authorize", "Login", FormMethod.Post, new Dictionary<string, object>() {
@@ -116,6 +129,10 @@
                 x.type = "password";
             }
         }
+        setTimeout(function () {
+            $(".alert").alert('close');
+            //....and whatever else you need to do
+        }, 3000);
     </script>
     <!-- BEGIN GLOBAL MANDATORY SCRIPTS -->
     <script src="/Assets/lib/jquery/jquery-3.1.1.min.js"></script>
@@ -125,7 +142,6 @@
     <script src="~/Assets/lib/jquery-validate/jquery.validate.unobtrusive.min.js"></script>
     <!-- END GLOBAL MANDATORY SCRIPTS -->
     <script src="/Assets/js/Auth/form-1.js"></script>
-
 
     <div class="betternet-wrapper"></div>
 </body>

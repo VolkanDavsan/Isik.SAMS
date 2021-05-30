@@ -63,6 +63,7 @@
     <EntitySetMapping Name="SAMS_Users">
       <EntityTypeMapping TypeName="StudentApprovalManagementModel.SAMS_Users">
         <MappingFragment StoreEntitySet="SAMS_Users">
+          <ScalarProperty Name="RecoveryCode" ColumnName="RecoveryCode" />
           <ScalarProperty Name="Id" ColumnName="Id" />
           <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
           <ScalarProperty Name="CreatedTime" ColumnName="CreatedTime" />

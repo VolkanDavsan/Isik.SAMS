@@ -88,6 +88,7 @@
     <NavigationProperty Name="SAMS_StudentApplications" Relationship="Self.FK_ApprovedBy_StudentApplications" FromRole="SAMS_Users" ToRole="SAMS_StudentApplications" />
     <NavigationProperty Name="SAMS_StudentApplications1" Relationship="Self.FK_EnrolledBy_StudentApplications" FromRole="SAMS_Users" ToRole="SAMS_StudentApplications" />
     <NavigationProperty Name="SAMS_UserType" Relationship="Self.FK_UserType_Users" FromRole="SAMS_Users" ToRole="SAMS_UserType" />
+    <Property Name="RecoveryCode" Type="Int32" Nullable="true" />
   </EntityType>
   <EntityType Name="SAMS_UserType">
     <Key>

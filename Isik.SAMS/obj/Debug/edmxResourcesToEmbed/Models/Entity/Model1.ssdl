@@ -71,6 +71,7 @@
     <Property Name="PhoneNumber" Type="nvarchar" MaxLength="100" />
     <Property Name="DepartmentId" Type="int" />
     <Property Name="ProgramId" Type="int" />
+    <Property Name="RecoveryCode" Type="int" />
   </EntityType>
   <EntityType Name="SAMS_UserType">
     <Key>

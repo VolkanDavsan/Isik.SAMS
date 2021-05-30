@@ -29,8 +29,8 @@ namespace Isik.SAMS.Models.Entity
         public Nullable<int> ChangedBy { get; set; }
         public Nullable<System.DateTime> ChangedTime { get; set; }
         public Nullable<int> UserType { get; set; }
-        [DisplayName("E-Mail")]        
-        [Required(ErrorMessage="The Email Field is required")]
+        [DisplayName("E-Mail")]
+        [Required(ErrorMessage = "The Email Field is required")]
         public string Email { get; set; }
         [DisplayName("Password")]
         [DataType(DataType.Password)]
@@ -41,11 +41,11 @@ namespace Isik.SAMS.Models.Entity
         public string PhoneNumber { get; set; }
         public Nullable<int> DepartmentId { get; set; }
         public Nullable<int> ProgramId { get; set; }
+        public Nullable<int> RecoveryCode { get; set; }
         public string DepartmentName { get; set; }
         public string ProgramName { get; set; }
         public string NewPassword { get; set; }
         public string ConfirmPassword { get; set; }
-        public int RecoveryCode { get; set; }
         public virtual SAMS_Department SAMS_Department { get; set; }
         public virtual SAMS_Program SAMS_Program { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

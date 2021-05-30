@@ -17,6 +17,8 @@ namespace Isik.SAMS.Controllers
         // GET: Login
         public ActionResult Index()
         {
+            ViewBag.Message = TempData["message"] == null ? null : TempData["message"].ToString();
+            ViewBag.MessageClass = TempData["messageClass"] == null ? null : TempData["messageClass"].ToString();
             return View();
         }
 
@@ -49,32 +51,75 @@ namespace Isik.SAMS.Controllers
             if (userDetails == null)
             {
                 ViewBag.LoginErrorMessage = "The E-Mail you entered is not registered.";
-            } else
-            {
-                var email = new MimeMessage();
-                var from = "samsinfo.noreply@gmail.com";
-                var subject = "SAMS info - Password Reset";
-                email.From.Add(MailboxAddress.Parse(from));
-                email.To.Add(MailboxAddress.Parse(user.Email));
-                email.Subject = subject;
-                Random generator = new Random();
-                string r = generator.Next(0, 1000000).ToString("D6");                
-                email.Body = new TextPart(TextFormat.Html) { Text = "We got your request for password reset! Enter this code to the site to reset your password. Code: " + r };
-                //user.RecoveryCode = Convert.ToInt32(r);
-
-                var smtp = new SmtpClient();
-                smtp.Connect("smtp.gmail.com", 587, SecureSocketOptions.StartTls);
-                smtp.Authenticate("samsinfo.noreply@gmail.com", "Isiksams.123");
-                smtp.Send(email);
-                smtp.Disconnect(true);
-                ViewBag.isMailSent = true;
             }
+            else
+            {
+                if (user.RecoveryCode == null)
+                {
+                    var email = new MimeMessage();
+                    var from = "SAMS";
+                    var subject = "SAMS info - Password Reset";
+                    email.From.Add(new MailboxAddress(from, "samsinfo.noreply@gmail.com"));
+                    email.To.Add(new MailboxAddress(user.FirstName + "" + user.LastName, user.Email));
+                    email.Subject = subject;
+                    Random generator = new Random();
+                    string r = generator.Next(0, 1000000).ToString("D6");
+                    email.Body = new TextPart(TextFormat.Html)
+                    {
+                        Text = @"<h1> As the system of your Student Application Management we heard your request to reset you password.</h1>" +
+                        @"<br/>" +
+                        @"<p>Enter this code to the site to reset your password.</p>" +
+                        @"<br/>" +
+                        @"<p>Code: " + r + "</p>"
+                    };
+
+                    var realUser = db.SAMS_Users.Find(userDetails.Id);
+                    realUser.RecoveryCode = Convert.ToInt32(r);
+                    db.SaveChanges();
+
+                    using (SmtpClient smtp = new SmtpClient())
+                    {
+                        smtp.Connect("smtp.gmail.com", 465, true);
+                        smtp.Authenticate("samsinfo.noreply@gmail.com", "zywwcswqzucuzumw");
+                        smtp.Send(email);
+                        smtp.Disconnect(true);
+                        ViewBag.isMailSent = "true";
+                    }
+                } else
+                {
+                    if(userDetails.RecoveryCode == user.RecoveryCode)
+                    {
+                        if(user.NewPassword == user.ConfirmPassword)
+                        {
+                            var realUser = db.SAMS_Users.Find(userDetails.Id);
+                            realUser.Password = user.NewPassword;
+                            realUser.RecoveryCode = null;
+                            realUser.ChangedTime = DateTime.Now;
+                            db.SaveChanges();
+                            TempData["Message"] = "Succesfully updated.";
+                            TempData["messageClass"] = "alert-success";
+                            return RedirectToAction("Index");
+                        } else
+                        {
+                            TempData["Message"] = "New Password and Confirm Password do not match.";
+                            TempData["messageClass"] = "alert-warning";
+                        }
+
+                    } else
+                    {
+                        TempData["Message"] = "Entered recovery code is not the same. Please try again.";
+                        TempData["messageClass"] = "alert-warning";
+                    }
+                }
+            }
+            ViewBag.Message = TempData["message"] == null ? null : TempData["message"].ToString();
+            ViewBag.MessageClass = TempData["messageClass"] == null ? null : TempData["messageClass"].ToString();
             return View();
         }
 
         [HttpPost]
         public ActionResult Authorize(SAMS_Users user)
-        {            
+        {
             using (db)
             {
                 var userDetails = db.SAMS_Users.Where(x => x.Email == user.Email && x.Password == user.Password).FirstOrDefault();
