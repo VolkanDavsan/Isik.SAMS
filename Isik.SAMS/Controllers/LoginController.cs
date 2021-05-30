@@ -57,7 +57,7 @@ namespace Isik.SAMS.Controllers
                 if (user.RecoveryCode == null)
                 {
                     var email = new MimeMessage();
-                    var from = "SAMS";
+                    var from = "SAMS SAMS";
                     var subject = "SAMS info - Password Reset";
                     email.From.Add(new MailboxAddress(from, "samsinfo.noreply@gmail.com"));
                     email.To.Add(new MailboxAddress(user.FirstName + "" + user.LastName, user.Email));
@@ -66,7 +66,7 @@ namespace Isik.SAMS.Controllers
                     string r = generator.Next(0, 1000000).ToString("D6");
                     email.Body = new TextPart(TextFormat.Html)
                     {
-                        Text = @"<h1> As the system of your Student Application Management we heard your request to reset you password.</h1>" +
+                        Text = @"<h1> We got your request for password reset!</h1>" +
                         @"<br/>" +
                         @"<p>Enter this code to the site to reset your password.</p>" +
                         @"<br/>" +
