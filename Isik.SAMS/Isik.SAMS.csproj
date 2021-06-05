@@ -144,6 +144,7 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\ApplicationController.cs" />
     <Compile Include="Controllers\DepartmentController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LoginController.cs" />
@@ -564,6 +565,7 @@
     <Content Include="Assets\img\account3.jpg" />
     <Content Include="Assets\img\accountbg.jpg" />
     <Content Include="Assets\img\arrow-down.png" />
+    <Content Include="Assets\img\Bachelor.jpg" />
     <Content Include="Assets\img\bg.png" />
     <Content Include="Assets\img\ca.png" />
     <Content Include="Assets\img\contact-us-map-pin.svg" />
@@ -574,7 +576,10 @@
     <Content Include="Assets\img\fr.png" />
     <Content Include="Assets\img\jp.png" />
     <Content Include="Assets\img\loginimg.jpg" />
+    <Content Include="Assets\img\Master.jpg" />
     <Content Include="Assets\img\mindset.svg" />
+    <Content Include="Assets\img\Phd.jpg" />
+    <Content Include="Assets\img\selected.jpg" />
     <Content Include="Assets\img\unkown-profile-foto.jpg" />
     <Content Include="Assets\img\workoftime.jpg" />
     <Content Include="Assets\img\workoftime2.png" />
@@ -4237,6 +4242,8 @@
     <Content Include="Views\Profile\Index.cshtml" />
     <Content Include="Views\Profile\Update.cshtml" />
     <Content Include="Views\Login\ForgotPassword.cshtml" />
+    <Content Include="Views\Application\Index.cshtml" />
+    <Content Include="Views\Application\Insert.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

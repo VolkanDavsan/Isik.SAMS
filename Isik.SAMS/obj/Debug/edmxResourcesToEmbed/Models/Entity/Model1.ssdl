@@ -44,10 +44,34 @@
       <PropertyRef Name="Id" />
     </Key>
     <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="GUID" Type="uniqueidentifier" />
     <Property Name="CreatedTime" Type="datetime" />
     <Property Name="Email" Type="nvarchar" MaxLength="100" />
     <Property Name="StudentFirstName" Type="nvarchar" MaxLength="100" />
     <Property Name="StudentLastName" Type="nvarchar" MaxLength="100" />
+    <Property Name="PassportNumber" Type="nvarchar" MaxLength="100" />
+    <Property Name="Gender" Type="nvarchar" MaxLength="10" />
+    <Property Name="Citizenship" Type="nvarchar" MaxLength="50" />
+    <Property Name="PhoneNumber" Type="nvarchar" MaxLength="100" />
+    <Property Name="Address" Type="nvarchar" MaxLength="300" />
+    <Property Name="Country" Type="nvarchar" MaxLength="50" />
+    <Property Name="FatherName" Type="nvarchar" MaxLength="100" />
+    <Property Name="MotherName" Type="nvarchar" MaxLength="100" />
+    <Property Name="BachelorUni" Type="nvarchar" MaxLength="200" />
+    <Property Name="BachelorProgram" Type="nvarchar" MaxLength="200" />
+    <Property Name="BachelorCountry" Type="nvarchar" MaxLength="100" />
+    <Property Name="BachelorGPA" Type="decimal" Precision="3" Scale="2" />
+    <Property Name="BachelorGradDate" Type="date" />
+    <Property Name="LanguageProficiency" Type="nvarchar" MaxLength="50" />
+    <Property Name="HighSchoolName" Type="nvarchar" MaxLength="300" />
+    <Property Name="HighSchoolGradYear" Type="nvarchar" MaxLength="100" />
+    <Property Name="HighSchoolGPA" Type="decimal" Precision="5" Scale="2" />
+    <Property Name="HighSchoolCountry" Type="nvarchar" MaxLength="100" />
+    <Property Name="LanguageExamScore" Type="int" />
+    <Property Name="DualCitizenship" Type="bit" />
+    <Property Name="BlueCardOwner" Type="bit" />
+    <Property Name="IsGradFromUni" Type="bit" />
+    <Property Name="VerificationCode" Type="nvarchar" MaxLength="10" />
     <Property Name="DepartmentId" Type="int" />
     <Property Name="ApprovedBy" Type="int" />
     <Property Name="Status" Type="int" />
