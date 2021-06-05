@@ -147,15 +147,60 @@
         .form-horizontal .has-error.has-danger .form-control::placeholder {
             color: red;
         }
+.cover {
+    padding-top: 20px;
+    min-height: 150px;
+}
+
+.cover-head {
+    background-size: cover;
+    background-position: center;
+    min-height: 100px;
+    width: 100%;
+}
+
+.cover-content {
+    padding: 0 15px;
+    height: 80px;
+    margin-bottom: 15px;
+    /* border: 1px #e0e6ed solid; */
+    /* box-shadow: #e0e6ed 3px 3px 5px; */
+    /* border-bottom: 1px #ccc solid; */
+}
+
+    .cover-content > .cover-photo {
+        border-radius: 50%;
+        border: 6px solid rgb(255 255 255 / 70%);
+        border: 6px solid rgb(228 228 228 / 70%);
+        height: 120px;
+        width: 120px;
+        margin-top: -60px !important;
+        float: left;
+    }
+
+    .cover-content > .cover-label {
+        float: left;
+        padding: 10px 20px;
+        font-size: 13px;
+    }
+
+        .cover-content > .cover-label > span {
+            font-weight: normal;
+            display: block;
+        }
+
+        .cover-content > .cover-label > strong {
+            font-weight: bold;
+            display: block;
+        }
 
 
 
 .tab-pane {
-    padding: 15px;
+    padding: 20px !important;
     background: #fff;
-    border-bottom: 1px solid #e0e6ed;
-    border-left: 1px solid #e0e6ed;
-    border-right: 1px solid #e0e6ed;
+    border: 1px #e0e6ed solid;
+    border-top: none !important;
 }
 
 .filtermenu h5 {
@@ -301,3 +346,138 @@ form fieldset {
         margin-left: 15px;
         margin-bottom: 15px !important;
     }
+
+.fixedStart #fixed {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    height: 50px;
+    width: 50px;
+    background-color: #2AA9E0;
+    border-radius: 50%;
+    box-shadow: 0 0 6px #878787;
+    cursor: pointer;
+    z-index: 3;
+    background-position: 46% center;
+    background-size: 16px auto;
+    background-repeat: no-repeat;
+}
+
+.fixedStart input {
+    display: none;
+}
+
+.fixedStart #fixed ~ .fix-buttons {
+    z-index: 2;
+    position: fixed;
+    border-radius: 50%;
+    bottom: 27px;
+    right: 25px;
+    opacity: 0;
+    transition: 0.5s ease;
+    cursor: pointer;
+}
+
+.fixedStart .fix-buttons a {
+    float: left;
+    margin-left: 12px;
+    border-radius: 50%;
+    width: 42px;
+    height: 42px;
+    color: white;
+    padding: 2px;
+}
+
+    .fixedStart .fix-buttons a i {
+        padding: 5px;
+        width: 30px;
+        line-height: 28px;
+        text-align: center;
+        box-sizing: content-box;
+    }
+
+
+.fixedStart #fixed i {
+    padding: 12px;
+    width: 25px;
+    line-height: 26px;
+    text-align: center;
+    box-sizing: content-box;
+    color: white;
+}
+
+.fixedStart input:checked ~ #fixed ~ .fix-buttons {
+    opacity: 1;
+}
+
+.fixedStart input:checked ~ #fixed ~ .fix-buttons {
+    right: 90px;
+}
+
+.fixedStart .fix-buttons a:nth-child(1) {
+    background: #004A7F;
+}
+
+.fixedStart .fix-buttons a:nth-child(2) {
+    background: orange;
+}
+
+.fixedStart .fix-buttons a:nth-child(3) {
+    background: #DD4B39;
+}
+
+.fixedStart .fix-buttons a:nth-child(4) {
+    background: #a0a0a0;
+}
+
+.fixedStart .fix-buttons a:nth-child(5) {
+    background: #89b744;
+}
+
+.fixedStart .fix-buttons a:nth-child(6) {
+    background: #1d6a75;
+}
+
+.fixedStart .fix-buttons a:nth-child(7) {
+    background: #4E5EF1;
+}
+
+.fixedStart .fix-buttons a:nth-child(8) {
+    background: #de5f5f;
+}
+
+.fixedStart .fix-buttons a:nth-child(9) {
+    background: #de5f5f;
+}
+
+.fixedStart .fix-buttons a:nth-child(10) {
+    background: #de5f5f;
+}
+
+.fixedStart .fix-buttons a:nth-child(11) {
+    background: #de5f5f;
+}
+
+.fixedStart .fix-buttons a:nth-child(12) {
+    background: #4E5EF1;
+}
+
+.fixedStart .fix-buttons a:nth-child(13) {
+    background: #de5f5f;
+}
+
+.fixedStart .fix-buttons a:nth-child(14) {
+    background: #de5f5f;
+}
+
+.fixedStart .fix-buttons a:nth-child(15) {
+    background: #de5f5f;
+}
+
+.fixedStart .fix-buttons a:nth-child(16) {
+    background: #de5f5f;
+}
+
+.fixedStart .fix-buttons a:nth-child(17) {
+    background: #de5f5f;
+}
