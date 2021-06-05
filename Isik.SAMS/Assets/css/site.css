@@ -147,7 +147,6 @@
         .form-horizontal .has-error.has-danger .form-control::placeholder {
             color: red;
         }
-
 .cover {
     padding-top: 20px;
     min-height: 150px;
@@ -300,7 +299,7 @@
             font-weight: bold;
         }
 
-/*RadioButtonlar için*/
+/**RadioButtonlar için*/
 
 
 .akilliRadioGrup {

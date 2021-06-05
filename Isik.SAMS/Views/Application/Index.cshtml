@@ -7,102 +7,123 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
     if (Session["UserId"] == null && Session["AdminId"] != null)
     {
-        Response.Redirect("/Account/Index");
+        Response.Redirect("/Home/Index");
     }
     else if (Session["UserId"] == null && Session["AdminId"] == null)
     {
         Response.Redirect("/Login/Index");
     }
 }
-
-@if (ViewBag.Message != null)
-{
-    <div class="col-12">
-        <div class="pull-right">
-            <div class="alert @ViewBag.MessageClass alert-dismissible fade show pull-right" role="alert">
-                <b>@ViewBag.Message </b>
-                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-        </div>
-    </div>
-}
-
 <div class="col-md-2">
     <div class="space-25"></div>
-    <h5>Approval Status </h5>
+    <h5>Onay Durumuna Göre </h5>
     <ul class="folder-list m-b-md" style="padding: 0">
         <li class="clearfix">
             <a data-switch="radio" data-grid="VWCMP_TenderPending" data-category="1" href="#">
-                <i class="text-warning fa fa-spinner"></i> Waiting For Approval
+                <i class="text-warning fa fa-spinner"></i> Onay Bekleyenler
                 <span class="badge badge-warning pull-right m-l-md  m-t-xs" data-counturl="/SH/VWSH_User/DataSourceCount?filter=(type~eq~0~and~IsWorking~eq~true)">0</span>
             </a>
-
-        </li>
-        <li class="clearfix">
-            <a data-switch="radio" data-grid="VWCMP_TenderPending" data-category="1" href="#">
-                <i class="text-warning fa fa-spinner"></i> Waiting for Additional Files
-                <span class="badge badge-warning pull-right m-l-md  m-t-xs" data-counturl="/SH/VWSH_User/DataSourceCount?filter=(type~eq~0~and~IsWorking~eq~true)">0</span>
-            </a>
-
+            
         </li>
         <li class="clearfix">
             <a class="pull-left" href="#" data-grid="VWSH_User" data-switch="radio" data-category="0" data-query="(type~eq~0~and~IsWorking~eq~true)">
-                <i class="fa text-primary fa-user"></i>Approved
+                <i class="fa text-primary fa-user"></i>Onaylandı
             </a>
             <span class="badge badge-primary pull-right m-l-md  m-t-xs" data-counturl="/SH/VWSH_User/DataSourceCount?filter=(type~eq~0~and~IsWorking~eq~true)">0</span>
         </li>
 
         <li class="clearfix">
-            <a class="pull-left" href="#" data-grid="SAMS_Application" data-switch="radio" data-category="0" data-query="(StatusName~eq~1~and~grid-dir~eq~0)">
-                <i class="fa text-danger fa-user-times"></i>Rejected
+            <a class="pull-left" href="#" data-grid="VWSH_User" data-switch="radio" data-category="0" data-query="(type~eq~0~and~IsWorking~eq~false)">
+                <i class="fa text-danger fa-user-times"></i>Reddedildi
             </a>
-            <span class="badge badge-danger pull-right m-l-md  m-t-xs" data-counturl="/Account/DataSourceCount?filter=(type~eq~0~and~IsWorking~eq~false)">0</span>
+            <span class="badge badge-danger pull-right m-l-md  m-t-xs" data-counturl="/SH/VWSH_User/DataSourceCount?filter=(type~eq~0~and~IsWorking~eq~false)">0</span>
         </li>
     </ul>
-</div>
-<div class="col-10">
-    <div class="statbox widget box box-shadow">
-        <div class="widget-header">
-            <div class="row">
-                <div class="col-xl-8 col-md-8 col-sm-8 col-8">
-                    <h4>Application List</h4>
+    </div>
+    <div class="col-10">
+        <div class="statbox widget box box-shadow">
+            <div class="widget-header">
+                <div class="row">
+                    <div class="col-xl-8 col-md-8 col-sm-8 col-8">
+                        <h4>Application List</h4>
+                    </div>
+                    @*<div class="col-xl-4 col-md-4 col-sm-4 col-4">
+                            <a class="btn btn-primary btn-sm pull-right ml-1" data-task="Insert" data-method="GET" data-href="@Url.Action("Insert","Account")">
+                                <i class="icon-plus-circle"></i> Create New Account
+                            </a>
+                        </div>*@
                 </div>
-                @*<div class="col-xl-4 col-md-4 col-sm-4 col-4">
-                        <a class="btn btn-primary btn-sm pull-right ml-1" data-task="Insert" data-method="GET" data-href="@Url.Action("Insert","Account")">
-                            <i class="icon-plus-circle"></i> Create New Account
-                        </a>
-                    </div>*@
+            </div>
+            <div class="widget-content widget-content-area">
+                @Html.Grid(Model).Columns(columns =>
+           {
+           columns.Add(c => c.Email).Titled("E-mail");
+           columns.Add(c => c.StudentFirstName).Titled("First Name");
+           columns.Add(c => c.StudentLastName).Titled("Last Name");
+           columns.Add(c => c.ApprovedBy).Titled("Onaylayan Kişi");
+           columns.Add(c => c.EnrolledBy).Titled("Kabul eden kişi");
+           columns.Add(c => c.CreatedTime).Titled("Başvuru Tarihi");
+           //columns.Add(c => c.Id).Titled("ID").Filterable(true);
+           columns.Add()
+    .Titled("")
+    .Filterable(true)
+    .Sanitized(false)
+    .Encoded(false)
+    .RenderValueAs(c => @<text>
+            @*<button style="border:none;" class="icon-trash-1" onclick="deleteProgram('@(c.Id)')"></button>*@
+            <a class="icon-trash-1" onclick="deleteTask('@(c.Id)')"></a>
+            <button style="margin-left:15px; border:none;" class="icon-edit" data-modal="false" data-default="" data-href="@Url.Action("Detail","Application", new {Id = c.Id})"></button></text>);
+}).WithPaging(10).Sortable(true).EmptyText("There is no data available.")
             </div>
         </div>
-        <div class="widget-content widget-content-area">
-            @Html.Grid(Model).Columns(columns =>
-       {
-       columns.Add(c => c.Email).Titled("E-mail");
-       columns.Add(c => c.StudentFirstName).Titled("First Name");
-       columns.Add(c => c.StudentLastName).Titled("Last Name");
-       columns.Add(c => c.ApprovedBy).Titled("Approved Person");
-       columns.Add(c => c.EnrolledBy).Titled("Enrolled Person");
-       columns.Add(c => c.CreatedTime).Titled("Application Date");
-       columns.Add(c => c.StatusName).Titled("Status").Sanitized(false).Encoded(false).RenderValueAs(c => @<text>
-                    <text style="color:@(c.Status == 1 || c.Status == 3 ? "darkorange" : c.Status == 2 || c.Status == 4 ? "green" : c.Status == 5 ? "red" : "blue")">@c.StatusName</text></text>);
-//columns.Add(c => c.Id).Titled("ID").Filterable(true);
-columns.Add()
-.Titled("")
-.Filterable(true)
-.Sanitized(false)
-.Encoded(false)
-.RenderValueAs(c => @<text>
-    <button style="margin-left:15px; border:none;" class="icon-eye-1" data-task="Insert" data-modal="false" data-method="GET" data-href="@Url.Action("Detail","Application", new {id = c.Id})"></button></text>);
-}).WithPaging(10).Sortable(true).WithMultipleFilters().EmptyText("There is no data available.")
-        </div>
     </div>
-</div>
+    <script src="/Assets/lib/sweetalerts/sweetalert.js"></script>
+    <script type="text/javascript">
+        function deleteTask(id) {
+            swal({
+                title: "Are you sure?",
+                text: "Are you sure that you want to delete this Program?",
+                type: "warning",
+                showCancelButton: true,
+                confirmButtonText: "Yes, delete it!",
+                confirmButtonColor: "#ec6c62"
+            }).then((result) => {
+                if (result) {
+                    $.ajax({
+                        dataType: 'JSON',
+                        type: 'POST',
+                        async: false,
+                        timeout: 600000,
+                        url: "/Account/Delete?id=" + id,
+                        success: function () {
+                            showDeleteMessage();
+                            location.reload(true);
+                        },
+                        error: function () {
+                            swal("Oops", "We couldn't connect to the server!", "error");
+                        }
+                    });
+                }
+            });
+        }
 
-<script>
-    setTimeout(function () {
-        $(".alert").alert('close');
-        //....and whatever else you need to do
-    }, 3000);
-</script>
+        function showDeleteMessage() {
+            $.ajax({
+                type: "POST",
+                url: '/Account/DeleteMessage',
+                contentType: "application/json; charset=utf-8",
+                dataType: "text",
+                succses: function (response) {
+                    window.location.href = "/Account/";
+                }
+            });
+        }
+    </script>
+
+    <script>
+        setTimeout(function () {
+            $(".alert").alert('close');
+            //....and whatever else you need to do
+        }, 3000);
+    </script>
+
