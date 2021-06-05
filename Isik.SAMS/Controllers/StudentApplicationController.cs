@@ -10,7 +10,7 @@ using MimeKit.Text;
 
 namespace Isik.SAMS.Controllers
 {
-    public class ApplicationController : Controller
+    public class StudentApplicationController : Controller
     {
         StudentApprovalManagementEntities db = new StudentApprovalManagementEntities();
         // GET: Application

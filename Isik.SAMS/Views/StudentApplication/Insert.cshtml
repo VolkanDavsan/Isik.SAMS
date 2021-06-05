@@ -147,7 +147,7 @@
         <header class="header navbar navbar-expand-sm">
             <ul class="navbar-nav flex-row text-center" style="margin-left:2%;">
                 <li class="nav-item theme-text">
-                    <a href="@Url.Action("Index", "Application", new { area = "" })" class="nav-link">
+                    <a href="@Url.Action("Index", "StudentApplication", new { area = "" })" class="nav-link">
                         <img src="~/Assets/img/workoftimebeyaz.png" style="height:44px;" alt="logo" />
                     </a>
                 </li>
@@ -168,7 +168,7 @@
                     {
                         <div class="emailVerification">
                             <div class="row layout-top-spacing">
-                                @using (Html.BeginForm("EmailVerification", "Application", FormMethod.Post, new Dictionary<string, object>() {
+                                @using (Html.BeginForm("EmailVerification", "StudentApplication", FormMethod.Post, new Dictionary<string, object>() {
                                 { "class", "form-horizontal" },
                                 { "role", "form" },
                                 }))
@@ -219,7 +219,7 @@
                                             }
                                         }
                                         <div class="field-wrapper">
-                                            <a href="@Url.Action("Index", "Application", new { area = "" })" class="forgot-pass-link">Back to Program Selection.</a>
+                                            <a href="@Url.Action("Index", "StudentApplication", new { area = "" })" class="forgot-pass-link">Back to Program Selection.</a>
                                         </div>
                                     </div>
                                 }
@@ -232,7 +232,7 @@
                 {
                     <div class="personalInfo">
                         <div class="row layout-top-spacing">
-                            @using (Html.BeginForm("Insert", "Application", FormMethod.Post, new Dictionary<string, object>() {
+                            @using (Html.BeginForm("Insert", "StudentApplication", FormMethod.Post, new Dictionary<string, object>() {
                     { "class", "form-horizontal" },
                     { "role", "form" },
                     }))

@@ -144,7 +144,7 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
-    <Compile Include="Controllers\ApplicationController.cs" />
+    <Compile Include="Controllers\StudentApplicationController.cs" />
     <Compile Include="Controllers\DepartmentController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LoginController.cs" />
@@ -4242,8 +4242,8 @@
     <Content Include="Views\Profile\Index.cshtml" />
     <Content Include="Views\Profile\Update.cshtml" />
     <Content Include="Views\Login\ForgotPassword.cshtml" />
-    <Content Include="Views\Application\Index.cshtml" />
-    <Content Include="Views\Application\Insert.cshtml" />
+    <Content Include="Views\StudentApplication\Index.cshtml" />
+    <Content Include="Views\StudentApplication\Insert.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

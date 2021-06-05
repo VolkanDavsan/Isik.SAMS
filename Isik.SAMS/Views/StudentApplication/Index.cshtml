@@ -143,7 +143,7 @@
         <header class="header navbar navbar-expand-sm">
             <ul class="navbar-nav flex-row text-center" style="margin-left:2%;">
                 <li class="nav-item theme-text">
-                    <a href="@Url.Action("Index", "Application", new { area = "" })" class="nav-link">
+                    <a href="@Url.Action("Index", "StudentApplication", new { area = "" })" class="nav-link">
                         <img src="~/Assets/img/workoftimebeyaz.png" style="height:44px;" alt="logo" />
                     </a>
                 </li>
@@ -192,7 +192,7 @@
             var rblPrograms = document.getElementsByName("ProgramId");
             for (i = 0; i < rblPrograms.length; i++) {
                 if (rblPrograms[i].checked) {
-                    return location.href = "/Application/InsertInitial?id=" + rblPrograms[i].value;
+                    return location.href = "/StudentApplication/InsertInitial?id=" + rblPrograms[i].value;
                 }
             }
         }
