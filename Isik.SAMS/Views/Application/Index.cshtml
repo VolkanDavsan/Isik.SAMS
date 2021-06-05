@@ -23,7 +23,7 @@
                 <i class="text-warning fa fa-spinner"></i> Onay Bekleyenler
                 <span class="badge badge-warning pull-right m-l-md  m-t-xs" data-counturl="/SH/VWSH_User/DataSourceCount?filter=(type~eq~0~and~IsWorking~eq~true)">0</span>
             </a>
-
+            
         </li>
         <li class="clearfix">
             <a class="pull-left" href="#" data-grid="VWSH_User" data-switch="radio" data-category="0" data-query="(type~eq~0~and~IsWorking~eq~true)">
@@ -39,46 +39,46 @@
             <span class="badge badge-danger pull-right m-l-md  m-t-xs" data-counturl="/SH/VWSH_User/DataSourceCount?filter=(type~eq~0~and~IsWorking~eq~false)">0</span>
         </li>
     </ul>
-</div>
-<div class="col-10">
-    <div class="statbox widget box box-shadow">
-        <div class="widget-header">
-            <div class="row">
-                <div class="col-xl-8 col-md-8 col-sm-8 col-8">
-                    <h4>Application List</h4>
+    </div>
+    <div class="col-10">
+        <div class="statbox widget box box-shadow">
+            <div class="widget-header">
+                <div class="row">
+                    <div class="col-xl-8 col-md-8 col-sm-8 col-8">
+                        <h4>Application List</h4>
+                    </div>
+                    @*<div class="col-xl-4 col-md-4 col-sm-4 col-4">
+                            <a class="btn btn-primary btn-sm pull-right ml-1" data-task="Insert" data-method="GET" data-href="@Url.Action("Insert","Account")">
+                                <i class="icon-plus-circle"></i> Create New Account
+                            </a>
+                        </div>*@
                 </div>
-                @*<div class="col-xl-4 col-md-4 col-sm-4 col-4">
-                        <a class="btn btn-primary btn-sm pull-right ml-1" data-task="Insert" data-method="GET" data-href="@Url.Action("Insert","Account")">
-                            <i class="icon-plus-circle"></i> Create New Account
-                        </a>
-                    </div>*@
+            </div>
+            <div class="widget-content widget-content-area">
+                @Html.Grid(Model).Columns(columns =>
+           {
+           columns.Add(c => c.Email).Titled("E-mail");
+           columns.Add(c => c.StudentFirstName).Titled("First Name");
+           columns.Add(c => c.StudentLastName).Titled("Last Name");
+           columns.Add(c => c.ApprovedBy).Titled("Onaylayan Kişi");
+           columns.Add(c => c.EnrolledBy).Titled("Kabul eden kişi");
+           columns.Add(c => c.CreatedTime).Titled("Başvuru Tarihi");
+           //columns.Add(c => c.Id).Titled("ID").Filterable(true);
+           columns.Add()
+    .Titled("")
+    .Filterable(true)
+    .Sanitized(false)
+    .Encoded(false)
+    .RenderValueAs(c => @<text>
+            @*<button style="border:none;" class="icon-trash-1" onclick="deleteProgram('@(c.Id)')"></button>*@
+            <a class="icon-trash-1" onclick="deleteTask('@(c.Id)')"></a>
+            <button style="margin-left:15px; border:none;" class="icon-edit" data-modal="false" data-default="" data-href="@Url.Action("Detail","Application", new {Id = c.Id})"></button></text>);
+}).WithPaging(10).Sortable(true).EmptyText("There is no data available.")
             </div>
         </div>
-        <div class="widget-content widget-content-area">
-            @Html.Grid(Model).Columns(columns =>
-       {
-       columns.Add(c => c.Email).Titled("E-mail");
-       columns.Add(c => c.StudentFirstName).Titled("First Name");
-       columns.Add(c => c.StudentLastName).Titled("Last Name");
-       columns.Add(c => c.ApprovedBy).Titled("Onaylayan Kişi");
-       columns.Add(c => c.EnrolledBy).Titled("Kabul eden kişi");
-       columns.Add(c => c.CreatedTime).Titled("Başvuru Tarihi");
-       //columns.Add(c => c.Id).Titled("ID").Filterable(true);
-       columns.Add()
-.Titled("")
-.Filterable(true)
-.Sanitized(false)
-.Encoded(false)
-.RenderValueAs(c => @<text>
-        @*<button style="border:none;" class="icon-trash-1" onclick="deleteProgram('@(c.Id)')"></button>*@
-        <a class="icon-trash-1" onclick="deleteTask('@(c.Id)')"></a>
-        <button style="margin-left:15px; border:none;" class="icon-edit" data-modal="false" data-default="" data-href="@Url.Action("Detail","Application", new {Id = c.Id})"></button></text>);
-}).WithPaging(10).Sortable(true).EmptyText("There is no data available.")
-        </div>
     </div>
-</div>
-<script src="/Assets/lib/sweetalerts/sweetalert.js"></script>
-<script type="text/javascript">
+    <script src="/Assets/lib/sweetalerts/sweetalert.js"></script>
+    <script type="text/javascript">
         function deleteTask(id) {
             swal({
                 title: "Are you sure?",
@@ -118,13 +118,12 @@
                 }
             });
         }
-</script>
+    </script>
 
-<script>
+    <script>
         setTimeout(function () {
             $(".alert").alert('close');
             //....and whatever else you need to do
         }, 3000);
-</script>
-
+    </script>
 

@@ -8,7 +8,7 @@ using System.Data;
 
 namespace Isik.SAMS.Controllers
 {
-
+   
     public class ApplicationController : Controller
     {
         StudentApprovalManagementEntities db = new StudentApprovalManagementEntities();
