@@ -1,0 +1,305 @@
+﻿@model Isik.SAMS.Models.Entity.SAMS_StudentApplications
+@{
+    ViewBag.Title = "Student Application";
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title</title>
+    <link rel="icon" type="image/x-icon" href="#">
+
+    <link href="assets/css/auth/user-profile.css" rel="stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com/css?family=Quicksand:400,500,600,700&display=swap" rel="stylesheet">
+    <link href="/Assets/lib/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+    <link href="/Assets/lib/Fontello/css/fontello.css" rel="stylesheet" />
+    <link href="/Assets/V1/assets/css/plugins.css" rel="stylesheet" type="text/css" />
+    <link href="/Assets/V1/assets/css/components/tabs-accordian/custom-tabs.css" rel="stylesheet" />
+    @*<link href="/Assets/lib/kendo/css/o.common.min.css" rel="stylesheet" />
+        <link href="/Assets/lib/kendo/css/kenkenddo.material.min.css" rel="stylesheet" />
+        <link href="/Assets/lib/kendo/css/kendo.material.mobile.min.css" rel="stylesheet" />*@
+    @*<link href="/Assets/lib/Harita/fonts/MapIcon/flaticon.css" rel="stylesheet" />
+        <link href="/Assets/lib/Harita/css/ol.custom.css" rel="stylesheet" />
+        <link href="/Assets/lib/fileupload/css/InfolineFileUpload.css" rel="stylesheet" />*@
+    <link href="/Assets/lib/bootstrap-dialog/css/bootstrap-dialog.min.css" rel="stylesheet" />
+    <link href="/Assets/lib/loadingmodal/css/jquery.loadingModal.min.css" rel="stylesheet" type="text/css" />
+    <link href="/Assets/lib/toastr/css/toastr.min.css" rel="stylesheet" type="text/css" />
+    <link href="/Assets/lib/sweetalerts/sweetalert2.min.css" rel="stylesheet" />
+    <link href="/Assets/css/site.css" rel="stylesheet" />
+    <link href="~/Assets/lib/apex/apexcharts.css" rel="stylesheet" />
+    <link href="~/Assets/css/Dashboard/dash_1.css" rel="stylesheet" />
+    <link href="~/Content/Gridmvc.css" rel="stylesheet" />
+    <link href="~/Assets/lib/sweetalerts/sweetalert.css" rel="stylesheet" />
+    <script src="~/Scripts/gridmvc.js"></script>
+    <script src="~/Scripts/gridmvc.min.js"></script>
+    <script src="/Assets/lib/jquery/jquery-3.1.1.min.js"></script>
+    <script src="/Assets/lib/jquery/jquery-migrate-3.0.0.min.js"></script>
+    <script src="/Assets/lib/bootstrap/js/popper.min.js"></script>
+    <script src="/Assets/lib/font-icons/feather/feather.min.js"></script>
+    <script src="/Assets/lib/bootstrap/js/bootstrap.min.js"></script>
+    @*<script src="/Assets/lib/kendo/js/kendo.all.min.js"></script>
+        <script src="/Assets/lib/kendo/js/kendo.aspnetmvc.min.js"></script>
+        <script src="/Assets/lib/kendo/js/cultures/kendo.culture.en-US.min.js"></script>
+        <script src="/Assets/lib/kendo/js/messages/kendo.messages.en-US.min.js"></script>
+        <script src="/Assets/lib/kendo/js/cultures/kendo.culture.tr-TR.min.js"></script>
+        <script src="/Assets/lib/kendo/js/messages/kendo.messages.tr-TR.min.js"></script>*@
+
+    <script src="/Assets/lib/jquery-cookie/jquery.cookie.js"></script>
+    <script src="/Assets/lib/linq/jquery.linq.min.js"></script>
+    <script src="/Assets/lib/loadingmodal/js/jquery.loadingModal.min.js"></script>
+    <script src="~/Assets/lib/bootstrap-dialog/js/bootstrap-dialog.min.js"></script>
+    <script src="/Assets/lib/livequery/jquery.livequery.min.js"></script>
+    <script src="/Assets/lib/toastr/js/toastr.min.js"></script>
+    <script src="/Assets/lib/sweetalerts/sweetalert2.min.js"></script>
+    <script src="/Assets/lib/sweetalerts/sweetalert.js"></script>
+    <script src="/Assets/lib/validator/Validator.js"></script>
+    <script src="/Assets/lib/perfect-scrollbar/perfect-scrollbar.min.js"></script>
+    <script src="/Assets/V1/assets/js/app.js"></script>
+    <script src="/Assets/V1/assets/js/custom.js"></script>
+    <script src="~/Assets/js/Dashboard/dash_1.js"></script>
+
+    <script src="/Assets/lib/harita/js/jQuery.Print.js"></script>
+    <script src="/Assets/lib/harita/data/projlist.js"></script>
+    <script src="/Assets/lib/harita/js/proj4.js"></script>
+    <script src="/Assets/lib/harita/js/turf.min.js"></script>
+    <script src="/Assets/lib/harita/js/ol.js"></script>
+    <script src="/Assets/lib/harita/js/ol.extensions.js"></script>
+    <script src="/Assets/lib/harita/js/ol.custom.js"></script>
+    <script src="/Assets/lib/fileupload/js/InfolineFileUpload.js"></script>
+    <script src="~/Assets/lib/apex/apexcharts.min.js"></script>
+    <style>
+        .req::after {
+            content: "*";
+            margin-left: 5px;
+            color: #f00;
+        }
+
+        .form-horizontal .form-group > label:not(.k-checkbox-label) {
+            text-transform: uppercase;
+            margin-bottom: 0px !important;
+            position: absolute;
+            font-weight: bold;
+            font-size: 12px;
+            z-index: 99;
+            background: #fff;
+            padding: 3px;
+            left: 5px;
+            top: -12px;
+            color: black;
+        }
+
+        .radio-buttons {
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            padding: 10px;
+        }
+
+        .radio-buttons input[type="radio"] {
+            display: none;
+        }
+
+        .radio-buttons label {
+            text-align: center;
+        }
+
+        .img {
+            height: 177px;
+            width: 177px;
+        }
+
+        .Bachelor-div:hover {
+            border: 0.5px solid black;
+        }
+
+        .Master-div:hover {
+            border: 0.5px solid black;
+        }
+
+        .Phd-div:hover {
+            border: 0.5px solid black;
+        }
+
+        input[type=radio]:checked + label > img {
+            content: url('../../Assets/img/selected.jpg');
+        }
+
+        .inline {
+            display: inline-block;
+            background-color: white;
+            border: 0.5px solid rgba(152, 152, 152, 0.49);
+            margin: 10px;
+        }
+
+        .bachelor-div {
+            margin-left: -10px;
+        }
+    </style>
+    <script src="/Assets/js/master.js"></script>
+</head>
+<body class="sidebar-noneoverflow">
+    <div class="header-container fixed-top">
+        <header class="header navbar navbar-expand-sm">
+            <ul class="navbar-nav flex-row text-center" style="margin-left:2%;">
+                <li class="nav-item theme-text">
+                    <a href="@Url.Action("Index", "StudentApplication", new { area = "" })" class="nav-link">
+                        <img src="~/Assets/img/workoftimebeyaz.png" style="height:44px;" alt="logo" />
+                    </a>
+                </li>
+            </ul>
+            <ul class="navbar-item flex-row search-ul">
+                <li class="nav-item align-self-center search-animated">
+                    <div class="field-wrapper" style="float:right;">
+                        <button type="button" class="btn btn-primary" onclick="location.href = '@Url.Action("Index","Login")'">Log In</button>
+                    </div>
+                </li>
+            </ul>
+        </header>
+
+        <div class="main-content">
+            <div class="layout-px-spacing">
+                @{
+                    if (ViewBag.IsAuthenticated == "false" || ViewBag.IsAuthenticated == null)
+                    {
+                        <div class="emailVerification">
+                            <div class="row layout-top-spacing">
+                                @using (Html.BeginForm("EmailVerification", "StudentApplication", FormMethod.Post, new Dictionary<string, object>() {
+                                { "class", "form-horizontal" },
+                                { "role", "form" },
+                                }))
+                                {
+                                    <div class="row">
+                                        <div class="form-group">
+                                            <label class="req" for="code">Email</label>
+                                            @Html.TextBoxFor(model => model.Email, new Dictionary<string, object>()
+                                            {
+                                                {"class", "form-control"},
+                                                {"placeholder", "Please enter an e-mail."},
+                                                {"required", "" },
+                                                {"oninvalid","this.setCustomValidity('Please enter an e-mail.')" },
+                                                {"oninput","this.setCustomValidity('')" }
+                                            })
+                                        </div>
+                                        <label class="field-validation-error">@Html.ValidationMessageFor(model => model.Email, "", new { @id = "emailReq" })</label>
+                                        <label class="field-validation-error">@ViewBag.LoginErrorMessage</label>
+                                        @{
+                                            if (ViewBag.isMailSent == "true" && ViewBag.isMailSent != null)
+                                            {
+                                                <div class="form-group">
+                                                    <label class="req" for="code">Verification Code</label>
+                                                    @Html.TextBoxFor(model => model.VerificationCode, new Dictionary<string, object>()
+                                                    {
+                                                        {"class", "form-control"},
+                                                        {"placeholder", "Please enter the verification code."},
+                                                        {"required", "" },
+                                                        {"oninvalid","this.setCustomValidity('Please enter the verification code.')" },
+                                                        {"oninput","this.setCustomValidity('')" }
+                                                    })
+                                                </div>
+                                                <div class="d-sm-flex justify-content-between">
+                                                    <div class="d-sm-flex justify-content-between">
+                                                        <div class="field-wrapper">
+                                                            <button type="submit" class="btn btn-primary" value="">Verify E-Mail</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            }
+                                            else
+                                            {
+                                                <div class="d-sm-flex justify-content-between">
+                                                    <div class="field-wrapper">
+                                                        <button type="submit" class="btn btn-primary" value="">Send Mail</button>
+                                                    </div>
+                                                </div>
+                                            }
+                                        }
+                                        <div class="field-wrapper">
+                                            <a href="@Url.Action("Index", "StudentApplication", new { area = "" })" class="forgot-pass-link">Back to Program Selection.</a>
+                                        </div>
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                    }
+                }
+
+                @if (ViewBag.IsAuthenticated == "true")
+                {
+                    <div class="personalInfo">
+                        <div class="row layout-top-spacing">
+                            @using (Html.BeginForm("Insert", "StudentApplication", FormMethod.Post, new Dictionary<string, object>() {
+                    { "class", "form-horizontal" },
+                    { "role", "form" },
+                    }))
+                            {
+                                @Html.AntiForgeryToken()
+                                @Html.HiddenFor(model => model.Id)
+
+                                <div class="row">
+                                    <div class="form-group col-md-6">
+                                        <label class="req" for="code">First Name</label>
+                                        @Html.TextBoxFor(model => model.StudentFirstName, new Dictionary<string, object>()
+                                        {
+                                            {"class", "form-control"},
+                                            {"placeholder", "Please enter the First Name"},
+                                                  {"required", "" },
+                                       {"oninvalid","this.setCustomValidity('Please enter a first name.')" },
+                                       {"oninput","this.setCustomValidity('')" }
+                                        })
+                                    </div>
+                                    <div class="form-group col-md-6">
+                                        <label class="req" for="code">Last Name</label>
+                                        @Html.TextBoxFor(model => model.StudentLastName, new Dictionary<string, object>()
+                                        {
+                                            {"class", "form-control"},
+                                            {"placeholder", "Please enter the Last Name"},
+                                                       {"required", "" },
+                                       {"oninvalid","this.setCustomValidity('Please enter a last name.')" },
+                                       {"oninput","this.setCustomValidity('')" }
+                                        })
+                                    </div>
+                                    <div class="form-group col-md-6">
+                                        <label class="req" for="code">Phone Number</label>
+                                        @Html.TextBoxFor(model => model.PhoneNumber, new Dictionary<string, object>()
+                                        {
+                                            {"class", "form-control"},
+                                            {"placeholder", "Please enter the Phone Number"},
+                                            {"type", "number" },
+                                                       {"required", "" },
+                                       {"oninvalid","this.setCustomValidity('Please enter a phone number.')" },
+                                       {"oninput","this.setCustomValidity('')" }
+                                        })
+                                    </div>
+                                    <div class="form-group col-md-6" id="ddlDepartment">
+                                        <label class="req" for="code">Department</label>
+                                        @Html.DropDownListFor(model => model.DepartmentId, ViewBag.Departments as SelectList, new { @class = "form-control" })
+                                    </div>
+                                    <div class="form-group col-md-6" id="ddlProgram">
+                                        <label class="req" for="code">Program</label>
+                                        @Html.DropDownListFor(model => model.ProgramId, ViewBag.Programs as SelectList, new { @class = "form-control" })
+                                    </div>
+                                </div>
+                                <div class="buttons">
+                                    <button class="btn btn-md btn-danger pull-left" data-dismiss="modal">Close</button>
+                                    <button class="btn btn-md btn-success pull-right" type="submit" OnClick="">Save</button>
+                                </div>
+                            }
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+    <script>
+
+    </script>
+</body>
+</html>
+
+
+

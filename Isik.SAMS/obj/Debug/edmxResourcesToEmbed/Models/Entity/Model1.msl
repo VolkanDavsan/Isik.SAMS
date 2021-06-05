@@ -47,6 +47,30 @@
     <EntitySetMapping Name="SAMS_StudentApplications">
       <EntityTypeMapping TypeName="StudentApprovalManagementModel.SAMS_StudentApplications">
         <MappingFragment StoreEntitySet="SAMS_StudentApplications">
+          <ScalarProperty Name="VerificationCode" ColumnName="VerificationCode" />
+          <ScalarProperty Name="IsGradFromUni" ColumnName="IsGradFromUni" />
+          <ScalarProperty Name="BlueCardOwner" ColumnName="BlueCardOwner" />
+          <ScalarProperty Name="DualCitizenship" ColumnName="DualCitizenship" />
+          <ScalarProperty Name="LanguageExamScore" ColumnName="LanguageExamScore" />
+          <ScalarProperty Name="HighSchoolCountry" ColumnName="HighSchoolCountry" />
+          <ScalarProperty Name="HighSchoolGPA" ColumnName="HighSchoolGPA" />
+          <ScalarProperty Name="HighSchoolGradYear" ColumnName="HighSchoolGradYear" />
+          <ScalarProperty Name="HighSchoolName" ColumnName="HighSchoolName" />
+          <ScalarProperty Name="LanguageProficiency" ColumnName="LanguageProficiency" />
+          <ScalarProperty Name="BachelorGradDate" ColumnName="BachelorGradDate" />
+          <ScalarProperty Name="BachelorGPA" ColumnName="BachelorGPA" />
+          <ScalarProperty Name="BachelorCountry" ColumnName="BachelorCountry" />
+          <ScalarProperty Name="BachelorProgram" ColumnName="BachelorProgram" />
+          <ScalarProperty Name="BachelorUni" ColumnName="BachelorUni" />
+          <ScalarProperty Name="MotherName" ColumnName="MotherName" />
+          <ScalarProperty Name="FatherName" ColumnName="FatherName" />
+          <ScalarProperty Name="Country" ColumnName="Country" />
+          <ScalarProperty Name="Address" ColumnName="Address" />
+          <ScalarProperty Name="PhoneNumber" ColumnName="PhoneNumber" />
+          <ScalarProperty Name="Citizenship" ColumnName="Citizenship" />
+          <ScalarProperty Name="Gender" ColumnName="Gender" />
+          <ScalarProperty Name="PassportNumber" ColumnName="PassportNumber" />
+          <ScalarProperty Name="GUID" ColumnName="GUID" />
           <ScalarProperty Name="Id" ColumnName="Id" />
           <ScalarProperty Name="CreatedTime" ColumnName="CreatedTime" />
           <ScalarProperty Name="Email" ColumnName="Email" />

@@ -66,7 +66,8 @@ namespace Isik.SAMS.Controllers
                     string r = generator.Next(0, 1000000).ToString("D6");
                     email.Body = new TextPart(TextFormat.Html)
                     {
-                        Text = @"<h1> We got your request for password reset!</h1>" +
+                        Text = @"<h1> As the SAMS team, </h1>" +
+                        @"<h3>We got your request for password reset!</h3>" +
                         @"<br/>" +
                         @"<p>Enter this code to the site to reset your password.</p>" +
                         @"<br/>" +

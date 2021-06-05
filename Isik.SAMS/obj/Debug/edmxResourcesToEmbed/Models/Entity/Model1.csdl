@@ -65,6 +65,30 @@
     <NavigationProperty Name="SAMS_Program" Relationship="Self.FK_ProgramId_StudentApplications" FromRole="SAMS_StudentApplications" ToRole="SAMS_Program" />
     <NavigationProperty Name="SAMS_Users" Relationship="Self.FK_ApprovedBy_StudentApplications" FromRole="SAMS_StudentApplications" ToRole="SAMS_Users" />
     <NavigationProperty Name="SAMS_Users1" Relationship="Self.FK_EnrolledBy_StudentApplications" FromRole="SAMS_StudentApplications" ToRole="SAMS_Users" />
+    <Property Name="GUID" Type="Guid" />
+    <Property Name="PassportNumber" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="Gender" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+    <Property Name="Citizenship" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="PhoneNumber" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="Address" Type="String" MaxLength="300" FixedLength="false" Unicode="true" />
+    <Property Name="Country" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="FatherName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="MotherName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="BachelorUni" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="BachelorProgram" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="BachelorCountry" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="BachelorGPA" Type="Decimal" Precision="3" Scale="2" />
+    <Property Name="BachelorGradDate" Type="DateTime" Precision="0" />
+    <Property Name="LanguageProficiency" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="HighSchoolName" Type="String" MaxLength="300" FixedLength="false" Unicode="true" />
+    <Property Name="HighSchoolGradYear" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="HighSchoolGPA" Type="Decimal" Precision="5" Scale="2" />
+    <Property Name="HighSchoolCountry" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="LanguageExamScore" Type="Int32" />
+    <Property Name="DualCitizenship" Type="Boolean" />
+    <Property Name="BlueCardOwner" Type="Boolean" />
+    <Property Name="IsGradFromUni" Type="Boolean" />
+    <Property Name="VerificationCode" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
   </EntityType>
   <EntityType Name="SAMS_Users">
     <Key>
