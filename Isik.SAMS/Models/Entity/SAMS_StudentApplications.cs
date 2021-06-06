@@ -11,7 +11,8 @@ namespace Isik.SAMS.Models.Entity
 {
     using System;
     using System.Collections.Generic;
-    
+    using System.ComponentModel.DataAnnotations;
+
     public partial class SAMS_StudentApplications
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
@@ -19,7 +20,7 @@ namespace Isik.SAMS.Models.Entity
         {
             this.SAMS_Files = new HashSet<SAMS_Files>();
         }
-    
+
         public int Id { get; set; }
         public Nullable<System.DateTime> CreatedTime { get; set; }
         public string Email { get; set; }
@@ -43,6 +44,7 @@ namespace Isik.SAMS.Models.Entity
         public string BachelorProgram { get; set; }
         public string BachelorCountry { get; set; }
         public Nullable<decimal> BachelorGPA { get; set; }
+        [DataType(DataType.Date)]
         public Nullable<System.DateTime> BachelorGradDate { get; set; }
         public string LanguageProficiency { get; set; }
         public string HighSchoolName { get; set; }
@@ -50,11 +52,17 @@ namespace Isik.SAMS.Models.Entity
         public Nullable<decimal> HighSchoolGPA { get; set; }
         public string HighSchoolCountry { get; set; }
         public Nullable<int> LanguageExamScore { get; set; }
-        public Nullable<bool> DualCitizenship { get; set; }
-        public Nullable<bool> BlueCardOwner { get; set; }
-        public Nullable<bool> IsGradFromUni { get; set; }
+        public bool DualCitizenship { get; set; }
+        public bool BlueCardOwner { get; set; }
+        public bool IsGradFromUni { get; set; }
         public string VerificationCode { get; set; }
-    
+        public string MasterUni { get; set; }
+        public string MasterProgram { get; set; }
+        public Nullable<decimal> MasterGPA { get; set; }
+        public string MasterCountry { get; set; }
+        [DataType(DataType.Date)]
+        public Nullable<System.DateTime> MasterGradDate { get; set; }
+
         public virtual SAMS_ApplicationStatus SAMS_ApplicationStatus { get; set; }
         public virtual SAMS_Department SAMS_Department { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

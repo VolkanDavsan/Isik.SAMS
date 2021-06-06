@@ -47,6 +47,11 @@
     <EntitySetMapping Name="SAMS_StudentApplications">
       <EntityTypeMapping TypeName="StudentApprovalManagementModel.SAMS_StudentApplications">
         <MappingFragment StoreEntitySet="SAMS_StudentApplications">
+          <ScalarProperty Name="MasterGradDate" ColumnName="MasterGradDate" />
+          <ScalarProperty Name="MasterCountry" ColumnName="MasterCountry" />
+          <ScalarProperty Name="MasterGPA" ColumnName="MasterGPA" />
+          <ScalarProperty Name="MasterProgram" ColumnName="MasterProgram" />
+          <ScalarProperty Name="MasterUni" ColumnName="MasterUni" />
           <ScalarProperty Name="VerificationCode" ColumnName="VerificationCode" />
           <ScalarProperty Name="IsGradFromUni" ColumnName="IsGradFromUni" />
           <ScalarProperty Name="BlueCardOwner" ColumnName="BlueCardOwner" />

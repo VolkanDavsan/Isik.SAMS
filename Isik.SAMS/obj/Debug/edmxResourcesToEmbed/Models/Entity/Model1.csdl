@@ -89,6 +89,11 @@
     <Property Name="BlueCardOwner" Type="Boolean" />
     <Property Name="IsGradFromUni" Type="Boolean" />
     <Property Name="VerificationCode" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+    <Property Name="MasterUni" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="MasterProgram" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="MasterGPA" Type="Decimal" Precision="3" Scale="2" />
+    <Property Name="MasterCountry" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="MasterGradDate" Type="DateTime" Precision="0" />
   </EntityType>
   <EntityType Name="SAMS_Users">
     <Key>

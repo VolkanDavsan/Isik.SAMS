@@ -76,6 +76,11 @@
           <Property Name="DualCitizenship" Type="bit" />
           <Property Name="BlueCardOwner" Type="bit" />
           <Property Name="IsGradFromUni" Type="bit" />
+          <Property Name="MasterUni" Type="nvarchar" MaxLength="200" />
+          <Property Name="MasterProgram" Type="nvarchar" MaxLength="200" />
+          <Property Name="MasterGPA" Type="decimal" Precision="3" Scale="2" />
+          <Property Name="MasterCountry" Type="nvarchar" MaxLength="100" />
+          <Property Name="MasterGradDate" Type="date" />
           <Property Name="VerificationCode" Type="nvarchar" MaxLength="10" />
           <Property Name="DepartmentId" Type="int" />
           <Property Name="ApprovedBy" Type="int" />
@@ -355,6 +360,11 @@
           <Property Name="BlueCardOwner" Type="Boolean" />
           <Property Name="IsGradFromUni" Type="Boolean" />
           <Property Name="VerificationCode" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="MasterUni" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="MasterProgram" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="MasterGPA" Type="Decimal" Precision="3" Scale="2" />
+          <Property Name="MasterCountry" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="MasterGradDate" Type="DateTime" Precision="0" />
         </EntityType>
         <EntityType Name="SAMS_Users">
           <Key>
@@ -593,6 +603,11 @@
           <EntitySetMapping Name="SAMS_StudentApplications">
             <EntityTypeMapping TypeName="StudentApprovalManagementModel.SAMS_StudentApplications">
               <MappingFragment StoreEntitySet="SAMS_StudentApplications">
+                <ScalarProperty Name="MasterGradDate" ColumnName="MasterGradDate" />
+                <ScalarProperty Name="MasterCountry" ColumnName="MasterCountry" />
+                <ScalarProperty Name="MasterGPA" ColumnName="MasterGPA" />
+                <ScalarProperty Name="MasterProgram" ColumnName="MasterProgram" />
+                <ScalarProperty Name="MasterUni" ColumnName="MasterUni" />
                 <ScalarProperty Name="VerificationCode" ColumnName="VerificationCode" />
                 <ScalarProperty Name="IsGradFromUni" ColumnName="IsGradFromUni" />
                 <ScalarProperty Name="BlueCardOwner" ColumnName="BlueCardOwner" />

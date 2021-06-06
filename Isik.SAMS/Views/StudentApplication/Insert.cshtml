@@ -2,6 +2,11 @@
 @{
     ViewBag.Title = "Student Application";
     Layout = null;
+
+    if (Session["ApplicationId"] == null && Session["ProgramId"] == null)
+    {
+        Response.Redirect("/StudentApplication/Index");
+    }
 }
 
 <!DOCTYPE html>
@@ -19,12 +24,6 @@
     <link href="/Assets/lib/Fontello/css/fontello.css" rel="stylesheet" />
     <link href="/Assets/V1/assets/css/plugins.css" rel="stylesheet" type="text/css" />
     <link href="/Assets/V1/assets/css/components/tabs-accordian/custom-tabs.css" rel="stylesheet" />
-    @*<link href="/Assets/lib/kendo/css/o.common.min.css" rel="stylesheet" />
-        <link href="/Assets/lib/kendo/css/kenkenddo.material.min.css" rel="stylesheet" />
-        <link href="/Assets/lib/kendo/css/kendo.material.mobile.min.css" rel="stylesheet" />*@
-    @*<link href="/Assets/lib/Harita/fonts/MapIcon/flaticon.css" rel="stylesheet" />
-        <link href="/Assets/lib/Harita/css/ol.custom.css" rel="stylesheet" />
-        <link href="/Assets/lib/fileupload/css/InfolineFileUpload.css" rel="stylesheet" />*@
     <link href="/Assets/lib/bootstrap-dialog/css/bootstrap-dialog.min.css" rel="stylesheet" />
     <link href="/Assets/lib/loadingmodal/css/jquery.loadingModal.min.css" rel="stylesheet" type="text/css" />
     <link href="/Assets/lib/toastr/css/toastr.min.css" rel="stylesheet" type="text/css" />
@@ -41,13 +40,6 @@
     <script src="/Assets/lib/bootstrap/js/popper.min.js"></script>
     <script src="/Assets/lib/font-icons/feather/feather.min.js"></script>
     <script src="/Assets/lib/bootstrap/js/bootstrap.min.js"></script>
-    @*<script src="/Assets/lib/kendo/js/kendo.all.min.js"></script>
-        <script src="/Assets/lib/kendo/js/kendo.aspnetmvc.min.js"></script>
-        <script src="/Assets/lib/kendo/js/cultures/kendo.culture.en-US.min.js"></script>
-        <script src="/Assets/lib/kendo/js/messages/kendo.messages.en-US.min.js"></script>
-        <script src="/Assets/lib/kendo/js/cultures/kendo.culture.tr-TR.min.js"></script>
-        <script src="/Assets/lib/kendo/js/messages/kendo.messages.tr-TR.min.js"></script>*@
-
     <script src="/Assets/lib/jquery-cookie/jquery.cookie.js"></script>
     <script src="/Assets/lib/linq/jquery.linq.min.js"></script>
     <script src="/Assets/lib/loadingmodal/js/jquery.loadingModal.min.js"></script>
@@ -61,7 +53,6 @@
     <script src="/Assets/V1/assets/js/app.js"></script>
     <script src="/Assets/V1/assets/js/custom.js"></script>
     <script src="~/Assets/js/Dashboard/dash_1.js"></script>
-
     <script src="/Assets/lib/harita/js/jQuery.Print.js"></script>
     <script src="/Assets/lib/harita/data/projlist.js"></script>
     <script src="/Assets/lib/harita/js/proj4.js"></script>
@@ -92,20 +83,39 @@
             color: black;
         }
 
-        .radio-buttons {
+        .row {
+            margin-left: 0px !important;
+            margin-right: 0px !important;
+        }
+
+        .layout-top-spacing {
+            width: 100% !important;
             position: absolute;
-            left: 50%;
             top: 50%;
+            left: 50%;
             transform: translate(-50%, -50%);
             padding: 10px;
         }
 
-        .radio-buttons input[type="radio"] {
-            display: none;
+        .checkboxes {
+            margin-left: 30px !important;
+            width: 100% !important;
         }
 
-        .radio-buttons label {
-            text-align: center;
+        .form-horizontal .form-group {
+            width: 100% !important;
+        }
+
+        .form-control {
+            width: 100% !important;
+        }
+
+        .layout-top-spacing {
+            width: 100% !important;
+        }
+
+        .layout-px-spacing {
+            width: 100% !important;
         }
 
         .img {
@@ -113,36 +123,23 @@
             width: 177px;
         }
 
-        .Bachelor-div:hover {
-            border: 0.5px solid black;
+        .field-validation-error {
+            color: red;
+            background: inherit;
         }
 
-        .Master-div:hover {
-            border: 0.5px solid black;
-        }
-
-        .Phd-div:hover {
-            border: 0.5px solid black;
-        }
-
-        input[type=radio]:checked + label > img {
-            content: url('../../Assets/img/selected.jpg');
-        }
-
-        .inline {
-            display: inline-block;
-            background-color: white;
-            border: 0.5px solid rgba(152, 152, 152, 0.49);
-            margin: 10px;
-        }
-
-        .bachelor-div {
-            margin-left: -10px;
+        .emailVerification {
+            width: 50% !important;
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            padding: 10px;
         }
     </style>
     <script src="/Assets/js/master.js"></script>
 </head>
-<body class="sidebar-noneoverflow">
+<body>
     <div class="header-container fixed-top">
         <header class="header navbar navbar-expand-sm">
             <ul class="navbar-nav flex-row text-center" style="margin-left:2%;">
@@ -160,144 +157,482 @@
                 </li>
             </ul>
         </header>
-
-        <div class="main-content">
-            <div class="layout-px-spacing">
-                @{
-                    if (ViewBag.IsAuthenticated == "false" || ViewBag.IsAuthenticated == null)
-                    {
-                        <div class="emailVerification">
-                            <div class="row layout-top-spacing">
-                                @using (Html.BeginForm("EmailVerification", "StudentApplication", FormMethod.Post, new Dictionary<string, object>() {
+    </div>
+    <div id="content" class="main-content">
+        <div class="layout-px-spacing">
+            <div class="row layout-top-spacing">
+                @if (ViewBag.IsAuthenticated == "false" || ViewBag.IsAuthenticated == null)
+                {
+                    <div class="emailVerification">
+                        <p style="text-align:center; font-size:22px; color:black; font-weight:bold;">E-MAIL VERIFICATION</p>
+                        @using (Html.BeginForm("EmailVerification", "StudentApplication", FormMethod.Post, new Dictionary<string, object>() {
                                 { "class", "form-horizontal" },
                                 { "role", "form" },
                                 }))
-                                {
-                                    <div class="row">
-                                        <div class="form-group">
-                                            <label class="req" for="code">Email</label>
-                                            @Html.TextBoxFor(model => model.Email, new Dictionary<string, object>()
-                                            {
-                                                {"class", "form-control"},
-                                                {"placeholder", "Please enter an e-mail."},
-                                                {"required", "" },
-                                                {"oninvalid","this.setCustomValidity('Please enter an e-mail.')" },
-                                                {"oninput","this.setCustomValidity('')" }
-                                            })
-                                        </div>
-                                        <label class="field-validation-error">@Html.ValidationMessageFor(model => model.Email, "", new { @id = "emailReq" })</label>
-                                        <label class="field-validation-error">@ViewBag.LoginErrorMessage</label>
-                                        @{
-                                            if (ViewBag.isMailSent == "true" && ViewBag.isMailSent != null)
-                                            {
-                                                <div class="form-group">
-                                                    <label class="req" for="code">Verification Code</label>
-                                                    @Html.TextBoxFor(model => model.VerificationCode, new Dictionary<string, object>()
-                                                    {
-                                                        {"class", "form-control"},
-                                                        {"placeholder", "Please enter the verification code."},
-                                                        {"required", "" },
-                                                        {"oninvalid","this.setCustomValidity('Please enter the verification code.')" },
-                                                        {"oninput","this.setCustomValidity('')" }
-                                                    })
-                                                </div>
-                                                <div class="d-sm-flex justify-content-between">
-                                                    <div class="d-sm-flex justify-content-between">
-                                                        <div class="field-wrapper">
-                                                            <button type="submit" class="btn btn-primary" value="">Verify E-Mail</button>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            }
-                                            else
-                                            {
-                                                <div class="d-sm-flex justify-content-between">
-                                                    <div class="field-wrapper">
-                                                        <button type="submit" class="btn btn-primary" value="">Send Mail</button>
-                                                    </div>
-                                                </div>
-                                            }
-                                        }
-                                        <div class="field-wrapper">
-                                            <a href="@Url.Action("Index", "StudentApplication", new { area = "" })" class="forgot-pass-link">Back to Program Selection.</a>
+                        {
+                            <div class="row">
+                                <div class="form-group">
+                                    <label class="req" for="code">Email</label>
+                                    @Html.TextBoxFor(model => model.Email, new Dictionary<string, object>()
+                                    {
+                                        {"class", "form-control"},
+                                        {"placeholder", "Please enter an e-mail."},
+                                        {"required", "" },
+                                        {"oninvalid","this.setCustomValidity('Please enter an e-mail.')" },
+                                        {"oninput","this.setCustomValidity('')" }
+                                    })
+                                </div>
+                            </div>
+                            if (ViewBag.LoginErrorMessage != null)
+                            {
+                                <div class="row">
+                                    <label class="field-validation-error">@ViewBag.LoginErrorMessage</label>
+                                </div>
+                            }
+
+                            if (ViewBag.isMailSent == "true" && ViewBag.isMailSent != null)
+                            {
+
+                                <div class="row">
+                                    <div class="form-group">
+                                        <label class="req" for="code">Verification Code</label>
+                                        @Html.TextBoxFor(model => model.VerificationCode, new Dictionary<string, object>()
+                                        {
+                                            {"class", "form-control"},
+                                            {"placeholder", "Please enter the verification code."},
+                                            {"required", "" },
+                                            {"oninvalid","this.setCustomValidity('Please enter the verification code.')" },
+                                            {"oninput","this.setCustomValidity('')" }
+                                        })
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="d-sm-flex justify-content-between">
+                                        <div class="d-sm-flex justify-content-between">
+                                            <div class="field-wrapper">
+                                                <button type="submit" class="btn btn-primary" value="">Verify E-Mail</button>
+                                            </div>
                                         </div>
                                     </div>
-                                }
-                            </div>
-                        </div>
-                    }
+                                </div>
+                                <div class="row">
+                                    <div class="field-wrapper">
+                                        <a href="@Url.Action("Index", "StudentApplication", new { area = "" })" class="forgot-pass-link">Back to Program Selection.</a>
+                                    </div>
+                                </div>
+                            }
+                            else
+                            {
+                                <div class="row">
+                                    <div class="d-sm-flex justify-content-between">
+                                        <div class="field-wrapper">
+                                            <button type="submit" class="btn btn-primary" value="">Send Mail</button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="field-wrapper">
+                                        <a href="@Url.Action("Index", "StudentApplication", new { area = "" })" class="forgot-pass-link">Back to Program Selection.</a>
+                                    </div>
+                                </div>
+                                <br />
+                            }
+
+                        }
+                    </div>
                 }
 
                 @if (ViewBag.IsAuthenticated == "true")
                 {
-                    <div class="personalInfo">
-                        <div class="row layout-top-spacing">
-                            @using (Html.BeginForm("Insert", "StudentApplication", FormMethod.Post, new Dictionary<string, object>() {
-                    { "class", "form-horizontal" },
-                    { "role", "form" },
-                    }))
-                            {
-                                @Html.AntiForgeryToken()
-                                @Html.HiddenFor(model => model.Id)
-
-                                <div class="row">
-                                    <div class="form-group col-md-6">
-                                        <label class="req" for="code">First Name</label>
-                                        @Html.TextBoxFor(model => model.StudentFirstName, new Dictionary<string, object>()
-                                        {
-                                            {"class", "form-control"},
-                                            {"placeholder", "Please enter the First Name"},
-                                                  {"required", "" },
-                                       {"oninvalid","this.setCustomValidity('Please enter a first name.')" },
-                                       {"oninput","this.setCustomValidity('')" }
-                                        })
-                                    </div>
-                                    <div class="form-group col-md-6">
-                                        <label class="req" for="code">Last Name</label>
-                                        @Html.TextBoxFor(model => model.StudentLastName, new Dictionary<string, object>()
-                                        {
-                                            {"class", "form-control"},
-                                            {"placeholder", "Please enter the Last Name"},
-                                                       {"required", "" },
-                                       {"oninvalid","this.setCustomValidity('Please enter a last name.')" },
-                                       {"oninput","this.setCustomValidity('')" }
-                                        })
-                                    </div>
-                                    <div class="form-group col-md-6">
-                                        <label class="req" for="code">Phone Number</label>
-                                        @Html.TextBoxFor(model => model.PhoneNumber, new Dictionary<string, object>()
-                                        {
-                                            {"class", "form-control"},
-                                            {"placeholder", "Please enter the Phone Number"},
-                                            {"type", "number" },
-                                                       {"required", "" },
-                                       {"oninvalid","this.setCustomValidity('Please enter a phone number.')" },
-                                       {"oninput","this.setCustomValidity('')" }
-                                        })
-                                    </div>
-                                    <div class="form-group col-md-6" id="ddlDepartment">
-                                        <label class="req" for="code">Department</label>
-                                        @Html.DropDownListFor(model => model.DepartmentId, ViewBag.Departments as SelectList, new { @class = "form-control" })
-                                    </div>
-                                    <div class="form-group col-md-6" id="ddlProgram">
-                                        <label class="req" for="code">Program</label>
-                                        @Html.DropDownListFor(model => model.ProgramId, ViewBag.Programs as SelectList, new { @class = "form-control" })
-                                    </div>
+                    using (Html.BeginForm("Insert", "StudentApplication", FormMethod.Post, new Dictionary<string, object>() {
+                                { "class", "form-horizontal" },
+                                { "role", "form" },
+                                }))
+                    {
+                        @Html.AntiForgeryToken()
+                        @Html.HiddenFor(model => model.Id)
+                        <div class="personalInfo">
+                            <p style="text-align:center; font-size:22px; color:black; font-weight:bold;">APPICATION FORM</p>
+                            <p style="text-align:center; font-size:16px; color:black; font-weight:bold; margin-bottom:15px">PERSONAL INFORMATION</p>
+                            <div class="row">
+                                <div class="form-group col-md-6" id="ddlProgram">
+                                    <label class="req" for="code">Your Selected Program</label>
+                                    @Html.DropDownListFor(model => model.ProgramId, ViewBag.Programs as SelectList, new { @class = "form-control", @disabled = "disabled" })
                                 </div>
-                                <div class="buttons">
-                                    <button class="btn btn-md btn-danger pull-left" data-dismiss="modal">Close</button>
-                                    <button class="btn btn-md btn-success pull-right" type="submit" OnClick="">Save</button>
+                                <div class="form-group col-md-6" id="ddlDepartment">
+                                    <label class="req" for="code">Department</label>
+                                    @Html.DropDownListFor(model => model.DepartmentId, ViewBag.Departments as SelectList, "Select Department", new { @class = "form-control" })
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label class="req" for="code">First Name</label>
+                                    @Html.TextBoxFor(model => model.StudentFirstName, new Dictionary<string, object>()
+                                    {
+                                        {"class", "form-control"},
+                                        {"placeholder", "Please enter the First Name"},
+                                        {"required", "" },
+                                        {"oninvalid","this.setCustomValidity('Please enter a first name.')" },
+                                        {"oninput","this.setCustomValidity('')" }
+                                    })
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label class="req" for="code">Last Name</label>
+                                    @Html.TextBoxFor(model => model.StudentLastName, new Dictionary<string, object>()
+                                    {
+                                        {"class", "form-control"},
+                                        {"placeholder", "Please enter the Last Name"},
+                                        {"required", "" },
+                                        {"oninvalid","this.setCustomValidity('Please enter a last name.')" },
+                                        {"oninput","this.setCustomValidity('')" }
+                                    })
+                                </div>
+                                <div class="form-group col-md-6" id="ddlGender">
+                                    <label class="req" for="code">Gender</label>
+                                    @Html.DropDownListFor(model => model.Gender, ViewBag.StudentGenders as SelectList, "Select your Gender", new { @class = "form-control" })
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label class="req" for="code">Phone Number</label>
+                                    @Html.TextBoxFor(model => model.PhoneNumber, new Dictionary<string, object>()
+                                    {
+                                        {"class", "form-control"},
+                                        {"placeholder", "Please enter the Phone Number"},
+                                        {"type", "number" },
+                                        {"required", "" },
+                                        {"oninvalid","this.setCustomValidity('Please enter a phone number.')" },
+                                        {"oninput","this.setCustomValidity('')" }
+                                    })
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label class="req" for="code">Address</label>
+                                    @Html.TextBoxFor(model => model.Address, new Dictionary<string, object>()
+                                    {
+                                        {"class", "form-control"},
+                                        {"placeholder", "Please enter your address."},
+                                        {"required", "" },
+                                        {"oninvalid","this.setCustomValidity('Please enter your address.')" },
+                                        {"oninput","this.setCustomValidity('')" }
+                                    })
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label class="req" for="code">Country</label>
+                                    @Html.TextBoxFor(model => model.Country, new Dictionary<string, object>()
+                                    {
+                                        {"class", "form-control"},
+                                        {"placeholder", "Please enter your Country."},
+                                        {"required", "" },
+                                        {"oninvalid","this.setCustomValidity('Please enter your Country.')" },
+                                        {"oninput","this.setCustomValidity('')" }
+                                    })
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label class="req" for="code">Citizenship</label>
+                                    @Html.TextBoxFor(model => model.Citizenship, new Dictionary<string, object>()
+                                    {
+                                        {"class", "form-control"},
+                                        {"placeholder", "Please enter your Citizenship."},
+                                        {"required", "" },
+                                        {"oninvalid","this.setCustomValidity('Please enter your Citizenship.')" },
+                                        {"oninput","this.setCustomValidity('')" }
+                                    })
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label class="req" for="code">Passport Number</label>
+                                    @Html.TextBoxFor(model => model.PassportNumber, new Dictionary<string, object>()
+                                    {
+                                        {"class", "form-control"},
+                                        {"placeholder", "Please enter your Passport Number."},
+                                        {"type", "number" },
+                                        {"required", "" },
+                                        {"oninvalid","this.setCustomValidity('Please enter your Passport Number.')" },
+                                        {"oninput","this.setCustomValidity('')" }
+                                    })
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label class="req" for="code">Mother Name</label>
+                                    @Html.TextBoxFor(model => model.MotherName, new Dictionary<string, object>()
+                                    {
+                                        {"class", "form-control"},
+                                        {"placeholder", "Please enter your Mother's Name."},
+                                        {"required", "" },
+                                        {"oninvalid","this.setCustomValidity('Please enter your Mother's Name.')" },
+                                        {"oninput","this.setCustomValidity('')" }
+                                    })
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label class="req" for="code">Father Name</label>
+                                    @Html.TextBoxFor(model => model.FatherName, new Dictionary<string, object>()
+                                    {
+                                        {"class", "form-control"},
+                                        {"placeholder", "Please enter your Father's Name."},
+                                        {"required", "" },
+                                        {"oninvalid","this.setCustomValidity('Please enter your Father's Name.')" },
+                                        {"oninput","this.setCustomValidity('')" }
+                                    })
+                                </div>
+                            </div>
+                        </div>
+                        <div class="educationInfo">
+                            @if (ViewBag.IsPersonalInfoEntered != null)
+                            {
+                                <p style="text-align:center; font-size:16px; margin-bottom:15px; color:black; font-weight:bold;">EDUCATIONAL INFORMATION</p>
+                                <div class="row">
+
+                                    @if (Model.ProgramId == 6002)
+                                    {
+                                        <div class="form-group col-md-6">
+                                            <label class="req" for="code">Bachelor University</label>
+                                            @Html.TextBoxFor(model => model.BachelorUni, new Dictionary<string, object>()
+                                            {
+                                                {"class", "form-control"},
+                                                {"placeholder", "Please enter your Bachelor Degree University."},
+                                                {"required", "" },
+                                                {"oninvalid","this.setCustomValidity('Please enter your Bachelor Degree University.')" },
+                                                {"oninput","this.setCustomValidity('')" }
+                                            })
+                                        </div>
+                                        <div class="form-group col-md-6">
+                                            <label class="req" for="code">Bachelor Program</label>
+                                            @Html.TextBoxFor(model => model.BachelorProgram, new Dictionary<string, object>()
+                                            {
+                                                {"class", "form-control"},
+                                                {"placeholder", "Please enter your Bachelor Degree Program."},
+                                                {"required", "" },
+                                                {"oninvalid","this.setCustomValidity('Please enter your Bachelor Degree Program.')" },
+                                                {"oninput","this.setCustomValidity('')" }
+                                            })
+                                        </div>
+                                        <div class="form-group col-md-6">
+                                            <label class="req" for="code">Bachelor University Country</label>
+                                            @Html.TextBoxFor(model => model.BachelorCountry, new Dictionary<string, object>()
+                                            {
+                                                {"class", "form-control"},
+                                                {"placeholder", "Please enter your Bachelor University Country."},
+                                                {"required", "" },
+                                                {"oninvalid","this.setCustomValidity('Please enter your Bachelor University Country.')" },
+                                                {"oninput","this.setCustomValidity('')" }
+                                            })
+                                        </div>
+                                        <div class="form-group col-md-6">
+                                            <label class="req" for="code">Bachelor Graduation Date</label>
+                                            @Html.TextBoxFor(model => model.BachelorGradDate, new Dictionary<string, object>()
+                                            {
+                                                {"class", "form-control"},
+                                                {"placeholder", "Please enter your Bachelor ."},
+                                                {"type", "date" },
+                                                {"required", "" },
+                                                {"oninvalid","this.setCustomValidity('Please enter your Bachelor Graduation Date.')" },
+                                                {"oninput","this.setCustomValidity('')" }
+                                            })
+                                        </div>
+                                        <div class="form-group col-md-6">
+                                            <label class="req" for="code">Bachelor GPA</label>
+                                            @Html.TextBoxFor(model => model.BachelorGPA, new Dictionary<string, object>()
+                                            {
+                                                {"class", "form-control"},
+                                                {"placeholder", "Please enter your Bachelor ."},
+                                                {"type", "text" },
+                                                {"min", "0" },
+                                                {"max", "4" },
+                                                {"step", ".01" },
+                                                {"required", "" },
+                                                {"oninvalid","this.setCustomValidity('Please enter your Bachelor GPA.')" },
+                                                {"oninput","this.setCustomValidity('')" }
+                                            })
+                                        </div>
+                                        <div class="form-group col-md-6" id="ddlLanguageProficiency">
+                                            <label class="req" for="code">Language Proficiency</label>
+                                            @Html.DropDownListFor(model => model.LanguageProficiency, ViewBag.LanguageProficiency as SelectList, "Select One", new { @class = "form-control" })
+                                        </div>
+                                    }
+                                    else if (Model.ProgramId == 8002)
+                                    {
+                                        <div class="checkboxes">
+                                            <div class="form-group col-md-6">
+                                                <div class="custom-control custom-switch">
+                                                    @Html.CheckBoxFor(model => model.DualCitizenship, new Dictionary<string, object>()
+                                                    {
+                                                    {"class", "custom-control-input form-control"},
+                                                    {"id", "dualCitizenship" }
+                                                })
+                                                    <label class="custom-control-label" for="dualCitizenship">Dual Citizenship</label>
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group col-md-6">
+                                                <div class="custom-control custom-switch">
+                                                    @Html.CheckBoxFor(model => model.BlueCardOwner, new Dictionary<string, object>()
+                                                    {
+                                                    {"class", "custom-control-input form-control"},
+                                                    {"id", "BlueCard" }
+                                                })
+                                                    <label class="custom-control-label" for="BlueCard">Do you have Blue Card? (Turkish applicant only)</label>
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group col-md-6">
+                                                <div class="custom-control custom-switch">
+                                                    @Html.CheckBoxFor(model => model.IsGradFromUni, new Dictionary<string, object>()
+                                                    {
+                                                    {"class", "custom-control-input form-control"},
+                                                    {"id", "IsGradFromUni" }
+                                                })
+                                                    <label class="custom-control-label" for="IsGradFromUni">Did you graduated from university?</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group col-md-6">
+                                            <label class="req" for="code">High School Name</label>
+                                            @Html.TextBoxFor(model => model.HighSchoolName, new Dictionary<string, object>()
+                                            {
+                                                {"class", "form-control"},
+                                                {"placeholder", "Please enter your High School Name."},
+                                                {"required", "" },
+                                                {"oninvalid","this.setCustomValidity('Please enter your High School Name.')" },
+                                                {"oninput","this.setCustomValidity('')" }
+                                            })
+                                        </div>
+                                        <div class="form-group col-md-6">
+                                            <label class="req" for="code">High School Country</label>
+                                            @Html.TextBoxFor(model => model.HighSchoolCountry, new Dictionary<string, object>()
+                                            {
+                                                {"class", "form-control"},
+                                                {"placeholder", "Please enter your High School Country."},
+                                                {"required", "" },
+                                                {"oninvalid","this.setCustomValidity('Please enter your High School Country.')" },
+                                                {"oninput","this.setCustomValidity('')" }
+                                            })
+                                        </div>
+                                        <div class="form-group col-md-6">
+                                            <label class="req" for="code">High School Country Graduation Year</label>
+                                            @Html.TextBoxFor(model => model.HighSchoolGradYear, new Dictionary<string, object>()
+                                            {
+                                                {"class", "form-control"},
+                                                {"placeholder", "Please enter your Bachelor ."},
+                                                {"type", "text" },
+                                                {"required", "" },
+                                                {"oninvalid","this.setCustomValidity('Please enter your High School Graduation Year.')" },
+                                                {"oninput","this.setCustomValidity('')" }
+                                            })
+                                        </div>
+                                        <div class="form-group col-md-6">
+                                            <label class="req" for="code">High School GPA</label>
+                                            @Html.TextBoxFor(model => model.HighSchoolGPA, new Dictionary<string, object>()
+                                            {
+                                                {"class", "form-control"},
+                                                {"placeholder", "Please enter your High School GPA ."},
+                                                {"type", "text" },
+                                                {"min", "0" },
+                                                {"max", "4" },
+                                                {"step", ".01" },
+                                                {"required", "" },
+                                                {"oninvalid","this.setCustomValidity('Please enter your High School GPA.')" },
+                                                {"oninput","this.setCustomValidity('')" }
+                                            })
+                                        </div>
+                                        <div class="form-group col-md-6">
+                                            <label class="req" for="code">Lagnguage Exam Score</label>
+                                            @Html.TextBoxFor(model => model.LanguageExamScore, new Dictionary<string, object>()
+                                            {
+                                                {"class", "form-control"},
+                                                {"placeholder", "Please enter your Language Exam Score."},
+                                                {"type", "text" },
+                                                {"min", "0" },
+                                                {"max", "100" },
+                                                {"step", "1" },
+                                                {"required", "" },
+                                                {"oninvalid","this.setCustomValidity('Please enter your Language Exam Score.')" },
+                                                {"oninput","this.setCustomValidity('')" }
+                                            })
+                                        </div>
+                                    }
+                                    else
+                                    {
+                                        <div class="form-group col-md-6">
+                                            <label class="req" for="code">Master University</label>
+                                            @Html.TextBoxFor(model => model.MasterUni, new Dictionary<string, object>()
+                                            {
+                                                {"class", "form-control"},
+                                                {"placeholder", "Please enter your Master Degree University."},
+                                                {"required", "" },
+                                                {"oninvalid","this.setCustomValidity('Please enter your Master Degree University.')" },
+                                                {"oninput","this.setCustomValidity('')" }
+                                            })
+                                        </div>
+                                        <div class="form-group col-md-6">
+                                            <label class="req" for="code">Master Program</label>
+                                            @Html.TextBoxFor(model => model.MasterProgram, new Dictionary<string, object>()
+                                            {
+                                                {"class", "form-control"},
+                                                {"placeholder", "Please enter your Master Degree Program."},
+                                                {"required", "" },
+                                                {"oninvalid","this.setCustomValidity('Please enter your Master Degree Program.')" },
+                                                {"oninput","this.setCustomValidity('')" }
+                                            })
+                                        </div>
+                                        <div class="form-group col-md-6">
+                                            <label class="req" for="code">Master Country</label>
+                                            @Html.TextBoxFor(model => model.MasterCountry, new Dictionary<string, object>()
+                                            {
+                                                {"class", "form-control"},
+                                                {"placeholder", "Please enter your Master Degree University."},
+                                                {"required", "" },
+                                                {"oninvalid","this.setCustomValidity('Please enter your Master Degree University.')" },
+                                                {"oninput","this.setCustomValidity('')" }
+                                            })
+                                        </div>
+                                        <div class="form-group col-md-6">
+                                            <label class="req" for="code">Master Graduation Date</label>
+                                            @Html.TextBoxFor(model => model.MasterGradDate, new Dictionary<string, object>()
+                                            {
+                                                {"class", "form-control"},
+                                                {"placeholder", "Please enter your Master Graduation Date."},
+                                                {"type", "date" },
+                                                {"required", "" },
+                                                {"oninvalid","this.setCustomValidity('Please enter your Master Graduation Date.')" },
+                                                {"oninput","this.setCustomValidity('')" }
+                                            })
+                                        </div>
+                                        <div class="form-group col-md-6">
+                                            <label class="req" for="code">Master GPA</label>
+                                            @Html.TextBoxFor(model => model.MasterGPA, new Dictionary<string, object>()
+                                            {
+                                                {"class", "form-control"},
+                                                {"placeholder", "Please enter your Master GPA ."},
+                                                {"type", "text" },
+                                                {"min", "0" },
+                                                {"max", "4" },
+                                                {"step", ".01" },
+                                                {"required", "" },
+                                                {"oninvalid","this.setCustomValidity('Please enter your Master GPA.')" },
+                                                {"oninput","this.setCustomValidity('')" }
+                                            })
+                                        </div>
+                                        <div class="form-group col-md-6" id="ddlLanguageProficiency">
+                                            <label class="req" for="code">Language Proficiency</label>
+                                            @Html.DropDownListFor(model => model.LanguageProficiency, ViewBag.LanguageProficiency as SelectList, "Select One", new { @class = "form-control" })
+                                        </div>
+                                    }
+
                                 </div>
                             }
                         </div>
-                    </div>
+                        <div class="fileUploads">
+                            @if (ViewBag.IsEducationalInfoEntered == "true")
+                            {
+                                <p style="text-align:center; font-size:16px; color:black; font-weight:bold; margin-bottom:15px">FILE UPLOADS</p>
+                                <div class="row">
+                                    
+                                </div>
+                            }
+                            <div class="buttons">
+                                <button class="btn btn-md btn-danger pull-left">Close</button>
+                                <button class="btn btn-md btn-success pull-right" type="submit" OnClick="">Save</button>
+                            </div>
+                        </div>
+                    }
                 }
             </div>
         </div>
     </div>
-    <script>
-
-    </script>
 </body>
 </html>
 

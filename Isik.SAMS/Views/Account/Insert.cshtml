@@ -107,11 +107,11 @@
                     </div>
                     <div class="form-group col-md-6" id="ddlDepartment">
                         <label class="req" for="code">Department</label>
-                        @Html.DropDownListFor(model => model.DepartmentId, ViewBag.Departments as SelectList, new { @class = "form-control" })
+                        @Html.DropDownListFor(model => model.DepartmentId, ViewBag.Departments as SelectList, "Select Program", new { @class = "form-control" })
                     </div>
                     <div class="form-group col-md-6" id="ddlProgram" style="display:none">
                         <label class="req" for="code">Program</label>
-                        @Html.DropDownListFor(model => model.ProgramId, ViewBag.Programs as SelectList, new { @class = "form-control" })
+                        @Html.DropDownListFor(model => model.ProgramId, ViewBag.Programs as SelectList, "Select Department", new { @class = "form-control" })
                     </div>
                 </div>
                 <div class="buttons">

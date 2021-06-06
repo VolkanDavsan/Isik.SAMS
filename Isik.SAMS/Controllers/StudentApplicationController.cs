@@ -23,7 +23,7 @@ namespace Isik.SAMS.Controllers
                 dicPrograms.Add(a.Id, a.ProgramName);
             }
             ViewBag.Programs = dicPrograms;
-            
+
             return View();
         }
 
@@ -32,52 +32,15 @@ namespace Isik.SAMS.Controllers
             ViewBag.LoginErrorMessage = "";
             int programId = Convert.ToInt32(Session["ProgramId"]);
             var studentApplicationDetail = db.SAMS_StudentApplications.Where(x => x.Email == studentApplication.Email && x.ProgramId == programId).FirstOrDefault();
-            if (studentApplicationDetail == null)
-            {                
-                var email = new MimeMessage();
-                var from = "SAMS SAMS";
-                var subject = "SAMS info - E-Mail Verification";
-                email.From.Add(new MailboxAddress(from, "samsinfo.noreply@gmail.com"));
-                email.To.Add(new MailboxAddress(studentApplication.Email, studentApplication.Email));
-                email.Subject = subject;
-                Random generator = new Random();
-                string r = generator.Next(0, 1000000).ToString("D6");
-                email.Body = new TextPart(TextFormat.Html)
-                {
-                    Text = @"<h1> As the SAMS team, </h1>" +
-                    @"<h3>To verify the entered email is yours,</h3>" +
-                    @"<br/>" +
-                    @"<p>Enter this code to the site to verify your email.</p>" +
-                    @"<br/>" +
-                    @"<p>Code: " + r + "</p>"
-                };
-
-                var application = new SAMS_StudentApplications();
-                application.ProgramId = Convert.ToInt32(Session["ProgramId"]);
-                application.Email = studentApplication.Email;
-                application.VerificationCode = r;
-                db.SAMS_StudentApplications.Add(application);
-                db.SaveChanges();
-                var app = db.SAMS_StudentApplications.Last();
-                TempData["ApplicationId"] = app.Id;
-                using (SmtpClient smtp = new SmtpClient())
-                {
-                    smtp.Connect("smtp.gmail.com", 465, true);
-                    smtp.Authenticate("samsinfo.noreply@gmail.com", "zywwcswqzucuzumw");
-                    smtp.Send(email);
-                    smtp.Disconnect(true);
-                    TempData["IsMailSent"] = "true";
-                }
-            }
-            else
+            if (Session["ApplicationId"] == null)
             {
-                if (studentApplication.VerificationCode == null)
+                if (studentApplicationDetail == null)
                 {
                     var email = new MimeMessage();
                     var from = "SAMS SAMS";
                     var subject = "SAMS info - E-Mail Verification";
                     email.From.Add(new MailboxAddress(from, "samsinfo.noreply@gmail.com"));
-                    email.To.Add(new MailboxAddress(studentApplication.StudentFirstName + "" + studentApplication.StudentLastName, studentApplication.Email));
+                    email.To.Add(new MailboxAddress(studentApplication.Email, studentApplication.Email));
                     email.Subject = subject;
                     Random generator = new Random();
                     string r = generator.Next(0, 1000000).ToString("D6");
@@ -91,11 +54,14 @@ namespace Isik.SAMS.Controllers
                         @"<p>Code: " + r + "</p>"
                     };
 
-                    var stdApplication = db.SAMS_StudentApplications.Find(studentApplicationDetail.Id);
-                    stdApplication.VerificationCode = r;
-                    TempData["ApplicationId"] = studentApplicationDetail.Id;
+                    var application = new SAMS_StudentApplications();
+                    application.ProgramId = Convert.ToInt32(Session["ProgramId"]);
+                    application.Email = studentApplication.Email;
+                    application.VerificationCode = r;
+                    db.SAMS_StudentApplications.Add(application);
                     db.SaveChanges();
-
+                    var app = db.SAMS_StudentApplications.Last();
+                    TempData["ApplicationId"] = app.Id;
                     using (SmtpClient smtp = new SmtpClient())
                     {
                         smtp.Connect("smtp.gmail.com", 465, true);
@@ -107,49 +73,231 @@ namespace Isik.SAMS.Controllers
                 }
                 else
                 {
-                    if (studentApplicationDetail.VerificationCode == studentApplication.VerificationCode)
+                    if (studentApplication.VerificationCode == null)
                     {
-                        TempData["IsAuthenticated"] = "true";
+                        var email = new MimeMessage();
+                        var from = "SAMS SAMS";
+                        var subject = "SAMS info - E-Mail Verification";
+                        email.From.Add(new MailboxAddress(from, "samsinfo.noreply@gmail.com"));
+                        email.To.Add(new MailboxAddress(studentApplication.StudentFirstName + "" + studentApplication.StudentLastName, studentApplication.Email));
+                        email.Subject = subject;
+                        Random generator = new Random();
+                        string r = generator.Next(0, 1000000).ToString("D6");
+                        email.Body = new TextPart(TextFormat.Html)
+                        {
+                            Text = @"<h1> As the SAMS team, </h1>" +
+                            @"<h3>To verify the entered email is yours,</h3>" +
+                            @"<br/>" +
+                            @"<p>Enter this code to the site to verify your email.</p>" +
+                            @"<br/>" +
+                            @"<p>Code: " + r + "</p>"
+                        };
+
+                        var stdApplication = db.SAMS_StudentApplications.Find(studentApplicationDetail.Id);
+                        stdApplication.VerificationCode = r;
                         TempData["ApplicationId"] = studentApplicationDetail.Id;
-                        var application = db.SAMS_StudentApplications.Find(Convert.ToInt32(studentApplicationDetail.Id));
-                        application.VerificationCode = null;
                         db.SaveChanges();
-                        return RedirectToAction("Insert");
+
+                        using (SmtpClient smtp = new SmtpClient())
+                        {
+                            smtp.Connect("smtp.gmail.com", 465, true);
+                            smtp.Authenticate("samsinfo.noreply@gmail.com", "zywwcswqzucuzumw");
+                            smtp.Send(email);
+                            smtp.Disconnect(true);
+                            TempData["IsMailSent"] = "true";
+                        }
                     }
                     else
                     {
-                        TempData["Message"] = "Entered verification code is not the same. Please try again.";
-                        TempData["messageClass"] = "alert-warning";
+                        if (studentApplicationDetail.VerificationCode == studentApplication.VerificationCode)
+                        {
+                            TempData["IsAuthenticated"] = "true";
+                            Session["ApplicationId"] = studentApplicationDetail.Id;
+                            var application = db.SAMS_StudentApplications.Find(Convert.ToInt32(studentApplicationDetail.Id));
+                            application.VerificationCode = null;
+                            db.SaveChanges();
+                            return RedirectToAction("Insert");
+                        }
+                        else
+                        {
+                            TempData["Message"] = "Entered verification code is not the same. Please try again.";
+                            TempData["messageClass"] = "alert-warning";
+                        }
                     }
                 }
+                ViewBag.Message = TempData["message"] == null ? null : TempData["message"].ToString();
+                ViewBag.MessageClass = TempData["messageClass"] == null ? null : TempData["messageClass"].ToString();
+                return RedirectToAction("Insert");
             }
-            ViewBag.Message = TempData["message"] == null ? null : TempData["message"].ToString();
-            ViewBag.MessageClass = TempData["messageClass"] == null ? null : TempData["messageClass"].ToString();
-            return RedirectToAction("Insert");
+            else
+            {
+                var application = db.SAMS_StudentApplications.Find(Convert.ToInt32(Session["ApplicationId"]));
+                TempData["IsAuthenticated"] = "true";
+                TempData["IsMailSent"] = "true";
+                if (application.HighSchoolGPA != null || application.MasterGPA != null || application.BachelorGPA != null)
+                {
+                    TempData["IsPersonalInfoEntered"] = "true";
+                }
+                return RedirectToAction("Insert");
+            }
+
         }
-        [HttpGet]//get requesti asıl insert için post request kısımı yazılacak. ama aynı başvuruyu bulmak ve onun üzerinden update yapmak gerekiyor. Verification code ve program seçimini tutabilmek
-        //için veri tabanında boş bir satıra açıp ekliyorum o aynı satır üzerinden düzenleme yapılarak doldurulacak. Mail db de olmasına gerek yok mailine bak spamda olabilir hala.
+
+        [HttpGet]
         public ActionResult Insert()
         {
             ViewBag.IsAuthenticated = TempData["IsAuthenticated"] == null ? null : TempData["IsAuthenticated"].ToString();
             ViewBag.isMailSent = TempData["isMailSent"] == null ? null : TempData["isMailSent"].ToString();
+            ViewBag.IsPersonalInfoEntered = TempData["IsPersonalInfoEntered"] == null ? null : TempData["IsPersonalInfoEntered"].ToString();
+            ViewBag.IsEducationalInfoEntered = TempData["IsEducationalInfoEntered"] == null ? null : TempData["IsEducationalInfoEntered"].ToString();
             ViewBag.Departments = new SelectList(db.SAMS_Department.ToList(), "Id", "DepartmentName");
             ViewBag.Programs = new SelectList(db.SAMS_Program.ToList(), "Id", "ProgramName");
-            if (TempData["ApplicationId"] != null)
+            ViewBag.StudentGenders = new SelectList(
+               new List<SelectListItem> {
+                   new SelectListItem { Text = "Male", Value = "Male" },
+                   new SelectListItem { Text = "Female", Value =  "Female" },
+                   }, "Value", "Text");
+            ViewBag.LanguageProficiency = new SelectList(
+            new List<SelectListItem> {
+                   new SelectListItem { Text = "Native Speaker", Value = "Native Speaker" },
+                   new SelectListItem { Text = "I don't have", Value =  "I don't have" },
+                   new SelectListItem { Text = "TOEFL PBT", Value = "TOEFL PBT" },
+                   new SelectListItem { Text = "TOEFL CBT", Value = "TOEFL CBT" },
+                   new SelectListItem { Text = "TOEFL IBT", Value = "TOEFL IBT" },
+                   new SelectListItem { Text = "PTE Academic", Value =  "PTE Academic" },
+                   new SelectListItem { Text = "YDS/e-YDS", Value = "YDS/e-YDS" },
+                   new SelectListItem { Text = "UDS", Value =  "UDS" },
+                   new SelectListItem { Text = "Other", Value = "Other" },
+            }, "Value", "Text");
+
+            if (Session["ApplicationId"] != null)
             {
-                var model = db.SAMS_StudentApplications.Find(Convert.ToInt32(TempData["ApplicationId"]));
+                ViewBag.IsAuthenticated = "true";
+                ViewBag.isMailSent = "true";
+                var model = db.SAMS_StudentApplications.Find(Convert.ToInt32(Session["ApplicationId"]));
+                if(model.HighSchoolGPA != null || model.MasterGPA != null || model.BachelorGPA != null)
+                {
+                    ViewBag.IsPersonalInfoEntered = "true";
+                }
+
+                if (model.DepartmentId != null)
+                {
+                    foreach (SelectListItem a in ViewBag.Departments)
+                    {
+                        if (Convert.ToInt32(a.Value) == model.DepartmentId)
+                        {
+                            a.Selected = true;
+                        }
+                    }
+                }
+                if (model.ProgramId != null)
+                {
+                    foreach (SelectListItem a in ViewBag.Programs)
+                    {
+                        if (Convert.ToInt32(a.Value) == model.ProgramId)
+                        {
+                            a.Selected = true;
+                        }
+                    }
+                }
+                if (model.LanguageProficiency != null)
+                {
+                    foreach (SelectListItem a in ViewBag.LanguageProficiency)
+                    {
+                        if (a.Value == model.LanguageProficiency)
+                        {
+                            a.Selected = true;
+                        }
+                    }
+                }
                 model.VerificationCode = null;
                 return View(model);
             }
             else
             {
+                if (TempData["ApplicationId"] != null)
+                {
+                    var model = db.SAMS_StudentApplications.Find(Convert.ToInt32(TempData["ApplicationId"]));
+                    model.VerificationCode = null;
+                    return View(model);
+                }
                 return View();
             }
+        }
+
+        [HttpPost]
+        public ActionResult Insert(SAMS_StudentApplications application)
+        {
+            var app = db.SAMS_StudentApplications.Find(application.Id);
+            app.GUID = Guid.NewGuid();
+            app.DepartmentId = Convert.ToInt32(application.DepartmentId);
+            app.StudentFirstName = application.StudentFirstName;
+            app.StudentLastName = application.StudentLastName;
+            app.Gender = application.Gender;
+            app.PhoneNumber = application.PhoneNumber;
+            app.Address = application.Address;
+            app.Country = application.Country;
+            app.Citizenship = application.Citizenship;
+            app.PassportNumber = application.PassportNumber;
+            app.MotherName = application.MotherName;
+            app.FatherName = application.FatherName;
+            app.CreatedTime = DateTime.Now;
+
+            if(app.ProgramId == 6002)
+            {
+                app.BachelorGPA = application.BachelorGPA;
+                app.BachelorGradDate = application.BachelorGradDate;
+                app.BachelorProgram = application.BachelorProgram;
+                app.BachelorUni = application.BachelorUni;
+                app.BachelorCountry = application.BachelorCountry;
+                app.LanguageProficiency = application.LanguageProficiency;
+                if (application.BachelorGPA != null)
+                {
+                    TempData["IsEducationalInfoEntered"] = "true";
+                }
+            } else if (app.ProgramId == 6003)
+            {
+                app.MasterGPA = application.MasterGPA;
+                app.MasterGradDate = application.MasterGradDate;
+                app.MasterProgram = application.MasterProgram;
+                app.MasterUni = application.MasterUni;
+                app.MasterCountry = application.MasterCountry;
+                app.LanguageProficiency = application.LanguageProficiency;
+                if (application.MasterGPA != null)
+                {
+                    TempData["IsEducationalInfoEntered"] = "true";
+                }                
+            } else
+            {
+                app.HighSchoolCountry = application.HighSchoolCountry;
+                app.HighSchoolGPA = application.HighSchoolGPA;
+                app.HighSchoolGradYear = application.HighSchoolGradYear;
+                app.HighSchoolName = application.HighSchoolName;
+                app.IsGradFromUni = application.IsGradFromUni;
+                app.LanguageExamScore = application.LanguageExamScore;
+                app.DualCitizenship = application.DualCitizenship;
+                app.BlueCardOwner = application.BlueCardOwner;
+                if (application.HighSchoolGPA != null)
+                {
+                    TempData["IsEducationalInfoEntered"] = "true";
+                }
+            }           
+            db.SaveChanges();
+            TempData["IsPersonalInfoEntered"] = "true";
+            return RedirectToAction("Insert");
         }
 
         //buna dokunma kanka ilk başta seçilen programın id sini tutabilmek için bunu yazdım.
         public ActionResult InsertInitial(int id)
         {
+            if(Session["ApplicationId"] != null)
+            {
+                var model = db.SAMS_StudentApplications.Find(Convert.ToInt32(TempData["ApplicationId"]));
+                if(model.ProgramId != id)
+                {
+                    Session.Abandon();
+                }
+            }
             Session["ProgramId"] = id;
             ViewBag.Departments = new SelectList(db.SAMS_Department.ToList(), "Id", "DepartmentName");
             ViewBag.Programs = new SelectList(db.SAMS_Program.ToList(), "Id", "ProgramName");

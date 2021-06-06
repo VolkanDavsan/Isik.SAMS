@@ -71,6 +71,11 @@
     <Property Name="DualCitizenship" Type="bit" />
     <Property Name="BlueCardOwner" Type="bit" />
     <Property Name="IsGradFromUni" Type="bit" />
+    <Property Name="MasterUni" Type="nvarchar" MaxLength="200" />
+    <Property Name="MasterProgram" Type="nvarchar" MaxLength="200" />
+    <Property Name="MasterGPA" Type="decimal" Precision="3" Scale="2" />
+    <Property Name="MasterCountry" Type="nvarchar" MaxLength="100" />
+    <Property Name="MasterGradDate" Type="date" />
     <Property Name="VerificationCode" Type="nvarchar" MaxLength="10" />
     <Property Name="DepartmentId" Type="int" />
     <Property Name="ApprovedBy" Type="int" />
