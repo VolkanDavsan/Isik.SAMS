@@ -50,6 +50,8 @@
     <Property Name="StudentFirstName" Type="nvarchar" MaxLength="100" />
     <Property Name="StudentLastName" Type="nvarchar" MaxLength="100" />
     <Property Name="PassportNumber" Type="nvarchar" MaxLength="100" />
+    <Property Name="DateofBirth" Type="date" />
+    <Property Name="CityofBirth" Type="nvarchar" MaxLength="100" />
     <Property Name="Gender" Type="nvarchar" MaxLength="10" />
     <Property Name="Citizenship" Type="nvarchar" MaxLength="50" />
     <Property Name="PhoneNumber" Type="nvarchar" MaxLength="100" />
@@ -67,6 +69,7 @@
     <Property Name="HighSchoolGradYear" Type="nvarchar" MaxLength="100" />
     <Property Name="HighSchoolGPA" Type="decimal" Precision="5" Scale="2" />
     <Property Name="HighSchoolCountry" Type="nvarchar" MaxLength="100" />
+    <Property Name="HighSchoolCity" Type="nvarchar" MaxLength="100" />
     <Property Name="LanguageExamScore" Type="int" />
     <Property Name="DualCitizenship" Type="bit" />
     <Property Name="BlueCardOwner" Type="bit" />
@@ -79,6 +82,7 @@
     <Property Name="VerificationCode" Type="nvarchar" MaxLength="10" />
     <Property Name="DepartmentId" Type="int" />
     <Property Name="ApprovedBy" Type="int" />
+    <Property Name="RejectedBy" Type="int" />
     <Property Name="Status" Type="int" />
     <Property Name="EnrolledBy" Type="int" />
     <Property Name="ProgramId" Type="int" />

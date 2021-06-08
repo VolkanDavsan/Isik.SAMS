@@ -183,10 +183,10 @@
                                     })
                                 </div>
                             </div>
-                            if (ViewBag.LoginErrorMessage != null)
+                            if (ViewBag.VerificationErrorMessage != null)
                             {
                                 <div class="row">
-                                    <label class="field-validation-error">@ViewBag.LoginErrorMessage</label>
+                                    <p id="wrongVerificationMessage" style="text-align:center; font-size:15px; color:red;">@ViewBag.VerificationErrorMessage</p>
                                 </div>
                             }
 
@@ -202,7 +202,8 @@
                                             {"placeholder", "Please enter the verification code."},
                                             {"required", "" },
                                             {"oninvalid","this.setCustomValidity('Please enter the verification code.')" },
-                                            {"oninput","this.setCustomValidity('')" }
+                                            {"oninput","this.setCustomValidity('')" },
+                                            { "onkeyup", "hideMessage()" }
                                         })
                                     </div>
                                 </div>
@@ -285,9 +286,32 @@
                                         {"oninput","this.setCustomValidity('')" }
                                     })
                                 </div>
+                                <div class="form-group col-md-6">
+                                    <label class="req" for="code">City of Birth</label>
+                                    @Html.TextBoxFor(model => model.CityofBirth, new Dictionary<string, object>()
+                                    {
+                                        {"class", "form-control"},
+                                        {"placeholder", "Please enter your City of Birth."},
+                                        {"required", "" },
+                                        {"oninvalid","this.setCustomValidity('Please enter your City of Birth.')" },
+                                        {"oninput","this.setCustomValidity('')" }
+                                    })
+                                </div>
                                 <div class="form-group col-md-6" id="ddlGender">
                                     <label class="req" for="code">Gender</label>
                                     @Html.DropDownListFor(model => model.Gender, ViewBag.StudentGenders as SelectList, "Select your Gender", new { @class = "form-control" })
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label class="req" for="code">Date of Birth</label>
+                                    @Html.TextBoxFor(model => model.DateofBirth, "{0:yyyy-MM-dd}", new Dictionary<string, object>()
+                                    {
+                                        {"class", "form-control"},
+                                        {"placeholder", "Please enter your Birthday."},
+                                        {"type", "date" },
+                                        {"required", "" },
+                                        {"oninvalid","this.setCustomValidity('Please enter your Birthday.')" },
+                                        {"oninput","this.setCustomValidity('')" }
+                                    })
                                 </div>
                                 <div class="form-group col-md-6">
                                     <label class="req" for="code">Phone Number</label>
@@ -312,16 +336,9 @@
                                         {"oninput","this.setCustomValidity('')" }
                                     })
                                 </div>
-                                <div class="form-group col-md-6">
+                                <div class="form-group col-md-6" id="ddlCountry">
                                     <label class="req" for="code">Country</label>
-                                    @Html.TextBoxFor(model => model.Country, new Dictionary<string, object>()
-                                    {
-                                        {"class", "form-control"},
-                                        {"placeholder", "Please enter your Country."},
-                                        {"required", "" },
-                                        {"oninvalid","this.setCustomValidity('Please enter your Country.')" },
-                                        {"oninput","this.setCustomValidity('')" }
-                                    })
+                                    @Html.DropDownListFor(model => model.Country, ViewBag.Countries as SelectList, "Select one", new { @class = "form-control" })
                                 </div>
                                 <div class="form-group col-md-6">
                                     <label class="req" for="code">Citizenship</label>
@@ -376,7 +393,7 @@
                                 <p style="text-align:center; font-size:16px; margin-bottom:15px; color:black; font-weight:bold;">EDUCATIONAL INFORMATION</p>
                                 <div class="row">
 
-                                    @if (Model.ProgramId == 1027)
+                                    @if (Model.ProgramId == 6002)
                                     {
                                         <div class="form-group col-md-6">
                                             <label class="req" for="code">Bachelor University</label>
@@ -400,20 +417,13 @@
                                                 {"oninput","this.setCustomValidity('')" }
                                             })
                                         </div>
-                                        <div class="form-group col-md-6">
+                                        <div class="form-group col-md-6" id="ddlBachelorCountry">
                                             <label class="req" for="code">Bachelor University Country</label>
-                                            @Html.TextBoxFor(model => model.BachelorCountry, new Dictionary<string, object>()
-                                            {
-                                                {"class", "form-control"},
-                                                {"placeholder", "Please enter your Bachelor University Country."},
-                                                {"required", "" },
-                                                {"oninvalid","this.setCustomValidity('Please enter your Bachelor University Country.')" },
-                                                {"oninput","this.setCustomValidity('')" }
-                                            })
+                                            @Html.DropDownListFor(model => model.BachelorCountry, ViewBag.Countries as SelectList, "Select one", new { @class = "form-control" })
                                         </div>
                                         <div class="form-group col-md-6">
                                             <label class="req" for="code">Bachelor Graduation Date</label>
-                                            @Html.TextBoxFor(model => model.BachelorGradDate, new Dictionary<string, object>()
+                                            @Html.TextBoxFor(model => model.BachelorGradDate, "{0:yyyy-MM-dd}", new Dictionary<string, object>()
                                             {
                                                 {"class", "form-control"},
                                                 {"placeholder", "Please enter your Bachelor ."},
@@ -440,10 +450,10 @@
                                         </div>
                                         <div class="form-group col-md-6" id="ddlLanguageProficiency">
                                             <label class="req" for="code">Language Proficiency</label>
-                                            @Html.DropDownListFor(model => model.LanguageProficiency, ViewBag.LanguageProficiency as SelectList, "Select One", new { @class = "form-control" })
+                                            @Html.DropDownListFor(model => model.LanguageProficiency, ViewBag.Proficiency as SelectList, "Select One", new { @class = "form-control" })
                                         </div>
                                     }
-                                    else if (Model.ProgramId == 1029)
+                                    else if (Model.ProgramId == 8002)
                                     {
                                         <div class="checkboxes">
                                             <div class="form-group col-md-6">
@@ -490,9 +500,13 @@
                                                 {"oninput","this.setCustomValidity('')" }
                                             })
                                         </div>
-                                        <div class="form-group col-md-6">
+                                        <div class="form-group col-md-6" id="ddlHighSchoolCountry">
                                             <label class="req" for="code">High School Country</label>
-                                            @Html.TextBoxFor(model => model.HighSchoolCountry, new Dictionary<string, object>()
+                                            @Html.DropDownListFor(model => model.HighSchoolCountry, ViewBag.Countries as SelectList, "Select one", new { @class = "form-control" })
+                                        </div>
+                                        <div class="form-group col-md-6">
+                                            <label class="req" for="code">High School City</label>
+                                            @Html.TextBoxFor(model => model.HighSchoolCity, new Dictionary<string, object>()
                                             {
                                                 {"class", "form-control"},
                                                 {"placeholder", "Please enter your High School Country."},
@@ -527,6 +541,10 @@
                                                 {"oninvalid","this.setCustomValidity('Please enter your High School GPA.')" },
                                                 {"oninput","this.setCustomValidity('')" }
                                             })
+                                        </div>
+                                        <div class="form-group col-md-6" id="ddlLanguageProficiency">
+                                            <label class="req" for="code">Language Proficiency</label>
+                                            @Html.DropDownListFor(model => model.LanguageProficiency, ViewBag.Proficiency as SelectList, "Select One", new { @class = "form-control" })
                                         </div>
                                         <div class="form-group col-md-6">
                                             <label class="req" for="code">Language Exam Score</label>
@@ -568,20 +586,13 @@
                                                 {"oninput","this.setCustomValidity('')" }
                                             })
                                         </div>
-                                        <div class="form-group col-md-6">
+                                        <div class="form-group col-md-6" id="ddlMasterCountry">
                                             <label class="req" for="code">Master Country</label>
-                                            @Html.TextBoxFor(model => model.MasterCountry, new Dictionary<string, object>()
-                                            {
-                                                {"class", "form-control"},
-                                                {"placeholder", "Please enter your Master Degree University."},
-                                                {"required", "" },
-                                                {"oninvalid","this.setCustomValidity('Please enter your Master Degree University.')" },
-                                                {"oninput","this.setCustomValidity('')" }
-                                            })
+                                            @Html.DropDownListFor(model => model.MasterCountry, ViewBag.Countries as SelectList, "Select one", new { @class = "form-control" })
                                         </div>
                                         <div class="form-group col-md-6">
                                             <label class="req" for="code">Master Graduation Date</label>
-                                            @Html.TextBoxFor(model => model.MasterGradDate, new Dictionary<string, object>()
+                                            @Html.TextBoxFor(model => model.MasterGradDate, "{0:yyyy-MM-dd}", new Dictionary<string, object>()
                                             {
                                                 {"class", "form-control"},
                                                 {"placeholder", "Please enter your Master Graduation Date."},
@@ -608,7 +619,7 @@
                                         </div>
                                         <div class="form-group col-md-6" id="ddlLanguageProficiency">
                                             <label class="req" for="code">Language Proficiency</label>
-                                            @Html.DropDownListFor(model => model.LanguageProficiency, ViewBag.LanguageProficiency as SelectList, "Select One", new { @class = "form-control" })
+                                            @Html.DropDownListFor(model => model.LanguageProficiency, ViewBag.Proficiency as SelectList, "Select One", new { @class = "form-control" })
                                         </div>
                                     }
 
@@ -633,6 +644,11 @@
             </div>
         </div>
     </div>
+    <script>
+        function hideMessage() {
+            document.getElementById("wrongVerificationMessage").hidden = true;
+        }
+    </script>
 </body>
 </html>
 

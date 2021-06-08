@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -120,13 +121,14 @@ namespace Isik.SAMS.Controllers
                         }
                         else
                         {
-                            TempData["Message"] = "Entered verification code is not the same. Please try again.";
-                            TempData["messageClass"] = "alert-warning";
+                            TempData["VerificationErrorMessage"] = "Entered verification code is not the same. Please try again.";
+                            TempData["IsMailSent"] = "true";
+                            TempData["ApplicationId"] = studentApplicationDetail.Id;
+                            return RedirectToAction("Insert");
                         }
                     }
                 }
-                ViewBag.Message = TempData["message"] == null ? null : TempData["message"].ToString();
-                ViewBag.MessageClass = TempData["messageClass"] == null ? null : TempData["messageClass"].ToString();
+
                 return RedirectToAction("Insert");
             }
             else
@@ -146,6 +148,7 @@ namespace Isik.SAMS.Controllers
         [HttpGet]
         public ActionResult Insert()
         {
+            ViewBag.VerificationErrorMessage = TempData["VerificationErrorMessage"] == null ? null : TempData["VerificationErrorMessage"].ToString();
             ViewBag.IsAuthenticated = TempData["IsAuthenticated"] == null ? null : TempData["IsAuthenticated"].ToString();
             ViewBag.isMailSent = TempData["isMailSent"] == null ? null : TempData["isMailSent"].ToString();
             ViewBag.IsPersonalInfoEntered = TempData["IsPersonalInfoEntered"] == null ? null : TempData["IsPersonalInfoEntered"].ToString();
@@ -157,7 +160,7 @@ namespace Isik.SAMS.Controllers
                    new SelectListItem { Text = "Male", Value = "Male" },
                    new SelectListItem { Text = "Female", Value =  "Female" },
                    }, "Value", "Text");
-            ViewBag.LanguageProficiency = new SelectList(
+            ViewBag.Proficiency = new SelectList(
             new List<SelectListItem> {
                    new SelectListItem { Text = "Native Speaker", Value = "Native Speaker" },
                    new SelectListItem { Text = "I don't have", Value =  "I don't have" },
@@ -169,47 +172,28 @@ namespace Isik.SAMS.Controllers
                    new SelectListItem { Text = "UDS", Value =  "UDS" },
                    new SelectListItem { Text = "Other", Value = "Other" },
             }, "Value", "Text");
+            var countries = CultureInfo.GetCultures(CultureTypes.SpecificCultures)
+                   .Select(x => new RegionInfo(x.LCID).EnglishName)
+                   .Distinct()
+                   .OrderBy(x => x);
+            
+            List<SelectListItem> countryList = new List<SelectListItem>();
+            foreach (var a in countries)
+            {
+                countryList.Add(new SelectListItem { Text = a, Value = a });
+            }
+            ViewBag.Countries = new SelectList(countryList, "Value", "Text");
 
             if (Session["ApplicationId"] != null)
             {
                 ViewBag.IsAuthenticated = "true";
                 ViewBag.isMailSent = "true";
                 var model = db.SAMS_StudentApplications.Find(Convert.ToInt32(Session["ApplicationId"]));
-                if(model.HighSchoolGPA != null || model.MasterGPA != null || model.BachelorGPA != null)
+                if (model.HighSchoolGPA != null || model.MasterGPA != null || model.BachelorGPA != null)
                 {
                     ViewBag.IsPersonalInfoEntered = "true";
                 }
 
-                if (model.DepartmentId != null)
-                {
-                    foreach (SelectListItem a in ViewBag.Departments)
-                    {
-                        if (Convert.ToInt32(a.Value) == model.DepartmentId)
-                        {
-                            a.Selected = true;
-                        }
-                    }
-                }
-                if (model.ProgramId != null)
-                {
-                    foreach (SelectListItem a in ViewBag.Programs)
-                    {
-                        if (Convert.ToInt32(a.Value) == model.ProgramId)
-                        {
-                            a.Selected = true;
-                        }
-                    }
-                }
-                if (model.LanguageProficiency != null)
-                {
-                    foreach (SelectListItem a in ViewBag.LanguageProficiency)
-                    {
-                        if (a.Value == model.LanguageProficiency)
-                        {
-                            a.Selected = true;
-                        }
-                    }
-                }
                 model.VerificationCode = null;
                 return View(model);
             }
@@ -234,6 +218,8 @@ namespace Isik.SAMS.Controllers
             app.StudentFirstName = application.StudentFirstName;
             app.StudentLastName = application.StudentLastName;
             app.Gender = application.Gender;
+            app.CityofBirth = application.CityofBirth;
+            app.DateofBirth = application.DateofBirth;
             app.PhoneNumber = application.PhoneNumber;
             app.Address = application.Address;
             app.Country = application.Country;
@@ -243,7 +229,7 @@ namespace Isik.SAMS.Controllers
             app.FatherName = application.FatherName;
             app.CreatedTime = DateTime.Now;
 
-            if(app.ProgramId == 1027)
+            if (app.ProgramId == 6002)
             {
                 app.BachelorGPA = application.BachelorGPA;
                 app.BachelorGradDate = application.BachelorGradDate;
@@ -251,37 +237,50 @@ namespace Isik.SAMS.Controllers
                 app.BachelorUni = application.BachelorUni;
                 app.BachelorCountry = application.BachelorCountry;
                 app.LanguageProficiency = application.LanguageProficiency;
+                var appStatus = db.SAMS_ApplicationStatus.Find(1);
+                app.Status = 1;
+                app.StatusName = appStatus.StatusName;
                 if (application.BachelorGPA != null)
                 {
                     TempData["IsEducationalInfoEntered"] = "true";
                 }
-            } else if (app.ProgramId == 1028)
-            {
+            }
+            else if (app.ProgramId == 6003)
+            {                
                 app.MasterGPA = application.MasterGPA;
                 app.MasterGradDate = application.MasterGradDate;
                 app.MasterProgram = application.MasterProgram;
                 app.MasterUni = application.MasterUni;
                 app.MasterCountry = application.MasterCountry;
                 app.LanguageProficiency = application.LanguageProficiency;
+                var appStatus = db.SAMS_ApplicationStatus.Find(1);
+                app.Status = 1;
+                app.StatusName = appStatus.StatusName;
                 if (application.MasterGPA != null)
                 {
                     TempData["IsEducationalInfoEntered"] = "true";
-                }                
-            } else
+                }
+            }
+            else
             {
                 app.HighSchoolCountry = application.HighSchoolCountry;
                 app.HighSchoolGPA = application.HighSchoolGPA;
                 app.HighSchoolGradYear = application.HighSchoolGradYear;
                 app.HighSchoolName = application.HighSchoolName;
+                app.HighSchoolCity = application.HighSchoolCity;
                 app.IsGradFromUni = application.IsGradFromUni;
                 app.LanguageExamScore = application.LanguageExamScore;
                 app.DualCitizenship = application.DualCitizenship;
                 app.BlueCardOwner = application.BlueCardOwner;
+                app.LanguageProficiency = application.LanguageProficiency;
+                var appStatus = db.SAMS_ApplicationStatus.Find(1);
+                app.Status = 1;
+                app.StatusName = appStatus.StatusName;
                 if (application.HighSchoolGPA != null)
                 {
                     TempData["IsEducationalInfoEntered"] = "true";
                 }
-            }           
+            }
             db.SaveChanges();
             TempData["IsPersonalInfoEntered"] = "true";
             return RedirectToAction("Insert");
@@ -290,17 +289,15 @@ namespace Isik.SAMS.Controllers
         //buna dokunma kanka ilk başta seçilen programın id sini tutabilmek için bunu yazdım.
         public ActionResult InsertInitial(int id)
         {
-            if(Session["ApplicationId"] != null)
+            if (Session["ApplicationId"] != null)
             {
-                var model = db.SAMS_StudentApplications.Find(Convert.ToInt32(TempData["ApplicationId"]));
-                if(model.ProgramId != id)
+                var model = db.SAMS_StudentApplications.Find(Convert.ToInt32(Session["ApplicationId"]));
+                if (model.ProgramId != id)
                 {
                     Session.Abandon();
                 }
             }
             Session["ProgramId"] = id;
-            ViewBag.Departments = new SelectList(db.SAMS_Department.ToList(), "Id", "DepartmentName");
-            ViewBag.Programs = new SelectList(db.SAMS_Program.ToList(), "Id", "ProgramName");
             return View("Insert");
         }
     }

@@ -33,6 +33,7 @@ namespace Isik.SAMS.Models.Entity
         public Nullable<int> ProgramId { get; set; }
         public string DepartmentName { get; set; }
         public string ProgramName { get; set; }
+        public string StatusName { get; set; }
         public Nullable<System.Guid> GUID { get; set; }
         public string PassportNumber { get; set; }
         public string Gender { get; set; }
@@ -64,6 +65,11 @@ namespace Isik.SAMS.Models.Entity
         public string MasterCountry { get; set; }
         [DataType(DataType.Date)]
         public Nullable<System.DateTime> MasterGradDate { get; set; }
+        [DataType(DataType.Date)]
+        public Nullable<System.DateTime> DateofBirth { get; set; }
+        public string CityofBirth { get; set; }
+        public string HighSchoolCity { get; set; }
+        public Nullable<int> RejectedBy { get; set; }
 
         public virtual SAMS_ApplicationStatus SAMS_ApplicationStatus { get; set; }
         public virtual SAMS_Department SAMS_Department { get; set; }

@@ -94,6 +94,10 @@
     <Property Name="MasterGPA" Type="Decimal" Precision="3" Scale="2" />
     <Property Name="MasterCountry" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
     <Property Name="MasterGradDate" Type="DateTime" Precision="0" />
+    <Property Name="DateofBirth" Type="DateTime" Precision="0" />
+    <Property Name="CityofBirth" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="HighSchoolCity" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="RejectedBy" Type="Int32" />
   </EntityType>
   <EntityType Name="SAMS_Users">
     <Key>

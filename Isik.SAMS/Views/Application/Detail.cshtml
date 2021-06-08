@@ -51,23 +51,29 @@
                         <span>@Model.DepartmentName</span>
                     </span>
                     <span class="cover-label">
+                        <strong>Status</strong>
+                        <span>@Model.StatusName</span>
+                    </span>
+                    <span class="cover-label">
 
                         <strong>Application Date</strong>
                         <span>@Model.CreatedTime</span>
 
                     </span>
-
-                    <div class="pull-right">
-                        <a class="btn btn-info btn-sm pull-right ml-1" data-task="Insert" data-method="GET" data-href="@Url.Action("Insert","Account")">
-                            <i class="icon-download"></i> Dosyaları İndir
-                        </a>
-                        <a class="btn btn-danger btn-sm pull-right ml-1" data-task="Insert" data-method="GET" data-href="@Url.Action("Insert","Account")">
-                            <i class="icon-cancel-2"></i> Reddet
-                        </a>
-                        <a class="btn btn-success btn-sm pull-right ml-1" data-task="Insert" data-method="GET" data-href="@Url.Action("Insert","Account")">
-                            <i class="icon-ok-2"></i> Onayla
-                        </a>
-                    </div>
+                    @if (Model.Status == 2 || Model.Status == 1 || Model.Status == 3)
+                    {
+                        <div class="pull-right">
+                            <a class="btn btn-info btn-sm pull-right ml-1" data-task="Insert" data-method="GET" data-href="@Url.Action("Insert", "Account")">
+                                <i class="icon-download"></i> Dosyaları İndir
+                            </a>
+                            <a class="btn btn-danger btn-sm pull-right ml-1" onclick="rejectApplication('@(Model.Id)')">
+                                <i class="icon-cancel-2"></i> Reddet
+                            </a>
+                            <button class="btn btn-success btn-sm pull-right ml-1" onclick="approveApplication('@(Model.Id)');">
+                                <i class="icon-ok-2"></i> Onayla
+                            </button>
+                        </div>
+                    }
                 </div>
             </div>
         </div>
@@ -107,13 +113,18 @@
                                 </div>
                                 <hr>
                                 <div class="clearfix">
-                                    <div class="pull-left"><strong>Passport Number</strong></div>
-                                    <div class="pull-right">@Model.PassportNumber</div>
+                                    <div class="pull-left"><strong>Date of Birth</strong></div>
+                                    <div class="pull-right">@Model.DateofBirth</div>
                                 </div>
                                 <hr>
                                 <div class="clearfix">
-                                    <div class="pull-left"><strong>Date of Birth</strong></div>
-                                    <div class="pull-right">30.10.1994</div>
+                                    <div class="pull-left"><strong>City of Birth</strong></div>
+                                    <div class="pull-right">@Model.CityofBirth</div>
+                                </div>
+                                <hr>
+                                <div class="clearfix">
+                                    <div class="pull-left"><strong>Passport Number</strong></div>
+                                    <div class="pull-right">@Model.PassportNumber</div>
                                 </div>
                                 <hr>
                                 <div class="clearfix">
@@ -124,11 +135,6 @@
                                 <div class="clearfix">
                                     <div class="pull-left"><strong>Citizenship</strong></div>
                                     <div class="pull-right">@Model.Citizenship</div>
-                                </div>
-                                <hr>
-                                <div class="clearfix">
-                                    <div class="pull-left"><strong>City of Birth</strong></div>
-                                    <div class="pull-right">Istanbul</div>
                                 </div>
                                 <hr>
                             </div>
@@ -167,7 +173,7 @@
                 </div>
                 <div class="tab-pane fade" id="leave" role="tabpanel" aria-labelledby="leave-tab">
                     <div>
-                        @if (Model.ProgramId == 1029)
+                        @if (Model.ProgramId == 8002)
                         {
                             <div class="row">
                                 <div class="col-md-6">
@@ -188,44 +194,49 @@
                                         <div class="pull-right">@Model.IsGradFromUni</div>
                                     </div>
                                     <hr>
+                                </div>
+                                <div class="col-md-6">
+
+                                    <div class="clearfix">
+                                        <div class="pull-left"><strong>Secondary High Name</strong></div>
+                                        <div class="pull-right">@Model.HighSchoolName</div>
+                                    </div>
+                                    <hr>
+                                    <div class="clearfix">
+                                        <div class="pull-left"><strong>Graduation Year of High School</strong></div>
+                                        <div class="pull-right">@Model.HighSchoolGradYear</div>
+                                    </div>
+                                    <hr>
+                                    <div class="clearfix">
+                                        <div class="pull-left"><strong>GPA of High School</strong></div>
+                                        <div class="pull-right">@Model.HighSchoolGPA</div>
+                                    </div>
+                                    <hr>
+                                    <div class="clearfix">
+                                        <div class="pull-left"><strong>Country of High School</strong></div>
+                                        <div class="pull-right">@Model.HighSchoolCountry</div>
+                                    </div>
+                                    <hr>
+                                    <div class="clearfix">
+                                        <div class="pull-left"><strong>City of High School</strong></div>
+                                        <div class="pull-right">@Model.HighSchoolCity</div>
+                                    </div>
+                                    <hr>
                                     <div class="clearfix">
                                         <div class="pull-left"><strong>Language Exam Score</strong></div>
                                         <div class="pull-right">@Model.LanguageExamScore</div>
                                     </div>
                                     <hr>
-                                </div>
-                                <div class="col-md-6">
-
                                     <div class="clearfix">
-                                        <div class="pull-left"><strong>Secondary School Name</strong></div>
-                                        <div class="pull-right">@Model.HighSchoolName</div>
-                                    </div>
-                                    <hr>
-                                    <div class="clearfix">
-                                        <div class="pull-left"><strong>Graduation Year of Secondary School</strong></div>
-                                        <div class="pull-right">@Model.HighSchoolGradYear</div>
-                                    </div>
-                                    <hr>
-                                    <div class="clearfix">
-                                        <div class="pull-left"><strong>GPA of Secondary School</strong></div>
-                                        <div class="pull-right">@Model.HighSchoolGPA</div>
-                                    </div>
-                                    <hr>
-                                    <div class="clearfix">
-                                        <div class="pull-left"><strong>Country of Secondary School</strong></div>
-                                        <div class="pull-right">@Model.HighSchoolCountry</div>
-                                    </div>
-                                    <hr>
-                                    <div class="clearfix">
-                                        <div class="pull-left"><strong>City of Secondary School</strong></div>
-                                        <div class="pull-right">Şile</div>
+                                        <div class="pull-left"><strong>Language Proficiency</strong></div>
+                                        <div class="pull-right">@Model.LanguageProficiency</div>
                                     </div>
                                     <hr>
 
                                 </div>
                             </div>
                         }
-                        @if (Model.ProgramId == 1027)
+                        @if (Model.ProgramId == 6002)
                         {
                             <div class="row">
                                 <div class="col-md-6">
@@ -263,7 +274,7 @@
                                 </div>
                             </div>
                         }
-                        @if (Model.ProgramId == 1028)
+                        @if (Model.ProgramId == 6003)
                         {
                             <div class="row">
                                 <div class="col-md-6">
@@ -470,8 +481,7 @@
                                             $(item).removeClass('hide');
                                         }
                                     });
-                                })
-                                ;
+                                });
                         </script>
                     </div>
 
@@ -480,6 +490,88 @@
         </div>
     </div>
 </div>
+
+<script src="/Assets/lib/sweetalerts/sweetalert.js"></script>
+<script type="text/javascript">
+    function approveApplication(id) {
+        swal({
+            title: "Are you sure?",
+            text: "Are you sure that you want to approve this application?",
+            type: "warning",
+            showCancelButton: true,
+            confirmButtonText: "Yes, approve it!",
+            confirmButtonColor: "#ec6c62"
+        }).then((result) => {
+            if (result) {
+                $.ajax({
+                    dataType: 'JSON',
+                    type: 'POST',
+                    async: false,
+                    timeout: 600000,
+                    url: "/Application/Approval?id=" + id,
+                    success: function () {
+                        showApprovalMessage();
+                    },
+                    error: function () {
+                        swal("Oops", "We couldn't connect to the server!", "error");
+                    }
+                });
+            }
+        });
+    }
+
+    function showApprovalMessage() {
+        debugger;
+        $.ajax({
+            type: "POST",
+            url: '/Application/ApprovalMessage/',
+            contentType: "application/json; charset=utf-8",
+            dataType: "text",
+            success: function (response) {
+                window.location.href = "/Application/";
+            }
+        });
+    }
+
+    function rejectApplication(id) {
+        swal({
+            title: "Are you sure?",
+            text: "Are you sure that you want to reject this application?",
+            type: "warning",
+            showCancelButton: true,
+            confirmButtonText: "Yes, reject it!",
+            confirmButtonColor: "#ec6c62"
+        }).then((result) => {
+            if (result) {
+                $.ajax({
+                    dataType: 'JSON',
+                    type: 'POST',
+                    async: false,
+                    timeout: 600000,
+                    url: "/Application/Reject?id=" + id,
+                    success: function () {
+                        showRejectMessage();
+                    },
+                    error: function () {
+                        swal("Oops", "We couldn't connect to the server!", "error");
+                    }
+                });
+            }
+        });
+    }
+
+    function showRejectMessage() {
+        $.ajax({
+            type: "POST",
+            url: '/Application/RejectMessage/',
+            contentType: "application/json; charset=utf-8",
+            dataType: "text",
+            success: function (response) {
+                window.location.href = "/Application/";
+            }
+        });
+    }
+</script>
 @*<div class="fixedStart">
     <input type="checkbox" checked id="fixed">
     <label title="" for="fixed" id="fixed"><i class="fa-2x fa fa-plus"> </i></label>
