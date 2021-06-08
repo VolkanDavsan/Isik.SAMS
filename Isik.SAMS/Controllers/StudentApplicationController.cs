@@ -65,7 +65,7 @@ namespace Isik.SAMS.Controllers
                     using (SmtpClient smtp = new SmtpClient())
                     {
                         smtp.Connect("smtp.gmail.com", 465, true);
-                        smtp.Authenticate("samsinfo.noreply@gmail.com", "zywwcswqzucuzumw");
+                        smtp.Authenticate("samsinfo.noreply@gmail.com", "qultbqdkozwvfhgt");
                         smtp.Send(email);
                         smtp.Disconnect(true);
                         TempData["IsMailSent"] = "true";
@@ -243,7 +243,7 @@ namespace Isik.SAMS.Controllers
             app.FatherName = application.FatherName;
             app.CreatedTime = DateTime.Now;
 
-            if(app.ProgramId == 6002)
+            if(app.ProgramId == 1027)
             {
                 app.BachelorGPA = application.BachelorGPA;
                 app.BachelorGradDate = application.BachelorGradDate;
@@ -255,7 +255,7 @@ namespace Isik.SAMS.Controllers
                 {
                     TempData["IsEducationalInfoEntered"] = "true";
                 }
-            } else if (app.ProgramId == 6003)
+            } else if (app.ProgramId == 1028)
             {
                 app.MasterGPA = application.MasterGPA;
                 app.MasterGradDate = application.MasterGradDate;

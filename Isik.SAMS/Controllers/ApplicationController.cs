@@ -18,9 +18,34 @@ namespace Isik.SAMS.Controllers
             var model = db.SAMS_StudentApplications.ToList();
             return View(model);
         }
-        public ActionResult Detail()
+        public ActionResult Detail(int? id)
         {
-            return View();
+            var model = db.SAMS_StudentApplications.ToList();
+           
+            foreach (var a in model)
+            {
+                var dep = db.SAMS_Department.Find(a.DepartmentId);
+                if(dep != null)
+                {
+                    a.DepartmentName = dep.DepartmentName;
+                }
+
+                var prog = db.SAMS_Program.Find(a.ProgramId);
+                if(prog != null)
+                {
+                    a.ProgramName = prog.ProgramName;
+                }
+
+            }
+            if (id != null)
+            {
+                var application = db.SAMS_StudentApplications.Find(id);
+                return View(application);
+            }
+            else
+            {
+                return RedirectToAction("Index");
+            }
         }
     }
 }

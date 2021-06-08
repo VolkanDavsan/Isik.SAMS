@@ -252,7 +252,7 @@
                         @Html.AntiForgeryToken()
                         @Html.HiddenFor(model => model.Id)
                         <div class="personalInfo">
-                            <p style="text-align:center; font-size:22px; color:black; font-weight:bold;">APPICATION FORM</p>
+                            <p style="text-align:center; font-size:22px; color:black; font-weight:bold;">APPLICATION FORM</p>
                             <p style="text-align:center; font-size:16px; color:black; font-weight:bold; margin-bottom:15px">PERSONAL INFORMATION</p>
                             <div class="row">
                                 <div class="form-group col-md-6" id="ddlProgram">
@@ -376,7 +376,7 @@
                                 <p style="text-align:center; font-size:16px; margin-bottom:15px; color:black; font-weight:bold;">EDUCATIONAL INFORMATION</p>
                                 <div class="row">
 
-                                    @if (Model.ProgramId == 6002)
+                                    @if (Model.ProgramId == 1027)
                                     {
                                         <div class="form-group col-md-6">
                                             <label class="req" for="code">Bachelor University</label>
@@ -443,7 +443,7 @@
                                             @Html.DropDownListFor(model => model.LanguageProficiency, ViewBag.LanguageProficiency as SelectList, "Select One", new { @class = "form-control" })
                                         </div>
                                     }
-                                    else if (Model.ProgramId == 8002)
+                                    else if (Model.ProgramId == 1029)
                                     {
                                         <div class="checkboxes">
                                             <div class="form-group col-md-6">
@@ -529,7 +529,7 @@
                                             })
                                         </div>
                                         <div class="form-group col-md-6">
-                                            <label class="req" for="code">Lagnguage Exam Score</label>
+                                            <label class="req" for="code">Language Exam Score</label>
                                             @Html.TextBoxFor(model => model.LanguageExamScore, new Dictionary<string, object>()
                                             {
                                                 {"class", "form-control"},

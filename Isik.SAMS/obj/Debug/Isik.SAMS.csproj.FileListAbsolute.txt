@@ -344,3 +344,13 @@ C:\SAMS\Isik.SAMS\Isik.SAMS\bin\MailKit.xml
 C:\SAMS\Isik.SAMS\Isik.SAMS\bin\MimeKit.pdb
 C:\SAMS\Isik.SAMS\Isik.SAMS\bin\MimeKit.xml
 C:\SAMS\Isik.SAMS\Isik.SAMS\bin\System.Buffers.xml
+C:\Isik.SAMS\Isik.SAMS\bin\BouncyCastle.Crypto.dll
+C:\Isik.SAMS\Isik.SAMS\bin\MailKit.dll
+C:\Isik.SAMS\Isik.SAMS\bin\MimeKit.dll
+C:\Isik.SAMS\Isik.SAMS\bin\System.Buffers.dll
+C:\Isik.SAMS\Isik.SAMS\bin\BouncyCastle.Crypto.xml
+C:\Isik.SAMS\Isik.SAMS\bin\MailKit.pdb
+C:\Isik.SAMS\Isik.SAMS\bin\MailKit.xml
+C:\Isik.SAMS\Isik.SAMS\bin\MimeKit.pdb
+C:\Isik.SAMS\Isik.SAMS\bin\MimeKit.xml
+C:\Isik.SAMS\Isik.SAMS\bin\System.Buffers.xml

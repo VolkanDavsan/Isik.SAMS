@@ -31,6 +31,8 @@ namespace Isik.SAMS.Models.Entity
         public Nullable<int> Status { get; set; }
         public Nullable<int> EnrolledBy { get; set; }
         public Nullable<int> ProgramId { get; set; }
+        public string DepartmentName { get; set; }
+        public string ProgramName { get; set; }
         public Nullable<System.Guid> GUID { get; set; }
         public string PassportNumber { get; set; }
         public string Gender { get; set; }
