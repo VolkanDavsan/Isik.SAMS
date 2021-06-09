@@ -12,6 +12,8 @@ namespace Isik.SAMS.Models.Entity
     using System;
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
+    using System.Web;
+    using System.Web.Mvc;
 
     public partial class SAMS_StudentApplications
     {
@@ -70,6 +72,37 @@ namespace Isik.SAMS.Models.Entity
         public string CityofBirth { get; set; }
         public string HighSchoolCity { get; set; }
         public Nullable<int> RejectedBy { get; set; }
+
+        public HttpPostedFileBase highSchoolTranscript { get; set; }
+        public FileContentResult highSchoolTranscriptContentResult { get; set; }
+        public HttpPostedFileBase residencePermit { get; set; }
+        public FileContentResult residencePermitContentResult { get; set; }
+        public HttpPostedFileBase equivalenceCertificate { get; set; }
+        public FileContentResult equivalenceCertificateContentResult { get; set; }
+        public HttpPostedFileBase highSchoolDiploma { get; set; }
+        public FileContentResult highSchoolDiplomaContentResult { get; set; }
+        public HttpPostedFileBase studentPhoto { get; set; }
+        public FileContentResult studentPhotoContentResult { get; set; }
+        public HttpPostedFileBase internationalExamScore { get; set; }
+        public FileContentResult internationalExamScoreContentResult { get; set; }
+        public HttpPostedFileBase IdorPassportCopy { get; set; }
+        public FileContentResult IdorPassportCopyContentResult { get; set; }
+        public HttpPostedFileBase englishLanguageProfScore { get; set; }
+        public FileContentResult englishLanguageProfScoreContentResult { get; set; }
+        public HttpPostedFileBase cv { get; set; }
+        public FileContentResult cvContentResult { get; set; }
+        public HttpPostedFileBase bachelorDiploma { get; set; }
+        public FileContentResult bachelorDiplomaContentResult { get; set; }
+        public HttpPostedFileBase bachelorTranscript { get; set; }
+        public FileContentResult bachelorTranscriptContentResult { get; set; }
+        public HttpPostedFileBase masterDiploma { get; set; }
+        public FileContentResult masterDiplomaContentResult { get; set; }
+        public HttpPostedFileBase masterTranscript { get; set; }
+        public FileContentResult masterTranscriptContentResult { get; set; }
+        public HttpPostedFileBase referenceLetter1 { get; set; }
+        public FileContentResult referenceLetter1ContentResult { get; set; }
+        public HttpPostedFileBase referenceLetter2 { get; set; }
+        public FileContentResult referenceLetter2ContentResult { get; set; }
 
         public virtual SAMS_ApplicationStatus SAMS_ApplicationStatus { get; set; }
         public virtual SAMS_Department SAMS_Department { get; set; }

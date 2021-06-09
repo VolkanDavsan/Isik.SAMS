@@ -32,6 +32,7 @@
           <Property Name="FileName" Type="nvarchar" MaxLength="100" />
           <Property Name="FileCreateDate" Type="datetime" />
           <Property Name="FileData" Type="varbinary(max)" />
+          <Property Name="FileExtension" Type="nvarchar" MaxLength="100" />
         </EntityType>
         <EntityType Name="SAMS_Program">
           <Key>
@@ -306,6 +307,7 @@
           <Property Name="FileCreateDate" Type="DateTime" Precision="3" />
           <Property Name="FileData" Type="Binary" MaxLength="Max" FixedLength="false" />
           <NavigationProperty Name="SAMS_StudentApplications" Relationship="Self.FK_StudentApplicationId_Files" FromRole="SAMS_Files" ToRole="SAMS_StudentApplications" />
+          <Property Name="FileExtension" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="SAMS_Program">
           <Key>
@@ -588,6 +590,7 @@
           <EntitySetMapping Name="SAMS_Files">
             <EntityTypeMapping TypeName="StudentApprovalManagementModel.SAMS_Files">
               <MappingFragment StoreEntitySet="SAMS_Files">
+                <ScalarProperty Name="FileExtension" ColumnName="FileExtension" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="StudentApplicationId" ColumnName="StudentApplicationId" />
                 <ScalarProperty Name="FileName" ColumnName="FileName" />

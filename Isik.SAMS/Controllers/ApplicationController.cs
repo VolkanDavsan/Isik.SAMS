@@ -1,13 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
+using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using Isik.SAMS.Models.Entity;
-using System.Data;
+using MailKit.Net.Smtp;
 using MimeKit;
 using MimeKit.Text;
-using MailKit.Net.Smtp;
 
 namespace Isik.SAMS.Controllers
 {
@@ -82,12 +83,97 @@ namespace Isik.SAMS.Controllers
             if (id != null)
             {
                 var application = db.SAMS_StudentApplications.Find(id);
+                var files = db.SAMS_Files.Where(x => x.StudentApplicationId == id).ToList();
+                if (files != null)
+                {
+                    ViewBag.IsEducationalInfoEntered = "true";
+                    foreach (var a in files)
+                    {
+                        if (a.FileName.Contains("HighSchoolTranscript"))
+                        {
+                            application.highSchoolTranscriptContentResult = File(a.FileData, MimeMapping.GetMimeMapping(a.FileName), a.FileName);
+                        }
+                        else if (a.FileName.Contains("ResidencePermit"))
+                        {
+                            application.residencePermitContentResult = File(a.FileData, MimeMapping.GetMimeMapping(a.FileName), a.FileName);
+                        }
+                        else if (a.FileName.Contains("EquivalenceCertificate"))
+                        {
+                            application.equivalenceCertificateContentResult = File(a.FileData, MimeMapping.GetMimeMapping(a.FileName), a.FileName);
+                        }
+                        else if (a.FileName.Contains("HighSchoolDiploma"))
+                        {
+                            application.highSchoolDiplomaContentResult = File(a.FileData, MimeMapping.GetMimeMapping(a.FileName), a.FileName);
+                        }
+                        else if (a.FileName.Contains("StudentPhoto"))
+                        {
+                            application.studentPhotoContentResult = File(a.FileData, MimeMapping.GetMimeMapping(a.FileName), a.FileName);
+                        }
+                        else if (a.FileName.Contains("InternationalExamScore"))
+                        {
+                            application.internationalExamScoreContentResult = File(a.FileData, MimeMapping.GetMimeMapping(a.FileName), a.FileName);
+                        }
+                        else if (a.FileName.Contains("CopyofPassportorIDCard"))
+                        {
+                            application.IdorPassportCopyContentResult = File(a.FileData, MimeMapping.GetMimeMapping(a.FileName), a.FileName);
+                        }
+                        else if (a.FileName.Contains("EnglishLanguageProficiencyScore"))
+                        {
+                            application.englishLanguageProfScoreContentResult = File(a.FileData, MimeMapping.GetMimeMapping(a.FileName), a.FileName);
+                        }
+                        else if (a.FileName.Contains("CV"))
+                        {
+                            application.cvContentResult = File(a.FileData, MimeMapping.GetMimeMapping(a.FileName), a.FileName);
+                        }
+                        else if (a.FileName.Contains("BachelorDiploma"))
+                        {
+                            application.bachelorDiplomaContentResult = File(a.FileData, MimeMapping.GetMimeMapping(a.FileName), a.FileName);
+                        }
+                        else if (a.FileName.Contains("BachelorTranscript"))
+                        {
+                            application.bachelorTranscriptContentResult = File(a.FileData, MimeMapping.GetMimeMapping(a.FileName), a.FileName);
+                        }
+                        else if (a.FileName.Contains("MasterDiploma"))
+                        {
+                            application.masterDiplomaContentResult = File(a.FileData, MimeMapping.GetMimeMapping(a.FileName), a.FileName);
+                        }
+                        else if (a.FileName.Contains("MasterTranscript"))
+                        {
+                            application.masterTranscriptContentResult = File(a.FileData, MimeMapping.GetMimeMapping(a.FileName), a.FileName);
+                        }
+                        else if (a.FileName.Contains("ReferenceLetter1"))
+                        {
+                            application.referenceLetter1ContentResult = File(a.FileData, MimeMapping.GetMimeMapping(a.FileName), a.FileName);
+                        }
+                        else if (a.FileName.Contains("ReferenceLetter2"))
+                        {
+                            application.referenceLetter2ContentResult = File(a.FileData, MimeMapping.GetMimeMapping(a.FileName), a.FileName);
+                        }
+
+                    }
+                }
                 return View(application);
             }
             else
             {
                 return RedirectToAction("Index");
             }
+        }
+
+        public FileResult DownloadFile(int id, string name)
+        {
+            var files = db.SAMS_Files.Where(x => x.StudentApplicationId == id).ToList();
+            if (files != null)
+            {
+                foreach (var a in files)
+                {
+                    if (a.FileName == name + "" + a.FileExtension)
+                    {
+                        return File(a.FileData, MimeMapping.GetMimeMapping(a.FileName), a.FileName);
+                    }
+                }
+            }
+            return null;
         }
 
         public ActionResult ApprovalMessage()

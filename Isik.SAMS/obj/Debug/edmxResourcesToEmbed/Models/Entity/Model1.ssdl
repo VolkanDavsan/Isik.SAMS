@@ -27,6 +27,7 @@
     <Property Name="FileName" Type="nvarchar" MaxLength="100" />
     <Property Name="FileCreateDate" Type="datetime" />
     <Property Name="FileData" Type="varbinary(max)" />
+    <Property Name="FileExtension" Type="nvarchar" MaxLength="100" />
   </EntityType>
   <EntityType Name="SAMS_Program">
     <Key>

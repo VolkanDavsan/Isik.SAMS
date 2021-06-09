@@ -15,10 +15,11 @@ namespace Isik.SAMS.Models.Entity
     public partial class SAMS_Files
     {
         public int Id { get; set; }
-        public Nullable<int> StudentApplicationId { get; set; }
+        public int StudentApplicationId { get; set; }
         public string FileName { get; set; }
         public Nullable<System.DateTime> FileCreateDate { get; set; }
         public byte[] FileData { get; set; }
+        public string FileExtension { get; set; }
     
         public virtual SAMS_StudentApplications SAMS_StudentApplications { get; set; }
     }

@@ -40,6 +40,7 @@
     <script src="/Assets/lib/bootstrap/js/popper.min.js"></script>
     <script src="/Assets/lib/font-icons/feather/feather.min.js"></script>
     <script src="/Assets/lib/bootstrap/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.js"></script>
     <script src="/Assets/lib/jquery-cookie/jquery.cookie.js"></script>
     <script src="/Assets/lib/linq/jquery.linq.min.js"></script>
     <script src="/Assets/lib/loadingmodal/js/jquery.loadingModal.min.js"></script>
@@ -67,6 +68,10 @@
             content: "*";
             margin-left: 5px;
             color: #f00;
+        }
+
+        .fileButtonGroup {
+            margin-top: 15px;
         }
 
         .form-horizontal .form-group > label:not(.k-checkbox-label) {
@@ -248,6 +253,7 @@
                     using (Html.BeginForm("Insert", "StudentApplication", FormMethod.Post, new Dictionary<string, object>() {
                                 { "class", "form-horizontal" },
                                 { "role", "form" },
+                                { "enctype", "multipart/form-data"},
                                 }))
                     {
                         @Html.AntiForgeryToken()
@@ -631,7 +637,697 @@
                             {
                                 <p style="text-align:center; font-size:16px; color:black; font-weight:bold; margin-bottom:15px">FILE UPLOADS</p>
                                 <div class="row">
-                                    
+                                    @if (Model.ProgramId == 6002)
+                                    {
+                                        <div class="form-group col-md-6">
+                                            <label class="req" for="code">CV</label>
+                                            @if (Model.cvContentResult != null)
+                                            {
+                                                <div class="fileButtonGroup">
+                                                    <a href="@Url.Action("DownloadFile", "StudentApplication", new { id = Model.Id, name = "CV" })" class="btn btn-primary">
+                                                        <i class="icon-download icon-white"></i>
+                                                        <span>
+                                                            <strong>Download</strong>
+                                                        </span>
+                                                    </a>
+                                                    <a href="@Url.Action("DeleteFile", "StudentApplication", new { id = Model.Id, name = "CV" })" class="btn btn-primary">
+                                                        <i class="icon-trash icon-white"></i>
+                                                        <span>
+                                                            <strong>Delete</strong>
+                                                        </span>
+                                                    </a>
+                                                </div>
+                                            }
+                                            else
+                                            {
+                                                @Html.TextBoxFor(model => model.cv, new Dictionary<string, object>()
+                                                {
+                                                    {"class", "form-control"},
+                                                    {"type", "file" },
+                                                    {"id", "fileName" },
+                                                    {"onchange", "validateFileType()" },
+                                                    {"accept", ".jpeg, .png, .jpg, .pdf, .docx" }
+                                                })
+                                            }
+                                        </div>
+                                        <div class="form-group col-md-6">
+                                            <label class="req" for="code">Bachelor Diploma</label>
+                                            @if (Model.bachelorDiplomaContentResult != null)
+                                            {
+                                                <div class="fileButtonGroup">
+                                                    <a href="@Url.Action("DownloadFile", "StudentApplication", new { id = Model.Id, name = "BachelorDiploma" })" class="btn btn-primary">
+                                                        <i class="icon-download icon-white"></i>
+                                                        <span>
+                                                            <strong>Download</strong>
+                                                        </span>
+                                                    </a>
+                                                    <a href="@Url.Action("DeleteFile", "StudentApplication", new { id = Model.Id, name = "BachelorDiploma" })" class="btn btn-primary">
+                                                        <i class="icon-trash icon-white"></i>
+                                                        <span>
+                                                            <strong>Delete</strong>
+                                                        </span>
+                                                    </a>
+                                                </div>
+                                            }
+                                            else
+                                            {
+                                                @Html.TextBoxFor(model => model.bachelorDiploma, new Dictionary<string, object>()
+                                                {
+                                                    {"class", "form-control"},
+                                                    {"type", "file" },
+                                                    {"id", "fileName" },
+                                                    {"onchange", "validateFileType()" },
+                                                    {"accept", ".jpeg, .png, .jpg, .pdf, .docx" }
+                                                })
+                                            }
+                                        </div>
+                                        <div class="form-group col-md-6">
+                                            <label class="req" for="code">Bachelor Transcript</label>
+                                            @if (Model.bachelorTranscriptContentResult != null)
+                                            {
+                                                <div class="fileButtonGroup">
+                                                    <a href="@Url.Action("DownloadFile", "StudentApplication", new { id = Model.Id, name = "BachelorTranscript" })" class="btn btn-primary">
+                                                        <i class="icon-download icon-white"></i>
+                                                        <span>
+                                                            <strong>Download</strong>
+                                                        </span>
+                                                    </a>
+                                                    <a href="@Url.Action("DeleteFile", "StudentApplication", new { id = Model.Id, name = "BachelorTranscript" })" class="btn btn-primary">
+                                                        <i class="icon-trash icon-white"></i>
+                                                        <span>
+                                                            <strong>Delete</strong>
+                                                        </span>
+                                                    </a>
+                                                </div>
+                                            }
+                                            else
+                                            {
+                                                @Html.TextBoxFor(model => model.bachelorTranscript, new Dictionary<string, object>()
+                                                {
+                                                    {"class", "form-control"},
+                                                    {"type", "file" },
+                                                    {"id", "fileName" },
+                                                    {"onchange", "validateFileType()" },
+                                                    {"accept", ".jpeg, .png, .jpg, .pdf, .docx" }
+                                                })
+                                            }
+                                        </div>
+                                        <div class="form-group col-md-6">
+                                            <label class="req" for="code">Copy of Passport / ID Card</label>
+                                            @if (Model.IdorPassportCopyContentResult != null)
+                                            {
+                                                <div class="fileButtonGroup">
+                                                    <a href="@Url.Action("DownloadFile", "StudentApplication", new { id = Model.Id, name = "CopyofPassportorIDCard" })" class="btn btn-primary">
+                                                        <i class="icon-download icon-white"></i>
+                                                        <span>
+                                                            <strong>Download</strong>
+                                                        </span>
+                                                    </a>
+                                                    <a href="@Url.Action("DeleteFile", "StudentApplication", new { id = Model.Id, name = "CopyofPassportorIDCard" })" class="btn btn-primary">
+                                                        <i class="icon-trash icon-white"></i>
+                                                        <span>
+                                                            <strong>Delete</strong>
+                                                        </span>
+                                                    </a>
+                                                </div>
+                                            }
+                                            else
+                                            {
+                                                @Html.TextBoxFor(model => model.IdorPassportCopy, new Dictionary<string, object>()
+                                                {
+                                                    {"class", "form-control"},
+                                                    {"type", "file" },
+                                                    {"id", "fileName" },
+                                                    {"onchange", "validateFileType()" },
+                                                    {"accept", ".jpeg, .png, .jpg, .pdf, .docx" }
+                                                })
+                                            }
+                                        </div>
+                                        <div class="form-group col-md-6">
+                                            <label class="req" for="code">English Language Proficiency Score</label>
+                                            @if (Model.englishLanguageProfScoreContentResult != null)
+                                            {
+                                                <div class="fileButtonGroup">
+                                                    <a href="@Url.Action("DownloadFile", "StudentApplication", new { id = Model.Id, name = "EnglishLanguageProficiencyScore" })" class="btn btn-primary">
+                                                        <i class="icon-download icon-white"></i>
+                                                        <span>
+                                                            <strong>Download</strong>
+                                                        </span>
+                                                    </a>
+                                                    <a href="@Url.Action("DeleteFile", "StudentApplication", new { id = Model.Id, name = "EnglishLanguageProficiencyScore" })" class="btn btn-primary">
+                                                        <i class="icon-trash icon-white"></i>
+                                                        <span>
+                                                            <strong>Delete</strong>
+                                                        </span>
+                                                    </a>
+                                                </div>
+                                            }
+                                            else
+                                            {
+                                                @Html.TextBoxFor(model => model.englishLanguageProfScore, new Dictionary<string, object>()
+                                                {
+                                                    {"class", "form-control"},
+                                                    {"type", "file" },
+                                                    {"id", "fileName" },
+                                                    {"onchange", "validateFileType()" },
+                                                    {"accept", ".jpeg, .png, .jpg, .pdf, .docx" }
+                                                })
+                                            }
+                                        </div>
+                                    }
+                                    else if (Model.ProgramId == 8002)
+                                    {
+                                        <div class="form-group col-md-6">
+                                            <label class="req" for="code">High School Transcript</label>
+                                            @if (Model.highSchoolTranscriptContentResult != null)
+                                            {
+                                                <div class="fileButtonGroup">
+                                                    <a href="@Url.Action("DownloadFile", "StudentApplication", new { id = Model.Id, name = "HighSchoolTranscript" })" class="btn btn-primary">
+                                                        <i class="icon-download icon-white"></i>
+                                                        <span>
+                                                            <strong>Download</strong>
+                                                        </span>
+                                                    </a>
+                                                    <a href="@Url.Action("DeleteFile", "StudentApplication", new { id = Model.Id, name = "HighSchoolTranscript" })" class="btn btn-primary">
+                                                        <i class="icon-trash icon-white"></i>
+                                                        <span>
+                                                            <strong>Delete</strong>
+                                                        </span>
+                                                    </a>
+                                                </div>
+                                            }
+                                            else
+                                            {
+                                                @Html.TextBoxFor(model => model.highSchoolTranscript, new Dictionary<string, object>()
+                                                {
+                                                    {"class", "form-control"},
+                                                    {"type", "file" },
+                                                    {"id", "fileName" },
+                                                    {"onchange", "validateFileType()" },
+                                                    {"accept", ".jpeg, .png, .jpg, .pdf, .docx" }
+                                                })
+                                            }
+                                        </div>
+                                        <div class="form-group col-md-6">
+                                            <label class="req" for="code">High School Diploma</label>
+                                            @if (Model.highSchoolDiplomaContentResult != null)
+                                            {
+                                                <div class="fileButtonGroup">
+                                                    <a href="@Url.Action("DownloadFile", "StudentApplication", new { id = Model.Id, name = "HighSchoolDiploma" })" class="btn btn-primary">
+                                                        <i class="icon-download icon-white"></i>
+                                                        <span>
+                                                            <strong>Download</strong>
+                                                        </span>
+                                                    </a>
+                                                    <a href="@Url.Action("DeleteFile", "StudentApplication", new { id = Model.Id, name = "HighSchoolDiploma" })" class="btn btn-primary">
+                                                        <i class="icon-trash icon-white"></i>
+                                                        <span>
+                                                            <strong>Delete</strong>
+                                                        </span>
+                                                    </a>
+                                                </div>
+                                            }
+                                            else
+                                            {
+                                                @Html.TextBoxFor(model => model.highSchoolDiploma, new Dictionary<string, object>()
+                                                {
+                                                    {"class", "form-control"},
+                                                    {"type", "file" },
+                                                    {"id", "fileName" },
+                                                    {"onchange", "validateFileType()" },
+                                                    {"accept", ".jpeg, .png, .jpg, .pdf, .docx" }
+                                                })
+                                            }
+                                        </div>
+                                        <div class="form-group col-md-6">
+                                            <label class="req" for="code">Residence Permit</label>
+                                            @if (Model.residencePermitContentResult != null)
+                                            {
+                                                <div class="fileButtonGroup">
+                                                    <a href="@Url.Action("DownloadFile", "StudentApplication", new { id = Model.Id, name = "ResidencePermit" })" class="btn btn-primary">
+                                                        <i class="icon-download icon-white"></i>
+                                                        <span>
+                                                            <strong>Download</strong>
+                                                        </span>
+                                                    </a>
+                                                    <a href="@Url.Action("DeleteFile", "StudentApplication", new { id = Model.Id, name = "ResidencePermit" })" class="btn btn-primary">
+                                                        <i class="icon-trash icon-white"></i>
+                                                        <span>
+                                                            <strong>Delete</strong>
+                                                        </span>
+                                                    </a>
+                                                </div>
+                                            }
+                                            else
+                                            {
+                                                @Html.TextBoxFor(model => model.residencePermit, new Dictionary<string, object>()
+                                                {
+                                                    {"class", "form-control"},
+                                                    {"type", "file" },
+                                                    {"id", "fileName" },
+                                                    {"onchange", "validateFileType()" },
+                                                    {"accept", ".jpeg, .png, .jpg, .pdf, .docx" }
+                                                })
+                                            }
+                                        </div>
+                                        <div class="form-group col-md-6">
+                                            <label class="req" for="code">Equivalence Certificate</label>
+                                            @if (Model.equivalenceCertificateContentResult != null)
+                                            {
+                                                <div class="fileButtonGroup">
+                                                    <a href="@Url.Action("DownloadFile", "StudentApplication", new { id = Model.Id, name = "EquivalenceCertificate" })" class="btn btn-primary">
+                                                        <i class="icon-download icon-white"></i>
+                                                        <span>
+                                                            <strong>Download</strong>
+                                                        </span>
+                                                    </a>
+                                                    <a href="@Url.Action("DeleteFile", "StudentApplication", new { id = Model.Id, name = "EquivalenceCertificate" })" class="btn btn-primary">
+                                                        <i class="icon-trash icon-white"></i>
+                                                        <span>
+                                                            <strong>Delete</strong>
+                                                        </span>
+                                                    </a>
+                                                </div>
+                                            }
+                                            else
+                                            {
+                                                @Html.TextBoxFor(model => model.equivalenceCertificate, new Dictionary<string, object>()
+                                                {
+                                                    {"class", "form-control"},
+                                                    {"type", "file" },
+                                                    {"id", "fileName" },
+                                                    {"onchange", "validateFileType()" },
+                                                    {"accept", ".jpeg, .png, .jpg, .pdf, .docx" }
+                                                })
+                                            }
+                                        </div>
+                                        <div class="form-group col-md-6">
+                                            <label class="req" for="code">Student Photo</label>
+                                            @if (Model.studentPhotoContentResult != null)
+                                            {
+                                                <div class="fileButtonGroup">
+                                                    <a href="@Url.Action("DownloadFile", "StudentApplication", new { id = Model.Id, name = "StudentPhoto" })" class="btn btn-primary">
+                                                        <i class="icon-download icon-white"></i>
+                                                        <span>
+                                                            <strong>Download</strong>
+                                                        </span>
+                                                    </a>
+                                                    <a href="@Url.Action("DeleteFile", "StudentApplication", new { id = Model.Id, name = "StudentPhoto" })" class="btn btn-primary">
+                                                        <i class="icon-trash icon-white"></i>
+                                                        <span>
+                                                            <strong>Delete</strong>
+                                                        </span>
+                                                    </a>
+                                                </div>
+                                            }
+                                            else
+                                            {
+                                                @Html.TextBoxFor(model => model.studentPhoto, new Dictionary<string, object>()
+                                                {
+                                                    {"class", "form-control"},
+                                                    {"type", "file" },
+                                                    {"id", "fileName" },
+                                                    {"onchange", "validateFileType()" },
+                                                    {"accept", ".jpeg, .png, .jpg, .pdf, .docx" }
+                                                })
+                                            }
+                                        </div>
+                                        <div class="form-group col-md-6">
+                                            <label class="req" for="code">International Exam Score</label>
+                                            @if (Model.internationalExamScoreContentResult != null)
+                                            {
+                                                <div class="fileButtonGroup">
+                                                    <a href="@Url.Action("DownloadFile", "StudentApplication", new { id = Model.Id, name = "InternationalExamScore" })" class="btn btn-primary">
+                                                        <i class="icon-download icon-white"></i>
+                                                        <span>
+                                                            <strong>Download</strong>
+                                                        </span>
+                                                    </a>
+                                                    <a href="@Url.Action("DeleteFile", "StudentApplication", new { id = Model.Id, name = "InternationalExamScore" })" class="btn btn-primary">
+                                                        <i class="icon-trash icon-white"></i>
+                                                        <span>
+                                                            <strong>Delete</strong>
+                                                        </span>
+                                                    </a>
+                                                </div>
+                                            }
+                                            else
+                                            {
+                                                @Html.TextBoxFor(model => model.internationalExamScore, new Dictionary<string, object>()
+                                                {
+                                                    {"class", "form-control"},
+                                                    {"type", "file" },
+                                                    {"id", "fileName" },
+                                                    {"onchange", "validateFileType()" },
+                                                    {"accept", ".jpeg, .png, .jpg, .pdf, .docx" }
+                                                })
+                                            }
+                                        </div>
+                                        <div class="form-group col-md-6">
+                                            <label class="req" for="code">Copy of Passport / ID Card</label>
+                                            @if (Model.IdorPassportCopyContentResult != null)
+                                            {
+                                                <div class="fileButtonGroup">
+                                                    <a href="@Url.Action("DownloadFile", "StudentApplication", new { id = Model.Id, name = "CopyofPassportorIDCard" })" class="btn btn-primary">
+                                                        <i class="icon-download icon-white"></i>
+                                                        <span>
+                                                            <strong>Download</strong>
+                                                        </span>
+                                                    </a>
+                                                    <a href="@Url.Action("DeleteFile", "StudentApplication", new { id = Model.Id, name = "CopyofPassportorIDCard" })" class="btn btn-primary">
+                                                        <i class="icon-trash icon-white"></i>
+                                                        <span>
+                                                            <strong>Delete</strong>
+                                                        </span>
+                                                    </a>
+                                                </div>
+                                            }
+                                            else
+                                            {
+                                                @Html.TextBoxFor(model => model.IdorPassportCopy, new Dictionary<string, object>()
+                                                {
+                                                    {"class", "form-control"},
+                                                    {"type", "file" },
+                                                    {"id", "fileName" },
+                                                    {"onchange", "validateFileType()" },
+                                                    {"accept", ".jpeg, .png, .jpg, .pdf, .docx" }
+                                                })
+                                            }
+                                        </div>
+                                        <div class="form-group col-md-6">
+                                            <label class="req" for="code">English Language Proficiency Score</label>
+                                            @if (Model.englishLanguageProfScoreContentResult != null)
+                                            {
+                                                <div class="fileButtonGroup">
+                                                    <a href="@Url.Action("DownloadFile", "StudentApplication", new { id = Model.Id, name = "EnglishLanguageProficiencyScore" })" class="btn btn-primary">
+                                                        <i class="icon-download icon-white"></i>
+                                                        <span>
+                                                            <strong>Download</strong>
+                                                        </span>
+                                                    </a>
+                                                    <a href="@Url.Action("DeleteFile", "StudentApplication", new { id = Model.Id, name = "EnglishLanguageProficiencyScore" })" class="btn btn-primary">
+                                                        <i class="icon-trash icon-white"></i>
+                                                        <span>
+                                                            <strong>Delete</strong>
+                                                        </span>
+                                                    </a>
+                                                </div>
+                                            }
+                                            else
+                                            {
+                                                @Html.TextBoxFor(model => model.englishLanguageProfScore, new Dictionary<string, object>()
+                                                {
+                                                    {"class", "form-control"},
+                                                    {"type", "file" },
+                                                    {"id", "fileName" },
+                                                    {"onchange", "validateFileType()" },
+                                                    {"accept", ".jpeg, .png, .jpg, .pdf, .docx" }
+                                                })
+                                            }
+                                        </div>
+                                    }
+                                    else
+                                    {
+                                        <div class="form-group col-md-6">
+                                            <label class="req" for="code">CV</label>
+                                            @if (Model.cvContentResult != null)
+                                            {
+                                                <div class="fileButtonGroup">
+                                                    <a href="@Url.Action("DownloadFile", "StudentApplication", new { id = Model.Id, name = "CV" })" class="btn btn-primary">
+                                                        <i class="icon-download icon-white"></i>
+                                                        <span>
+                                                            <strong>Download</strong>
+                                                        </span>
+                                                    </a>
+                                                    <a href="@Url.Action("DeleteFile", "StudentApplication", new { id = Model.Id, name = "CV" })" class="btn btn-primary">
+                                                        <i class="icon-trash icon-white"></i>
+                                                        <span>
+                                                            <strong>Delete</strong>
+                                                        </span>
+                                                    </a>
+                                                </div>
+                                            }
+                                            else
+                                            {
+                                                @Html.TextBoxFor(model => model.cv, new Dictionary<string, object>()
+                                                {
+                                                    {"class", "form-control"},
+                                                    {"type", "file" },
+                                                    {"id", "fileName" },
+                                                    {"onchange", "validateFileType()" },
+                                                    {"accept", ".jpeg, .png, .jpg, .pdf, .docx" }
+                                                })
+                                            }
+                                        </div>
+                                        <div class="form-group col-md-6">
+                                            <label class="req" for="code">Bachelor Diploma</label>
+                                            @if (Model.bachelorDiplomaContentResult != null)
+                                            {
+                                                <div class="fileButtonGroup">
+                                                    <a href="@Url.Action("DownloadFile", "StudentApplication", new { id = Model.Id, name = "BachelorDiploma" })" class="btn btn-primary">
+                                                        <i class="icon-download icon-white"></i>
+                                                        <span>
+                                                            <strong>Download</strong>
+                                                        </span>
+                                                    </a>
+                                                    <a href="@Url.Action("DeleteFile", "StudentApplication", new { id = Model.Id, name = "BachelorDiploma" })" class="btn btn-primary">
+                                                        <i class="icon-trash icon-white"></i>
+                                                        <span>
+                                                            <strong>Delete</strong>
+                                                        </span>
+                                                    </a>
+                                                </div>
+                                            }
+                                            else
+                                            {
+                                                @Html.TextBoxFor(model => model.bachelorDiploma, new Dictionary<string, object>()
+                                                {
+                                                    {"class", "form-control"},
+                                                    {"type", "file" },
+                                                    {"id", "fileName" },
+                                                    {"onchange", "validateFileType()" },
+                                                    {"accept", ".jpeg, .png, .jpg, .pdf, .docx" }
+                                                })
+                                            }
+                                        </div>
+                                        <div class="form-group col-md-6">
+                                            <label class="req" for="code">Bachelor Transcript</label>
+                                            @if (Model.bachelorTranscriptContentResult != null)
+                                            {
+                                                <div class="fileButtonGroup">
+                                                    <a href="@Url.Action("DownloadFile", "StudentApplication", new { id = Model.Id, name = "BachelorTranscript" })" class="btn btn-primary">
+                                                        <i class="icon-download icon-white"></i>
+                                                        <span>
+                                                            <strong>Download</strong>
+                                                        </span>
+                                                    </a>
+                                                    <a href="@Url.Action("DeleteFile", "StudentApplication", new { id = Model.Id, name = "BachelorTranscript" })" class="btn btn-primary">
+                                                        <i class="icon-trash icon-white"></i>
+                                                        <span>
+                                                            <strong>Delete</strong>
+                                                        </span>
+                                                    </a>
+                                                </div>
+                                            }
+                                            else
+                                            {
+                                                @Html.TextBoxFor(model => model.bachelorTranscript, new Dictionary<string, object>()
+                                                {
+                                                    {"class", "form-control"},
+                                                    {"type", "file" },
+                                                    {"id", "fileName" },
+                                                    {"onchange", "validateFileType()" },
+                                                    {"accept", ".jpeg, .png, .jpg, .pdf, .docx" }
+                                                })
+                                            }
+                                        </div>
+                                        <div class="form-group col-md-6">
+                                            <label class="req" for="code">Master Diploma</label>
+                                            @if (Model.masterDiplomaContentResult != null)
+                                            {
+                                                <div class="fileButtonGroup">
+                                                    <a href="@Url.Action("DownloadFile", "StudentApplication", new { id = Model.Id, name = "MasterDiploma" })" class="btn btn-primary">
+                                                        <i class="icon-download icon-white"></i>
+                                                        <span>
+                                                            <strong>Download</strong>
+                                                        </span>
+                                                    </a>
+                                                    <a href="@Url.Action("DeleteFile", "StudentApplication", new { id = Model.Id, name = "MasterDiploma" })" class="btn btn-primary">
+                                                        <i class="icon-trash icon-white"></i>
+                                                        <span>
+                                                            <strong>Delete</strong>
+                                                        </span>
+                                                    </a>
+                                                </div>
+                                            }
+                                            else
+                                            {
+                                                @Html.TextBoxFor(model => model.masterDiploma, new Dictionary<string, object>()
+                                                {
+                                                    {"class", "form-control"},
+                                                    {"type", "file" },
+                                                    {"id", "fileName" },
+                                                    {"onchange", "validateFileType()" },
+                                                    {"accept", ".jpeg, .png, .jpg, .pdf, .docx" }
+                                                })
+                                            }
+                                        </div>
+                                        <div class="form-group col-md-6">
+                                            <label class="req" for="code">Master Transcript</label>
+                                            @if (Model.masterTranscriptContentResult != null)
+                                            {
+                                                <div class="fileButtonGroup">
+                                                    <a href="@Url.Action("DownloadFile", "StudentApplication", new { id = Model.Id, name = "MasterTranscript" })" class="btn btn-primary">
+                                                        <i class="icon-download icon-white"></i>
+                                                        <span>
+                                                            <strong>Download</strong>
+                                                        </span>
+                                                    </a>
+                                                    <a href="@Url.Action("DeleteFile", "StudentApplication", new { id = Model.Id, name = "MasterTranscript" })" class="btn btn-primary">
+                                                        <i class="icon-trash icon-white"></i>
+                                                        <span>
+                                                            <strong>Delete</strong>
+                                                        </span>
+                                                    </a>
+                                                </div>
+                                            }
+                                            else
+                                            {
+                                                @Html.TextBoxFor(model => model.masterTranscript, new Dictionary<string, object>()
+                                                {
+                                                    {"class", "form-control"},
+                                                    {"type", "file" },
+                                                    {"id", "fileName" },
+                                                    {"onchange", "validateFileType()" },
+                                                    {"accept", ".jpeg, .png, .jpg, .pdf, .docx" }
+                                                })
+                                            }
+                                        </div>
+                                        <div class="form-group col-md-6">
+                                            <label class="req" for="code">Copy of Passport / ID Card</label>
+                                            @if (Model.IdorPassportCopyContentResult != null)
+                                            {
+                                                <div class="fileButtonGroup">
+                                                    <a href="@Url.Action("DownloadFile", "StudentApplication", new { id = Model.Id, name = "CopyofPassportorIDCard" })" class="btn btn-primary">
+                                                        <i class="icon-download icon-white"></i>
+                                                        <span>
+                                                            <strong>Download</strong>
+                                                        </span>
+                                                    </a>
+                                                    <a href="@Url.Action("DeleteFile", "StudentApplication", new { id = Model.Id, name = "CopyofPassportorIDCard" })" class="btn btn-primary">
+                                                        <i class="icon-trash icon-white"></i>
+                                                        <span>
+                                                            <strong>Delete</strong>
+                                                        </span>
+                                                    </a>
+                                                </div>
+                                            }
+                                            else
+                                            {
+                                                @Html.TextBoxFor(model => model.IdorPassportCopy, new Dictionary<string, object>()
+                                                {
+                                                    {"class", "form-control"},
+                                                    {"type", "file" },
+                                                    {"id", "fileName" },
+                                                    {"onchange", "validateFileType()" },
+                                                    {"accept", ".jpeg, .png, .jpg, .pdf, .docx" }
+                                                })
+                                            }
+                                        </div>
+                                        <div class="form-group col-md-6">
+                                            <label class="req" for="code">English Language Proficiency Score</label>
+                                            @if (Model.englishLanguageProfScoreContentResult != null)
+                                            {
+                                                <div class="fileButtonGroup">
+                                                    <a href="@Url.Action("DownloadFile", "StudentApplication", new { id = Model.Id, name = "EnglishLanguageProficiencyScore" })" class="btn btn-primary">
+                                                        <i class="icon-download icon-white"></i>
+                                                        <span>
+                                                            <strong>Download</strong>
+                                                        </span>
+                                                    </a>
+                                                    <a href="@Url.Action("DeleteFile", "StudentApplication", new { id = Model.Id, name = "EnglishLanguageProficiencyScore" })" class="btn btn-primary">
+                                                        <i class="icon-trash icon-white"></i>
+                                                        <span>
+                                                            <strong>Delete</strong>
+                                                        </span>
+                                                    </a>
+                                                </div>
+                                            }
+                                            else
+                                            {
+                                                @Html.TextBoxFor(model => model.englishLanguageProfScore, new Dictionary<string, object>()
+                                                {
+                                                    {"class", "form-control"},
+                                                    {"type", "file" },
+                                                    {"id", "fileName" },
+                                                    {"onchange", "validateFileType()" },
+                                                    {"accept", ".jpeg, .png, .jpg, .pdf, .docx" }
+                                                })
+                                            }
+                                        </div>
+                                        <div class="form-group col-md-6">
+                                            <label class="req" for="code">Reference Letter 1</label>
+                                            @if (Model.referenceLetter1ContentResult != null)
+                                            {
+                                                <div class="fileButtonGroup">
+                                                    <a href="@Url.Action("DownloadFile", "StudentApplication", new { id = Model.Id, name = "ReferenceLetter1" })" class="btn btn-primary">
+                                                        <i class="icon-download icon-white"></i>
+                                                        <span>
+                                                            <strong>Download</strong>
+                                                        </span>
+                                                    </a>
+                                                    <a href="@Url.Action("DeleteFile", "StudentApplication", new { id = Model.Id, name = "ReferenceLetter1" })" class="btn btn-primary">
+                                                        <i class="icon-trash icon-white"></i>
+                                                        <span>
+                                                            <strong>Delete</strong>
+                                                        </span>
+                                                    </a>
+                                                </div>
+                                            }
+                                            else
+                                            {
+                                                @Html.TextBoxFor(model => model.referenceLetter1, new Dictionary<string, object>()
+                                                {
+                                                    {"class", "form-control"},
+                                                    {"type", "file" },
+                                                    {"id", "fileName" },
+                                                    {"onchange", "validateFileType()" },
+                                                    {"accept", ".jpeg, .png, .jpg, .pdf, .docx" }
+                                                })
+                                            }
+                                        </div>
+                                        <div class="form-group col-md-6">
+                                            <label class="req" for="code">Reference Letter 2</label>
+                                            @if (Model.referenceLetter2ContentResult != null)
+                                            {
+                                                <div class="fileButtonGroup">
+                                                    <a href="@Url.Action("DownloadFile", "StudentApplication", new { id = Model.Id, name = "ReferenceLetter2" })" class="btn btn-primary">
+                                                        <i class="icon-download icon-white"></i>
+                                                        <span>
+                                                            <strong>Download</strong>
+                                                        </span>
+                                                    </a>
+                                                    <a href="@Url.Action("DeleteFile", "StudentApplication", new { id = Model.Id, name = "ReferenceLetter2" })" class="btn btn-primary">
+                                                        <i class="icon-trash icon-white"></i>
+                                                        <span>
+                                                            <strong>Delete</strong>
+                                                        </span>
+                                                    </a>
+                                                </div>
+                                            }
+                                            else
+                                            {
+                                                @Html.TextBoxFor(model => model.referenceLetter2, new Dictionary<string, object>()
+                                                {
+                                                    {"class", "form-control"},
+                                                    {"type", "file" },
+                                                    {"id", "fileName" },
+                                                    {"onchange", "validateFileType()" },
+                                                    {"accept", ".jpeg, .png, .jpg, .pdf, .docx" }
+                                                })
+                                            }
+                                        </div>
+                                    }
                                 </div>
                             }
                             <div class="buttons">
@@ -644,6 +1340,14 @@
             </div>
         </div>
     </div>
+    @if (ViewBag.ExtensionNotAllowed != null)
+    {
+        <script>
+            $(document).ready(function () {
+                swal('@(ViewBag.ExtensionNotAllowed)');
+            });
+        </script>
+    }
     <script>
         function hideMessage() {
             document.getElementById("wrongVerificationMessage").hidden = true;
