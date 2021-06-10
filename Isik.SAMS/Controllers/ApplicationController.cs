@@ -29,7 +29,7 @@ namespace Isik.SAMS.Controllers
             //{
             //    model = db.SAMS_StudentApplications.Where(x => x.Status != 1).ToList();
             //}
-            
+
             foreach (var a in model)
             {
                 var dep = db.SAMS_Department.Find(a.DepartmentId);
@@ -50,11 +50,17 @@ namespace Isik.SAMS.Controllers
                     a.StatusName = statusName.StatusName;
                 }
             }
-
+            string prev = Request.UrlReferrer.ToString();
             ViewBag.Message = TempData["message"] == null ? null : TempData["message"].ToString();
             ViewBag.MessageClass = TempData["messageClass"] == null ? null : TempData["messageClass"].ToString();
+            if (prev != "https://localhost:44320/Application/")
+            {
+                TempData.Keep("message");
+                TempData.Keep("messageClass");
+            }
             return View(model);
         }
+
         public ActionResult Detail(int? id)
         {
             var model = db.SAMS_StudentApplications.ToList();
@@ -193,6 +199,148 @@ namespace Isik.SAMS.Controllers
             return RedirectToAction("Index");
         }
 
+        [HttpGet]
+        public ActionResult MeetingLink(int? Id)
+        {
+            if (Id != null)
+            {
+                var application = db.SAMS_StudentApplications.Find(Id);
+                return View(application);
+            }
+            else
+            {
+                return RedirectToAction("Index");
+            }
+        }
+
+        [HttpPost]
+        public ActionResult MeetingLink(SAMS_StudentApplications app)
+        {
+            var application = db.SAMS_StudentApplications.Find(app.Id);
+            if (application != null)
+            {
+                application.MeetingLink = app.MeetingLink;
+                application.MeetingDate = app.MeetingDate;
+                application.MeetingDateTime = app.MeetingDateTime;
+                var email = new MimeMessage();
+                var from = "SAMS SAMS";
+                var subject = "SAMS info - Application Status Update";
+                email.From.Add(new MailboxAddress(from, "samsinfo.noreply@gmail.com"));
+                email.To.Add(new MailboxAddress(application.Email, application.Email));
+                email.Subject = subject;
+                email.Body = new TextPart(TextFormat.Html)
+                {
+                    Text = @"<h1> As the SAMS team, </h1>" +
+                    @"<h3>In the process of your application the head of department wants to have a meeting with you at the given time and day.</h3>" +
+                    @"<br/>" +
+                    @"<p>Meeting Date: " + application.MeetingDate.ToString("dd/MM/yyyy") + "<p>" +
+                    @"<p>Time: " + application.MeetingDateTime.ToString("HH.mm") + "</p>" +
+                    @"<br/>" +
+                    @"<p>Meeting Link: " + application.MeetingLink + "</p>" +
+                    @"<br/>" +
+                    @"<p>Don't be late!</p>" +
+                    @"<br/>"
+                };
+
+                using (SmtpClient smtp = new SmtpClient())
+                {
+                    smtp.Connect("smtp.gmail.com", 465, true);
+                    smtp.Authenticate("samsinfo.noreply@gmail.com", "qultbqdkozwvfhgt");
+                    smtp.Send(email);
+                    smtp.Disconnect(true);
+                    TempData["IsMailSent"] = "true";
+                }
+                return RedirectToAction("Index");
+            }
+            else
+            {
+                return RedirectToAction("Index");
+            }
+        }
+
+        [HttpGet]
+        public ActionResult Scholarship(int? Id)
+        {
+            var application = db.SAMS_StudentApplications.Find(Id);
+            if (application != null)
+            {
+                ViewBag.ScholarshipOptions = new SelectList(
+                new List<SelectListItem> {
+                   new SelectListItem { Text = "100%", Value = "100%" },
+                   new SelectListItem { Text = "75%", Value =  "75%" },
+                   new SelectListItem { Text = "50%", Value = "50%" },
+                   new SelectListItem { Text = "25%", Value =  "25%" },
+                   new SelectListItem { Text = "No scholarship", Value =  "No scholarship" },
+                }, "Value", "Text");
+                return View(application);
+            }
+            else
+            {
+                return RedirectToAction("Index");
+            }
+        }
+
+        [HttpPost]
+        public ActionResult Scholarship(SAMS_StudentApplications app)
+        {
+            var application = db.SAMS_StudentApplications.Find(app.Id);
+            if (application != null)
+            {
+                application.Scholarship = app.Scholarship;
+                db.SaveChanges();
+                application = db.SAMS_StudentApplications.Find(app.Id);
+                //application.Status = 4;
+                application.ApprovedBy = Convert.ToInt32(Session["UserId"]);
+                db.SaveChanges();
+                var dep = db.SAMS_Department.Find(application.DepartmentId);
+                if (dep != null)
+                {
+                    application.DepartmentName = dep.DepartmentName;
+                }
+                var email = new MimeMessage();
+                var from = "SAMS SAMS";
+                var subject = "SAMS info - Application Status Update";
+                email.From.Add(new MailboxAddress(from, "samsinfo.noreply@gmail.com"));
+                email.To.Add(new MailboxAddress(application.Email, application.Email));
+                email.Subject = subject;
+                email.Body = new TextPart(TextFormat.Html)
+                {
+                    Text = @"<h1> As the SAMS team, </h1>" +
+                    @"<h3>We are happy to say that your application has been passed the second phase of the enrollment process.</h3>" +
+                    @"<br/>" +
+                    @"<p>Your application has been approved by the Head of the Department: " + application.DepartmentName.ToString() + " you have selected with scholarship of " + application.Scholarship.ToString() + ".</p>" +
+                    @"<p></p>" +
+                    @"<br/>" +
+                    @"<p>You will be enrolled in a later day.</p>" +
+                    @"<br/>" +
+                     @"<p>Please stay tuned.</p>" +
+                    @"<br/>"
+                };
+
+                using (SmtpClient smtp = new SmtpClient())
+                {
+                    smtp.Connect("smtp.gmail.com", 465, true);
+                    smtp.Authenticate("samsinfo.noreply@gmail.com", "qultbqdkozwvfhgt");
+                    smtp.Send(email);
+                    smtp.Disconnect(true);
+                    TempData["IsMailSent"] = "true";
+                }
+                TempData["Message"] = "Succesfully approved.";
+                TempData["messageClass"] = "alert-success";
+                TempData.Keep("Message");
+                TempData.Keep("messageClass");
+                return RedirectToAction("Index");
+            }
+            else
+            {
+                TempData["Message"] = "Operation failed.";
+                TempData["messageClass"] = "alert-danger";
+                TempData.Keep("Message");
+                TempData.Keep("messageClass");
+                return RedirectToAction("Index");
+            }
+        }
+
         public JsonResult Approval(int? id)
         {
             bool result = false;
@@ -212,71 +360,35 @@ namespace Isik.SAMS.Controllers
             if (applications != null)
             {
                 var user = db.SAMS_Users.Find(Convert.ToInt32(Session["UserId"]));
-                if(user.UserType == 1)
+                //applications.Status = 2;
+                applications.ApprovedBy = Convert.ToInt32(Session["UserId"]);
+                db.SaveChanges();
+                var email = new MimeMessage();
+                var from = "SAMS SAMS";
+                var subject = "SAMS info - Application Status Update";
+                email.From.Add(new MailboxAddress(from, "samsinfo.noreply@gmail.com"));
+                email.To.Add(new MailboxAddress(applications.Email, applications.Email));
+                email.Subject = subject;
+                email.Body = new TextPart(TextFormat.Html)
                 {
-                    applications.Status = 2;
-                    applications.ApprovedBy = Convert.ToInt32(Session["UserId"]);
-                    db.SaveChanges();
-                    var email = new MimeMessage();
-                    var from = "SAMS SAMS";
-                    var subject = "SAMS info - Application Status Update";
-                    email.From.Add(new MailboxAddress(from, "samsinfo.noreply@gmail.com"));
-                    email.To.Add(new MailboxAddress(applications.Email, applications.Email));
-                    email.Subject = subject;
-                    email.Body = new TextPart(TextFormat.Html)
-                    {
-                        Text = @"<h1> As the SAMS team, </h1>" +
-                        @"<h3>We are happy to say that your application has been passed the first phase of the enrollment process.</h3>" +
-                        @"<br/>" +
-                        @"<p>Your application has been approved by the secretary of the Department: " + applications.DepartmentName.ToString() + " and Program: " + applications.ProgramName.ToString() + " you have selected.</p>" +
-                        @"<br/>" +
-                        @"<p>The application is on the evaluation process of the Head of the " + applications.DepartmentName + " department.</p>" +
-                        @"<br/>" +
-                         @"<p>Please stay tuned.</p>" +
-                        @"<br/>"
-                    };
+                    Text = @"<h1> As the SAMS team, </h1>" +
+                    @"<h3>We are happy to say that your application has been passed the first phase of the enrollment process.</h3>" +
+                    @"<br/>" +
+                    @"<p>Your application has been approved by the secretary of the Department: " + applications.DepartmentName.ToString() + " and Program: " + applications.ProgramName.ToString() + " you have selected.</p>" +
+                    @"<br/>" +
+                    @"<p>The application is on the evaluation process of the Head of the " + applications.DepartmentName + " department.</p>" +
+                    @"<br/>" +
+                     @"<p>Please stay tuned.</p>" +
+                    @"<br/>"
+                };
 
-                    using (SmtpClient smtp = new SmtpClient())
-                    {
-                        smtp.Connect("smtp.gmail.com", 465, true);
-                        smtp.Authenticate("samsinfo.noreply@gmail.com", "qultbqdkozwvfhgt");
-                        smtp.Send(email);
-                        smtp.Disconnect(true);
-                        TempData["IsMailSent"] = "true";
-                    }
-                } 
-                else
+                using (SmtpClient smtp = new SmtpClient())
                 {
-                    applications.Status = 4;
-                    applications.ApprovedBy = Convert.ToInt32(Session["UserId"]);
-                    db.SaveChanges();
-                    var email = new MimeMessage();
-                    var from = "SAMS SAMS";
-                    var subject = "SAMS info - Application Status Update";
-                    email.From.Add(new MailboxAddress(from, "samsinfo.noreply@gmail.com"));
-                    email.To.Add(new MailboxAddress(applications.Email, applications.Email));
-                    email.Subject = subject;
-                    email.Body = new TextPart(TextFormat.Html)
-                    {
-                        Text = @"<h1> As the SAMS team, </h1>" +
-                        @"<h3>We are happy to say that your application has been passed the second phase of the enrollment process.</h3>" +
-                        @"<br/>" +
-                        @"<p>Your application has been approved by the Head of the Department: " + applications.DepartmentName.ToString() + " you have selected.</p>" +
-                        @"<br/>" +
-                        @"<p>You will be enrolled in a later day.</p>" +
-                        @"<br/>" +
-                         @"<p>Please stay tuned.</p>" +
-                        @"<br/>"
-                    };
-
-                    using (SmtpClient smtp = new SmtpClient())
-                    {
-                        smtp.Connect("smtp.gmail.com", 465, true);
-                        smtp.Authenticate("samsinfo.noreply@gmail.com", "qultbqdkozwvfhgt");
-                        smtp.Send(email);
-                        smtp.Disconnect(true);
-                        TempData["IsMailSent"] = "true";
-                    }
+                    smtp.Connect("smtp.gmail.com", 465, true);
+                    smtp.Authenticate("samsinfo.noreply@gmail.com", "qultbqdkozwvfhgt");
+                    smtp.Send(email);
+                    smtp.Disconnect(true);
+                    TempData["IsMailSent"] = "true";
                 }
                 result = true;
             }
@@ -316,7 +428,7 @@ namespace Isik.SAMS.Controllers
                 var user = db.SAMS_Users.Find(Convert.ToInt32(Session["UserId"]));
                 if (user.UserType == 1)
                 {
-                    applications.Status = 5;
+                    //applications.Status = 5;
                     applications.RejectedBy = Convert.ToInt32(Session["UserId"]);
                     db.SaveChanges();
                     var email = new MimeMessage();
@@ -345,7 +457,7 @@ namespace Isik.SAMS.Controllers
                 }
                 else
                 {
-                    applications.Status = 5;
+                    //applications.Status = 5;
                     applications.RejectedBy = Convert.ToInt32(Session["UserId"]);
                     db.SaveChanges();
                     var email = new MimeMessage();

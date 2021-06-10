@@ -178,6 +178,7 @@ namespace Isik.SAMS.Controllers
                    .Distinct()
                    .OrderBy(x => x);
             ViewBag.ExtensionNotAllowed = TempData["ExtensionNotAllowed"] == null ? null : TempData["ExtensionNotAllowed"].ToString();
+            ViewBag.FilesUploaded = TempData["FilesUploaded"] == null ? null : TempData["FilesUploaded"].ToString();
             List<SelectListItem> countryList = new List<SelectListItem>();
             foreach (var a in countries)
             {
@@ -204,7 +205,7 @@ namespace Isik.SAMS.Controllers
                         if (a.FileName.Contains("HighSchoolTranscript"))
                         {
                             model.highSchoolTranscriptContentResult = File(a.FileData, MimeMapping.GetMimeMapping(a.FileName), a.FileName);
-                        } 
+                        }
                         else if (a.FileName.Contains("ResidencePermit"))
                         {
                             model.residencePermitContentResult = File(a.FileData, MimeMapping.GetMimeMapping(a.FileName), a.FileName);
@@ -286,10 +287,10 @@ namespace Isik.SAMS.Controllers
             {
                 foreach (var a in files)
                 {
-                    if(a.FileName == name + "" + a.FileExtension)
+                    if (a.FileName == name + "" + a.FileExtension)
                     {
                         return File(a.FileData, MimeMapping.GetMimeMapping(a.FileName), a.FileName);
-                    }                    
+                    }
                 }
             }
             return null;
@@ -355,19 +356,20 @@ namespace Isik.SAMS.Controllers
                     string fileName = Path.GetFileName(application.IdorPassportCopy.FileName);
                     file.FileName = newFileName + "" + Path.GetExtension(fileName);
                     file.FileExtension = Path.GetExtension(file.FileName);
-                    byte[] fileData = new byte[application.IdorPassportCopy.InputStream.Length];
-                    application.IdorPassportCopy.InputStream.Read(fileData, 0, fileData.Length);
-                    file.FileData = fileData;
-                    file.StudentApplicationId = application.Id;
                     if (file.FileExtension == ".jpg" || file.FileExtension == ".jpeg" || file.FileExtension == ".png" || file.FileExtension == ".docx" || file.FileExtension == ".pdf")
                     {
+                        TempData["FilesUploaded"] = "true";
                         db.SAMS_Files.Add(file);
                     }
                     else
                     {
                         TempData["ExtensionNotAllowed"] = "Only jpg/jpeg, png, pdf and docx files are allowed!";
                     }
-                    
+                    byte[] fileData = new byte[application.IdorPassportCopy.InputStream.Length];
+                    application.IdorPassportCopy.InputStream.Read(fileData, 0, fileData.Length);
+                    file.FileData = fileData;
+                    file.StudentApplicationId = application.Id;
+
                 }
                 if (application.englishLanguageProfScore != null)
                 {
@@ -377,18 +379,19 @@ namespace Isik.SAMS.Controllers
                     string fileName = Path.GetFileName(application.englishLanguageProfScore.FileName);
                     file.FileName = newFileName + "" + Path.GetExtension(fileName);
                     file.FileExtension = Path.GetExtension(file.FileName);
-                    byte[] fileData = new byte[application.englishLanguageProfScore.InputStream.Length];
-                    application.englishLanguageProfScore.InputStream.Read(fileData, 0, fileData.Length);
-                    file.FileData = fileData;
-                    file.StudentApplicationId = application.Id;
                     if (file.FileExtension == ".jpg" || file.FileExtension == ".jpeg" || file.FileExtension == ".png" || file.FileExtension == ".docx" || file.FileExtension == ".pdf")
                     {
+                        TempData["FilesUploaded"] = "true";
                         db.SAMS_Files.Add(file);
                     }
                     else
                     {
                         TempData["ExtensionNotAllowed"] = "Only jpg/jpeg, png, pdf and docx files are allowed!";
                     }
+                    byte[] fileData = new byte[application.englishLanguageProfScore.InputStream.Length];
+                    application.englishLanguageProfScore.InputStream.Read(fileData, 0, fileData.Length);
+                    file.FileData = fileData;
+                    file.StudentApplicationId = application.Id;
                 }
                 if (application.cv != null)
                 {
@@ -398,18 +401,19 @@ namespace Isik.SAMS.Controllers
                     string fileName = Path.GetFileName(application.cv.FileName);
                     file.FileName = newFileName + "" + Path.GetExtension(fileName);
                     file.FileExtension = Path.GetExtension(file.FileName);
-                    byte[] fileData = new byte[application.cv.InputStream.Length];
-                    application.cv.InputStream.Read(fileData, 0, fileData.Length);
-                    file.FileData = fileData;
-                    file.StudentApplicationId = application.Id;
                     if (file.FileExtension == ".jpg" || file.FileExtension == ".jpeg" || file.FileExtension == ".png" || file.FileExtension == ".docx" || file.FileExtension == ".pdf")
                     {
+                        TempData["FilesUploaded"] = "true";
                         db.SAMS_Files.Add(file);
                     }
                     else
                     {
                         TempData["ExtensionNotAllowed"] = "Only jpg/jpeg, png, pdf and docx files are allowed!";
                     }
+                    byte[] fileData = new byte[application.cv.InputStream.Length];
+                    application.cv.InputStream.Read(fileData, 0, fileData.Length);
+                    file.FileData = fileData;
+                    file.StudentApplicationId = application.Id;
                 }
                 if (application.bachelorDiploma != null)
                 {
@@ -419,18 +423,19 @@ namespace Isik.SAMS.Controllers
                     string fileName = Path.GetFileName(application.bachelorDiploma.FileName);
                     file.FileName = newFileName + "" + Path.GetExtension(fileName);
                     file.FileExtension = Path.GetExtension(file.FileName);
-                    byte[] fileData = new byte[application.bachelorDiploma.InputStream.Length];
-                    application.bachelorDiploma.InputStream.Read(fileData, 0, fileData.Length);
-                    file.FileData = fileData;
-                    file.StudentApplicationId = application.Id;
                     if (file.FileExtension == ".jpg" || file.FileExtension == ".jpeg" || file.FileExtension == ".png" || file.FileExtension == ".docx" || file.FileExtension == ".pdf")
                     {
+                        TempData["FilesUploaded"] = "true";
                         db.SAMS_Files.Add(file);
                     }
                     else
                     {
                         TempData["ExtensionNotAllowed"] = "Only jpg/jpeg, png, pdf and docx files are allowed!";
                     }
+                    byte[] fileData = new byte[application.bachelorDiploma.InputStream.Length];
+                    application.bachelorDiploma.InputStream.Read(fileData, 0, fileData.Length);
+                    file.FileData = fileData;
+                    file.StudentApplicationId = application.Id;
                 }
                 if (application.bachelorTranscript != null)
                 {
@@ -440,22 +445,23 @@ namespace Isik.SAMS.Controllers
                     string fileName = Path.GetFileName(application.bachelorTranscript.FileName);
                     file.FileName = newFileName + "" + Path.GetExtension(fileName);
                     file.FileExtension = Path.GetExtension(file.FileName);
-                    byte[] fileData = new byte[application.bachelorTranscript.InputStream.Length];
-                    application.bachelorTranscript.InputStream.Read(fileData, 0, fileData.Length);
-                    file.FileData = fileData;
-                    file.StudentApplicationId = application.Id;
                     if (file.FileExtension == ".jpg" || file.FileExtension == ".jpeg" || file.FileExtension == ".png" || file.FileExtension == ".docx" || file.FileExtension == ".pdf")
                     {
+                        TempData["FilesUploaded"] = "true";
                         db.SAMS_Files.Add(file);
                     }
                     else
                     {
                         TempData["ExtensionNotAllowed"] = "Only jpg/jpeg, png, pdf and docx files are allowed!";
                     }
+                    byte[] fileData = new byte[application.bachelorTranscript.InputStream.Length];
+                    application.bachelorTranscript.InputStream.Read(fileData, 0, fileData.Length);
+                    file.FileData = fileData;
+                    file.StudentApplicationId = application.Id;
                 }
             }
             else if (app.ProgramId == 6003)
-            {                
+            {
                 app.MasterGPA = application.MasterGPA;
                 app.MasterGradDate = application.MasterGradDate;
                 app.MasterProgram = application.MasterProgram;
@@ -477,18 +483,19 @@ namespace Isik.SAMS.Controllers
                     string fileName = Path.GetFileName(application.IdorPassportCopy.FileName);
                     file.FileName = newFileName + "" + Path.GetExtension(fileName);
                     file.FileExtension = Path.GetExtension(file.FileName);
-                    byte[] fileData = new byte[application.IdorPassportCopy.InputStream.Length];
-                    application.IdorPassportCopy.InputStream.Read(fileData, 0, fileData.Length);
-                    file.FileData = fileData;
-                    file.StudentApplicationId = application.Id;
                     if (file.FileExtension == ".jpg" || file.FileExtension == ".jpeg" || file.FileExtension == ".png" || file.FileExtension == ".docx" || file.FileExtension == ".pdf")
                     {
+                        TempData["FilesUploaded"] = "true";
                         db.SAMS_Files.Add(file);
                     }
                     else
                     {
                         TempData["ExtensionNotAllowed"] = "Only jpg/jpeg, png, pdf and docx files are allowed!";
                     }
+                    byte[] fileData = new byte[application.IdorPassportCopy.InputStream.Length];
+                    application.IdorPassportCopy.InputStream.Read(fileData, 0, fileData.Length);
+                    file.FileData = fileData;
+                    file.StudentApplicationId = application.Id;
                 }
                 if (application.englishLanguageProfScore != null)
                 {
@@ -498,18 +505,19 @@ namespace Isik.SAMS.Controllers
                     string fileName = Path.GetFileName(application.englishLanguageProfScore.FileName);
                     file.FileName = newFileName + "" + Path.GetExtension(fileName);
                     file.FileExtension = Path.GetExtension(file.FileName);
-                    byte[] fileData = new byte[application.englishLanguageProfScore.InputStream.Length];
-                    application.englishLanguageProfScore.InputStream.Read(fileData, 0, fileData.Length);
-                    file.FileData = fileData;
-                    file.StudentApplicationId = application.Id;
                     if (file.FileExtension == ".jpg" || file.FileExtension == ".jpeg" || file.FileExtension == ".png" || file.FileExtension == ".docx" || file.FileExtension == ".pdf")
                     {
+                        TempData["FilesUploaded"] = "true";
                         db.SAMS_Files.Add(file);
                     }
                     else
                     {
                         TempData["ExtensionNotAllowed"] = "Only jpg/jpeg, png, pdf and docx files are allowed!";
                     }
+                    byte[] fileData = new byte[application.englishLanguageProfScore.InputStream.Length];
+                    application.englishLanguageProfScore.InputStream.Read(fileData, 0, fileData.Length);
+                    file.FileData = fileData;
+                    file.StudentApplicationId = application.Id;
                 }
                 if (application.cv != null)
                 {
@@ -519,18 +527,19 @@ namespace Isik.SAMS.Controllers
                     string fileName = Path.GetFileName(application.cv.FileName);
                     file.FileName = newFileName + "" + Path.GetExtension(fileName);
                     file.FileExtension = Path.GetExtension(file.FileName);
-                    byte[] fileData = new byte[application.cv.InputStream.Length];
-                    application.cv.InputStream.Read(fileData, 0, fileData.Length);
-                    file.FileData = fileData;
-                    file.StudentApplicationId = application.Id;
                     if (file.FileExtension == ".jpg" || file.FileExtension == ".jpeg" || file.FileExtension == ".png" || file.FileExtension == ".docx" || file.FileExtension == ".pdf")
                     {
+                        TempData["FilesUploaded"] = "true";
                         db.SAMS_Files.Add(file);
                     }
                     else
                     {
                         TempData["ExtensionNotAllowed"] = "Only jpg/jpeg, png, pdf and docx files are allowed!";
                     }
+                    byte[] fileData = new byte[application.cv.InputStream.Length];
+                    application.cv.InputStream.Read(fileData, 0, fileData.Length);
+                    file.FileData = fileData;
+                    file.StudentApplicationId = application.Id;
                 }
                 if (application.bachelorDiploma != null)
                 {
@@ -540,18 +549,19 @@ namespace Isik.SAMS.Controllers
                     string fileName = Path.GetFileName(application.bachelorDiploma.FileName);
                     file.FileName = newFileName + "" + Path.GetExtension(fileName);
                     file.FileExtension = Path.GetExtension(file.FileName);
-                    byte[] fileData = new byte[application.bachelorDiploma.InputStream.Length];
-                    application.bachelorDiploma.InputStream.Read(fileData, 0, fileData.Length);
-                    file.FileData = fileData;
-                    file.StudentApplicationId = application.Id;
                     if (file.FileExtension == ".jpg" || file.FileExtension == ".jpeg" || file.FileExtension == ".png" || file.FileExtension == ".docx" || file.FileExtension == ".pdf")
                     {
+                        TempData["FilesUploaded"] = "true";
                         db.SAMS_Files.Add(file);
                     }
                     else
                     {
                         TempData["ExtensionNotAllowed"] = "Only jpg/jpeg, png, pdf and docx files are allowed!";
                     }
+                    byte[] fileData = new byte[application.bachelorDiploma.InputStream.Length];
+                    application.bachelorDiploma.InputStream.Read(fileData, 0, fileData.Length);
+                    file.FileData = fileData;
+                    file.StudentApplicationId = application.Id;
                 }
                 if (application.bachelorTranscript != null)
                 {
@@ -561,18 +571,19 @@ namespace Isik.SAMS.Controllers
                     string fileName = Path.GetFileName(application.bachelorTranscript.FileName);
                     file.FileName = newFileName + "" + Path.GetExtension(fileName);
                     file.FileExtension = Path.GetExtension(file.FileName);
-                    byte[] fileData = new byte[application.bachelorTranscript.InputStream.Length];
-                    application.bachelorTranscript.InputStream.Read(fileData, 0, fileData.Length);
-                    file.FileData = fileData;
-                    file.StudentApplicationId = application.Id;
                     if (file.FileExtension == ".jpg" || file.FileExtension == ".jpeg" || file.FileExtension == ".png" || file.FileExtension == ".docx" || file.FileExtension == ".pdf")
                     {
+                        TempData["FilesUploaded"] = "true";
                         db.SAMS_Files.Add(file);
                     }
                     else
                     {
                         TempData["ExtensionNotAllowed"] = "Only jpg/jpeg, png, pdf and docx files are allowed!";
                     }
+                    byte[] fileData = new byte[application.bachelorTranscript.InputStream.Length];
+                    application.bachelorTranscript.InputStream.Read(fileData, 0, fileData.Length);
+                    file.FileData = fileData;
+                    file.StudentApplicationId = application.Id;
                 }
                 if (application.masterDiploma != null)
                 {
@@ -582,18 +593,19 @@ namespace Isik.SAMS.Controllers
                     string fileName = Path.GetFileName(application.masterDiploma.FileName);
                     file.FileName = newFileName + "" + Path.GetExtension(fileName);
                     file.FileExtension = Path.GetExtension(file.FileName);
-                    byte[] fileData = new byte[application.masterDiploma.InputStream.Length];
-                    application.masterDiploma.InputStream.Read(fileData, 0, fileData.Length);
-                    file.FileData = fileData;
-                    file.StudentApplicationId = application.Id;
                     if (file.FileExtension == ".jpg" || file.FileExtension == ".jpeg" || file.FileExtension == ".png" || file.FileExtension == ".docx" || file.FileExtension == ".pdf")
                     {
+                        TempData["FilesUploaded"] = "true";
                         db.SAMS_Files.Add(file);
                     }
                     else
                     {
                         TempData["ExtensionNotAllowed"] = "Only jpg/jpeg, png, pdf and docx files are allowed!";
                     }
+                    byte[] fileData = new byte[application.masterDiploma.InputStream.Length];
+                    application.masterDiploma.InputStream.Read(fileData, 0, fileData.Length);
+                    file.FileData = fileData;
+                    file.StudentApplicationId = application.Id;
                 }
                 if (application.masterTranscript != null)
                 {
@@ -603,18 +615,19 @@ namespace Isik.SAMS.Controllers
                     string fileName = Path.GetFileName(application.masterTranscript.FileName);
                     file.FileName = newFileName + "" + Path.GetExtension(fileName);
                     file.FileExtension = Path.GetExtension(file.FileName);
-                    byte[] fileData = new byte[application.masterTranscript.InputStream.Length];
-                    application.masterTranscript.InputStream.Read(fileData, 0, fileData.Length);
-                    file.FileData = fileData;
-                    file.StudentApplicationId = application.Id;
                     if (file.FileExtension == ".jpg" || file.FileExtension == ".jpeg" || file.FileExtension == ".png" || file.FileExtension == ".docx" || file.FileExtension == ".pdf")
                     {
+                        TempData["FilesUploaded"] = "true";
                         db.SAMS_Files.Add(file);
                     }
                     else
                     {
                         TempData["ExtensionNotAllowed"] = "Only jpg/jpeg, png, pdf and docx files are allowed!";
                     }
+                    byte[] fileData = new byte[application.masterTranscript.InputStream.Length];
+                    application.masterTranscript.InputStream.Read(fileData, 0, fileData.Length);
+                    file.FileData = fileData;
+                    file.StudentApplicationId = application.Id;
                 }
                 if (application.referenceLetter1 != null)
                 {
@@ -624,18 +637,19 @@ namespace Isik.SAMS.Controllers
                     string fileName = Path.GetFileName(application.referenceLetter1.FileName);
                     file.FileName = newFileName + "" + Path.GetExtension(fileName);
                     file.FileExtension = Path.GetExtension(file.FileName);
-                    byte[] fileData = new byte[application.referenceLetter1.InputStream.Length];
-                    application.referenceLetter1.InputStream.Read(fileData, 0, fileData.Length);
-                    file.FileData = fileData;
-                    file.StudentApplicationId = application.Id;
                     if (file.FileExtension == ".jpg" || file.FileExtension == ".jpeg" || file.FileExtension == ".png" || file.FileExtension == ".docx" || file.FileExtension == ".pdf")
                     {
+                        TempData["FilesUploaded"] = "true";
                         db.SAMS_Files.Add(file);
                     }
                     else
                     {
                         TempData["ExtensionNotAllowed"] = "Only jpg/jpeg, png, pdf and docx files are allowed!";
                     }
+                    byte[] fileData = new byte[application.referenceLetter1.InputStream.Length];
+                    application.referenceLetter1.InputStream.Read(fileData, 0, fileData.Length);
+                    file.FileData = fileData;
+                    file.StudentApplicationId = application.Id;
                 }
                 if (application.referenceLetter2 != null)
                 {
@@ -645,18 +659,19 @@ namespace Isik.SAMS.Controllers
                     string fileName = Path.GetFileName(application.referenceLetter2.FileName);
                     file.FileName = newFileName + "" + Path.GetExtension(fileName);
                     file.FileExtension = Path.GetExtension(file.FileName);
-                    byte[] fileData = new byte[application.referenceLetter2.InputStream.Length];
-                    application.referenceLetter2.InputStream.Read(fileData, 0, fileData.Length);
-                    file.FileData = fileData;
-                    file.StudentApplicationId = application.Id;
                     if (file.FileExtension == ".jpg" || file.FileExtension == ".jpeg" || file.FileExtension == ".png" || file.FileExtension == ".docx" || file.FileExtension == ".pdf")
                     {
+                        TempData["FilesUploaded"] = "true";
                         db.SAMS_Files.Add(file);
                     }
                     else
                     {
                         TempData["ExtensionNotAllowed"] = "Only jpg/jpeg, png, pdf and docx files are allowed!";
                     }
+                    byte[] fileData = new byte[application.referenceLetter2.InputStream.Length];
+                    application.referenceLetter2.InputStream.Read(fileData, 0, fileData.Length);
+                    file.FileData = fileData;
+                    file.StudentApplicationId = application.Id;
                 }
             }
             else
@@ -686,18 +701,19 @@ namespace Isik.SAMS.Controllers
                     string fileName = Path.GetFileName(application.highSchoolTranscript.FileName);
                     file.FileName = newFileName + "" + Path.GetExtension(fileName);
                     file.FileExtension = Path.GetExtension(file.FileName);
-                    byte[] fileData = new byte[application.highSchoolTranscript.InputStream.Length];
-                    application.highSchoolTranscript.InputStream.Read(fileData, 0, fileData.Length);
-                    file.FileData = fileData;
-                    file.StudentApplicationId = application.Id;
                     if (file.FileExtension == ".jpg" || file.FileExtension == ".jpeg" || file.FileExtension == ".png" || file.FileExtension == ".docx" || file.FileExtension == ".pdf")
                     {
+                        TempData["FilesUploaded"] = "true";
                         db.SAMS_Files.Add(file);
                     }
                     else
                     {
                         TempData["ExtensionNotAllowed"] = "Only jpg/jpeg, png, pdf and docx files are allowed!";
                     }
+                    byte[] fileData = new byte[application.highSchoolTranscript.InputStream.Length];
+                    application.highSchoolTranscript.InputStream.Read(fileData, 0, fileData.Length);
+                    file.FileData = fileData;
+                    file.StudentApplicationId = application.Id;
                 }
                 if (application.residencePermit != null)
                 {
@@ -707,18 +723,19 @@ namespace Isik.SAMS.Controllers
                     string fileName = Path.GetFileName(application.residencePermit.FileName);
                     file.FileName = newFileName + "" + Path.GetExtension(fileName);
                     file.FileExtension = Path.GetExtension(file.FileName);
-                    byte[] fileData = new byte[application.residencePermit.InputStream.Length];
-                    application.residencePermit.InputStream.Read(fileData, 0, fileData.Length);
-                    file.FileData = fileData;
-                    file.StudentApplicationId = application.Id;
                     if (file.FileExtension == ".jpg" || file.FileExtension == ".jpeg" || file.FileExtension == ".png" || file.FileExtension == ".docx" || file.FileExtension == ".pdf")
                     {
+                        TempData["FilesUploaded"] = "true";
                         db.SAMS_Files.Add(file);
                     }
                     else
                     {
                         TempData["ExtensionNotAllowed"] = "Only jpg/jpeg, png, pdf and docx files are allowed!";
                     }
+                    byte[] fileData = new byte[application.residencePermit.InputStream.Length];
+                    application.residencePermit.InputStream.Read(fileData, 0, fileData.Length);
+                    file.FileData = fileData;
+                    file.StudentApplicationId = application.Id;
                 }
                 if (application.equivalenceCertificate != null)
                 {
@@ -728,18 +745,19 @@ namespace Isik.SAMS.Controllers
                     string fileName = Path.GetFileName(application.equivalenceCertificate.FileName);
                     file.FileName = newFileName + "" + Path.GetExtension(fileName);
                     file.FileExtension = Path.GetExtension(file.FileName);
-                    byte[] fileData = new byte[application.equivalenceCertificate.InputStream.Length];
-                    application.equivalenceCertificate.InputStream.Read(fileData, 0, fileData.Length);
-                    file.FileData = fileData;
-                    file.StudentApplicationId = application.Id;
                     if (file.FileExtension == ".jpg" || file.FileExtension == ".jpeg" || file.FileExtension == ".png" || file.FileExtension == ".docx" || file.FileExtension == ".pdf")
                     {
+                        TempData["FilesUploaded"] = "true";
                         db.SAMS_Files.Add(file);
                     }
                     else
                     {
                         TempData["ExtensionNotAllowed"] = "Only jpg/jpeg, png, pdf and docx files are allowed!";
                     }
+                    byte[] fileData = new byte[application.equivalenceCertificate.InputStream.Length];
+                    application.equivalenceCertificate.InputStream.Read(fileData, 0, fileData.Length);
+                    file.FileData = fileData;
+                    file.StudentApplicationId = application.Id;
                 }
                 if (application.highSchoolDiploma != null)
                 {
@@ -749,18 +767,19 @@ namespace Isik.SAMS.Controllers
                     string fileName = Path.GetFileName(application.highSchoolDiploma.FileName);
                     file.FileName = newFileName + "" + Path.GetExtension(fileName);
                     file.FileExtension = Path.GetExtension(file.FileName);
-                    byte[] fileData = new byte[application.highSchoolDiploma.InputStream.Length];
-                    application.highSchoolDiploma.InputStream.Read(fileData, 0, fileData.Length);
-                    file.FileData = fileData;
-                    file.StudentApplicationId = application.Id;
                     if (file.FileExtension == ".jpg" || file.FileExtension == ".jpeg" || file.FileExtension == ".png" || file.FileExtension == ".docx" || file.FileExtension == ".pdf")
                     {
+                        TempData["FilesUploaded"] = "true";
                         db.SAMS_Files.Add(file);
                     }
                     else
                     {
                         TempData["ExtensionNotAllowed"] = "Only jpg/jpeg, png, pdf and docx files are allowed!";
                     }
+                    byte[] fileData = new byte[application.highSchoolDiploma.InputStream.Length];
+                    application.highSchoolDiploma.InputStream.Read(fileData, 0, fileData.Length);
+                    file.FileData = fileData;
+                    file.StudentApplicationId = application.Id;
                 }
                 if (application.studentPhoto != null)
                 {
@@ -770,18 +789,19 @@ namespace Isik.SAMS.Controllers
                     string fileName = Path.GetFileName(application.studentPhoto.FileName);
                     file.FileName = newFileName + "" + Path.GetExtension(fileName);
                     file.FileExtension = Path.GetExtension(file.FileName);
-                    byte[] fileData = new byte[application.studentPhoto.InputStream.Length];
-                    application.studentPhoto.InputStream.Read(fileData, 0, fileData.Length);
-                    file.FileData = fileData;
-                    file.StudentApplicationId = application.Id;
                     if (file.FileExtension == ".jpg" || file.FileExtension == ".jpeg" || file.FileExtension == ".png" || file.FileExtension == ".docx" || file.FileExtension == ".pdf")
                     {
+                        TempData["FilesUploaded"] = "true";
                         db.SAMS_Files.Add(file);
                     }
                     else
                     {
                         TempData["ExtensionNotAllowed"] = "Only jpg/jpeg, png, pdf and docx files are allowed!";
                     }
+                    byte[] fileData = new byte[application.studentPhoto.InputStream.Length];
+                    application.studentPhoto.InputStream.Read(fileData, 0, fileData.Length);
+                    file.FileData = fileData;
+                    file.StudentApplicationId = application.Id;
                 }
                 if (application.internationalExamScore != null)
                 {
@@ -791,18 +811,20 @@ namespace Isik.SAMS.Controllers
                     string fileName = Path.GetFileName(application.internationalExamScore.FileName);
                     file.FileName = newFileName + "" + Path.GetExtension(fileName);
                     file.FileExtension = Path.GetExtension(file.FileName);
-                    byte[] fileData = new byte[application.internationalExamScore.InputStream.Length];
-                    application.internationalExamScore.InputStream.Read(fileData, 0, fileData.Length);
-                    file.FileData = fileData;
-                    file.StudentApplicationId = application.Id;
                     if (file.FileExtension == ".jpg" || file.FileExtension == ".jpeg" || file.FileExtension == ".png" || file.FileExtension == ".docx" || file.FileExtension == ".pdf")
                     {
+                        TempData["FilesUploaded"] = "true";
                         db.SAMS_Files.Add(file);
                     }
                     else
                     {
                         TempData["ExtensionNotAllowed"] = "Only jpg/jpeg, png, pdf and docx files are allowed!";
                     }
+                    byte[] fileData = new byte[application.internationalExamScore.InputStream.Length];
+                    application.internationalExamScore.InputStream.Read(fileData, 0, fileData.Length);
+                    file.FileData = fileData;
+                    file.StudentApplicationId = application.Id;
+
                 }
                 if (application.IdorPassportCopy != null)
                 {
@@ -812,18 +834,19 @@ namespace Isik.SAMS.Controllers
                     string fileName = Path.GetFileName(application.IdorPassportCopy.FileName);
                     file.FileName = newFileName + "" + Path.GetExtension(fileName);
                     file.FileExtension = Path.GetExtension(file.FileName);
-                    byte[] fileData = new byte[application.IdorPassportCopy.InputStream.Length];
-                    application.IdorPassportCopy.InputStream.Read(fileData, 0, fileData.Length);
-                    file.FileData = fileData;
-                    file.StudentApplicationId = application.Id;
                     if (file.FileExtension == ".jpg" || file.FileExtension == ".jpeg" || file.FileExtension == ".png" || file.FileExtension == ".docx" || file.FileExtension == ".pdf")
                     {
+                        TempData["FilesUploaded"] = "true";
                         db.SAMS_Files.Add(file);
                     }
                     else
                     {
                         TempData["ExtensionNotAllowed"] = "Only jpg/jpeg, png, pdf and docx files are allowed!";
                     }
+                    byte[] fileData = new byte[application.IdorPassportCopy.InputStream.Length];
+                    application.IdorPassportCopy.InputStream.Read(fileData, 0, fileData.Length);
+                    file.FileData = fileData;
+                    file.StudentApplicationId = application.Id;
                 }
                 if (application.englishLanguageProfScore != null)
                 {
@@ -833,18 +856,19 @@ namespace Isik.SAMS.Controllers
                     string fileName = Path.GetFileName(application.englishLanguageProfScore.FileName);
                     file.FileName = newFileName + "" + Path.GetExtension(fileName);
                     file.FileExtension = Path.GetExtension(file.FileName);
-                    byte[] fileData = new byte[application.englishLanguageProfScore.InputStream.Length];
-                    application.englishLanguageProfScore.InputStream.Read(fileData, 0, fileData.Length);
-                    file.FileData = fileData;
-                    file.StudentApplicationId = application.Id;
                     if (file.FileExtension == ".jpg" || file.FileExtension == ".jpeg" || file.FileExtension == ".png" || file.FileExtension == ".docx" || file.FileExtension == ".pdf")
                     {
+                        TempData["FilesUploaded"] = "true";
                         db.SAMS_Files.Add(file);
                     }
                     else
                     {
                         TempData["ExtensionNotAllowed"] = "Only jpg/jpeg, png, pdf and docx files are allowed!";
                     }
+                    byte[] fileData = new byte[application.englishLanguageProfScore.InputStream.Length];
+                    application.englishLanguageProfScore.InputStream.Read(fileData, 0, fileData.Length);
+                    file.FileData = fileData;
+                    file.StudentApplicationId = application.Id;
                 }
             }
             db.SaveChanges();

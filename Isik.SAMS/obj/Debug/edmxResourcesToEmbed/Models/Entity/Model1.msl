@@ -48,6 +48,7 @@
     <EntitySetMapping Name="SAMS_StudentApplications">
       <EntityTypeMapping TypeName="StudentApprovalManagementModel.SAMS_StudentApplications">
         <MappingFragment StoreEntitySet="SAMS_StudentApplications">
+          <ScalarProperty Name="Scholarship" ColumnName="Scholarship" />
           <ScalarProperty Name="RejectedBy" ColumnName="RejectedBy" />
           <ScalarProperty Name="HighSchoolCity" ColumnName="HighSchoolCity" />
           <ScalarProperty Name="CityofBirth" ColumnName="CityofBirth" />

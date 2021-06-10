@@ -92,6 +92,7 @@
           <Property Name="Status" Type="int" />
           <Property Name="EnrolledBy" Type="int" />
           <Property Name="ProgramId" Type="int" />
+          <Property Name="Scholarship" Type="nvarchar" MaxLength="10" />
         </EntityType>
         <EntityType Name="SAMS_Users">
           <Key>
@@ -375,6 +376,7 @@
           <Property Name="CityofBirth" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
           <Property Name="HighSchoolCity" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
           <Property Name="RejectedBy" Type="Int32" />
+          <Property Name="Scholarship" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="SAMS_Users">
           <Key>
@@ -614,6 +616,7 @@
           <EntitySetMapping Name="SAMS_StudentApplications">
             <EntityTypeMapping TypeName="StudentApprovalManagementModel.SAMS_StudentApplications">
               <MappingFragment StoreEntitySet="SAMS_StudentApplications">
+                <ScalarProperty Name="Scholarship" ColumnName="Scholarship" />
                 <ScalarProperty Name="RejectedBy" ColumnName="RejectedBy" />
                 <ScalarProperty Name="HighSchoolCity" ColumnName="HighSchoolCity" />
                 <ScalarProperty Name="CityofBirth" ColumnName="CityofBirth" />

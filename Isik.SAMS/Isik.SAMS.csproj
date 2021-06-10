@@ -4247,6 +4247,8 @@
     <Content Include="Views\StudentApplication\Insert.cshtml" />
     <Content Include="Views\Application\Index.cshtml" />
     <Content Include="Views\Application\Detail.cshtml" />
+    <Content Include="Views\Application\MeetingLink.cshtml" />
+    <Content Include="Views\Application\Scholarship.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

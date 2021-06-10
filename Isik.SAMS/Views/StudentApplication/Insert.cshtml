@@ -1348,6 +1348,23 @@
             });
         </script>
     }
+
+    @if (ViewBag.FilesUploaded != null)
+    {
+        <script>
+            $(document).ready(function () {
+                swal({
+                    title: "Thank You!",
+                    text: "Your application has been saved. Please stay tuned.",
+                    type: "success",
+                    confirmButtonText: "OK!",
+                    confirmButtonColor: "#ec6c62"
+                }).then(() => {
+                    window.location.href = "/StudentApplication/";
+                });
+            });
+        </script>
+    }
     <script>
         function hideMessage() {
             document.getElementById("wrongVerificationMessage").hidden = true;

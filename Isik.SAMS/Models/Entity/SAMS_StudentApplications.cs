@@ -72,7 +72,10 @@ namespace Isik.SAMS.Models.Entity
         public string CityofBirth { get; set; }
         public string HighSchoolCity { get; set; }
         public Nullable<int> RejectedBy { get; set; }
-
+        public string Scholarship { get; set; }
+        public string MeetingLink { get; set; }
+        public DateTime MeetingDate { get; set; }
+        public DateTime MeetingDateTime { get; set; }
         public HttpPostedFileBase highSchoolTranscript { get; set; }
         public FileContentResult highSchoolTranscriptContentResult { get; set; }
         public HttpPostedFileBase residencePermit { get; set; }
