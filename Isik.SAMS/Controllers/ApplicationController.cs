@@ -90,6 +90,26 @@ namespace Isik.SAMS.Controllers
             {
                 var application = db.SAMS_StudentApplications.Find(id);
                 var files = db.SAMS_Files.Where(x => x.StudentApplicationId == id).ToList();
+                bool isFileMissing = false;
+                if (application.ProgramId == 6002)
+                {
+                    if(files.Count != 5)
+                    {
+                        isFileMissing = true;
+                    }
+                } else if (application.ProgramId == 8002)
+                {
+                    if (files.Count != 8)
+                    {
+                        isFileMissing = true;
+                    }
+                } else
+                {
+                    if (files.Count != 9)
+                    {
+                        isFileMissing = true;
+                    }
+                }
                 if (files != null)
                 {
                     ViewBag.IsEducationalInfoEntered = "true";
@@ -154,10 +174,10 @@ namespace Isik.SAMS.Controllers
                         else if (a.FileName.Contains("ReferenceLetter2"))
                         {
                             application.referenceLetter2ContentResult = File(a.FileData, MimeMapping.GetMimeMapping(a.FileName), a.FileName);
-                        }
-
+                        } 
                     }
                 }
+                ViewBag.isFileMissing = isFileMissing.ToString();
                 return View(application);
             }
             else
@@ -444,6 +464,101 @@ namespace Isik.SAMS.Controllers
                         @"<br/>" +
                         @"<p></p>" +
                         @"<br/>"
+                    };
+
+                    using (SmtpClient smtp = new SmtpClient())
+                    {
+                        smtp.Connect("smtp.gmail.com", 465, true);
+                        smtp.Authenticate("samsinfo.noreply@gmail.com", "qultbqdkozwvfhgt");
+                        smtp.Send(email);
+                        smtp.Disconnect(true);
+                        TempData["IsMailSent"] = "true";
+                    }
+                }
+                else
+                {
+                    //applications.Status = 5;
+                    applications.RejectedBy = Convert.ToInt32(Session["UserId"]);
+                    db.SaveChanges();
+                    var email = new MimeMessage();
+                    var from = "SAMS SAMS";
+                    var subject = "SAMS info - E-Mail Verification";
+                    email.From.Add(new MailboxAddress(from, "samsinfo.noreply@gmail.com"));
+                    email.To.Add(new MailboxAddress(applications.Email, applications.Email));
+                    email.Subject = subject;
+                    email.Body = new TextPart(TextFormat.Html)
+                    {
+                        Text = @"<h1> As the SAMS team, </h1>" +
+                        @"<h3>We are really sorry to tell you that your application has been rejected.</h3>" +
+                        @"<br/>" +
+                        @"<p>Even tho you have been passed the previous phase. Your application wasn't met the standards of the second phase.</p>" +
+                        @"<br/>"
+                    };
+
+                    using (SmtpClient smtp = new SmtpClient())
+                    {
+                        smtp.Connect("smtp.gmail.com", 465, true);
+                        smtp.Authenticate("samsinfo.noreply@gmail.com", "qultbqdkozwvfhgt");
+                        smtp.Send(email);
+                        smtp.Disconnect(true);
+                        TempData["IsMailSent"] = "true";
+                    }
+                }
+                result = true;
+            }
+            else
+            {
+                TempData["isApprovedBySecretary"] = false;
+                TempData["isApprovedByHoD"] = false;
+                TempData.Keep("isApprovedBySecretary");
+                TempData.Keep("isApprovedByHoD");
+            }
+            return Json(result, JsonRequestBehavior.AllowGet);
+        }
+
+        public ActionResult MissingFilesMessage()
+        {
+            if (TempData["isDeleted"] != null)
+            {
+                TempData["Message"] = "Operation failed.";
+                TempData["messageClass"] = "alert-danger";
+            }
+            else
+            {
+                TempData["Message"] = "Mail Successfully Sent.";
+                TempData["messageClass"] = "alert-success";
+            }
+            TempData.Keep("Message");
+            TempData.Keep("messageClass");
+            return RedirectToAction("Index");
+        }
+
+        public JsonResult RequestMissingFiles(int? id)
+        {
+            bool result = false;
+            var applications = db.SAMS_StudentApplications.Find(id);
+            if (applications != null)
+            {
+                var user = db.SAMS_Users.Find(Convert.ToInt32(Session["UserId"]));
+                if (user.UserType == 1)
+                {
+                    //applications.Status = 3;
+                    applications.RejectedBy = Convert.ToInt32(Session["UserId"]);
+                    db.SaveChanges();
+                    var email = new MimeMessage();
+                    var from = "SAMS SAMS";
+                    var subject = "SAMS info - Missing Application Files";
+                    email.From.Add(new MailboxAddress(from, "samsinfo.noreply@gmail.com"));
+                    email.To.Add(new MailboxAddress(applications.Email, applications.Email));
+                    email.Subject = subject;
+                    email.Body = new TextPart(TextFormat.Html)
+                    {
+                        Text = @"<h1> As the SAMS team, </h1>" +
+                        @"<h3>Your application has some missing files. </h3>" +
+                        @"<br/>" +
+                        @"<p>Please a click below link to edit your application and upload the missing documents.</p>" +
+                        @"<br/>" +
+                        @"<a href='" + System.Configuration.ConfigurationManager.AppSettings["ProjectDirectory"] + "/StudentApplication/AuthenticateGuid?guid=" + applications.GUID + "'>Click here.</a>"
                     };
 
                     using (SmtpClient smtp = new SmtpClient())

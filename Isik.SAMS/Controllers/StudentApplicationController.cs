@@ -876,7 +876,6 @@ namespace Isik.SAMS.Controllers
             return RedirectToAction("Insert");
         }
 
-        //buna dokunma kanka ilk başta seçilen programın id sini tutabilmek için bunu yazdım.
         public ActionResult InsertInitial(int id)
         {
             if (Session["ApplicationId"] != null)
@@ -889,6 +888,23 @@ namespace Isik.SAMS.Controllers
             }
             Session["ProgramId"] = id;
             return View("Insert");
+        }
+
+        public ActionResult AuthenticateGuid(Guid guid)
+        {
+            var application = db.SAMS_StudentApplications.Where(x => x.GUID == guid).FirstOrDefault();
+            if(application != null)
+            {
+                Session["ApplicationId"] = application.Id;
+                TempData["IsAuthenticated"] = "true";
+                TempData["isMailSent"] = "true" ;
+                TempData["IsPersonalInfoEntered"] = "true";
+                TempData["IsEducationalInfoEntered"] = "true";
+                return RedirectToAction("Insert");
+            } else
+            {
+                return RedirectToAction("Index");
+            }            
         }
     }
 }
