@@ -196,7 +196,7 @@
                 </div>
                 <div class="tab-pane fade" id="leave" role="tabpanel" aria-labelledby="leave-tab">
                     <div>
-                        @if (Model.ProgramId == 8002)
+                        @if (Model.ProgramId == 1)
                         {
                             <div class="row">
                                 <div class="col-md-6">
@@ -259,7 +259,7 @@
                                 </div>
                             </div>
                         }
-                        @if (Model.ProgramId == 6003)
+                        @if (Model.ProgramId == 3)
                         {
                             <div class="row">
                                 <div class="col-md-6">
@@ -296,7 +296,7 @@
                                 </div>
                             </div>
                         }
-                        @if (Model.ProgramId == 6002)
+                        @if (Model.ProgramId == 2)
                         {
                             <div class="row">
                                 <div class="col-md-6">
@@ -346,7 +346,7 @@
                 <div class="tab-pane fade" id="employeeFiles" role="tabpanel" aria-labelledby="employeeFiles-tab">
 
                     <div class="clearfix">
-                        @if (Model.ProgramId == 6002)
+                        @if (Model.ProgramId == 2)
                         {
                             <fieldset data-filtre="CV">
                                 <legend>CV</legend>
@@ -459,12 +459,12 @@
                                 </div>
                             </fieldset>
                         }
-                        else if (Model.ProgramId == 8002)
+                        @if (Model.ProgramId == 1)
                         {
                             <fieldset data-filtre="High School Transcript">
                                 <legend>High School Transcript</legend>
                                 <div class="fileupload-container">
-                                    @if (Model.bachelorTranscriptContentResult != null)
+                                    @if (Model.highSchoolTranscriptContentResult != null)
                                     {
                                         <div class="fileButtonGroup">
                                             <a href="@Url.Action("DownloadFile", "StudentApplication", new { id = Model.Id, name = "HighSchoolTranscript" })" class="btn btn-info btn-block">
@@ -638,7 +638,7 @@
                                 </div>
                             </fieldset>
                         }
-                        else
+                        @if (Model.ProgramId == 3)
                         {
                             <fieldset data-filtre="CV">
                                 <legend>CV</legend>

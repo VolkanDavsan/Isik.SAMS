@@ -25,6 +25,7 @@ namespace Isik.SAMS.Controllers
                 dicPrograms.Add(a.Id, a.ProgramName);
             }
             ViewBag.Programs = dicPrograms;
+            Session.Abandon();
 
             return View();
         }
@@ -62,7 +63,7 @@ namespace Isik.SAMS.Controllers
                     application.VerificationCode = r;
                     db.SAMS_StudentApplications.Add(application);
                     db.SaveChanges();
-                    var app = db.SAMS_StudentApplications.Last();
+                    var app = db.SAMS_StudentApplications.Where(x => x.Email == application.Email && x.ProgramId == application.ProgramId).FirstOrDefault();
                     TempData["ApplicationId"] = app.Id;
                     using (SmtpClient smtp = new SmtpClient())
                     {
@@ -333,7 +334,7 @@ namespace Isik.SAMS.Controllers
             app.FatherName = application.FatherName;
             app.CreatedTime = DateTime.Now;
 
-            if (app.ProgramId == 6002)
+            if (app.ProgramId == 2)
             {
                 app.BachelorGPA = application.BachelorGPA;
                 app.BachelorGradDate = application.BachelorGradDate;
@@ -460,7 +461,7 @@ namespace Isik.SAMS.Controllers
                     file.StudentApplicationId = application.Id;
                 }
             }
-            else if (app.ProgramId == 6003)
+            if (app.ProgramId == 3)
             {
                 app.MasterGPA = application.MasterGPA;
                 app.MasterGradDate = application.MasterGradDate;
@@ -674,7 +675,7 @@ namespace Isik.SAMS.Controllers
                     file.StudentApplicationId = application.Id;
                 }
             }
-            else
+            if (app.ProgramId == 1)
             {
                 app.HighSchoolCountry = application.HighSchoolCountry;
                 app.HighSchoolGPA = application.HighSchoolGPA;

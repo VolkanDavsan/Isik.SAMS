@@ -131,7 +131,7 @@ namespace Isik.SAMS.Controllers
                 }
                 else
                 {
-                    if (userDetails.UserType != 1002)
+                    if (userDetails.UserType != 3)
                     {
                         Session["UserId"] = userDetails.Id;
                         Session["UserType"] = userDetails.UserType;

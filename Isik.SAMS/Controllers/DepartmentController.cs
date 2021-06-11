@@ -21,6 +21,7 @@ namespace Isik.SAMS.Controllers
         [HttpGet]
         public ActionResult Insert()
         {
+            ViewBag.Programs = new SelectList(db.SAMS_Program.ToList(), "Id", "ProgramName");
             return View();
         }
         [HttpPost]
@@ -90,6 +91,7 @@ namespace Isik.SAMS.Controllers
             if (Id != null)
             {
                 var department = db.SAMS_Department.Find(Id);
+                ViewBag.Programs = new SelectList(db.SAMS_Program.ToList(), "Id", "ProgramName");
                 return View(department);
             }
             else

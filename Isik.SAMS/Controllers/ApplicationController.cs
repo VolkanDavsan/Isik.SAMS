@@ -91,19 +91,21 @@ namespace Isik.SAMS.Controllers
                 var application = db.SAMS_StudentApplications.Find(id);
                 var files = db.SAMS_Files.Where(x => x.StudentApplicationId == id).ToList();
                 bool isFileMissing = false;
-                if (application.ProgramId == 6002)
+                if (application.ProgramId == 2)
                 {
                     if(files.Count != 5)
                     {
                         isFileMissing = true;
                     }
-                } else if (application.ProgramId == 8002)
+                } 
+                if (application.ProgramId == 1)
                 {
                     if (files.Count != 8)
                     {
                         isFileMissing = true;
                     }
-                } else
+                } 
+                if (application.ProgramId == 3)
                 {
                     if (files.Count != 9)
                     {

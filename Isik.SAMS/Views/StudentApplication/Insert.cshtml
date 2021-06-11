@@ -399,7 +399,7 @@
                                 <p style="text-align:center; font-size:16px; margin-bottom:15px; color:black; font-weight:bold;">EDUCATIONAL INFORMATION</p>
                                 <div class="row">
 
-                                    @if (Model.ProgramId == 6002)
+                                    @if (Model.ProgramId == 2)
                                     {
                                         <div class="form-group col-md-6">
                                             <label class="req" for="code">Bachelor University</label>
@@ -459,7 +459,7 @@
                                             @Html.DropDownListFor(model => model.LanguageProficiency, ViewBag.Proficiency as SelectList, "Select One", new { @class = "form-control" })
                                         </div>
                                     }
-                                    else if (Model.ProgramId == 8002)
+                                    @if (Model.ProgramId == 1)
                                     {
                                         <div class="checkboxes">
                                             <div class="form-group col-md-6">
@@ -568,7 +568,7 @@
                                             })
                                         </div>
                                     }
-                                    else
+                                    @if (Model.ProgramId == 3)
                                     {
                                         <div class="form-group col-md-6">
                                             <label class="req" for="code">Master University</label>
@@ -637,7 +637,7 @@
                             {
                                 <p style="text-align:center; font-size:16px; color:black; font-weight:bold; margin-bottom:15px">FILE UPLOADS</p>
                                 <div class="row">
-                                    @if (Model.ProgramId == 6002)
+                                    @if (Model.ProgramId == 2)
                                     {
                                         <div class="form-group col-md-6">
                                             <label class="req" for="code">CV</label>
@@ -795,7 +795,7 @@
                                             }
                                         </div>
                                     }
-                                    else if (Model.ProgramId == 8002)
+                                    @if (Model.ProgramId == 1)
                                     {
                                         <div class="form-group col-md-6">
                                             <label class="req" for="code">High School Transcript</label>
@@ -1046,7 +1046,7 @@
                                             }
                                         </div>
                                     }
-                                    else
+                                    @if (Model.ProgramId == 3)
                                     {
                                         <div class="form-group col-md-6">
                                             <label class="req" for="code">CV</label>

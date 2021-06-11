@@ -55,15 +55,7 @@
            .Sanitized(false)
            .Encoded(false)
            .RenderValueAs(c => @<text><a class="icon-trash-1" onclick="deleteTask('@(c.Id)')"></a> <a style="margin-left:15px;" class="icon-edit" data-task="Insert" data-method="GET" data-href="@Url.Action("Update","Department", new { id = c.Id})"></a></text>);
-    @*columns.Add()
-        .Titled("")
-        .Filterable(true)
-        .Sanitized(false)
-        .Encoded(false)
-        .RenderValueAs(c => @<text><a class="icon-edit" data-task="Insert" data-method="GET" data-href="@Url.Action("Update","Department", new { id = c.Id})"></a></text>);*@
-
-
-}).WithPaging(25).Sortable(true).EmptyText("There is no data available.")
+ }).WithPaging(25).Sortable(true).EmptyText("There is no data available.")
         </div>
     </div>
 </div>

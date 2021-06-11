@@ -22,8 +22,18 @@
 
 
     <div class="row">
-
-        <div class="form-group col-md-6">
+        <div class="form-group col-md-12" id="ddlProgram">
+            <label class="req" for="code">Program</label>
+            @Html.DropDownListFor(model => model.ProgramId, ViewBag.Programs as SelectList, "Select Program", new Dictionary<string, object>()
+            {
+                {"class", "form-control"},
+                {"placeholder", "Please select a program from the list."},
+                {"required", "" },
+                {"oninvalid","this.setCustomValidity('Please select a program from the list.')" },
+                {"oninput","this.setCustomValidity('')" }
+            })
+        </div>
+        <div class="form-group col-md-12">
             <label class="req" for="DepartmentName">Department Name</label>
             @Html.TextBoxFor(model => model.DepartmentName, new Dictionary<string, object>()
             {

@@ -16,7 +16,7 @@ namespace Isik.SAMS.Controllers
         StudentApprovalManagementEntities db = new StudentApprovalManagementEntities();
         public ActionResult Index()
         {
-            var model = db.SAMS_Users.Where(x => x.UserType != 1002).ToList();
+            var model = db.SAMS_Users.Where(x => x.UserType != 3).ToList();
             foreach (var a in model)
             {
                 var dep = db.SAMS_Department.Find(a.DepartmentId);

@@ -12,6 +12,7 @@
     <EntitySetMapping Name="SAMS_Department">
       <EntityTypeMapping TypeName="StudentApprovalManagementModel.SAMS_Department">
         <MappingFragment StoreEntitySet="SAMS_Department">
+          <ScalarProperty Name="ProgramId" ColumnName="ProgramId" />
           <ScalarProperty Name="Id" ColumnName="Id" />
           <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
           <ScalarProperty Name="CreatedTime" ColumnName="CreatedTime" />

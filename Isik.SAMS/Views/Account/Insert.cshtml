@@ -27,93 +27,97 @@
                 @Html.AntiForgeryToken()
                 @Html.HiddenFor(model => model.Id)
 
-                <div class="row">
-                    <div class="form-group col-md-6">
-                        <label class="req" for="code">First Name</label>
-                        @Html.TextBoxFor(model => model.FirstName, new Dictionary<string, object>()
-                        {
-                            {"class", "form-control"},
-                            {"placeholder", "Please enter the First Name"},
-                                  {"required", "" },
-                       {"oninvalid","this.setCustomValidity('Please enter a first name.')" },
-                       {"oninput","this.setCustomValidity('')" }
-                        })
-                    </div>
-                    <div class="form-group col-md-6">
-                        <label class="req" for="code">Last Name</label>
-                        @Html.TextBoxFor(model => model.LastName, new Dictionary<string, object>()
-                        {
-                            {"class", "form-control"},
-                            {"placeholder", "Please enter the Last Name"},
-                                       {"required", "" },
-                       {"oninvalid","this.setCustomValidity('Please enter a last name.')" },
-                       {"oninput","this.setCustomValidity('')" }
-                        })
-                    </div>
-                    <div class="form-group col-md-6">
-                        <label class="req" for="code">Email</label>
-                        @Html.TextBoxFor(model => model.Email, new Dictionary<string, object>()
-                        {
-                            {"class", "form-control"},
-                            {"placeholder", "Please enter an e-mail."},
-                                       {"required", "" },
-                       {"oninvalid","this.setCustomValidity('Please enter an e-mail.')" },
-                       {"oninput","this.setCustomValidity('')" }
-                        })
-                    </div>
-                    <div class="form-group col-md-6">
-                        <label class="req" for="code">Phone Number</label>
-                        @Html.TextBoxFor(model => model.PhoneNumber, new Dictionary<string, object>()
-                        {
-                            {"class", "form-control"},
-                            {"placeholder", "Please enter the Phone Number"},
-                            {"type", "number" },
-                                       {"required", "" },
-                       {"oninvalid","this.setCustomValidity('Please enter a phone number.')" },
-                       {"oninput","this.setCustomValidity('')" }
-                        })
-                    </div>
-                    <div class="form-group col-md-6">
-                        <label class="req" for="code">Password</label>
-                        @Html.PasswordFor(model => model.Password, new Dictionary<string, object>()
-                        {
-                            {"class", "form-control"},
-                            {"placeholder", "Please enter the password"},
-                                       {"required", "" },
-                       {"oninvalid","this.setCustomValidity('Please enter a password.')" },
-                       {"oninput","this.setCustomValidity('')" }
-                        })
-                    </div>
-                    <div class="form-group col-md-6">
-                        <label class="req" for="code">Confirm Password</label>
-                        @Html.PasswordFor(model => model.ConfirmPassword, new Dictionary<string, object>()
-                        {
-                            {"class", "form-control"},
-                            {"placeholder", "Please enter a password."},
-                                       {"required", "" },
-                       {"oninvalid","this.setCustomValidity('Please enter a password.')" },
-                       {"oninput","this.setCustomValidity('')" }
-                        })
-                    </div>
-                    <div class="form-group col-md-6">
-                        <label class="req" for="code">User Type</label>
-                        <div class="form-check" style="margin-top:20px">
-                            @Html.RadioButtonFor(model => model.UserType, "2", new { @id = "rbHoD", @onclick = "showHideProgram()", @class = "pull-right" })
-                            <label for="rbHoD">Head of Department</label>
-                            <br/>
-                            @Html.RadioButtonFor(model => model.UserType, "1", new { @id = "rbSec", @onclick = "showHideProgram()", @class = "pull-right" })
-                            <label for="rbSec" style="margin-top:20px">Secretary</label>
-                        </div>
-                    </div>
-                    <div class="form-group col-md-6" id="ddlDepartment">
-                        <label class="req" for="code">Department</label>
-                        @Html.DropDownListFor(model => model.DepartmentId, ViewBag.Departments as SelectList, "Select Program", new { @class = "form-control" })
-                    </div>
-                    <div class="form-group col-md-6" id="ddlProgram" style="display:none">
-                        <label class="req" for="code">Program</label>
-                        @Html.DropDownListFor(model => model.ProgramId, ViewBag.Programs as SelectList, "Select Department", new { @class = "form-control" })
+            <div class="row">
+                <div class="form-group col-md-6">
+                    <label class="req" for="code">First Name</label>
+                    @Html.TextBoxFor(model => model.FirstName, new Dictionary<string, object>()
+                    {
+                        {"class", "form-control"},
+                        {"placeholder", "Please enter the First Name"},
+                              {"required", "" },
+                   {"oninvalid","this.setCustomValidity('Please enter a first name.')" },
+                   {"oninput","this.setCustomValidity('')" }
+                    })
+                </div>
+                <div class="form-group col-md-6">
+                    <label class="req" for="code">Last Name</label>
+                    @Html.TextBoxFor(model => model.LastName, new Dictionary<string, object>()
+                    {
+                        {"class", "form-control"},
+                        {"placeholder", "Please enter the Last Name"},
+                                   {"required", "" },
+                   {"oninvalid","this.setCustomValidity('Please enter a last name.')" },
+                   {"oninput","this.setCustomValidity('')" }
+                    })
+                </div>
+                <div class="form-group col-md-6">
+                    <label class="req" for="code">Email</label>
+                    @Html.TextBoxFor(model => model.Email, new Dictionary<string, object>()
+                    {
+                        {"class", "form-control"},
+                        {"placeholder", "Please enter an e-mail."},
+                                   {"required", "" },
+                   {"oninvalid","this.setCustomValidity('Please enter an e-mail.')" },
+                   {"oninput","this.setCustomValidity('')" }
+                    })
+                </div>
+                <div class="form-group col-md-6">
+                    <label class="req" for="code">Phone Number</label>
+                    @Html.TextBoxFor(model => model.PhoneNumber, new Dictionary<string, object>()
+                    {
+                        {"class", "form-control"},
+                        {"placeholder", "Please enter the Phone Number"},
+                        {"type", "number" },
+                                   {"required", "" },
+                   {"oninvalid","this.setCustomValidity('Please enter a phone number.')" },
+                   {"oninput","this.setCustomValidity('')" }
+                    })
+                </div>
+                <div class="form-group col-md-6">
+                    <label class="req" for="code">Password</label>
+                    @Html.PasswordFor(model => model.Password, new Dictionary<string, object>()
+                    {
+                        {"class", "form-control"},
+                        {"placeholder", "Please enter the password"},
+                                   {"required", "" },
+                   {"oninvalid","this.setCustomValidity('Please enter a password.')" },
+                   {"oninput","this.setCustomValidity('')" }
+                    })
+                </div>
+                <div class="form-group col-md-6">
+                    <label class="req" for="code">Confirm Password</label>
+                    @Html.PasswordFor(model => model.ConfirmPassword, new Dictionary<string, object>()
+                    {
+                        {"class", "form-control"},
+                        {"placeholder", "Please enter a password."},
+                                   {"required", "" },
+                   {"oninvalid","this.setCustomValidity('Please enter a password.')" },
+                   {"oninput","this.setCustomValidity('')" }
+                    })
+                </div>
+                <div class="form-group col-md-6">
+                    <label class="req" for="code">User Type</label>
+                    <div class="form-check" style="margin-top:20px">
+                        @Html.RadioButtonFor(model => model.UserType, "2", new { @id = "rbHoD", @onclick = "showHideProgram()", @class = "pull-right" })
+                        <label for="rbHoD">Head of Department</label>
+                        <br />
+                        @Html.RadioButtonFor(model => model.UserType, "1", new { @id = "rbSec", @onclick = "showHideProgram()", @class = "pull-right" })
+                        <label for="rbSec" style="margin-top:20px">Secretary</label>
                     </div>
                 </div>
+                <div class="form-group col-md-6" id="ddlDepartment">
+                    <label class="req" for="code">Department</label>
+                    @Html.DropDownListFor(model => model.DepartmentId, ViewBag.Departments as SelectList, "Select Department", new { @class = "form-control" })
+                </div>
+                <div class="form-group col-md-6" id="ddlDepartment">
+                    <label class="req" for="code">Department</label>
+                    @Html.DropDownListFor(model => model.DepartmentId, ViewBag.Departments as SelectList, "Select Department", new { @class = "form-control" })
+                </div>
+                <div class="form-group col-md-6" id="ddlProgram" style="display:none">
+                    <label class="req" for="code">Program</label>
+                    @Html.DropDownListFor(model => model.ProgramId, ViewBag.Programs as SelectList, "Select Program", new { @class = "form-control" })
+                </div>
+            </div>
                 <div class="buttons">
                     <button class="btn btn-md btn-danger pull-left" data-dismiss="modal">Close</button>
                     <button class="btn btn-md btn-success pull-right" type="submit" OnClick="">Save</button>
