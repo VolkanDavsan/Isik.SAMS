@@ -22,6 +22,7 @@
         <AssociationConnector Association="StudentApprovalManagementModel.FK_EnrolledBy_StudentApplications" ManuallyRouted="false" />
         <AssociationConnector Association="StudentApprovalManagementModel.FK_UserType_Users" ManuallyRouted="false" />
         <AssociationConnector Association="StudentApprovalManagementModel.FK_SAMS_Department_Program" />
+        <AssociationConnector Association="StudentApprovalManagementModel.FK_SAMS_Users_ProfilePhoto" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

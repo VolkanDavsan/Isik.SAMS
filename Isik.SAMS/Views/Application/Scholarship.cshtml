@@ -24,8 +24,8 @@
     @Html.HiddenFor(model => model.Id)
 
     <div class="row">
-        <div class="form-group col-md-6" id="ddlLanguageProficiency">
-            <label class="req" for="code">Language Proficiency</label>
+        <div class="form-group col-md-12" id="ddlLanguageProficiency">
+            <label class="req" for="code">Schlarship</label>
             @Html.DropDownListFor(model => model.Scholarship, ViewBag.ScholarshipOptions as SelectList, "Select One", new { @class = "form-control" })
         </div>
     </div>

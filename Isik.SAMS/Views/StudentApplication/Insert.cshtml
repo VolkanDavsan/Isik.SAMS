@@ -93,13 +93,19 @@
             margin-right: 0px !important;
         }
 
-        .layout-top-spacing {
+        /*        .layout-top-spacing {
             width: 100% !important;
             position: absolute;
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
             padding: 10px;
+        }*/
+
+        .main-content {
+            margin-top: 100px;
+            overflow-y: auto;
+            overflow-x: hidden;
         }
 
         .checkboxes {
@@ -141,29 +147,55 @@
             transform: translate(-50%, -50%);
             padding: 10px;
         }
+
+        .content {
+            margin-top: 85px;
+            margin-bottom: 15px;
+        }
     </style>
     <script src="/Assets/js/master.js"></script>
 </head>
 <body>
     <div class="header-container fixed-top">
         <header class="header navbar navbar-expand-sm">
-            <ul class="navbar-nav flex-row text-center" style="margin-left:2%;">
+            <ul class="navbar-nav theme-brand flex-row text-center" style="margin-left:2% !important;">
                 <li class="nav-item theme-text">
                     <a href="@Url.Action("Index", "StudentApplication", new { area = "" })" class="nav-link">
-                        <img src="~/Assets/img/workoftimebeyaz.png" style="height:44px;" alt="logo" />
+                        <img src="~/Assets/img/sams2.png" style="height:44px;" alt="logo" />
                     </a>
+                </li>
+                <li class="nav-item toggle-sidebar" style="">
+
+                </li>
+            </ul>
+            <ul class="navbar-item flex-row" style="margin-left:17%;">
+                <li class="nav-item align-self-center search-animated">
+                    <div class="field-wrapper">
+                        <a href="@Url.Action("Index", "StudentApplication")" style="color:white; font-size:22px;">
+                            Application Form
+                        </a>
+                    </div>
+                </li>
+            </ul>
+            <ul class="navbar-item flex-row" style="margin-left:15%;">
+                <li class="nav-item align-self-center search-animated">
+                    <div class="field-wrapper">
+                        <a href="@Url.Action("Programs", "StudentApplication")" style="color:white; font-size:22px;">
+                            Programs
+                        </a>
+                    </div>
                 </li>
             </ul>
             <ul class="navbar-item flex-row search-ul">
                 <li class="nav-item align-self-center search-animated">
-                    <div class="field-wrapper" style="float:right;">
-                        <button type="button" class="btn btn-primary" onclick="location.href = '@Url.Action("Index","Login")'">Log In</button>
+                    <div class="field-wrapper">
+                        <button type="button" class="btn btn-primary" onclick="location.href = '@Url.Action("Index", "Login")'">Log In</button>
                     </div>
                 </li>
             </ul>
         </header>
     </div>
-    <div id="content" class="main-content">
+    <div class="content">
         <div class="layout-px-spacing">
             <div class="row layout-top-spacing">
                 @if (ViewBag.IsAuthenticated == "false" || ViewBag.IsAuthenticated == null)
@@ -175,19 +207,22 @@
                                 { "role", "form" },
                                 }))
                         {
-                            <div class="row">
-                                <div class="form-group">
-                                    <label class="req" for="code">Email</label>
-                                    @Html.TextBoxFor(model => model.Email, new Dictionary<string, object>()
-                                    {
-                                        {"class", "form-control"},
-                                        {"placeholder", "Please enter an e-mail."},
-                                        {"required", "" },
-                                        {"oninvalid","this.setCustomValidity('Please enter an e-mail.')" },
-                                        {"oninput","this.setCustomValidity('')" }
-                                    })
+                            if (ViewBag.isMailSent == "false" || ViewBag.isMailSent == null)
+                            {
+                                <div class="row">
+                                    <div class="form-group">
+                                        <label class="req" for="code">Email</label>
+                                        @Html.TextBoxFor(model => model.Email, new Dictionary<string, object>()
+                                        {
+                                            {"class", "form-control"},
+                                            {"placeholder", "Please enter an e-mail."},
+                                            {"required", "" },
+                                            {"oninvalid","this.setCustomValidity('Please enter an e-mail.')" },
+                                            {"oninput","this.setCustomValidity('')" }
+                                        })
+                                    </div>
                                 </div>
-                            </div>
+                            }
                             if (ViewBag.VerificationErrorMessage != null)
                             {
                                 <div class="row">
@@ -197,7 +232,19 @@
 
                             if (ViewBag.isMailSent == "true" && ViewBag.isMailSent != null)
                             {
-
+                                <div class="row">
+                                    <div class="form-group">
+                                        <label class="req" for="code">Email</label>
+                                        @Html.TextBoxFor(model => model.Email, new Dictionary<string, object>()
+                                        {
+                                            {"class", "form-control"},
+                                            {"placeholder", "Please enter an e-mail."},
+                                            {"readonly", "true" },
+                                            {"oninvalid","this.setCustomValidity('Please enter an e-mail.')" },
+                                            {"oninput","this.setCustomValidity('')" }
+                                        })
+                                    </div>
+                                </div>
                                 <div class="row">
                                     <div class="form-group">
                                         <label class="req" for="code">Verification Code</label>
@@ -268,7 +315,13 @@
                                 </div>
                                 <div class="form-group col-md-6" id="ddlDepartment">
                                     <label class="req" for="code">Department</label>
-                                    @Html.DropDownListFor(model => model.DepartmentId, ViewBag.Departments as SelectList, "Select Department", new { @class = "form-control" })
+                                    @Html.DropDownListFor(model => model.DepartmentId, ViewBag.Departments as SelectList, "Select Department", new Dictionary<string, object>()
+                                    {
+                                        {"class", "form-control"},
+                                        {"required", "" },
+                                        {"oninvalid","this.setCustomValidity('Please select a department.')" },
+                                        {"oninput","this.setCustomValidity('')" }
+                                    })
                                 </div>
                                 <div class="form-group col-md-6">
                                     <label class="req" for="code">First Name</label>
@@ -665,7 +718,9 @@
                                                     {"class", "form-control"},
                                                     {"type", "file" },
                                                     {"id", "fileName" },
-                                                    {"onchange", "validateFileType()" },
+                                                    {"required", "" },
+                                                    {"oninvalid","this.setCustomValidity('Please choose a file.')" },
+                                                    {"oninput","this.setCustomValidity('')" },
                                                     {"accept", ".jpeg, .png, .jpg, .pdf, .docx" }
                                                 })
                                             }
@@ -696,7 +751,9 @@
                                                     {"class", "form-control"},
                                                     {"type", "file" },
                                                     {"id", "fileName" },
-                                                    {"onchange", "validateFileType()" },
+                                                    {"required", "" },
+                                                    {"oninvalid","this.setCustomValidity('Please choose a file.')" },
+                                                    {"oninput","this.setCustomValidity('')" },
                                                     {"accept", ".jpeg, .png, .jpg, .pdf, .docx" }
                                                 })
                                             }
@@ -727,7 +784,9 @@
                                                     {"class", "form-control"},
                                                     {"type", "file" },
                                                     {"id", "fileName" },
-                                                    {"onchange", "validateFileType()" },
+                                                    {"required", "" },
+                                                    {"oninvalid","this.setCustomValidity('Please choose a file.')" },
+                                                    {"oninput","this.setCustomValidity('')" },
                                                     {"accept", ".jpeg, .png, .jpg, .pdf, .docx" }
                                                 })
                                             }
@@ -758,7 +817,9 @@
                                                     {"class", "form-control"},
                                                     {"type", "file" },
                                                     {"id", "fileName" },
-                                                    {"onchange", "validateFileType()" },
+                                                    {"required", "" },
+                                                    {"oninvalid","this.setCustomValidity('Please choose a file.')" },
+                                                    {"oninput","this.setCustomValidity('')" },
                                                     {"accept", ".jpeg, .png, .jpg, .pdf, .docx" }
                                                 })
                                             }
@@ -789,7 +850,6 @@
                                                     {"class", "form-control"},
                                                     {"type", "file" },
                                                     {"id", "fileName" },
-                                                    {"onchange", "validateFileType()" },
                                                     {"accept", ".jpeg, .png, .jpg, .pdf, .docx" }
                                                 })
                                             }
@@ -822,8 +882,10 @@
                                                 {
                                                     {"class", "form-control"},
                                                     {"type", "file" },
+                                                    {"required", "" },
                                                     {"id", "fileName" },
-                                                    {"onchange", "validateFileType()" },
+                                                    {"oninvalid","this.setCustomValidity('Please choose a file.')" },
+                                                    {"oninput","this.setCustomValidity('')" },
                                                     {"accept", ".jpeg, .png, .jpg, .pdf, .docx" }
                                                 })
                                             }
@@ -854,7 +916,6 @@
                                                     {"class", "form-control"},
                                                     {"type", "file" },
                                                     {"id", "fileName" },
-                                                    {"onchange", "validateFileType()" },
                                                     {"accept", ".jpeg, .png, .jpg, .pdf, .docx" }
                                                 })
                                             }
@@ -885,7 +946,6 @@
                                                     {"class", "form-control"},
                                                     {"type", "file" },
                                                     {"id", "fileName" },
-                                                    {"onchange", "validateFileType()" },
                                                     {"accept", ".jpeg, .png, .jpg, .pdf, .docx" }
                                                 })
                                             }
@@ -916,7 +976,6 @@
                                                     {"class", "form-control"},
                                                     {"type", "file" },
                                                     {"id", "fileName" },
-                                                    {"onchange", "validateFileType()" },
                                                     {"accept", ".jpeg, .png, .jpg, .pdf, .docx" }
                                                 })
                                             }
@@ -947,7 +1006,6 @@
                                                     {"class", "form-control"},
                                                     {"type", "file" },
                                                     {"id", "fileName" },
-                                                    {"onchange", "validateFileType()" },
                                                     {"accept", ".jpeg, .png, .jpg, .pdf, .docx" }
                                                 })
                                             }
@@ -978,7 +1036,6 @@
                                                     {"class", "form-control"},
                                                     {"type", "file" },
                                                     {"id", "fileName" },
-                                                    {"onchange", "validateFileType()" },
                                                     {"accept", ".jpeg, .png, .jpg, .pdf, .docx" }
                                                 })
                                             }
@@ -1009,7 +1066,9 @@
                                                     {"class", "form-control"},
                                                     {"type", "file" },
                                                     {"id", "fileName" },
-                                                    {"onchange", "validateFileType()" },
+                                                    {"required", "" },
+                                                    {"oninvalid","this.setCustomValidity('Please choose a file.')" },
+                                                    {"oninput","this.setCustomValidity('')" },
                                                     {"accept", ".jpeg, .png, .jpg, .pdf, .docx" }
                                                 })
                                             }
@@ -1040,7 +1099,6 @@
                                                     {"class", "form-control"},
                                                     {"type", "file" },
                                                     {"id", "fileName" },
-                                                    {"onchange", "validateFileType()" },
                                                     {"accept", ".jpeg, .png, .jpg, .pdf, .docx" }
                                                 })
                                             }
@@ -1074,7 +1132,9 @@
                                                     {"class", "form-control"},
                                                     {"type", "file" },
                                                     {"id", "fileName" },
-                                                    {"onchange", "validateFileType()" },
+                                                    {"required", "" },
+                                                    {"oninvalid","this.setCustomValidity('Please choose a file.')" },
+                                                    {"oninput","this.setCustomValidity('')" },
                                                     {"accept", ".jpeg, .png, .jpg, .pdf, .docx" }
                                                 })
                                             }
@@ -1105,7 +1165,9 @@
                                                     {"class", "form-control"},
                                                     {"type", "file" },
                                                     {"id", "fileName" },
-                                                    {"onchange", "validateFileType()" },
+                                                    {"required", "" },
+                                                    {"oninvalid","this.setCustomValidity('Please choose a file.')" },
+                                                    {"oninput","this.setCustomValidity('')" },
                                                     {"accept", ".jpeg, .png, .jpg, .pdf, .docx" }
                                                 })
                                             }
@@ -1136,7 +1198,9 @@
                                                     {"class", "form-control"},
                                                     {"type", "file" },
                                                     {"id", "fileName" },
-                                                    {"onchange", "validateFileType()" },
+                                                    {"required", "" },
+                                                    {"oninvalid","this.setCustomValidity('Please choose a file.')" },
+                                                    {"oninput","this.setCustomValidity('')" },
                                                     {"accept", ".jpeg, .png, .jpg, .pdf, .docx" }
                                                 })
                                             }
@@ -1167,7 +1231,9 @@
                                                     {"class", "form-control"},
                                                     {"type", "file" },
                                                     {"id", "fileName" },
-                                                    {"onchange", "validateFileType()" },
+                                                    {"required", "" },
+                                                    {"oninvalid","this.setCustomValidity('Please choose a file.')" },
+                                                    {"oninput","this.setCustomValidity('')" },
                                                     {"accept", ".jpeg, .png, .jpg, .pdf, .docx" }
                                                 })
                                             }
@@ -1198,7 +1264,9 @@
                                                     {"class", "form-control"},
                                                     {"type", "file" },
                                                     {"id", "fileName" },
-                                                    {"onchange", "validateFileType()" },
+                                                    {"required", "" },
+                                                    {"oninvalid","this.setCustomValidity('Please choose a file.')" },
+                                                    {"oninput","this.setCustomValidity('')" },
                                                     {"accept", ".jpeg, .png, .jpg, .pdf, .docx" }
                                                 })
                                             }
@@ -1229,7 +1297,9 @@
                                                     {"class", "form-control"},
                                                     {"type", "file" },
                                                     {"id", "fileName" },
-                                                    {"onchange", "validateFileType()" },
+                                                    {"required", "" },
+                                                    {"oninvalid","this.setCustomValidity('Please choose a file.')" },
+                                                    {"oninput","this.setCustomValidity('')" },
                                                     {"accept", ".jpeg, .png, .jpg, .pdf, .docx" }
                                                 })
                                             }
@@ -1260,7 +1330,6 @@
                                                     {"class", "form-control"},
                                                     {"type", "file" },
                                                     {"id", "fileName" },
-                                                    {"onchange", "validateFileType()" },
                                                     {"accept", ".jpeg, .png, .jpg, .pdf, .docx" }
                                                 })
                                             }
@@ -1291,7 +1360,6 @@
                                                     {"class", "form-control"},
                                                     {"type", "file" },
                                                     {"id", "fileName" },
-                                                    {"onchange", "validateFileType()" },
                                                     {"accept", ".jpeg, .png, .jpg, .pdf, .docx" }
                                                 })
                                             }
@@ -1322,7 +1390,6 @@
                                                     {"class", "form-control"},
                                                     {"type", "file" },
                                                     {"id", "fileName" },
-                                                    {"onchange", "validateFileType()" },
                                                     {"accept", ".jpeg, .png, .jpg, .pdf, .docx" }
                                                 })
                                             }
@@ -1349,6 +1416,15 @@
         </script>
     }
 
+    @if (ViewBag.FileSizeWarining != null)
+    {
+        <script>
+            $(document).ready(function () {
+                swal('@(ViewBag.FileSizeWarining)');
+            });
+        </script>
+    }
+
     @if (ViewBag.FilesUploaded != null)
     {
         <script>
@@ -1360,7 +1436,7 @@
                     confirmButtonText: "OK!",
                     confirmButtonColor: "#ec6c62"
                 }).then(() => {
-                    window.location.href = "/StudentApplication/";
+                    window.location.href = "/StudentApplication/Index";
                 });
             });
         </script>

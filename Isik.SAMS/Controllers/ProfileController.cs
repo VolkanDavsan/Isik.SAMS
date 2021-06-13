@@ -1,9 +1,10 @@
-﻿using Isik.SAMS.Models.Entity;
-using System;
-using System.Collections.Generic;
+﻿using System;
+using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using Isik.SAMS.Models.Entity;
+
 
 namespace Isik.SAMS.Controllers
 {
@@ -20,13 +21,14 @@ namespace Isik.SAMS.Controllers
             }
             else
             {
-                if(user.UserType == 1)
+                if (user.UserType == 1)
                 {
                     var dep = db.SAMS_Department.Find(user.DepartmentId);
                     var prog = db.SAMS_Program.Find(user.ProgramId);
                     ViewBag.DepartmentName = dep.DepartmentName;
                     ViewBag.ProgramName = prog.ProgramName;
-                } else
+                }
+                else
                 {
                     var dep = db.SAMS_Department.Find(user.DepartmentId);
                     ViewBag.DepartmentName = dep.DepartmentName;
@@ -59,28 +61,121 @@ namespace Isik.SAMS.Controllers
             if (p1 != null)
             {
                 var user = db.SAMS_Users.Find(p1.Id);
-                if (user.Password == p1.NewPassword)
+                if (p1.profilePhoto != null)
                 {
-                    TempData["Message"] = "Your new password cannot be the same as the old password.";
-                    TempData["messageClass"] = "alert-warning";
+                    if (p1.profilePhoto.ContentLength < 10000000)
+                    {
+                        string newFileName = user.FirstName + "" + user.LastName + "" + user.Id;
+                        var file = new SAMS_Files();
+                        var prevpp = db.SAMS_Files.Find(user.ProfilePhotoId);
+                        if (prevpp == null)
+                        {
+                            file.FileCreateDate = DateTime.Now;
+                            string fileName = Path.GetFileName(p1.profilePhoto.FileName);
+                            file.FileName = newFileName + "" + Path.GetExtension(fileName);
+                            file.FileExtension = Path.GetExtension(file.FileName);
+                            byte[] fileData = new byte[p1.profilePhoto.InputStream.Length];
+                            p1.profilePhoto.InputStream.Read(fileData, 0, fileData.Length);
+                            file.FileData = fileData;
+                            file.StudentApplicationId = null;
+                            if (file.FileExtension == ".jpg" || file.FileExtension == ".jpeg" || file.FileExtension == ".png")
+                            {
+                                TempData["FilesUploaded"] = "true";
+                                db.SAMS_Files.Add(file);
+                                db.SaveChanges();
+                                var pp = db.SAMS_Files.Where(x => x.FileName == newFileName + "" + file.FileExtension).FirstOrDefault();
+                                var user1 = new SAMS_Users();
+                                if (Session["UserId"] != null)
+                                {
+                                    user1 = db.SAMS_Users.Find(Convert.ToInt32(Session["UserId"]));
+                                }
+                                else if (Session["AdminId"] != null)
+                                {
+                                    user1 = db.SAMS_Users.Find(Convert.ToInt32(Session["AdminId"]));
+                                }
+                                user1.ProfilePhotoId = pp.Id;
+                                TempData["Message"] = "Succesfully updated";
+                                TempData["messageClass"] = "alert-success";
+                                db.SaveChanges();
+                                Session["ProfilePhoto"] = "data:" + "" + MimeMapping.GetMimeMapping(pp.FileName) + ";base64," + Convert.ToBase64String(pp.FileData);
+                            }
+                            else
+                            {
+                                TempData["Message"] = "Only jpg/jpeg, png files are allowed!"; ;
+                                TempData["messageClass"] = "alert-warning";
+                            }
+                        }
+                        else
+                        {
+                            var newExtension = Path.GetExtension(p1.profilePhoto.FileName);
+                            if (newExtension == ".jpg" || newExtension == ".jpeg" || newExtension == ".png")
+                            {
+                                prevpp.FileCreateDate = DateTime.Now;
+                                string fileName = Path.GetFileName(p1.profilePhoto.FileName);
+                                prevpp.FileName = newFileName + "" + Path.GetExtension(fileName);
+                                prevpp.FileExtension = Path.GetExtension(prevpp.FileName);
+                                byte[] fileData = new byte[p1.profilePhoto.InputStream.Length];
+                                p1.profilePhoto.InputStream.Read(fileData, 0, fileData.Length);
+                                prevpp.FileData = fileData;
+                                prevpp.StudentApplicationId = null;
+                                TempData["FilesUploaded"] = "true";
+                                db.SaveChanges();
+                                var pp = db.SAMS_Files.Where(x => x.FileName == newFileName + "" + prevpp.FileExtension).FirstOrDefault();
+                                var user1 = new SAMS_Users();
+                                if (Session["UserId"] != null)
+                                {
+                                    user1 = db.SAMS_Users.Find(Convert.ToInt32(Session["UserId"]));
+                                }
+                                else if (Session["AdminId"] != null)
+                                {
+                                    user1 = db.SAMS_Users.Find(Convert.ToInt32(Session["AdminId"]));
+                                }
+                                user1.ProfilePhotoId = pp.Id;
+                                TempData["Message"] = "Succesfully updated";
+                                TempData["messageClass"] = "alert-success";
+                                db.SaveChanges();
+                                Session["ProfilePhoto"] = "data:" + "" + MimeMapping.GetMimeMapping(pp.FileName) + ";base64," + Convert.ToBase64String(pp.FileData);
+                            }
+                            else
+                            {
+                                TempData["Message"] = "Only jpg/jpeg, png files are allowed!"; ;
+                                TempData["messageClass"] = "alert-warning";
+                            }
+                        }
+                    }
+                    else
+                    {
+                        TempData["Message"] = "Maximum file size is 10 MB.";
+                        TempData["messageClass"] = "alert-warning";
+                    }
                 }
-                else if (p1.NewPassword != p1.ConfirmPassword)
+
+                if (p1.NewPassword != null)
                 {
-                    TempData["Message"] = "New Password and Confirm Password do not match.";
-                    TempData["messageClass"] = "alert-warning";
+                    if (user.Password == p1.NewPassword)
+                    {
+                        TempData["Message"] = "Your new password cannot be the same as the old password.";
+                        TempData["messageClass"] = "alert-warning";
+                    }
+                    else if (p1.NewPassword != p1.ConfirmPassword)
+                    {
+                        TempData["Message"] = "New Password and Confirm Password do not match.";
+                        TempData["messageClass"] = "alert-warning";
+                    }
+                    else if (user.Password != p1.Password)
+                    {
+                        TempData["Message"] = "The entered current password is wrong.";
+                        TempData["messageClass"] = "alert-warning";
+                    }
+                    else
+                    {
+                        user.Password = p1.NewPassword;
+                        db.SaveChanges();
+                        TempData["Message"] = "Succesfully updated.";
+                        TempData["messageClass"] = "alert-success";
+                    }
                 }
-                else if (user.Password != p1.Password)
-                {
-                    TempData["Message"] = "The entered current password is wrong.";
-                    TempData["messageClass"] = "alert-warning";
-                }
-                else
-                {
-                    user.Password = p1.NewPassword;
-                    db.SaveChanges();
-                    TempData["Message"] = "Succesfully updated.";
-                    TempData["messageClass"] = "alert-success";
-                }
+
                 return RedirectToAction("Index");
             }
             else

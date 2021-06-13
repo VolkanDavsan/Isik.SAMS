@@ -16,7 +16,7 @@
         }
 
         .login-image {
-            background-image: url('../../Assets/img/loginimg.jpg') !important;
+            background-image: url('../../Assets/img/loginpage.jpeg') !important;
             position: absolute !important;
             top: 0 !important;
             left: 0 !important;
@@ -25,7 +25,7 @@
             background-color: #060818 !important;
             background-position: center center !important;
             background-repeat: no-repeat !important;
-            background-size: 75% !important;
+            background-size: 120% !important;
             background-position-x: center !important;
             background-position-y: center !important;
         }
@@ -99,14 +99,14 @@
                                         </div>
                                     </div>
                                     <label class="field-validation-error">@ViewBag.LoginErrorMessage</label>
-                                    <div class="field-wrapper text-center keep-logged-in">
+                                    @*<div class="field-wrapper text-center keep-logged-in">
                                         <div class="n-chk new-checkbox checkbox-outline-primary">
                                             <label class="new-control new-checkbox checkbox-outline-primary">
                                                 <input type="checkbox" class="new-control-input">
                                                 <span class="new-control-indicator"></span>Keep me logged in
                                             </label>
                                         </div>
-                                    </div>
+                                    </div>*@
 
                                     <div class="field-wrapper">
                                         <a href="@Url.Action("ForgotPassword", "Login", new { area = "" })" class="forgot-pass-link">Forgot Password?</a>

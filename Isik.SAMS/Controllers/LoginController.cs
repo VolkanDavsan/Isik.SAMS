@@ -102,12 +102,14 @@ namespace Isik.SAMS.Controllers
                             return RedirectToAction("Index");
                         } else
                         {
+                            ViewBag.isMailSent = "true";
                             TempData["Message"] = "New Password and Confirm Password do not match.";
                             TempData["messageClass"] = "alert-warning";
                         }
 
                     } else
                     {
+                        ViewBag.isMailSent = "true";
                         TempData["Message"] = "Entered recovery code is not the same. Please try again.";
                         TempData["messageClass"] = "alert-warning";
                     }
@@ -124,6 +126,7 @@ namespace Isik.SAMS.Controllers
             using (db)
             {
                 var userDetails = db.SAMS_Users.Where(x => x.Email == user.Email && x.Password == user.Password).FirstOrDefault();
+                
                 if (userDetails == null)
                 {
                     ViewBag.LoginErrorMessage = "Wrong Email or Password!";
@@ -131,6 +134,11 @@ namespace Isik.SAMS.Controllers
                 }
                 else
                 {
+                    if(userDetails.ProfilePhotoId != null)
+                    {
+                        var pp = db.SAMS_Files.Find(userDetails.ProfilePhotoId);
+                        Session["ProfilePhoto"] = "data:" + "" + MimeMapping.GetMimeMapping(pp.FileName) + ";base64," + Convert.ToBase64String(pp.FileData);
+                    }
                     if (userDetails.UserType != 3)
                     {
                         Session["UserId"] = userDetails.Id;
@@ -141,6 +149,7 @@ namespace Isik.SAMS.Controllers
                         Session["FirstName"] = userDetails.FirstName;
                         Session["LastName"] = userDetails.LastName;
                         Session["Email"] = userDetails.Email;
+                        return RedirectToAction("Index", "Application");
                     }
                     else
                     {
@@ -150,8 +159,8 @@ namespace Isik.SAMS.Controllers
                         Session["LastName"] = userDetails.LastName;
                         Session["PhoneNumber"] = userDetails.PhoneNumber;
                         Session["Email"] = userDetails.Email;
-                    }
-                    return RedirectToAction("Index", "Home");
+                        return RedirectToAction("Index", "Account");
+                    }                    
                 }
             }
         }

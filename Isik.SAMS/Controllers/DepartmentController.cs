@@ -14,6 +14,11 @@ namespace Isik.SAMS.Controllers
         public ActionResult Index()
         {
             var values = db.SAMS_Department.ToList();
+            foreach(var a in values)
+            {
+                var program = db.SAMS_Program.Find(a.ProgramId);
+                a.ProgramName = program.ProgramName;
+            }
             ViewBag.Message = TempData["message"] == null ? null : TempData["message"].ToString();
             ViewBag.MessageClass = TempData["messageClass"] == null ? null : TempData["messageClass"].ToString();
             return View(values);

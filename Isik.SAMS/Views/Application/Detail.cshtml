@@ -60,10 +60,18 @@
                         <span>@Model.CreatedTime</span>
 
                     </span>
-                    @if (Model.Status == 2 || Model.Status == 1 || Model.Status == 3)
+                    @if (Model.Status == 2 && Convert.ToInt32(Session["UserType"]) == 1)
                     {
                         <div class="pull-right">
-                            <a class="btn btn-info btn-sm pull-right ml-1" data-task="Insert" data-method="GET" data-href="@Url.Action("Insert", "Account")">
+                            <a class="btn btn-info btn-sm pull-right ml-1" href="@Url.Action("DownloadAllFiles", "Application", new { Id = Model.Id })">
+                                <i class="icon-download"></i> Download the files
+                            </a>
+                        </div>
+                    }
+                    else if (Model.Status == 2 || Model.Status == 1 || Model.Status == 3)
+                    {
+                        <div class="pull-right">
+                            <a class="btn btn-info btn-sm pull-right ml-1" href="@Url.Action("DownloadAllFiles", "Application", new { Id = Model.Id })">
                                 <i class="icon-download"></i> Download the files
                             </a>
                             <button class="btn btn-danger btn-sm pull-right ml-1" onclick="rejectApplication('@(Model.Id)')">
@@ -71,7 +79,7 @@
                             </button>
                             @if (Convert.ToInt32(Session["UserType"]) == 2)
                             {
-                                <button class="btn btn-success btn-sm pull-right ml-1" data-task="Insert" data-method="GET" data-href="@Url.Action("MeetingLink","Application", new { Id = Model.Id })">
+                                <button class="btn btn-warning btn-sm pull-right ml-1" data-task="Insert" data-method="GET" data-href="@Url.Action("MeetingLink","Application", new { Id = Model.Id })">
                                     <i class="icon-ok-2"></i> Send Meeting Link
                                 </button>
                                 <button class="btn btn-success btn-sm pull-right ml-1" data-task="Insert" data-method="GET" data-href="@Url.Action("Scholarship","Application", new { Id = Model.Id })">
@@ -80,21 +88,44 @@
                             }
                             else
                             {
-                                if (ViewBag.isFileMissing == "True")
-                                {
-                                    <button class="btn btn-success btn-sm pull-right ml-1"onclick="requestMissingFiles('@(Model.Id)');">
-                                        <i class="icon-ok-2"></i> Request Missing Files
-                                    </button>
-                                }
-                                else
-                                {
-                                    <button class="btn btn-success btn-sm pull-right ml-1" onclick="approveApplication('@(Model.Id)');">
-                                        <i class="icon-ok-2"></i> Approve
-                                    </button>
-                                }
-
-
+                                <button class="btn btn-warning btn-sm pull-right ml-1" onclick="requestMissingFiles('@(Model.Id)');">
+                                    <i class="icon-ok-2"></i> Request Missing Files
+                                </button>
+                                <button class="btn btn-success btn-sm pull-right ml-1" onclick="approveApplication('@(Model.Id)');">
+                                    <i class="icon-ok-2"></i> Approve
+                                </button>
                             }
+                        </div>
+                    }
+                    else if (Model.Status == 4 && Convert.ToInt32(Session["UserType"]) == 1)
+                    {
+                        <div class="pull-right">
+                            <a class="btn btn-info btn-sm pull-right ml-1" href="@Url.Action("DownloadAllFiles", "Application", new { Id = Model.Id })">
+                                <i class="icon-download"></i> Download the files
+                            </a>
+                            <button class="btn btn-warning btn-sm pull-right ml-1" onclick="requestPayment('@(Model.Id)');">
+                                <i class="icon-ok-2"></i> Request Payment
+                            </button>
+                            <button class="btn btn-danger btn-sm pull-right ml-1" onclick="rejectApplication('@(Model.Id)')">
+                                <i class="icon-cancel-2"></i> Reject
+                            </button>
+                        </div>
+                    }
+                    else if (Model.Status == 9 && Convert.ToInt32(Session["UserType"]) == 1)
+                    {
+                        <div class="pull-right">
+                            <a class="btn btn-info btn-sm pull-right ml-1" href="@Url.Action("DownloadAllFiles", "Application", new { Id = Model.Id })">
+                                <i class="icon-download"></i> Download the files
+                            </a>
+                            <button class="btn btn-warning btn-sm pull-right ml-1" onclick="requestPayment('@(Model.Id)');">
+                                <i class="icon-ok-2"></i> Request Payment
+                            </button>
+                            <button class="btn btn-danger btn-sm pull-right ml-1" onclick="rejectApplication('@(Model.Id)')">
+                                <i class="icon-cancel-2"></i> Reject
+                            </button>
+                            <button class="btn btn-success btn-sm pull-right ml-1" onclick="enroll('@(Model.Id)');">
+                                <i class="icon-ok-2"></i> Enroll
+                            </button>
                         </div>
                     }
                 </div>
@@ -348,6 +379,25 @@
                     <div class="clearfix">
                         @if (Model.ProgramId == 2)
                         {
+                            if (Model.Status == 9)
+                            {
+                                <fieldset data-filtre="Bank Receipt">
+                                    <legend>Bank Receipt</legend>
+                                    <div class="fileupload-container">
+                                        @if (Model.bankReceiptContentResult != null)
+                                        {
+                                            <div class="fileButtonGroup">
+                                                <a href="@Url.Action("DownloadFile", "StudentApplication", new { id = Model.Id, name = "BankReceipt" })" class="btn btn-info btn-block">
+                                                    <i class="icon-download icon-white"></i>
+                                                    <span>
+                                                        <strong>Download Bank Receipt</strong>
+                                                    </span>
+                                                </a>
+                                            </div>
+                                        }
+                                    </div>
+                                </fieldset>
+                            }
                             <fieldset data-filtre="CV">
                                 <legend>CV</legend>
                                 <div class="fileupload-container">
@@ -461,6 +511,25 @@
                         }
                         @if (Model.ProgramId == 1)
                         {
+                            if (Model.Status == 9)
+                            {
+                                <fieldset data-filtre="Bank Receipt">
+                                    <legend>Bank Receipt</legend>
+                                    <div class="fileupload-container">
+                                        @if (Model.bankReceiptContentResult != null)
+                                        {
+                                            <div class="fileButtonGroup">
+                                                <a href="@Url.Action("DownloadFile", "StudentApplication", new { id = Model.Id, name = "BankReceipt" })" class="btn btn-info btn-block">
+                                                    <i class="icon-download icon-white"></i>
+                                                    <span>
+                                                        <strong>Download Bank Receipt</strong>
+                                                    </span>
+                                                </a>
+                                            </div>
+                                        }
+                                    </div>
+                                </fieldset>
+                            }
                             <fieldset data-filtre="High School Transcript">
                                 <legend>High School Transcript</legend>
                                 <div class="fileupload-container">
@@ -640,6 +709,25 @@
                         }
                         @if (Model.ProgramId == 3)
                         {
+                            if (Model.Status == 9)
+                            {
+                                <fieldset data-filtre="Bank Receipt">
+                                    <legend>Bank Receipt</legend>
+                                    <div class="fileupload-container">
+                                        @if (Model.bankReceiptContentResult != null)
+                                        {
+                                            <div class="fileButtonGroup">
+                                                <a href="@Url.Action("DownloadFile", "StudentApplication", new { id = Model.Id, name = "BankReceipt" })" class="btn btn-info btn-block">
+                                                    <i class="icon-download icon-white"></i>
+                                                    <span>
+                                                        <strong>Download Bank Receipt</strong>
+                                                    </span>
+                                                </a>
+                                            </div>
+                                        }
+                                    </div>
+                                </fieldset>
+                            }
                             <fieldset data-filtre="CV">
                                 <legend>CV</legend>
                                 <div class="fileupload-container">
@@ -930,7 +1018,7 @@
     function requestMissingFiles(id) {
         swal({
             title: "Missing File Request",
-            text: "Do you want to send an mail to the applicant about the missing files.",
+            text: "Do you want to send an mail to the applicant about the missing files?",
             type: "warning",
             showCancelButton: true,
             confirmButtonText: "Yes!",
@@ -966,24 +1054,85 @@
         });
     }
 
+    function requestPayment(id) {
+        swal({
+            title: "Payment Request",
+            text: "Do you want to send an e-mail to the applicant about necessary payment fee?",
+            type: "warning",
+            showCancelButton: true,
+            confirmButtonText: "Yes!",
+            confirmButtonColor: "#ec6c62"
+        }).then((result) => {
+            if (result) {
+                $.ajax({
+                    dataType: 'JSON',
+                    type: 'POST',
+                    async: false,
+                    timeout: 600000,
+                    url: "/Application/RequestPayment?id=" + id,
+                    success: function () {
+                        showPaymentReqMessage();
+                    },
+                    error: function () {
+                        swal("Oops", "We couldn't connect to the server!", "error");
+                    }
+                });
+            }
+        });
+    }
+
+    function showPaymentReqMessage() {
+        $.ajax({
+            type: "POST",
+            url: '/Application/RequestPaymentMessage/',
+            contentType: "application/json; charset=utf-8",
+            dataType: "text",
+            success: function (response) {
+                window.location.href = "/Application/";
+            }
+        });
+    }
+
+    function enroll(id) {
+        swal({
+            title: "Enrollment",
+            text: "Do you want to approve of this applicants enrollment?",
+            type: "warning",
+            showCancelButton: true,
+            confirmButtonText: "Yes!",
+            confirmButtonColor: "#ec6c62"
+        }).then((result) => {
+            if (result) {
+                $.ajax({
+                    dataType: 'JSON',
+                    type: 'POST',
+                    async: false,
+                    timeout: 600000,
+                    url: "/Application/Enroll?id=" + id,
+                    success: function () {
+                        showEnrollMessage();
+                    },
+                    error: function () {
+                        swal("Oops", "We couldn't connect to the server!", "error");
+                    }
+                });
+            }
+        });
+    }
+
+    function showEnrollMessage() {
+        $.ajax({
+            type: "POST",
+            url: '/Application/EnrollMessage/',
+            contentType: "application/json; charset=utf-8",
+            dataType: "text",
+            success: function (response) {
+                window.location.href = "/Application/";
+            }
+        });
+    }
+
 </script>
-@*<div class="fixedStart">
-    <input type="checkbox" checked id="fixed">
-    <label title="" for="fixed" id="fixed"><i class="fa-2x fa fa-plus"> </i></label>
-    <div class="fix-buttons">
-        <a data-task="Insert" data-method="GET" data-href="/FTM/VWFTM_TaskOperation/Insert?taskId=36fdbd4d-9278-4d37-b078-112fe0946ead&amp;status=12">
-            <i data-toggle="tooltip" class="icon-plus-circle" data-original-title="Görevi Üstlen"></i>
-        </a>
-
-        <a data-task="Insert" data-method="GET" data-modal="true" data-show="single" data-href="/FTM/VWFTM_Task/Update/36fdbd4d-9278-4d37-b078-112fe0946ead"><i data-toggle="tooltip" title="Görevi DÜzenle" class="fa fa-edit" data-original-title="Görevi Düzenle"></i></a>
-
-
-        <a data-task="Insert" data-method="GET" data-modal="true" data-show="single" data-href="/FTM/VWFTM_Task/DownloadFiles?taskId=36fdbd4d-9278-4d37-b078-112fe0946ead"><i data-toggle="tooltip" title="" class="fa fa-download" data-original-title="Görev Dosyalarını İndir"></i></a>
-        <a  data-task="Insert" data-method="GET" data-href="@Url.Action("Insert","Account")">
-            <i data-toggle="tooltip" title ="" class="icon-cancel-2"></i> Reddet
-        </a>
-    </div>
-    </div>*@
 
 
 

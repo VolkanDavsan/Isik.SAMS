@@ -13,6 +13,7 @@ namespace Isik.SAMS.Models.Entity
     using System.Collections.Generic;
     using System.ComponentModel;
     using System.ComponentModel.DataAnnotations;
+    using System.Web;
 
     public partial class SAMS_Users
     {
@@ -42,6 +43,8 @@ namespace Isik.SAMS.Models.Entity
         public Nullable<int> DepartmentId { get; set; }
         public Nullable<int> ProgramId { get; set; }
         public Nullable<int> RecoveryCode { get; set; }
+        public Nullable<int> ProfilePhotoId { get; set; }
+        public HttpPostedFileBase profilePhoto { get; set; }
         public string DepartmentName { get; set; }
         public string ProgramName { get; set; }
         public string NewPassword { get; set; }
@@ -53,5 +56,6 @@ namespace Isik.SAMS.Models.Entity
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<SAMS_StudentApplications> SAMS_StudentApplications1 { get; set; }
         public virtual SAMS_UserType SAMS_UserType { get; set; }
+        public virtual SAMS_Files SAMS_Files { get; set; }
     }
 }

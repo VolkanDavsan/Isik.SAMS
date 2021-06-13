@@ -14,19 +14,10 @@
     <link href="/Assets/lib/Fontello/css/fontello.css" rel="stylesheet" />
     <link href="/Assets/V1/assets/css/plugins.css" rel="stylesheet" type="text/css" />
     <link href="/Assets/V1/assets/css/components/tabs-accordian/custom-tabs.css" rel="stylesheet" />
-    @*<link href="/Assets/lib/kendo/css/o.common.min.css" rel="stylesheet" />
-        <link href="/Assets/lib/kendo/css/kenkenddo.material.min.css" rel="stylesheet" />
-        <link href="/Assets/lib/kendo/css/kendo.material.mobile.min.css" rel="stylesheet" />*@
-    @*<link href="/Assets/lib/Harita/fonts/MapIcon/flaticon.css" rel="stylesheet" />
-        <link href="/Assets/lib/Harita/css/ol.custom.css" rel="stylesheet" />
-        <link href="/Assets/lib/fileupload/css/InfolineFileUpload.css" rel="stylesheet" />*@
     <link href="/Assets/lib/bootstrap-dialog/css/bootstrap-dialog.min.css" rel="stylesheet" />
     <link href="/Assets/lib/loadingmodal/css/jquery.loadingModal.min.css" rel="stylesheet" type="text/css" />
-    <link href="/Assets/lib/toastr/css/toastr.min.css" rel="stylesheet" type="text/css" />
     <link href="/Assets/lib/sweetalerts/sweetalert2.min.css" rel="stylesheet" />
     <link href="/Assets/css/site.css" rel="stylesheet" />
-    <link href="~/Assets/lib/apex/apexcharts.css" rel="stylesheet" />
-    <link href="~/Assets/css/Dashboard/dash_1.css" rel="stylesheet" />
     <link href="~/Content/Gridmvc.css" rel="stylesheet" />
     <link href="~/Assets/lib/sweetalerts/sweetalert.css" rel="stylesheet" />
     <script src="~/Scripts/gridmvc.js"></script>
@@ -36,36 +27,15 @@
     <script src="/Assets/lib/bootstrap/js/popper.min.js"></script>
     <script src="/Assets/lib/font-icons/feather/feather.min.js"></script>
     <script src="/Assets/lib/bootstrap/js/bootstrap.min.js"></script>
-    @*<script src="/Assets/lib/kendo/js/kendo.all.min.js"></script>
-        <script src="/Assets/lib/kendo/js/kendo.aspnetmvc.min.js"></script>
-        <script src="/Assets/lib/kendo/js/cultures/kendo.culture.en-US.min.js"></script>
-        <script src="/Assets/lib/kendo/js/messages/kendo.messages.en-US.min.js"></script>
-        <script src="/Assets/lib/kendo/js/cultures/kendo.culture.tr-TR.min.js"></script>
-        <script src="/Assets/lib/kendo/js/messages/kendo.messages.tr-TR.min.js"></script>*@
-
     <script src="/Assets/lib/jquery-cookie/jquery.cookie.js"></script>
     <script src="/Assets/lib/linq/jquery.linq.min.js"></script>
     <script src="/Assets/lib/loadingmodal/js/jquery.loadingModal.min.js"></script>
     <script src="~/Assets/lib/bootstrap-dialog/js/bootstrap-dialog.min.js"></script>
     <script src="/Assets/lib/livequery/jquery.livequery.min.js"></script>
-    <script src="/Assets/lib/toastr/js/toastr.min.js"></script>
     <script src="/Assets/lib/sweetalerts/sweetalert2.min.js"></script>
     <script src="/Assets/lib/sweetalerts/sweetalert.js"></script>
-    <script src="/Assets/lib/validator/Validator.js"></script>
-    <script src="/Assets/lib/perfect-scrollbar/perfect-scrollbar.min.js"></script>
     <script src="/Assets/V1/assets/js/app.js"></script>
     <script src="/Assets/V1/assets/js/custom.js"></script>
-    <script src="~/Assets/js/Dashboard/dash_1.js"></script>
-
-    <script src="/Assets/lib/harita/js/jQuery.Print.js"></script>
-    <script src="/Assets/lib/harita/data/projlist.js"></script>
-    <script src="/Assets/lib/harita/js/proj4.js"></script>
-    <script src="/Assets/lib/harita/js/turf.min.js"></script>
-    <script src="/Assets/lib/harita/js/ol.js"></script>
-    <script src="/Assets/lib/harita/js/ol.extensions.js"></script>
-    <script src="/Assets/lib/harita/js/ol.custom.js"></script>
-    <script src="/Assets/lib/fileupload/js/InfolineFileUpload.js"></script>
-    <script src="~/Assets/lib/apex/apexcharts.min.js"></script>
     <style>
         .req::after {
             content: "*";
@@ -92,12 +62,23 @@
 <body class="sidebar-noneoverflow">
     <div class="header-container fixed-top">
         <header class="header navbar navbar-expand-sm">
-            <ul class="navbar-nav theme-brand flex-row  text-center">
-                <li class="nav-item theme-text">
-                    <a href="@Url.Action("Index", "Dashboard", new { area = "" })" class="nav-link">
-                        <img src="~/Assets/img/workoftimebeyaz.png" style="height:44px;" alt="logo" />
-                    </a>
-                </li>
+            <ul class="navbar-nav theme-brand flex-row text-center">
+                @if (Convert.ToInt32(Session["UserType"]) == 1 || Convert.ToInt32(Session["UserType"]) == 2)
+                {
+                    <li class="nav-item theme-text">
+                        <a href="@Url.Action("Index", "Application", new { area = "" })" class="nav-link">
+                            <img src="~/Assets/img/sams2.png" style="height:44px;" alt="logo" />
+                        </a>
+                    </li>
+                }
+                else
+                {
+                    <li class="nav-item theme-text">
+                        <a href="@Url.Action("Index", "Account", new { area = "" })" class="nav-link">
+                            <img src="~/Assets/img/sams2.png" style="height:44px;" alt="logo" />
+                        </a>
+                    </li>
+                }
                 <li class="nav-item toggle-sidebar">
                     <a href="javascript:void(0);" class="sidebarCollapse" data-placement="bottom"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-list"><line x1="8" y1="6" x2="21" y2="6"></line><line x1="8" y1="12" x2="21" y2="12"></line><line x1="8" y1="18" x2="21" y2="18"></line><line x1="3" y1="6" x2="3" y2="6"></line><line x1="3" y1="12" x2="3" y2="12"></line><line x1="3" y1="18" x2="3" y2="18"></line></svg></a>
                 </li>
@@ -107,33 +88,8 @@
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-search toggle-search"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
                 </li>
             </ul>
+
             <ul class="navbar-item flex-row navbar-dropdown">
-
-                <li class="nav-item dropdown notification-dropdown">
-                    <a href="javascript:void(0);" class="nav-link dropdown-toggle" id="notificationDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-bell"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path><path d="M13.73 21a2 2 0 0 1-3.46 0"></path></svg><span class="badge badge-success"></span>
-                    </a>
-                    <div class="dropdown-menu position-absolute animated fadeInUp" aria-labelledby="notificationDropdown">
-                        <div class="notification-scroll">
-
-                            <div class="dropdown-item">
-                                <div class="media server-log">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-server"><rect x="2" y="2" width="20" height="8" rx="2" ry="2"></rect><rect x="2" y="14" width="20" height="8" rx="2" ry="2"></rect><line x1="6" y1="6" x2="6" y2="6"></line><line x1="6" y1="18" x2="6" y2="18"></line></svg>
-                                    <div class="media-body">
-                                        <div class="data-info">
-                                            <h6 class="">Server Rebooted</h6>
-                                            <p class="">45 min ago</p>
-                                        </div>
-                                        <div class="icon-status">
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-x"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </li>
-
                 <li class="nav-item dropdown user-profile-dropdown  order-lg-0 order-1">
                     <a href="javascript:void(0);" class="nav-link dropdown-toggle user" id="userProfileDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-settings"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
@@ -141,7 +97,15 @@
                     <div class="dropdown-menu position-absolute animated fadeInUp" aria-labelledby="userProfileDropdown">
                         <div class="user-profile-section">
                             <div class="media mx-auto">
-                                <img src="/Assets/img/unkown-profile-foto.jpg" onerror="ImageError(this,'/Assets/img/unkown-profile-foto.jpg')" class="img-fluid mr-2" alt="avatar">
+                                @if (Session["ProfilePhoto"] != null)
+                                {
+                                    <img src="@(Session["ProfilePhoto"])" onerror="ImageError(this, '@(Session["ProfilePhoto"])'" class="img-fluid mr-2" alt="avatar">
+                                }
+                                else
+                                {
+                                    <img src="/Assets/img/unkown-profile-foto.jpg" onerror="ImageError(this,'/Assets/img/unkown-profile-foto.jpg')" class="img-fluid mr-2" alt="avatar">
+                                }
+
                                 <div class="media-body">
                                     <h5 class="">@Session["FirstName"] @Session["LastName"]</h5>
                                     <p class="">@Session["Email"]</p>
@@ -164,115 +128,90 @@
         </header>
     </div>
     <div class="main-container" id="container">
-        <div class="overlay"></div>
-        <div class="search-overlay"></div>
+
         <div class="sidebar-wrapper sidebar-theme">
             <nav id="sidebar">
                 <div class="profile-info">
                     <figure class="user-cover-image" style="background-image: url(/Assets/img/figure.jpg);"></figure>
                     <div class="user-info">
-                        <img src="/Assets/img/unkown-profile-foto.jpg" onerror="ImageError(this,'/Assets/img/unkown-profile-foto.jpg')" alt="avatar">
+                        @if (Session["ProfilePhoto"] != null)
+                        {
+                            <img src="@(Session["ProfilePhoto"])" onerror="ImageError(this, '@(Session["ProfilePhoto"])'" alt="avatar">
+                        }
+                        else
+                        {
+                            <img src="/Assets/img/unkown-profile-foto.jpg" onerror="ImageError(this,'/Assets/img/unkown-profile-foto.jpg')" alt="avatar">
+                        }
                         <h6 class="">@Session["FirstName"] @Session["LastName"]</h6>
                         <p class="">@Session["Email"]</p>
                     </div>
                 </div>
                 <div class="shadow-bottom"></div>
                 <ul class="list-unstyled menu-categories" id="accordionExample">
-                    @*<li class="menu active">
-                            <a href="#dashboard" data-toggle="collapse" aria-expanded="true" class="dropdown-toggle">
+                    @if (Convert.ToInt32(Session["UserType"]) == 3)
+                    {
+                        <li class="menu menu-heading">
+                            <div class="heading"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-minus"><line x1="5" y1="12" x2="19" y2="12"></line></svg><span>ACCOUNT MANAGEMENT</span></div>
+                        </li>
+                        <li class="menu">
+                            <a href="@Url.Action("Index","Account")" aria-expanded="false" class="dropdown-toggle">
                                 <div class="">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-home"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
-                                    <span>Dashboard</span>
-                                </div>
-                                <div>
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-right"><polyline points="9 18 15 12 9 6"></polyline></svg>
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-users"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
+                                    <span>Accounts</span>
                                 </div>
                             </a>
-                            <ul class="collapse submenu recent-submenu mini-recent-submenu list-unstyled show" id="dashboard" data-parent="#accordionExample">
-                                <li class="active">
-                                    <a href="@Url.Action("Index","Dashboard",new{area=""})"> Sales </a>
-                                </li>
-                                <li>
-                                    <a href="@Url.Action("Index2","Dashboard",new{area=""})"> Analytics </a>
-                                </li>
-                            </ul>
-                        </li>*@
+                        </li>
+                        <li class="menu menu-heading">
+                            <div class="heading"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-minus"><line x1="5" y1="12" x2="19" y2="12"></line></svg><span>DEPARTMENT MANAGEMENT</span></div>
+                        </li>
 
-                    <li class="menu menu-heading">
-                        <div class="heading"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-minus"><line x1="5" y1="12" x2="19" y2="12"></line></svg><span>ACCOUNT MANAGEMENT</span></div>
-                    </li>
-                    @{
-                        if (Convert.ToInt32(Session["UserType"]) == 2)
-                        {
-                            <li class="menu">
-                                <a href="@Url.Action("Index","Application")" aria-expanded="false" class="dropdown-toggle">
-                                    <div class="">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-users"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
-                                        <span>Application List</span>
-                                    </div>
-                                </a>
-                            </li>
-                        }
-                        else if (Convert.ToInt32(Session["UserType"]) == 1)
-                        {
-                            <li class="menu">
-                                <a href="@Url.Action("Index","Application")" aria-expanded="false" class="dropdown-toggle">
-                                    <div class="">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-users"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
-                                        <span>Student Application List</span>
-                                    </div>
-                                </a>
-                            </li>
-                        }
-                        else
-                        {
-                            <li class="menu">
-                                <a href="@Url.Action("Index","Account")" aria-expanded="false" class="dropdown-toggle">
-                                    <div class="">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-users"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
-                                        <span>Accounts</span>
-                                    </div>
-                                </a>
-                            </li>
+                        <li class="menu">
+                            <a href="@Url.Action("Index","Department")" aria-expanded="false" class="dropdown-toggle">
+                                <div class="">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-folder"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path></svg>
+                                    <span>Departments</span>
+                                </div>
+                            </a>
+                        </li>
+                        <li class="menu menu-heading">
+                            <div class="heading"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-minus"><line x1="5" y1="12" x2="19" y2="12"></line></svg><span>PROFILE</span></div>
+                        </li>
+                        <li class="menu">
+                            <a href="@Url.Action("Index","Profile")" aria-expanded="false" class="dropdown-toggle">
+                                <div class="">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-user"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+                                    <span>Profile</span>
+                                </div>
+                            </a>
+                        </li>
+                    }
+                    else
+                    {
+                        <li class="menu menu-heading">
+                            <div class="heading"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-minus"><line x1="5" y1="12" x2="19" y2="12"></line></svg><span>STUDENT APPLICATIONS</span></div>
+                        </li>
 
-                            @*<li class="menu">
-                                    <a href="/Assets/Themes/V1/widgets.html" aria-expanded="false" class="dropdown-toggle">
-                                        <div class="">
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-airplay"><path d="M5 17H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2h-1"></path><polygon points="12 15 17 21 7 21 12 15"></polygon></svg>
-                                            <span>Widgets</span>
-                                        </div>
-                                    </a>
-                                </li>*@
-
-                            <li class="menu menu-heading">
-                                <div class="heading"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-minus"><line x1="5" y1="12" x2="19" y2="12"></line></svg><span>DEPARTMENT MANAGEMENT</span></div>
-                            </li>
-
-                            <li class="menu">
-                                <a href="@Url.Action("Index","Department")" aria-expanded="false" class="dropdown-toggle">
-                                    <div class="">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-folder"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path></svg>
-                                        <span>Departments</span>
-                                    </div>
-                                </a>
-                            </li>
-
-                            <li class="menu menu-heading">
-                                <div class="heading"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-minus"><line x1="5" y1="12" x2="19" y2="12"></line></svg><span>PROGRAM MANAGEMENT</span></div>
-                            </li>
-
-                            <li class="menu">
-                                <a href="@Url.Action("Index","Program")" aria-expanded="false" class="dropdown-toggle">
-                                    <div class="">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-layout"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><line x1="3" y1="9" x2="21" y2="9"></line><line x1="9" y1="21" x2="9" y2="9"></line></svg>
-                                        <span>Programs</span>
-                                    </div>
-                                </a>
-                            </li>
-                        }
+                        <li class="menu">
+                            <a href="@Url.Action("Index","Application")" aria-expanded="false" class="dropdown-toggle">
+                                <div class="">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-user-plus"><path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="8.5" cy="7" r="4"></circle><line x1="20" y1="8" x2="20" y2="14"></line><line x1="23" y1="11" x2="17" y2="11"></line></svg>
+                                    <span>Student Applications</span>
+                                </div>
+                            </a>
+                        </li>
+                        <li class="menu menu-heading">
+                            <div class="heading"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-minus"><line x1="5" y1="12" x2="19" y2="12"></line></svg><span>PROFILE</span></div>
+                        </li>
+                        <li class="menu">
+                            <a href="@Url.Action("Index","Profile")" aria-expanded="false" class="dropdown-toggle">
+                                <div class="">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-user"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+                                    <span>Profile</span>
+                                </div>
+                            </a>
+                        </li>
                     }
                 </ul>
-
             </nav>
         </div>
         <div id="content" class="main-content">

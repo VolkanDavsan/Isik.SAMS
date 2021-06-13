@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
+using System.IO.Compression;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -12,7 +13,6 @@ using MimeKit.Text;
 
 namespace Isik.SAMS.Controllers
 {
-
     public class ApplicationController : Controller
     {
         StudentApprovalManagementEntities db = new StudentApprovalManagementEntities();
@@ -21,14 +21,10 @@ namespace Isik.SAMS.Controllers
         {
             var user = db.SAMS_Users.Find(Convert.ToInt32(Session["UserId"]));
             var model = db.SAMS_StudentApplications.ToList();
-            //Alt kısım mesaj verme olayı çözülünce uncomment yapılacak. 
-            //if (user.UserType == 1) 
-            //{
-            //    model = db.SAMS_StudentApplications.Where(x => x.Status != 2).ToList();
-            //} else 
-            //{
-            //    model = db.SAMS_StudentApplications.Where(x => x.Status != 1).ToList();
-            //}
+            if (user.UserType == 2)
+            {
+                model = db.SAMS_StudentApplications.Where(x => x.Status == 2 || x.Status == 4 || x.Status == 5 || x.Status == 6).ToList();
+            }
 
             foreach (var a in model)
             {
@@ -93,18 +89,18 @@ namespace Isik.SAMS.Controllers
                 bool isFileMissing = false;
                 if (application.ProgramId == 2)
                 {
-                    if(files.Count != 5)
+                    if (files.Count != 5)
                     {
                         isFileMissing = true;
                     }
-                } 
+                }
                 if (application.ProgramId == 1)
                 {
                     if (files.Count != 8)
                     {
                         isFileMissing = true;
                     }
-                } 
+                }
                 if (application.ProgramId == 3)
                 {
                     if (files.Count != 9)
@@ -176,7 +172,12 @@ namespace Isik.SAMS.Controllers
                         else if (a.FileName.Contains("ReferenceLetter2"))
                         {
                             application.referenceLetter2ContentResult = File(a.FileData, MimeMapping.GetMimeMapping(a.FileName), a.FileName);
-                        } 
+                        }
+                        else if (a.FileName.Contains("BankReceipt"))
+                        {
+                            application.bankReceiptContentResult = File(a.FileData, MimeMapping.GetMimeMapping(a.FileName), a.FileName);
+                        }
+
                     }
                 }
                 ViewBag.isFileMissing = isFileMissing.ToString();
@@ -204,21 +205,30 @@ namespace Isik.SAMS.Controllers
             return null;
         }
 
-        public ActionResult ApprovalMessage()
+        public FileResult DownloadAllFiles(int id)
         {
-            if (TempData["isDeleted"] != null)
+            var app = db.SAMS_StudentApplications.Find(id);
+            string fileDownloadName = app.StudentFirstName + " " + app.StudentLastName + " " + app.CreatedTime + ".zip";
+            var files = db.SAMS_Files.Where(x => x.StudentApplicationId == id).ToList();
+            if (files.Count > 0)
             {
-                TempData["Message"] = "Operation failed.";
-                TempData["messageClass"] = "alert-danger";
+                using (var memStream = new MemoryStream())
+                {
+                    using (var archive = new ZipArchive(memStream, ZipArchiveMode.Create, true))
+                    {
+                        foreach (var file in files)
+                        {
+                            var zip = archive.CreateEntry(file.FileName.ToString());
+                            using (var stream = zip.Open())
+                            {
+                                stream.Write(file.FileData, 0, file.FileData.Length);
+                            }
+                        }
+                    }
+                    return File(memStream.ToArray(), "application/zip", fileDownloadName.Replace(" ", "_"));
+                }
             }
-            else
-            {
-                TempData["Message"] = "Succesfully approved.";
-                TempData["messageClass"] = "alert-success";
-            }
-            TempData.Keep("Message");
-            TempData.Keep("messageClass");
-            return RedirectToAction("Index");
+            return null;
         }
 
         [HttpGet]
@@ -309,9 +319,7 @@ namespace Isik.SAMS.Controllers
             if (application != null)
             {
                 application.Scholarship = app.Scholarship;
-                db.SaveChanges();
-                application = db.SAMS_StudentApplications.Find(app.Id);
-                //application.Status = 4;
+                application.Status = 4;
                 application.ApprovedBy = Convert.ToInt32(Session["UserId"]);
                 db.SaveChanges();
                 var dep = db.SAMS_Department.Find(application.DepartmentId);
@@ -363,6 +371,23 @@ namespace Isik.SAMS.Controllers
             }
         }
 
+        public ActionResult ApprovalMessage()
+        {
+            if (TempData["isDeleted"] != null)
+            {
+                TempData["Message"] = "Operation failed.";
+                TempData["messageClass"] = "alert-danger";
+            }
+            else
+            {
+                TempData["Message"] = "Succesfully approved.";
+                TempData["messageClass"] = "alert-success";
+            }
+            TempData.Keep("Message");
+            TempData.Keep("messageClass");
+            return RedirectToAction("Index");
+        }
+
         public JsonResult Approval(int? id)
         {
             bool result = false;
@@ -382,7 +407,7 @@ namespace Isik.SAMS.Controllers
             if (applications != null)
             {
                 var user = db.SAMS_Users.Find(Convert.ToInt32(Session["UserId"]));
-                //applications.Status = 2;
+                applications.Status = 2;
                 applications.ApprovedBy = Convert.ToInt32(Session["UserId"]);
                 db.SaveChanges();
                 var email = new MimeMessage();
@@ -450,7 +475,7 @@ namespace Isik.SAMS.Controllers
                 var user = db.SAMS_Users.Find(Convert.ToInt32(Session["UserId"]));
                 if (user.UserType == 1)
                 {
-                    //applications.Status = 5;
+                    applications.Status = 5;
                     applications.RejectedBy = Convert.ToInt32(Session["UserId"]);
                     db.SaveChanges();
                     var email = new MimeMessage();
@@ -479,7 +504,7 @@ namespace Isik.SAMS.Controllers
                 }
                 else
                 {
-                    //applications.Status = 5;
+                    applications.Status = 5;
                     applications.RejectedBy = Convert.ToInt32(Session["UserId"]);
                     db.SaveChanges();
                     var email = new MimeMessage();
@@ -544,7 +569,7 @@ namespace Isik.SAMS.Controllers
                 var user = db.SAMS_Users.Find(Convert.ToInt32(Session["UserId"]));
                 if (user.UserType == 1)
                 {
-                    //applications.Status = 3;
+                    applications.Status = 3;
                     applications.RejectedBy = Convert.ToInt32(Session["UserId"]);
                     db.SaveChanges();
                     var email = new MimeMessage();
@@ -613,5 +638,165 @@ namespace Isik.SAMS.Controllers
             return Json(result, JsonRequestBehavior.AllowGet);
         }
 
+        public ActionResult RequestPaymentMessage()
+        {
+            if (TempData["isDeleted"] != null)
+            {
+                TempData["Message"] = "Operation failed.";
+                TempData["messageClass"] = "alert-danger";
+            }
+            else
+            {
+                TempData["Message"] = "Mail Successfully Sent.";
+                TempData["messageClass"] = "alert-success";
+            }
+            TempData.Keep("Message");
+            TempData.Keep("messageClass");
+            return RedirectToAction("Index");
+        }
+
+        public JsonResult RequestPayment(int? id)
+        {
+            bool result = false;
+            var applications = db.SAMS_StudentApplications.Find(id);
+            var bankReceipt = db.SAMS_Files.Where(x => x.StudentApplicationId == applications.Id &&
+                                                       x.FileName.Contains("BankReceipt")).FirstOrDefault();
+
+            if (applications != null)
+            {
+                if (bankReceipt == null)
+                {
+                    applications.Status = 7;
+                    db.SaveChanges();
+                    var email = new MimeMessage();
+                    var from = "SAMS SAMS";
+                    var subject = "SAMS info - Awaiting Payment";
+                    email.From.Add(new MailboxAddress(from, "samsinfo.noreply@gmail.com"));
+                    email.To.Add(new MailboxAddress(applications.Email, applications.Email));
+                    email.Subject = subject;
+                    email.Body = new TextPart(TextFormat.Html)
+                    {
+                        Text = @"<h1> As the SAMS team, </h1>" +
+                        @"<h3>Your application has been approved by the head of department. To enroll you to our institude we need the enrollement fee first. </h3>" +
+                        @"<br/>" +
+                        @"<p>IBAN NO: BANK IBAN NO HERE</p>" +
+                        @"<br/>" +
+                        @"<p>After paying the fee please upload the bank receipt to the link given below.</p>" +
+                        @"<br/>" +
+                        @"<a href='" + System.Configuration.ConfigurationManager.AppSettings["ProjectDirectory"] + "/StudentApplication/AuthenticateGuidForBankReceipt?guid=" + applications.GUID + "'>Click here to upload the bank receipt.</a>"
+                    };
+
+                    using (SmtpClient smtp = new SmtpClient())
+                    {
+                        smtp.Connect("smtp.gmail.com", 465, true);
+                        smtp.Authenticate("samsinfo.noreply@gmail.com", "qultbqdkozwvfhgt");
+                        smtp.Send(email);
+                        smtp.Disconnect(true);
+                        TempData["IsMailSent"] = "true";
+                    }
+                    result = true;
+                } else
+                {
+                    applications.Status = 7;
+                    db.SaveChanges();
+                    var email = new MimeMessage();
+                    var from = "SAMS SAMS";
+                    var subject = "SAMS info - Awaiting Payment";
+                    email.From.Add(new MailboxAddress(from, "samsinfo.noreply@gmail.com"));
+                    email.To.Add(new MailboxAddress(applications.Email, applications.Email));
+                    email.Subject = subject;
+                    email.Body = new TextPart(TextFormat.Html)
+                    {
+                        Text = @"<h1> As the SAMS team, </h1>" +
+                        @"<h3>Your application has been approved by the head of department. To enroll you to our institude we need the enrollement fee first. </h3>" +
+                        @"<br/>" +
+                        @"<p>Your previously uploaded bank receipt wasn't confirmed by us. Please upload the bank receipt again from the link given below. </p>" +
+                        @"<br/>" +
+                        @"<a href='" + System.Configuration.ConfigurationManager.AppSettings["ProjectDirectory"] + "/StudentApplication/AuthenticateGuidForBankReceipt?guid=" + applications.GUID + "'>Click here to upload the bank receipt.</a>"
+                    };
+
+                    using (SmtpClient smtp = new SmtpClient())
+                    {
+                        smtp.Connect("smtp.gmail.com", 465, true);
+                        smtp.Authenticate("samsinfo.noreply@gmail.com", "qultbqdkozwvfhgt");
+                        smtp.Send(email);
+                        smtp.Disconnect(true);
+                        TempData["IsMailSent"] = "true";
+                    }
+                    result = true;
+                }
+                
+            }
+            else
+            {
+                TempData["isApprovedBySecretary"] = false;
+                TempData["isApprovedByHoD"] = false;
+                TempData.Keep("isApprovedBySecretary");
+                TempData.Keep("isApprovedByHoD");
+            }
+            return Json(result, JsonRequestBehavior.AllowGet);
+        }
+
+        public ActionResult EnrollMessage()
+        {
+            if (TempData["isDeleted"] != null)
+            {
+                TempData["Message"] = "Operation failed.";
+                TempData["messageClass"] = "alert-danger";
+            }
+            else
+            {
+                TempData["Message"] = "Enrollment Mail Successfully Sent.";
+                TempData["messageClass"] = "alert-success";
+            }
+            TempData.Keep("Message");
+            TempData.Keep("messageClass");
+            return RedirectToAction("Index");
+        }
+
+        public JsonResult Enroll(int? id)
+        {
+            bool result = false;
+            var applications = db.SAMS_StudentApplications.Find(id);
+            if (applications != null)
+            {
+                applications.Status = 6;
+                applications.EnrolledBy = Convert.ToInt32(Session["UserId"]);
+                db.SaveChanges();
+                var email = new MimeMessage();
+                var from = "SAMS SAMS";
+                var subject = "SAMS info - Enrollment Mail";
+                email.From.Add(new MailboxAddress(from, "samsinfo.noreply@gmail.com"));
+                email.To.Add(new MailboxAddress(applications.Email, applications.Email));
+                email.Subject = subject;
+                email.Body = new TextPart(TextFormat.Html)
+                {
+                    Text = @"<h1> As the SAMS team, </h1>" +
+                    @"<h3>Your application has been approved by the head of department, your payment have been confirmed.</h3>" +
+                    @"<br/>" +
+                    @"<p>You are offically a student of our institue.</p>" +
+                    @"<br/>" +
+                    @"<p>Thank you for your application and have a wonderful time.</p>"
+                };
+
+                using (SmtpClient smtp = new SmtpClient())
+                {
+                    smtp.Connect("smtp.gmail.com", 465, true);
+                    smtp.Authenticate("samsinfo.noreply@gmail.com", "qultbqdkozwvfhgt");
+                    smtp.Send(email);
+                    smtp.Disconnect(true);
+                    TempData["IsMailSent"] = "true";
+                }
+                result = true;
+            }
+            else
+            {
+                TempData["isApprovedBySecretary"] = false;
+                TempData["isApprovedByHoD"] = false;
+                TempData.Keep("isApprovedBySecretary");
+                TempData.Keep("isApprovedByHoD");
+            }
+            return Json(result, JsonRequestBehavior.AllowGet);
+        }
     }
 }

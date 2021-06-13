@@ -24,7 +24,7 @@
     @Html.HiddenFor(model => model.Id)
 
 <div class="row">
-    <div class="form-group col-md-6">
+    <div class="form-group col-md-12">
         <label class="req" for="code">Meeting Link</label>
         @Html.TextBoxFor(model => model.MeetingLink, new Dictionary<string, object>()
         {
@@ -35,7 +35,7 @@
             {"oninput","this.setCustomValidity('')" }
         })
     </div>
-    <div class="form-group col-md-6">
+    <div class="form-group col-md-12">
         <label class="req" for="code">Meeting Date</label>
         @Html.TextBoxFor(model => model.MeetingDate, new Dictionary<string, object>()
         {
@@ -47,7 +47,7 @@
             {"oninput","this.setCustomValidity('')" }
         })
     </div>
-    <div class="form-group col-md-6">
+    <div class="form-group col-md-12">
         <label class="req" for="code">Meeting Date Time</label>
         @Html.TextBoxFor(model => model.MeetingDateTime, new Dictionary<string, object>()
         {

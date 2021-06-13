@@ -14,13 +14,21 @@ namespace Isik.SAMS.Models.Entity
     
     public partial class SAMS_Files
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public SAMS_Files()
+        {
+            this.SAMS_Users = new HashSet<SAMS_Users>();
+        }
+    
         public int Id { get; set; }
-        public int StudentApplicationId { get; set; }
+        public Nullable<int> StudentApplicationId { get; set; }
         public string FileName { get; set; }
         public Nullable<System.DateTime> FileCreateDate { get; set; }
         public byte[] FileData { get; set; }
         public string FileExtension { get; set; }
     
         public virtual SAMS_StudentApplications SAMS_StudentApplications { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<SAMS_Users> SAMS_Users { get; set; }
     }
 }

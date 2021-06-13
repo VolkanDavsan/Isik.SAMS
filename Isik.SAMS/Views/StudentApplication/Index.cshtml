@@ -19,19 +19,10 @@
     <link href="/Assets/lib/Fontello/css/fontello.css" rel="stylesheet" />
     <link href="/Assets/V1/assets/css/plugins.css" rel="stylesheet" type="text/css" />
     <link href="/Assets/V1/assets/css/components/tabs-accordian/custom-tabs.css" rel="stylesheet" />
-    @*<link href="/Assets/lib/kendo/css/o.common.min.css" rel="stylesheet" />
-        <link href="/Assets/lib/kendo/css/kenkenddo.material.min.css" rel="stylesheet" />
-        <link href="/Assets/lib/kendo/css/kendo.material.mobile.min.css" rel="stylesheet" />*@
-    @*<link href="/Assets/lib/Harita/fonts/MapIcon/flaticon.css" rel="stylesheet" />
-        <link href="/Assets/lib/Harita/css/ol.custom.css" rel="stylesheet" />
-        <link href="/Assets/lib/fileupload/css/InfolineFileUpload.css" rel="stylesheet" />*@
     <link href="/Assets/lib/bootstrap-dialog/css/bootstrap-dialog.min.css" rel="stylesheet" />
     <link href="/Assets/lib/loadingmodal/css/jquery.loadingModal.min.css" rel="stylesheet" type="text/css" />
-    <link href="/Assets/lib/toastr/css/toastr.min.css" rel="stylesheet" type="text/css" />
     <link href="/Assets/lib/sweetalerts/sweetalert2.min.css" rel="stylesheet" />
     <link href="/Assets/css/site.css" rel="stylesheet" />
-    <link href="~/Assets/lib/apex/apexcharts.css" rel="stylesheet" />
-    <link href="~/Assets/css/Dashboard/dash_1.css" rel="stylesheet" />
     <link href="~/Content/Gridmvc.css" rel="stylesheet" />
     <link href="~/Assets/lib/sweetalerts/sweetalert.css" rel="stylesheet" />
     <script src="~/Scripts/gridmvc.js"></script>
@@ -41,36 +32,15 @@
     <script src="/Assets/lib/bootstrap/js/popper.min.js"></script>
     <script src="/Assets/lib/font-icons/feather/feather.min.js"></script>
     <script src="/Assets/lib/bootstrap/js/bootstrap.min.js"></script>
-    @*<script src="/Assets/lib/kendo/js/kendo.all.min.js"></script>
-        <script src="/Assets/lib/kendo/js/kendo.aspnetmvc.min.js"></script>
-        <script src="/Assets/lib/kendo/js/cultures/kendo.culture.en-US.min.js"></script>
-        <script src="/Assets/lib/kendo/js/messages/kendo.messages.en-US.min.js"></script>
-        <script src="/Assets/lib/kendo/js/cultures/kendo.culture.tr-TR.min.js"></script>
-        <script src="/Assets/lib/kendo/js/messages/kendo.messages.tr-TR.min.js"></script>*@
-
     <script src="/Assets/lib/jquery-cookie/jquery.cookie.js"></script>
     <script src="/Assets/lib/linq/jquery.linq.min.js"></script>
     <script src="/Assets/lib/loadingmodal/js/jquery.loadingModal.min.js"></script>
     <script src="~/Assets/lib/bootstrap-dialog/js/bootstrap-dialog.min.js"></script>
     <script src="/Assets/lib/livequery/jquery.livequery.min.js"></script>
-    <script src="/Assets/lib/toastr/js/toastr.min.js"></script>
     <script src="/Assets/lib/sweetalerts/sweetalert2.min.js"></script>
     <script src="/Assets/lib/sweetalerts/sweetalert.js"></script>
-    <script src="/Assets/lib/validator/Validator.js"></script>
-    <script src="/Assets/lib/perfect-scrollbar/perfect-scrollbar.min.js"></script>
     <script src="/Assets/V1/assets/js/app.js"></script>
     <script src="/Assets/V1/assets/js/custom.js"></script>
-    <script src="~/Assets/js/Dashboard/dash_1.js"></script>
-
-    <script src="/Assets/lib/harita/js/jQuery.Print.js"></script>
-    <script src="/Assets/lib/harita/data/projlist.js"></script>
-    <script src="/Assets/lib/harita/js/proj4.js"></script>
-    <script src="/Assets/lib/harita/js/turf.min.js"></script>
-    <script src="/Assets/lib/harita/js/ol.js"></script>
-    <script src="/Assets/lib/harita/js/ol.extensions.js"></script>
-    <script src="/Assets/lib/harita/js/ol.custom.js"></script>
-    <script src="/Assets/lib/fileupload/js/InfolineFileUpload.js"></script>
-    <script src="~/Assets/lib/apex/apexcharts.min.js"></script>
     <style>
         .req::after {
             content: "*";
@@ -78,7 +48,7 @@
             color: #f00;
         }
 
-        .form-horizontal .form-group > label:not(.k-checkbox-label) {
+        /*.form-horizontal .form-group > label:not(.k-checkbox-label) {
             text-transform: uppercase;
             margin-bottom: 0px !important;
             position: absolute;
@@ -90,9 +60,13 @@
             left: 5px;
             top: -12px;
             color: black;
-        }
+        }*/
 
         .radio-buttons {
+            /*border: 0.5px solid black;*/
+            background-color: white;
+            border-radius: 20px;
+            box-shadow: 5px 10px 8px #888888;
             position: absolute;
             left: 50%;
             top: 50%;
@@ -106,11 +80,12 @@
 
             .radio-buttons label {
                 text-align: center;
+                color: black;
             }
 
         .img {
-            height: 177px;
-            width: 177px;
+            height: 200px;
+            width: 200px;
         }
 
         .Bachelor-div:hover {
@@ -138,19 +113,40 @@
     </style>
     <script src="/Assets/js/master.js"></script>
 </head>
-<body class="sidebar-noneoverflow">
+<body class="sidebar-noneoverflow" style="background-image: url('../../Assets/img/pexels-photo-733857.jpeg'); background-size:1920px;">
     <div class="header-container fixed-top">
         <header class="header navbar navbar-expand-sm">
-            <ul class="navbar-nav flex-row text-center" style="margin-left:2%;">
+            <ul class="navbar-nav theme-brand flex-row text-center" style="margin-left:2% !important;">
                 <li class="nav-item theme-text">
                     <a href="@Url.Action("Index", "StudentApplication", new { area = "" })" class="nav-link">
-                        <img src="~/Assets/img/workoftimebeyaz.png" style="height:44px;" alt="logo" />
+                        <img src="~/Assets/img/sams2.png" style="height:44px;" alt="logo" />
                     </a>
+                </li>
+                <li class="nav-item toggle-sidebar" style="">
+                    
+                </li>
+            </ul>
+            <ul class="navbar-item flex-row" style="margin-left:17%;">
+                <li class="nav-item align-self-center search-animated">
+                    <div class="field-wrapper">
+                        <a href="@Url.Action("Index", "StudentApplication")" style="color:white; font-size:22px;">
+                            Application Form
+                        </a>
+                    </div>
+                </li>
+            </ul>
+            <ul class="navbar-item flex-row" style="margin-left:15%;">
+                <li class="nav-item align-self-center search-animated">
+                    <div class="field-wrapper">
+                        <a href="@Url.Action("Programs", "StudentApplication")" style="color:white; font-size:22px;">
+                            Programs
+                        </a>
+                    </div>
                 </li>
             </ul>
             <ul class="navbar-item flex-row search-ul">
                 <li class="nav-item align-self-center search-animated">
-                    <div class="field-wrapper" style="float:right;">
+                    <div class="field-wrapper">
                         <button type="button" class="btn btn-primary" onclick="location.href = '@Url.Action("Index", "Login")'">Log In</button>
                     </div>
                 </li>
@@ -161,7 +157,7 @@
             <div class="layout-px-spacing">
                 <div class="row layout-top-spacing">
                     <div class="radio-buttons">
-                        <p style="text-align:center; font-size:22px;">Application Form</p>
+                        <p style="text-align:center; font-size:22px; font-weight:bold;">APPLICATION FORM</p>
                         <div class="form-check" style="margin-top:20px">
                             @{
                                 foreach (var a in (Dictionary<int, string>)ViewBag.Programs)
@@ -170,15 +166,15 @@
                                     <div class="inline @a.Value-div">
                                         @Html.RadioButtonFor(model => model.ProgramId, a.Key, new { @id = a.Value, @class = "pull-right" })
                                         <label for="@a.Value">
-                                            <img class="img" src="~/Assets/img/@img" /><br />
+                                            <img class="img" src="~/Assets/img/@img" onerror="ImageError(this,'/Assets/img/unkown-profile-foto.jpg')" /><br />
                                             @a.Value
                                         </label>
                                     </div>
                                 }
                             }
-                        <div class="buttons">
-                            <button class="btn btn-primary pull-right" type="submit" onclick="redirect(); return false;">Next</button>
-                        </div>
+                            <div class="buttons">
+                                <button class="btn btn-primary pull-right" type="submit" onclick="redirect(); return false;">Next</button>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -188,7 +184,6 @@
     <script>
 
         function redirect() {
-            debugger;
             var rblPrograms = document.getElementsByName("ProgramId");
             for (i = 0; i < rblPrograms.length; i++) {
                 if (rblPrograms[i].checked) {

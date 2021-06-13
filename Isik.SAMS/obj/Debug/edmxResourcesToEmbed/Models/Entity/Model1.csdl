@@ -34,6 +34,7 @@
     <Property Name="FileData" Type="Binary" MaxLength="Max" FixedLength="false" />
     <NavigationProperty Name="SAMS_StudentApplications" Relationship="Self.FK_StudentApplicationId_Files" FromRole="SAMS_Files" ToRole="SAMS_StudentApplications" />
     <Property Name="FileExtension" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="SAMS_Users" Relationship="StudentApprovalManagementModel.FK_SAMS_Users_ProfilePhoto" FromRole="SAMS_Files" ToRole="SAMS_Users" />
   </EntityType>
   <EntityType Name="SAMS_Program">
     <Key>
@@ -127,6 +128,8 @@
     <NavigationProperty Name="SAMS_StudentApplications1" Relationship="Self.FK_EnrolledBy_StudentApplications" FromRole="SAMS_Users" ToRole="SAMS_StudentApplications" />
     <NavigationProperty Name="SAMS_UserType" Relationship="Self.FK_UserType_Users" FromRole="SAMS_Users" ToRole="SAMS_UserType" />
     <Property Name="RecoveryCode" Type="Int32" Nullable="true" />
+    <Property Name="ProfilePhotoId" Type="Int32" />
+    <NavigationProperty Name="SAMS_Files" Relationship="StudentApprovalManagementModel.FK_SAMS_Users_ProfilePhoto" FromRole="SAMS_Users" ToRole="SAMS_Files" />
   </EntityType>
   <EntityType Name="SAMS_UserType">
     <Key>
@@ -292,6 +295,10 @@
       <End Role="SAMS_Program" EntitySet="SAMS_Program" />
       <End Role="SAMS_Department" EntitySet="SAMS_Department" />
     </AssociationSet>
+    <AssociationSet Name="FK_SAMS_Users_ProfilePhoto" Association="StudentApprovalManagementModel.FK_SAMS_Users_ProfilePhoto">
+      <End Role="SAMS_Files" EntitySet="SAMS_Files" />
+      <End Role="SAMS_Users" EntitySet="SAMS_Users" />
+    </AssociationSet>
   </EntityContainer>
   <Association Name="FK_SAMS_Department_Program">
     <End Type="StudentApprovalManagementModel.SAMS_Program" Role="SAMS_Program" Multiplicity="0..1" />
@@ -302,6 +309,18 @@
       </Principal>
       <Dependent Role="SAMS_Department">
         <PropertyRef Name="ProgramId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_SAMS_Users_ProfilePhoto">
+    <End Type="StudentApprovalManagementModel.SAMS_Files" Role="SAMS_Files" Multiplicity="0..1" />
+    <End Type="StudentApprovalManagementModel.SAMS_Users" Role="SAMS_Users" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="SAMS_Files">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="SAMS_Users">
+        <PropertyRef Name="ProfilePhotoId" />
       </Dependent>
     </ReferentialConstraint>
   </Association>

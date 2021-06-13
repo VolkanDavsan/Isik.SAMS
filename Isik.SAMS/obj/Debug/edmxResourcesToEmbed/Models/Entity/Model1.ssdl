@@ -108,6 +108,7 @@
     <Property Name="DepartmentId" Type="int" />
     <Property Name="ProgramId" Type="int" />
     <Property Name="RecoveryCode" Type="int" />
+    <Property Name="ProfilePhotoId" Type="int" />
   </EntityType>
   <EntityType Name="SAMS_UserType">
     <Key>
@@ -200,6 +201,18 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="FK_SAMS_Users_ProfilePhoto">
+    <End Role="SAMS_Files" Type="Self.SAMS_Files" Multiplicity="0..1" />
+    <End Role="SAMS_Users" Type="Self.SAMS_Users" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="SAMS_Files">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="SAMS_Users">
+        <PropertyRef Name="ProfilePhotoId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <Association Name="FK_Status_StudentApplications">
     <End Role="SAMS_ApplicationStatus" Type="Self.SAMS_ApplicationStatus" Multiplicity="0..1" />
     <End Role="SAMS_StudentApplications" Type="Self.SAMS_StudentApplications" Multiplicity="*" />
@@ -271,6 +284,10 @@
     <AssociationSet Name="FK_SAMS_Department_Program" Association="Self.FK_SAMS_Department_Program">
       <End Role="SAMS_Program" EntitySet="SAMS_Program" />
       <End Role="SAMS_Department" EntitySet="SAMS_Department" />
+    </AssociationSet>
+    <AssociationSet Name="FK_SAMS_Users_ProfilePhoto" Association="Self.FK_SAMS_Users_ProfilePhoto">
+      <End Role="SAMS_Files" EntitySet="SAMS_Files" />
+      <End Role="SAMS_Users" EntitySet="SAMS_Users" />
     </AssociationSet>
     <AssociationSet Name="FK_Status_StudentApplications" Association="Self.FK_Status_StudentApplications">
       <End Role="SAMS_ApplicationStatus" EntitySet="SAMS_ApplicationStatus" />
