@@ -47,10 +47,6 @@
       <PropertyRef Name="Id" />
     </Key>
     <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="CreatedBy" Type="int" />
-    <Property Name="CreatedTime" Type="datetime" />
-    <Property Name="ChangedBy" Type="int" />
-    <Property Name="ChangedTime" Type="datetime" />
     <Property Name="ProgramName" Type="nvarchar" MaxLength="500" />
   </EntityType>
   <EntityType Name="SAMS_StudentApplications">

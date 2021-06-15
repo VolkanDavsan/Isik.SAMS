@@ -40,10 +40,6 @@
       <PropertyRef Name="Id" />
     </Key>
     <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-    <Property Name="CreatedBy" Type="Int32" />
-    <Property Name="CreatedTime" Type="DateTime" Precision="3" />
-    <Property Name="ChangedBy" Type="Int32" />
-    <Property Name="ChangedTime" Type="DateTime" Precision="3" />
     <Property Name="ProgramName" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
     <NavigationProperty Name="SAMS_StudentApplications" Relationship="Self.FK_ProgramId_StudentApplications" FromRole="SAMS_Program" ToRole="SAMS_StudentApplications" />
     <NavigationProperty Name="SAMS_Users" Relationship="Self.FK_ProgramId_Users" FromRole="SAMS_Program" ToRole="SAMS_Users" />

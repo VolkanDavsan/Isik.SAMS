@@ -37,10 +37,6 @@
       <EntityTypeMapping TypeName="StudentApprovalManagementModel.SAMS_Program">
         <MappingFragment StoreEntitySet="SAMS_Program">
           <ScalarProperty Name="Id" ColumnName="Id" />
-          <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
-          <ScalarProperty Name="CreatedTime" ColumnName="CreatedTime" />
-          <ScalarProperty Name="ChangedBy" ColumnName="ChangedBy" />
-          <ScalarProperty Name="ChangedTime" ColumnName="ChangedTime" />
           <ScalarProperty Name="ProgramName" ColumnName="ProgramName" />
         </MappingFragment>
       </EntityTypeMapping>
