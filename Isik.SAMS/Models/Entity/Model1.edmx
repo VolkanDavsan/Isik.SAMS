@@ -17,12 +17,24 @@
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="ProgramId" Type="int" />
           <Property Name="CreatedBy" Type="int" />
           <Property Name="CreatedTime" Type="datetime" />
           <Property Name="ChangedBy" Type="int" />
           <Property Name="ChangedTime" Type="datetime" />
           <Property Name="DepartmentName" Type="nvarchar" MaxLength="500" />
+        </EntityType>
+        <EntityType Name="SAMS_DepartmentProgramRel">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="DepartmentId" Type="int" />
+          <Property Name="ProgramId" Type="int" />
+          <Property Name="DepartmentName" Type="nvarchar" MaxLength="500" />
+          <Property Name="ProgramName" Type="nvarchar" MaxLength="500" />
+          <Property Name="Quota" Type="int" />
+          <Property Name="Duration" Type="int" />
+          <Property Name="IsThesisIncluded" Type="bit" />
         </EntityType>
         <EntityType Name="SAMS_Files">
           <Key>
@@ -194,14 +206,26 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_SAMS_Department_Program">
+        <Association Name="FK_SAMS_DepartmentProgramRel_SAMS_Department">
+          <End Role="SAMS_Department" Type="Self.SAMS_Department" Multiplicity="0..1" />
+          <End Role="SAMS_DepartmentProgramRel" Type="Self.SAMS_DepartmentProgramRel" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SAMS_Department">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="SAMS_DepartmentProgramRel">
+              <PropertyRef Name="DepartmentId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SAMS_DepartmentProgramRel_SAMS_Program">
           <End Role="SAMS_Program" Type="Self.SAMS_Program" Multiplicity="0..1" />
-          <End Role="SAMS_Department" Type="Self.SAMS_Department" Multiplicity="*" />
+          <End Role="SAMS_DepartmentProgramRel" Type="Self.SAMS_DepartmentProgramRel" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="SAMS_Program">
               <PropertyRef Name="Id" />
             </Principal>
-            <Dependent Role="SAMS_Department">
+            <Dependent Role="SAMS_DepartmentProgramRel">
               <PropertyRef Name="ProgramId" />
             </Dependent>
           </ReferentialConstraint>
@@ -257,6 +281,7 @@
         <EntityContainer Name="StudentApprovalManagementModelStoreContainer">
           <EntitySet Name="SAMS_ApplicationStatus" EntityType="Self.SAMS_ApplicationStatus" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="SAMS_Department" EntityType="Self.SAMS_Department" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="SAMS_DepartmentProgramRel" EntityType="Self.SAMS_DepartmentProgramRel" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="SAMS_Files" EntityType="Self.SAMS_Files" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="SAMS_Program" EntityType="Self.SAMS_Program" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="SAMS_StudentApplications" EntityType="Self.SAMS_StudentApplications" Schema="dbo" store:Type="Tables" />
@@ -286,9 +311,13 @@
             <End Role="SAMS_Program" EntitySet="SAMS_Program" />
             <End Role="SAMS_Users" EntitySet="SAMS_Users" />
           </AssociationSet>
-          <AssociationSet Name="FK_SAMS_Department_Program" Association="Self.FK_SAMS_Department_Program">
-            <End Role="SAMS_Program" EntitySet="SAMS_Program" />
+          <AssociationSet Name="FK_SAMS_DepartmentProgramRel_SAMS_Department" Association="Self.FK_SAMS_DepartmentProgramRel_SAMS_Department">
             <End Role="SAMS_Department" EntitySet="SAMS_Department" />
+            <End Role="SAMS_DepartmentProgramRel" EntitySet="SAMS_DepartmentProgramRel" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SAMS_DepartmentProgramRel_SAMS_Program" Association="Self.FK_SAMS_DepartmentProgramRel_SAMS_Program">
+            <End Role="SAMS_Program" EntitySet="SAMS_Program" />
+            <End Role="SAMS_DepartmentProgramRel" EntitySet="SAMS_DepartmentProgramRel" />
           </AssociationSet>
           <AssociationSet Name="FK_SAMS_Users_ProfilePhoto" Association="Self.FK_SAMS_Users_ProfilePhoto">
             <End Role="SAMS_Files" EntitySet="SAMS_Files" />
@@ -331,8 +360,7 @@
           <Property Name="DepartmentName" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="SAMS_StudentApplications" Relationship="Self.FK_DepartmentId_StudentApplications" FromRole="SAMS_Department" ToRole="SAMS_StudentApplications" />
           <NavigationProperty Name="SAMS_Users" Relationship="Self.FK_DepartmentId_Users" FromRole="SAMS_Department" ToRole="SAMS_Users" />
-          <Property Name="ProgramId" Type="Int32" />
-          <NavigationProperty Name="SAMS_Program" Relationship="StudentApprovalManagementModel.FK_SAMS_Department_Program" FromRole="SAMS_Department" ToRole="SAMS_Program" />
+          <NavigationProperty Name="SAMS_DepartmentProgramRel" Relationship="StudentApprovalManagementModel.FK_SAMS_DepartmentProgramRel_SAMS_Department" FromRole="SAMS_Department" ToRole="SAMS_DepartmentProgramRel" />
         </EntityType>
         <EntityType Name="SAMS_Files">
           <Key>
@@ -359,7 +387,7 @@
           <Property Name="ProgramName" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="SAMS_StudentApplications" Relationship="Self.FK_ProgramId_StudentApplications" FromRole="SAMS_Program" ToRole="SAMS_StudentApplications" />
           <NavigationProperty Name="SAMS_Users" Relationship="Self.FK_ProgramId_Users" FromRole="SAMS_Program" ToRole="SAMS_Users" />
-          <NavigationProperty Name="SAMS_Department" Relationship="StudentApprovalManagementModel.FK_SAMS_Department_Program" FromRole="SAMS_Program" ToRole="SAMS_Department" />
+          <NavigationProperty Name="SAMS_DepartmentProgramRel" Relationship="StudentApprovalManagementModel.FK_SAMS_DepartmentProgramRel_SAMS_Program" FromRole="SAMS_Program" ToRole="SAMS_DepartmentProgramRel" />
         </EntityType>
         <EntityType Name="SAMS_StudentApplications">
           <Key>
@@ -602,27 +630,20 @@
             <End Role="SAMS_UserType" EntitySet="SAMS_UserType" />
             <End Role="SAMS_Users" EntitySet="SAMS_Users" />
           </AssociationSet>
-          <AssociationSet Name="FK_SAMS_Department_Program" Association="StudentApprovalManagementModel.FK_SAMS_Department_Program">
-            <End Role="SAMS_Program" EntitySet="SAMS_Program" />
-            <End Role="SAMS_Department" EntitySet="SAMS_Department" />
-          </AssociationSet>
           <AssociationSet Name="FK_SAMS_Users_ProfilePhoto" Association="StudentApprovalManagementModel.FK_SAMS_Users_ProfilePhoto">
             <End Role="SAMS_Files" EntitySet="SAMS_Files" />
             <End Role="SAMS_Users" EntitySet="SAMS_Users" />
           </AssociationSet>
+          <EntitySet Name="SAMS_DepartmentProgramRel" EntityType="StudentApprovalManagementModel.SAMS_DepartmentProgramRel" />
+          <AssociationSet Name="FK_SAMS_DepartmentProgramRel_SAMS_Department" Association="StudentApprovalManagementModel.FK_SAMS_DepartmentProgramRel_SAMS_Department">
+            <End Role="SAMS_Department" EntitySet="SAMS_Department" />
+            <End Role="SAMS_DepartmentProgramRel" EntitySet="SAMS_DepartmentProgramRel" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SAMS_DepartmentProgramRel_SAMS_Program" Association="StudentApprovalManagementModel.FK_SAMS_DepartmentProgramRel_SAMS_Program">
+            <End Role="SAMS_Program" EntitySet="SAMS_Program" />
+            <End Role="SAMS_DepartmentProgramRel" EntitySet="SAMS_DepartmentProgramRel" />
+          </AssociationSet>
         </EntityContainer>
-        <Association Name="FK_SAMS_Department_Program">
-          <End Type="StudentApprovalManagementModel.SAMS_Program" Role="SAMS_Program" Multiplicity="0..1" />
-          <End Type="StudentApprovalManagementModel.SAMS_Department" Role="SAMS_Department" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="SAMS_Program">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="SAMS_Department">
-              <PropertyRef Name="ProgramId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_SAMS_Users_ProfilePhoto">
           <End Type="StudentApprovalManagementModel.SAMS_Files" Role="SAMS_Files" Multiplicity="0..1" />
           <End Type="StudentApprovalManagementModel.SAMS_Users" Role="SAMS_Users" Multiplicity="*" />
@@ -632,6 +653,45 @@
             </Principal>
             <Dependent Role="SAMS_Users">
               <PropertyRef Name="ProfilePhotoId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="SAMS_DepartmentProgramRel">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="DepartmentId" Type="Int32" />
+          <Property Name="ProgramId" Type="Int32" />
+          <NavigationProperty Name="SAMS_Department" Relationship="StudentApprovalManagementModel.FK_SAMS_DepartmentProgramRel_SAMS_Department" FromRole="SAMS_DepartmentProgramRel" ToRole="SAMS_Department" />
+          <NavigationProperty Name="SAMS_Program" Relationship="StudentApprovalManagementModel.FK_SAMS_DepartmentProgramRel_SAMS_Program" FromRole="SAMS_DepartmentProgramRel" ToRole="SAMS_Program" />
+          <Property Name="DepartmentName" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="ProgramName" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="Quota" Type="Int32" />
+          <Property Name="Duration" Type="Int32" />
+          <Property Name="IsThesisIncluded" Type="Boolean" />
+        </EntityType>
+        <Association Name="FK_SAMS_DepartmentProgramRel_SAMS_Department">
+          <End Type="StudentApprovalManagementModel.SAMS_Department" Role="SAMS_Department" Multiplicity="0..1" />
+          <End Type="StudentApprovalManagementModel.SAMS_DepartmentProgramRel" Role="SAMS_DepartmentProgramRel" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SAMS_Department">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="SAMS_DepartmentProgramRel">
+              <PropertyRef Name="DepartmentId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SAMS_DepartmentProgramRel_SAMS_Program">
+          <End Type="StudentApprovalManagementModel.SAMS_Program" Role="SAMS_Program" Multiplicity="0..1" />
+          <End Type="StudentApprovalManagementModel.SAMS_DepartmentProgramRel" Role="SAMS_DepartmentProgramRel" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SAMS_Program">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="SAMS_DepartmentProgramRel">
+              <PropertyRef Name="ProgramId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -652,7 +712,6 @@
           <EntitySetMapping Name="SAMS_Department">
             <EntityTypeMapping TypeName="StudentApprovalManagementModel.SAMS_Department">
               <MappingFragment StoreEntitySet="SAMS_Department">
-                <ScalarProperty Name="ProgramId" ColumnName="ProgramId" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
                 <ScalarProperty Name="CreatedTime" ColumnName="CreatedTime" />
@@ -762,6 +821,20 @@
               <MappingFragment StoreEntitySet="SAMS_UserType">
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="UserTypeName" ColumnName="UserTypeName" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SAMS_DepartmentProgramRel">
+            <EntityTypeMapping TypeName="StudentApprovalManagementModel.SAMS_DepartmentProgramRel">
+              <MappingFragment StoreEntitySet="SAMS_DepartmentProgramRel">
+                <ScalarProperty Name="IsThesisIncluded" ColumnName="IsThesisIncluded" />
+                <ScalarProperty Name="Duration" ColumnName="Duration" />
+                <ScalarProperty Name="Quota" ColumnName="Quota" />
+                <ScalarProperty Name="ProgramName" ColumnName="ProgramName" />
+                <ScalarProperty Name="DepartmentName" ColumnName="DepartmentName" />
+                <ScalarProperty Name="ProgramId" ColumnName="ProgramId" />
+                <ScalarProperty Name="DepartmentId" ColumnName="DepartmentId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

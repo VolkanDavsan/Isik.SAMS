@@ -12,7 +12,6 @@
     <EntitySetMapping Name="SAMS_Department">
       <EntityTypeMapping TypeName="StudentApprovalManagementModel.SAMS_Department">
         <MappingFragment StoreEntitySet="SAMS_Department">
-          <ScalarProperty Name="ProgramId" ColumnName="ProgramId" />
           <ScalarProperty Name="Id" ColumnName="Id" />
           <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
           <ScalarProperty Name="CreatedTime" ColumnName="CreatedTime" />
@@ -122,6 +121,20 @@
         <MappingFragment StoreEntitySet="SAMS_UserType">
           <ScalarProperty Name="Id" ColumnName="Id" />
           <ScalarProperty Name="UserTypeName" ColumnName="UserTypeName" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="SAMS_DepartmentProgramRel">
+      <EntityTypeMapping TypeName="StudentApprovalManagementModel.SAMS_DepartmentProgramRel">
+        <MappingFragment StoreEntitySet="SAMS_DepartmentProgramRel">
+          <ScalarProperty Name="IsThesisIncluded" ColumnName="IsThesisIncluded" />
+          <ScalarProperty Name="Duration" ColumnName="Duration" />
+          <ScalarProperty Name="Quota" ColumnName="Quota" />
+          <ScalarProperty Name="ProgramName" ColumnName="ProgramName" />
+          <ScalarProperty Name="DepartmentName" ColumnName="DepartmentName" />
+          <ScalarProperty Name="ProgramId" ColumnName="ProgramId" />
+          <ScalarProperty Name="DepartmentId" ColumnName="DepartmentId" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

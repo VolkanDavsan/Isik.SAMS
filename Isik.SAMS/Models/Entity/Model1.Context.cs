@@ -32,5 +32,6 @@ namespace Isik.SAMS.Models.Entity
         public virtual DbSet<SAMS_StudentApplications> SAMS_StudentApplications { get; set; }
         public virtual DbSet<SAMS_Users> SAMS_Users { get; set; }
         public virtual DbSet<SAMS_UserType> SAMS_UserType { get; set; }
+        public virtual DbSet<SAMS_DepartmentProgramRel> SAMS_DepartmentProgramRel { get; set; }
     }
 }

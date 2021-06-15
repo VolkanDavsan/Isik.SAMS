@@ -108,6 +108,9 @@ namespace Isik.SAMS.Models.Entity
         public FileContentResult referenceLetter2ContentResult { get; set; }
         public HttpPostedFileBase BankReceipt { get; set; }
         public FileContentResult bankReceiptContentResult { get; set; }
+        public string missingFiles { get; set; }
+        public string approvedByName { get; set; }
+        public string enrolledByName { get; set; }
         public virtual SAMS_ApplicationStatus SAMS_ApplicationStatus { get; set; }
         public virtual SAMS_Department SAMS_Department { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

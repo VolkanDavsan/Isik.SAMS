@@ -3,11 +3,6 @@
 @{
     ViewBag.Title = "Change Password";
     Layout = "~/Views/Shared/_Layout.cshtml";
-
-    if (Session["UserId"] == null && Session["AdminId"] == null)
-    {
-        Response.Redirect("/Login/Index");
-    }
 }
 
 @if (ViewBag.Message != null)
@@ -89,9 +84,17 @@
     </div>
     <script type="text/javascript">
         function reqChange() {
-            document.getElementById("psw").removeAttribute('required');
-            document.getElementById("oldPassword").removeAttribute('required');
-            document.getElementById("newPassword").removeAttribute('required');
+            debugger;
+            var file = document.getElementById("fileName");
+            if (file.value == "") {
+                document.getElementById("psw").setAttribute('required', '');
+                document.getElementById("oldPassword").setAttribute('required', '');
+                document.getElementById("newPassword").setAttribute('required', '');
+            } else {
+                document.getElementById("psw").removeAttribute('required');
+                document.getElementById("oldPassword").removeAttribute('required');
+                document.getElementById("newPassword").removeAttribute('required');
+            }
         }
     </script>
 }

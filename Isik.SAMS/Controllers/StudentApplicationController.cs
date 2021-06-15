@@ -155,7 +155,8 @@ namespace Isik.SAMS.Controllers
             ViewBag.isMailSent = TempData["isMailSent"] == null ? null : TempData["isMailSent"].ToString();
             ViewBag.IsPersonalInfoEntered = TempData["IsPersonalInfoEntered"] == null ? null : TempData["IsPersonalInfoEntered"].ToString();
             ViewBag.IsEducationalInfoEntered = TempData["IsEducationalInfoEntered"] == null ? null : TempData["IsEducationalInfoEntered"].ToString();
-            ViewBag.Departments = new SelectList(db.SAMS_Department.ToList(), "Id", "DepartmentName");
+            int sessionProgram = Convert.ToInt32(Session["ProgramId"]);
+            ViewBag.Departments = new SelectList(db.SAMS_DepartmentProgramRel.Where(x => x.ProgramId == sessionProgram).ToList(), "DepartmentId", "DepartmentName");
             ViewBag.Programs = new SelectList(db.SAMS_Program.ToList(), "Id", "ProgramName");
             ViewBag.StudentGenders = new SelectList(
                new List<SelectListItem> {
@@ -281,39 +282,6 @@ namespace Isik.SAMS.Controllers
             }
         }
 
-        public FileResult DownloadFile(int id, string name)
-        {
-            var files = db.SAMS_Files.Where(x => x.StudentApplicationId == id).ToList();
-            if (files != null)
-            {
-                foreach (var a in files)
-                {
-                    if (a.FileName == name + "" + a.FileExtension)
-                    {
-                        return File(a.FileData, MimeMapping.GetMimeMapping(a.FileName), a.FileName);
-                    }
-                }
-            }
-            return null;
-        }
-
-        public ActionResult DeleteFile(int id, string name)
-        {
-            var files = db.SAMS_Files.Where(x => x.StudentApplicationId == id).ToList();
-            if (files != null)
-            {
-                foreach (var a in files)
-                {
-                    if (a.FileName == name + "" + a.FileExtension)
-                    {
-                        db.SAMS_Files.Remove(a);
-                        db.SaveChanges();
-                    }
-                }
-            }
-            return RedirectToAction("Insert");
-        }
-
         [HttpPost]
         public ActionResult Insert(SAMS_StudentApplications application)
         {
@@ -368,17 +336,16 @@ namespace Isik.SAMS.Controllers
                         {
                             TempData["FilesUploaded"] = "true";
                             db.SAMS_Files.Add(file);
+                            db.SaveChanges();
                         }
                         else
                         {
                             TempData["ExtensionNotAllowed"] = "Only jpg/jpeg, png, pdf and docx files are allowed!";
-                            return RedirectToAction("Insert");
                         }
                     }
                     else
                     {
                         TempData["FileSizeWarning"] = "Maximum file size is 10 MB.";
-                        return RedirectToAction("Insert");
                     }
                 }
                 if (application.englishLanguageProfScore != null)
@@ -400,17 +367,16 @@ namespace Isik.SAMS.Controllers
                         {
                             TempData["FilesUploaded"] = "true";
                             db.SAMS_Files.Add(file);
+                            db.SaveChanges();
                         }
                         else
                         {
                             TempData["ExtensionNotAllowed"] = "Only jpg/jpeg, png, pdf and docx files are allowed!";
-                            return RedirectToAction("Insert");
                         }
                     }
                     else
                     {
                         TempData["FileSizeWarning"] = "Maximum file size is 10 MB.";
-                        return RedirectToAction("Insert");
                     }
 
                 }
@@ -432,17 +398,16 @@ namespace Isik.SAMS.Controllers
                         {
                             TempData["FilesUploaded"] = "true";
                             db.SAMS_Files.Add(file);
+                            db.SaveChanges();
                         }
                         else
                         {
                             TempData["ExtensionNotAllowed"] = "Only jpg/jpeg, png, pdf and docx files are allowed!";
-                            return RedirectToAction("Insert");
                         }
                     }
                     else
                     {
                         TempData["FileSizeWarning"] = "Maximum file size is 10 MB.";
-                        return RedirectToAction("Insert");
                     }
 
                 }
@@ -464,17 +429,16 @@ namespace Isik.SAMS.Controllers
                         {
                             TempData["FilesUploaded"] = "true";
                             db.SAMS_Files.Add(file);
+                            db.SaveChanges();
                         }
                         else
                         {
                             TempData["ExtensionNotAllowed"] = "Only jpg/jpeg, png, pdf and docx files are allowed!";
-                            return RedirectToAction("Insert");
                         }
                     }
                     else
                     {
                         TempData["FileSizeWarning"] = "Maximum file size is 10 MB.";
-                        return RedirectToAction("Insert");
                     }
                 }
                 if (application.bachelorTranscript != null)
@@ -495,17 +459,16 @@ namespace Isik.SAMS.Controllers
                         {
                             TempData["FilesUploaded"] = "true";
                             db.SAMS_Files.Add(file);
+                            db.SaveChanges();
                         }
                         else
                         {
                             TempData["ExtensionNotAllowed"] = "Only jpg/jpeg, png, pdf and docx files are allowed!";
-                            return RedirectToAction("Insert");
                         }
                     }
                     else
                     {
                         TempData["FileSizeWarning"] = "Maximum file size is 10 MB.";
-                        return RedirectToAction("Insert");
                     }
 
                 }
@@ -544,17 +507,16 @@ namespace Isik.SAMS.Controllers
                         {
                             TempData["FilesUploaded"] = "true";
                             db.SAMS_Files.Add(file);
+                            db.SaveChanges();
                         }
                         else
                         {
                             TempData["ExtensionNotAllowed"] = "Only jpg/jpeg, png, pdf and docx files are allowed!";
-                            return RedirectToAction("Insert");
                         }
                     }
                     else
                     {
                         TempData["FileSizeWarning"] = "Maximum file size is 10 MB.";
-                        return RedirectToAction("Insert");
                     }
                 }
                 if (application.englishLanguageProfScore != null)
@@ -576,17 +538,16 @@ namespace Isik.SAMS.Controllers
                         {
                             TempData["FilesUploaded"] = "true";
                             db.SAMS_Files.Add(file);
+                            db.SaveChanges();
                         }
                         else
                         {
                             TempData["ExtensionNotAllowed"] = "Only jpg/jpeg, png, pdf and docx files are allowed!";
-                            return RedirectToAction("Insert");
                         }
                     }
                     else
                     {
                         TempData["FileSizeWarning"] = "Maximum file size is 10 MB.";
-                        return RedirectToAction("Insert");
                     }
 
                 }
@@ -608,17 +569,16 @@ namespace Isik.SAMS.Controllers
                         {
                             TempData["FilesUploaded"] = "true";
                             db.SAMS_Files.Add(file);
+                            db.SaveChanges();
                         }
                         else
                         {
                             TempData["ExtensionNotAllowed"] = "Only jpg/jpeg, png, pdf and docx files are allowed!";
-                            return RedirectToAction("Insert");
                         }
                     }
                     else
                     {
                         TempData["FileSizeWarning"] = "Maximum file size is 10 MB.";
-                        return RedirectToAction("Insert");
                     }
 
                 }
@@ -640,17 +600,16 @@ namespace Isik.SAMS.Controllers
                         {
                             TempData["FilesUploaded"] = "true";
                             db.SAMS_Files.Add(file);
+                            db.SaveChanges();
                         }
                         else
                         {
                             TempData["ExtensionNotAllowed"] = "Only jpg/jpeg, png, pdf and docx files are allowed!";
-                            return RedirectToAction("Insert");
                         }
                     }
                     else
                     {
                         TempData["FileSizeWarning"] = "Maximum file size is 10 MB.";
-                        return RedirectToAction("Insert");
                     }
                 }
                 if (application.bachelorTranscript != null)
@@ -671,17 +630,16 @@ namespace Isik.SAMS.Controllers
                         {
                             TempData["FilesUploaded"] = "true";
                             db.SAMS_Files.Add(file);
+                            db.SaveChanges();
                         }
                         else
                         {
                             TempData["ExtensionNotAllowed"] = "Only jpg/jpeg, png, pdf and docx files are allowed!";
-                            return RedirectToAction("Insert");
                         }
                     }
                     else
                     {
                         TempData["FileSizeWarning"] = "Maximum file size is 10 MB.";
-                        return RedirectToAction("Insert");
                     }
 
                 }
@@ -703,17 +661,16 @@ namespace Isik.SAMS.Controllers
                         {
                             TempData["FilesUploaded"] = "true";
                             db.SAMS_Files.Add(file);
+                            db.SaveChanges();
                         }
                         else
                         {
                             TempData["ExtensionNotAllowed"] = "Only jpg/jpeg, png, pdf and docx files are allowed!";
-                            return RedirectToAction("Insert");
                         }
                     }
                     else
                     {
                         TempData["FileSizeWarning"] = "Maximum file size is 10 MB.";
-                        return RedirectToAction("Insert");
                     }
                 }
                 if (application.masterTranscript != null)
@@ -734,17 +691,16 @@ namespace Isik.SAMS.Controllers
                         {
                             TempData["FilesUploaded"] = "true";
                             db.SAMS_Files.Add(file);
+                            db.SaveChanges();
                         }
                         else
                         {
                             TempData["ExtensionNotAllowed"] = "Only jpg/jpeg, png, pdf and docx files are allowed!";
-                            return RedirectToAction("Insert");
                         }
                     }
                     else
                     {
                         TempData["FileSizeWarning"] = "Maximum file size is 10 MB.";
-                        return RedirectToAction("Insert");
                     }
                 }
                 if (application.referenceLetter1 != null)
@@ -765,17 +721,16 @@ namespace Isik.SAMS.Controllers
                         {
                             TempData["FilesUploaded"] = "true";
                             db.SAMS_Files.Add(file);
+                            db.SaveChanges();
                         }
                         else
                         {
                             TempData["ExtensionNotAllowed"] = "Only jpg/jpeg, png, pdf and docx files are allowed!";
-                            return RedirectToAction("Insert");
                         }
                     }
                     else
                     {
                         TempData["FileSizeWarning"] = "Maximum file size is 10 MB.";
-                        return RedirectToAction("Insert");
                     }
                 }
                 if (application.referenceLetter2 != null)
@@ -796,21 +751,18 @@ namespace Isik.SAMS.Controllers
                         {
                             TempData["FilesUploaded"] = "true";
                             db.SAMS_Files.Add(file);
+                            db.SaveChanges();
                         }
                         else
                         {
                             TempData["ExtensionNotAllowed"] = "Only jpg/jpeg, png, pdf and docx files are allowed!";
-                            return RedirectToAction("Insert");
                         }
                     }
                     else
                     {
                         TempData["FileSizeWarning"] = "Maximum file size is 10 MB.";
-                        return RedirectToAction("Insert");
                     }
                 }
-
-
             }
             if (app.ProgramId == 1)
             {
@@ -850,11 +802,11 @@ namespace Isik.SAMS.Controllers
                         {
                             TempData["FilesUploaded"] = "true";
                             db.SAMS_Files.Add(file);
+                            db.SaveChanges();
                         }
                         else
                         {
                             TempData["ExtensionNotAllowed"] = "Only jpg/jpeg, png, pdf and docx files are allowed!";
-                            return RedirectToAction("Insert");
                         }
                     }
                     else
@@ -881,11 +833,11 @@ namespace Isik.SAMS.Controllers
                         {
                             TempData["FilesUploaded"] = "true";
                             db.SAMS_Files.Add(file);
+                            db.SaveChanges();
                         }
                         else
                         {
                             TempData["ExtensionNotAllowed"] = "Only jpg/jpeg, png, pdf and docx files are allowed!";
-                            return RedirectToAction("Insert");
                         }
                     }
                     else
@@ -912,17 +864,16 @@ namespace Isik.SAMS.Controllers
                         {
                             TempData["FilesUploaded"] = "true";
                             db.SAMS_Files.Add(file);
+                            db.SaveChanges();
                         }
                         else
                         {
                             TempData["ExtensionNotAllowed"] = "Only jpg/jpeg, png, pdf and docx files are allowed!";
-                            return RedirectToAction("Insert");
                         }
                     }
                     else
                     {
                         TempData["FileSizeWarning"] = "Maximum file size is 10 MB.";
-                        return RedirectToAction("Insert");
                     }
                 }
                 if (application.highSchoolDiploma != null)
@@ -944,17 +895,16 @@ namespace Isik.SAMS.Controllers
                         {
                             TempData["FilesUploaded"] = "true";
                             db.SAMS_Files.Add(file);
+                            db.SaveChanges();
                         }
                         else
                         {
                             TempData["ExtensionNotAllowed"] = "Only jpg/jpeg, png, pdf and docx files are allowed!";
-                            return RedirectToAction("Insert");
                         }
                     }
                     else
                     {
                         TempData["FileSizeWarning"] = "Maximum file size is 10 MB.";
-                        return RedirectToAction("Insert");
                     }
                 }
                 if (application.studentPhoto != null)
@@ -976,17 +926,16 @@ namespace Isik.SAMS.Controllers
                         {
                             TempData["FilesUploaded"] = "true";
                             db.SAMS_Files.Add(file);
+                            db.SaveChanges();
                         }
                         else
                         {
                             TempData["ExtensionNotAllowed"] = "Only jpg/jpeg, png, pdf and docx files are allowed!";
-                            return RedirectToAction("Insert");
                         }
                     }
                     else
                     {
                         TempData["FileSizeWarning"] = "Maximum file size is 10 MB.";
-                        return RedirectToAction("Insert");
                     }
                 }
                 if (application.internationalExamScore != null)
@@ -1008,17 +957,16 @@ namespace Isik.SAMS.Controllers
                         {
                             TempData["FilesUploaded"] = "true";
                             db.SAMS_Files.Add(file);
+                            db.SaveChanges();
                         }
                         else
                         {
                             TempData["ExtensionNotAllowed"] = "Only jpg/jpeg, png, pdf and docx files are allowed!";
-                            return RedirectToAction("Insert");
                         }
                     }
                     else
                     {
                         TempData["FileSizeWarning"] = "Maximum file size is 10 MB.";
-                        return RedirectToAction("Insert");
                     }
                 }
                 if (application.IdorPassportCopy != null)
@@ -1040,17 +988,16 @@ namespace Isik.SAMS.Controllers
                         {
                             TempData["FilesUploaded"] = "true";
                             db.SAMS_Files.Add(file);
+                            db.SaveChanges();
                         }
                         else
                         {
                             TempData["ExtensionNotAllowed"] = "Only jpg/jpeg, png, pdf and docx files are allowed!";
-                            return RedirectToAction("Insert");
                         }
                     }
                     else
                     {
                         TempData["FileSizeWarning"] = "Maximum file size is 10 MB.";
-                        return RedirectToAction("Insert");
                     }
                 }
                 if (application.englishLanguageProfScore != null)
@@ -1072,17 +1019,16 @@ namespace Isik.SAMS.Controllers
                         {
                             TempData["FilesUploaded"] = "true";
                             db.SAMS_Files.Add(file);
+                            db.SaveChanges();
                         }
                         else
                         {
                             TempData["ExtensionNotAllowed"] = "Only jpg/jpeg, png, pdf and docx files are allowed!";
-                            return RedirectToAction("Insert");
                         }
                     }
                     else
                     {
                         TempData["FileSizeWarning"] = "Maximum file size is 10 MB.";
-                        return RedirectToAction("Insert");
                     }
 
                 }
@@ -1092,8 +1038,43 @@ namespace Isik.SAMS.Controllers
             return RedirectToAction("Insert");
         }
 
+        public FileResult DownloadFile(int id, string name)
+        {
+            var files = db.SAMS_Files.Where(x => x.StudentApplicationId == id).ToList();
+            if (files != null)
+            {
+                foreach (var a in files)
+                {
+                    if (a.FileName == name + "" + a.FileExtension)
+                    {
+                        return File(a.FileData, MimeMapping.GetMimeMapping(a.FileName), a.FileName);
+                    }
+                }
+            }
+            return null;
+        }
+
+        public ActionResult DeleteFile(int id, string name)
+        {
+            
+            var files = db.SAMS_Files.Where(x => x.StudentApplicationId == id).ToList();
+            if (files != null)
+            {
+                foreach (var a in files)
+                {
+                    if (a.FileName == name + "" + a.FileExtension)
+                    {
+                        db.SAMS_Files.Remove(a);
+                        db.SaveChanges();
+                    }
+                }
+            }
+            return RedirectToAction("Insert");
+        }
+
         public ActionResult InsertInitial(int id)
         {
+            
             if (Session["ApplicationId"] != null)
             {
                 var model = db.SAMS_StudentApplications.Find(Convert.ToInt32(Session["ApplicationId"]));
@@ -1108,10 +1089,12 @@ namespace Isik.SAMS.Controllers
 
         public ActionResult AuthenticateGuid(Guid guid)
         {
+            
             var application = db.SAMS_StudentApplications.Where(x => x.GUID == guid).FirstOrDefault();
             if (application != null)
             {
                 Session["ApplicationId"] = application.Id;
+                Session["ProgramId"] = application.ProgramId;
                 TempData["IsAuthenticated"] = "true";
                 TempData["isMailSent"] = "true";
                 TempData["IsPersonalInfoEntered"] = "true";
@@ -1126,6 +1109,7 @@ namespace Isik.SAMS.Controllers
 
         public ActionResult AuthenticateGuidForBankReceipt(Guid guid)
         {
+            
             var application = db.SAMS_StudentApplications.Where(x => x.GUID == guid).FirstOrDefault();
             if (application != null)
             {
@@ -1140,14 +1124,16 @@ namespace Isik.SAMS.Controllers
         [HttpGet]
         public ActionResult UploadBankReceipt()
         {
+            
             var application = db.SAMS_StudentApplications.Find(Convert.ToInt32(Session["ApplicationId"]));
             return View(application);
         }
         [HttpPost]
         public ActionResult UploadBankReceipt(SAMS_StudentApplications application)
         {
+            
             var currentApplication = db.SAMS_StudentApplications.Find(application.Id);
-            var bankReceipt = db.SAMS_Files.Where(x => x.StudentApplicationId == currentApplication.Id && 
+            var bankReceipt = db.SAMS_Files.Where(x => x.StudentApplicationId == currentApplication.Id &&
                                                        x.FileName.Contains("BankReceipt")).FirstOrDefault();
             if (application.BankReceipt != null)
             {
@@ -1180,7 +1166,8 @@ namespace Isik.SAMS.Controllers
                             ViewBag.ExtensionNotAllowed = "Only jpg/jpeg, png, pdf and docx files are allowed!";
                             return View(application);
                         }
-                    } else
+                    }
+                    else
                     {
                         bankReceipt.FileCreateDate = DateTime.Now;
                         string newFileName = "BankReceipt";
@@ -1205,7 +1192,7 @@ namespace Isik.SAMS.Controllers
                             ViewBag.ExtensionNotAllowed = "Only jpg/jpeg, png, pdf and docx files are allowed!";
                             return View(application);
                         }
-                    }                   
+                    }
                 }
                 else
                 {
@@ -1214,6 +1201,32 @@ namespace Isik.SAMS.Controllers
                 }
             }
             return View(application);
+        }
+        [HttpGet]
+        public ActionResult Programs()
+        {
+            
+            ViewBag.Departments = db.SAMS_DepartmentProgramRel.ToList();
+            ViewBag.Programs = new SelectList(db.SAMS_Program.ToList(), "Id", "ProgramName");
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult Programs(SAMS_DepartmentProgramRel dp1)
+        {
+            
+            if (dp1.ProgramId != null)
+            {
+                ViewBag.Departments = db.SAMS_DepartmentProgramRel.Where(x => x.ProgramId == dp1.ProgramId).ToList();
+            }
+            else
+            {
+                ViewBag.Departments = db.SAMS_DepartmentProgramRel.ToList();
+            }
+
+            ViewBag.Programs = new SelectList(db.SAMS_Program.ToList(), "Id", "ProgramName");
+
+            return View();
         }
     }
 }

@@ -5,14 +5,6 @@
 @{
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
-    if (Session["UserId"] == null && Session["AdminId"] != null)
-    {
-        Response.Redirect("/Account/Index");
-    }
-    else if (Session["UserId"] == null && Session["AdminId"] == null)
-    {
-        Response.Redirect("/Login/Index");
-    }
 }
 
 @if (ViewBag.Message != null)
@@ -29,36 +21,86 @@
     </div>
 }
 
+<style>
+    .clearfix {
+        margin-bottom: 3px !important;
+    }
+</style>
 <div class="col-md-2">
-    <div class="space-25"></div>
     <h5>Approval Status </h5>
     <ul class="folder-list m-b-md" style="padding: 0">
         <li class="clearfix">
-            <a data-switch="radio" data-grid="VWCMP_TenderPending" data-category="1" href="#">
-                <i class="text-warning fa fa-spinner"></i> Waiting For Approval
-                <span class="badge badge-warning pull-right m-l-md  m-t-xs" data-counturl="/SH/VWSH_User/DataSourceCount?filter=(type~eq~0~and~IsWorking~eq~true)">0</span>
+            <a data-switch="radio" data-category="1" href="/Application">
+                <i class="text-info icon-list"></i> All
+                <span class="badge badge-info pull-right m-l-md  m-t-xs">
+                    @Model.Count()
+                </span>
             </a>
-
         </li>
         <li class="clearfix">
-            <a data-switch="radio" data-grid="VWCMP_TenderPending" data-category="1" href="#">
-                <i class="text-warning fa fa-spinner"></i> Waiting for Additional Files
-                <span class="badge badge-warning pull-right m-l-md  m-t-xs" data-counturl="/SH/VWSH_User/DataSourceCount?filter=(type~eq~0~and~IsWorking~eq~true)">0</span>
+            <a data-switch="radio" data-category="1" href="/Application?grid-filter=StatusName__1__Waiting%20for%20approval">
+                <i class="text-warning icon-spinner"></i> Waiting For Approval
+                <span class="badge badge-warning pull-right m-l-md  m-t-xs">
+                    @Model.Where(x => x.Status == 1).Count()
+                </span>
             </a>
-
         </li>
         <li class="clearfix">
-            <a class="pull-left" href="#" data-grid="VWSH_User" data-switch="radio" data-category="0" data-query="(type~eq~0~and~IsWorking~eq~true)">
-                <i class="fa text-primary fa-user"></i>Approved
+            <a data-switch="radio" data-category="1" href="/Application?grid-filter=StatusName__1__Waiting%20for%20additional%20files">
+                <i class="text-warning icon-spinner"></i> Waiting For Additional Files
+                <span class="badge badge-warning pull-right m-l-md  m-t-xs">
+                    @Model.Where(x => x.Status == 3).Count()
+                </span>
             </a>
-            <span class="badge badge-primary pull-right m-l-md  m-t-xs" data-counturl="/SH/VWSH_User/DataSourceCount?filter=(type~eq~0~and~IsWorking~eq~true)">0</span>
+        </li>
+        <li class="clearfix">
+            <a data-switch="radio" data-category="1" href="/Application?grid-filter=StatusName__1__Waiting%20for%20the%20Payment">
+                <i class="text-warning icon-hourglass"></i> Waiting for the Payment
+                <span class="badge badge-warning pull-right m-l-md  m-t-xs">
+                    @Model.Where(x => x.Status == 7).Count()
+                </span>
+            </a>
+        </li>
+        <li class="clearfix">
+            <a data-switch="radio" data-category="1" href="/Application?grid-filter=StatusName__1__Approved%20by%20secretary">
+                <i class="text-success icon-thumbs-up"></i> Approved by Secretary
+                <span class="badge badge-success pull-right m-l-md  m-t-xs">
+                    @Model.Where(x => x.Status == 2).Count()
+                </span>
+            </a>
         </li>
 
         <li class="clearfix">
-            <a class="pull-left" href="#" data-grid="SAMS_Application" data-switch="radio" data-category="0" data-query="(StatusName~eq~1~and~grid-dir~eq~0)">
-                <i class="fa text-danger fa-user-times"></i>Rejected
+            <a data-switch="radio" data-category="1" href="/Application?grid-filter=StatusName__1__Approved%20by%20Head%20of%20Department">
+                <i class="text-success icon-thumbs-up"></i> Approved by Department
+                <span class="badge badge-success pull-right m-l-md  m-t-xs">
+                    @Model.Where(x => x.Status == 4).Count()
+                </span>
             </a>
-            <span class="badge badge-danger pull-right m-l-md  m-t-xs" data-counturl="/Account/DataSourceCount?filter=(type~eq~0~and~IsWorking~eq~false)">0</span>
+        </li>
+        <li class="clearfix">
+            <a data-switch="radio" data-category="1" href="/Application?grid-filter=StatusName__1__Payment%20Received">
+                <i class="text-success icon-money"></i> Payment Received
+                <span class="badge badge-success pull-right m-l-md  m-t-xs">
+                    @Model.Where(x => x.Status == 9).Count()
+                </span>
+            </a>
+        </li>
+        <li class="clearfix">
+            <a data-switch="radio" data-category="1" href="/Application?grid-filter=StatusName__1__Enrolled">
+                <i class="text-success icon-ok"></i> Enrolled
+                <span class="badge badge-success pull-right m-l-md  m-t-xs">
+                    @Model.Where(x => x.Status == 6).Count()
+                </span>
+            </a>
+        </li>
+        <li class="clearfix">
+            <a data-switch="radio" data-category="1" href="/Application?grid-filter=StatusName__1__Rejected">
+                <i class="text-danger icon-cancel"></i> Rejected
+                <span class="badge badge-danger pull-right m-l-md  m-t-xs">
+                    @Model.Where(x => x.Status == 5).Count()
+                </span>
+            </a>
         </li>
     </ul>
 </div>
@@ -69,11 +111,6 @@
                 <div class="col-xl-8 col-md-8 col-sm-8 col-8">
                     <h4>Application List</h4>
                 </div>
-                @*<div class="col-xl-4 col-md-4 col-sm-4 col-4">
-                        <a class="btn btn-primary btn-sm pull-right ml-1" data-task="Insert" data-method="GET" data-href="@Url.Action("Insert","Account")">
-                            <i class="icon-plus-circle"></i> Create New Account
-                        </a>
-                    </div>*@
             </div>
         </div>
         <div class="widget-content widget-content-area">
@@ -82,20 +119,19 @@
        columns.Add(c => c.Email).Titled("E-mail");
        columns.Add(c => c.StudentFirstName).Titled("First Name");
        columns.Add(c => c.StudentLastName).Titled("Last Name");
-       columns.Add(c => c.ApprovedBy).Titled("Approved Person");
-       columns.Add(c => c.EnrolledBy).Titled("Enrolled Person");
+       columns.Add(c => c.approvedByName).Titled("Approved Person");
+       columns.Add(c => c.enrolledByName).Titled("Enrolled Person");
        columns.Add(c => c.CreatedTime).Titled("Application Date");
        columns.Add(c => c.StatusName).Titled("Status").Sanitized(false).Encoded(false).RenderValueAs(c => @<text>
-                    <text style="color:@(c.Status == 1 || c.Status == 3 ? "darkorange" : c.Status == 2 || c.Status == 4 ? "green" : c.Status == 5 ? "red" : "blue")">@c.StatusName</text></text>);
-//columns.Add(c => c.Id).Titled("ID").Filterable(true);
+                    <text style="color:@(c.Status == 1 || c.Status == 3 || c.Status == 7 ? "darkorange" : c.Status == 2 || c.Status == 4 || c.Status == 6 || c.Status == 9 ? "green" : c.Status == 5 ? "red" : "blue"); font-weight:bold;">@c.StatusName</text></text>);
 columns.Add()
 .Titled("")
 .Filterable(true)
 .Sanitized(false)
 .Encoded(false)
 .RenderValueAs(c => @<text>
-    <button style="margin-left:15px; border:none;" class="icon-eye-1" data-task="Insert" data-modal="false" data-method="GET" data-href="@Url.Action("Detail","Application", new {id = c.Id})"></button></text>);
-}).WithPaging(10).Sortable(true).WithMultipleFilters().EmptyText("There is no data available.")
+    <a href="" style="margin-left:15px; border:none;" class="icon-eye-1" data-task="Insert" data-modal="false" data-method="GET" data-href="@Url.Action("Detail","Application", new {id = c.Id})"></a></text>);
+}).WithPaging(10).Sortable(true).Filterable(true).EmptyText("There is no data available.")
         </div>
     </div>
 </div>

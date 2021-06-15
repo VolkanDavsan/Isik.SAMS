@@ -17,14 +17,20 @@ namespace Isik.SAMS.Controllers
         // GET: Login
         public ActionResult Index()
         {
-            ViewBag.Message = TempData["message"] == null ? null : TempData["message"].ToString();
-            ViewBag.MessageClass = TempData["messageClass"] == null ? null : TempData["messageClass"].ToString();
-            return View();
-        }
-
-        public ActionResult Insert()
-        {
-            return View();
+            if (Session["UserId"] != null && Session["AdminId"] == null)
+            {
+                return RedirectToAction("Index", "Application");
+            }
+            else if (Session["UserId"] == null && Session["AdminId"] != null)
+            {
+                return RedirectToAction("Index", "Account");
+            }
+            else
+            {
+                ViewBag.Message = TempData["message"] == null ? null : TempData["message"].ToString();
+                ViewBag.MessageClass = TempData["messageClass"] == null ? null : TempData["messageClass"].ToString();
+                return View();
+            }
         }
 
         public ActionResult Logout()
@@ -35,132 +41,168 @@ namespace Isik.SAMS.Controllers
 
         public ActionResult ForgotPassword()
         {
-            return View();
+            if (Session["UserId"] != null && Session["AdminId"] == null)
+            {
+                return RedirectToAction("Index", "Application");
+            }
+            else if (Session["UserId"] == null && Session["AdminId"] != null)
+            {
+                return RedirectToAction("Index", "Account");
+            }
+            else
+            {
+                return View();
+            }
         }
 
         [HttpPost]
         public ActionResult ForgotPassword(SAMS_Users user)
         {
-            ViewBag.LoginErrorMessage = "";
-            if (user.Email == null)
+            if (Session["UserId"] != null && Session["AdminId"] == null)
             {
-                ViewBag.LoginErrorMessage = "";
-                return View("ForgotPassword");
+                return RedirectToAction("Index", "Application");
             }
-            var userDetails = db.SAMS_Users.Where(x => x.Email == user.Email).FirstOrDefault();
-            if (userDetails == null)
+            else if (Session["UserId"] == null && Session["AdminId"] != null)
             {
-                ViewBag.LoginErrorMessage = "The E-Mail you entered is not registered.";
+                return RedirectToAction("Index", "Account");
             }
             else
             {
-                if (user.RecoveryCode == null)
+                ViewBag.LoginErrorMessage = "";
+                if (user.Email == null)
                 {
-                    var email = new MimeMessage();
-                    var from = "SAMS SAMS";
-                    var subject = "SAMS info - Password Reset";
-                    email.From.Add(new MailboxAddress(from, "samsinfo.noreply@gmail.com"));
-                    email.To.Add(new MailboxAddress(user.FirstName + "" + user.LastName, user.Email));
-                    email.Subject = subject;
-                    Random generator = new Random();
-                    string r = generator.Next(0, 1000000).ToString("D6");
-                    email.Body = new TextPart(TextFormat.Html)
-                    {
-                        Text = @"<h1> As the SAMS team, </h1>" +
-                        @"<h3>We got your request for password reset!</h3>" +
-                        @"<br/>" +
-                        @"<p>Enter this code to the site to reset your password.</p>" +
-                        @"<br/>" +
-                        @"<p>Code: " + r + "</p>"
-                    };
-
-                    var realUser = db.SAMS_Users.Find(userDetails.Id);
-                    realUser.RecoveryCode = Convert.ToInt32(r);
-                    db.SaveChanges();
-
-                    using (SmtpClient smtp = new SmtpClient())
-                    {
-                        smtp.Connect("smtp.gmail.com", 465, true);
-                        smtp.Authenticate("samsinfo.noreply@gmail.com", "zywwcswqzucuzumw");
-                        smtp.Send(email);
-                        smtp.Disconnect(true);
-                        ViewBag.isMailSent = "true";
-                    }
-                } else
+                    ViewBag.LoginErrorMessage = "";
+                    return View("ForgotPassword");
+                }
+                var userDetails = db.SAMS_Users.Where(x => x.Email == user.Email).FirstOrDefault();
+                if (userDetails == null)
                 {
-                    if(userDetails.RecoveryCode == user.RecoveryCode)
+                    ViewBag.LoginErrorMessage = "The E-Mail you entered is not registered.";
+                }
+                else
+                {
+                    if (user.RecoveryCode == null)
                     {
-                        if(user.NewPassword == user.ConfirmPassword)
+                        var email = new MimeMessage();
+                        var from = "SAMS SAMS";
+                        var subject = "SAMS info - Password Reset";
+                        email.From.Add(new MailboxAddress(from, "samsinfo.noreply@gmail.com"));
+                        email.To.Add(new MailboxAddress(user.FirstName + "" + user.LastName, user.Email));
+                        email.Subject = subject;
+                        Random generator = new Random();
+                        string r = generator.Next(0, 1000000).ToString("D6");
+                        email.Body = new TextPart(TextFormat.Html)
                         {
-                            var realUser = db.SAMS_Users.Find(userDetails.Id);
-                            realUser.Password = user.NewPassword;
-                            realUser.RecoveryCode = null;
-                            realUser.ChangedTime = DateTime.Now;
-                            db.SaveChanges();
-                            TempData["Message"] = "Succesfully updated.";
-                            TempData["messageClass"] = "alert-success";
-                            return RedirectToAction("Index");
-                        } else
+                            Text = @"<h1> As the SAMS team, </h1>" +
+                            @"<h3>We got your request for password reset!</h3>" +
+                            @"<br/>" +
+                            @"<p>Enter this code to the site to reset your password.</p>" +
+                            @"<br/>" +
+                            @"<p>Code: " + r + "</p>"
+                        };
+
+                        var realUser = db.SAMS_Users.Find(userDetails.Id);
+                        realUser.RecoveryCode = Convert.ToInt32(r);
+                        db.SaveChanges();
+
+                        using (SmtpClient smtp = new SmtpClient())
+                        {
+                            smtp.Connect("smtp.gmail.com", 465, true);
+                            smtp.Authenticate("samsinfo.noreply@gmail.com", "zywwcswqzucuzumw");
+                            smtp.Send(email);
+                            smtp.Disconnect(true);
+                            ViewBag.isMailSent = "true";
+                        }
+                    }
+                    else
+                    {
+                        if (userDetails.RecoveryCode == user.RecoveryCode)
+                        {
+                            if (user.NewPassword == user.ConfirmPassword)
+                            {
+                                var realUser = db.SAMS_Users.Find(userDetails.Id);
+                                realUser.Password = user.NewPassword;
+                                realUser.RecoveryCode = null;
+                                realUser.ChangedTime = DateTime.Now;
+                                db.SaveChanges();
+                                TempData["Message"] = "Succesfully updated.";
+                                TempData["messageClass"] = "alert-success";
+                                return RedirectToAction("Index");
+                            }
+                            else
+                            {
+                                ViewBag.isMailSent = "true";
+                                TempData["Message"] = "New Password and Confirm Password do not match.";
+                                TempData["messageClass"] = "alert-warning";
+                            }
+
+                        }
+                        else
                         {
                             ViewBag.isMailSent = "true";
-                            TempData["Message"] = "New Password and Confirm Password do not match.";
+                            TempData["Message"] = "Entered recovery code is not the same. Please try again.";
                             TempData["messageClass"] = "alert-warning";
                         }
-
-                    } else
-                    {
-                        ViewBag.isMailSent = "true";
-                        TempData["Message"] = "Entered recovery code is not the same. Please try again.";
-                        TempData["messageClass"] = "alert-warning";
                     }
                 }
+                ViewBag.Message = TempData["message"] == null ? null : TempData["message"].ToString();
+                ViewBag.MessageClass = TempData["messageClass"] == null ? null : TempData["messageClass"].ToString();
+                return View();
             }
-            ViewBag.Message = TempData["message"] == null ? null : TempData["message"].ToString();
-            ViewBag.MessageClass = TempData["messageClass"] == null ? null : TempData["messageClass"].ToString();
-            return View();
         }
 
         [HttpPost]
         public ActionResult Authorize(SAMS_Users user)
         {
-            using (db)
+            if (Session["UserId"] != null && Session["AdminId"] == null)
             {
-                var userDetails = db.SAMS_Users.Where(x => x.Email == user.Email && x.Password == user.Password).FirstOrDefault();
-                
-                if (userDetails == null)
+                return RedirectToAction("Index", "Application");
+            }
+            else if (Session["UserId"] == null && Session["AdminId"] != null)
+            {
+                return RedirectToAction("Index", "Account");
+            }
+            else
+            {
+                using (db)
                 {
-                    ViewBag.LoginErrorMessage = "Wrong Email or Password!";
-                    return View("Index");
-                }
-                else
-                {
-                    if(userDetails.ProfilePhotoId != null)
+                    var userDetails = db.SAMS_Users.Where(x => x.Email == user.Email && x.Password == user.Password).FirstOrDefault();
+
+                    if (userDetails == null)
                     {
-                        var pp = db.SAMS_Files.Find(userDetails.ProfilePhotoId);
-                        Session["ProfilePhoto"] = "data:" + "" + MimeMapping.GetMimeMapping(pp.FileName) + ";base64," + Convert.ToBase64String(pp.FileData);
-                    }
-                    if (userDetails.UserType != 3)
-                    {
-                        Session["UserId"] = userDetails.Id;
-                        Session["UserType"] = userDetails.UserType;
-                        Session["DepartmentId"] = userDetails.DepartmentId;
-                        Session["ProgramId"] = userDetails.ProgramId;
-                        Session["PhoneNumber"] = userDetails.PhoneNumber;
-                        Session["FirstName"] = userDetails.FirstName;
-                        Session["LastName"] = userDetails.LastName;
-                        Session["Email"] = userDetails.Email;
-                        return RedirectToAction("Index", "Application");
+                        ViewBag.LoginErrorMessage = "Wrong Email or Password!";
+                        return View("Index");
                     }
                     else
                     {
-                        Session["AdminId"] = userDetails.Id;
-                        Session["UserType"] = userDetails.UserType;
-                        Session["FirstName"] = userDetails.FirstName;
-                        Session["LastName"] = userDetails.LastName;
-                        Session["PhoneNumber"] = userDetails.PhoneNumber;
-                        Session["Email"] = userDetails.Email;
-                        return RedirectToAction("Index", "Account");
-                    }                    
+                        if (userDetails.ProfilePhotoId != null)
+                        {
+                            var pp = db.SAMS_Files.Find(userDetails.ProfilePhotoId);
+                            Session["ProfilePhoto"] = "data:" + "" + MimeMapping.GetMimeMapping(pp.FileName) + ";base64," + Convert.ToBase64String(pp.FileData);
+                        }
+                        if (userDetails.UserType != 3)
+                        {
+                            Session["UserId"] = userDetails.Id;
+                            Session["UserType"] = userDetails.UserType;
+                            Session["DepartmentId"] = userDetails.DepartmentId;
+                            Session["ProgramId"] = userDetails.ProgramId;
+                            Session["PhoneNumber"] = userDetails.PhoneNumber;
+                            Session["FirstName"] = userDetails.FirstName;
+                            Session["LastName"] = userDetails.LastName;
+                            Session["Email"] = userDetails.Email;
+                            return RedirectToAction("Index", "Application");
+                        }
+                        else
+                        {
+                            Session["AdminId"] = userDetails.Id;
+                            Session["UserType"] = userDetails.UserType;
+                            Session["FirstName"] = userDetails.FirstName;
+                            Session["LastName"] = userDetails.LastName;
+                            Session["PhoneNumber"] = userDetails.PhoneNumber;
+                            Session["Email"] = userDetails.Email;
+                            return RedirectToAction("Index", "Account");
+                        }
+                    }
                 }
             }
         }

@@ -12,12 +12,24 @@
       <PropertyRef Name="Id" />
     </Key>
     <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="ProgramId" Type="int" />
     <Property Name="CreatedBy" Type="int" />
     <Property Name="CreatedTime" Type="datetime" />
     <Property Name="ChangedBy" Type="int" />
     <Property Name="ChangedTime" Type="datetime" />
     <Property Name="DepartmentName" Type="nvarchar" MaxLength="500" />
+  </EntityType>
+  <EntityType Name="SAMS_DepartmentProgramRel">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="DepartmentId" Type="int" />
+    <Property Name="ProgramId" Type="int" />
+    <Property Name="DepartmentName" Type="nvarchar" MaxLength="500" />
+    <Property Name="ProgramName" Type="nvarchar" MaxLength="500" />
+    <Property Name="Quota" Type="int" />
+    <Property Name="Duration" Type="int" />
+    <Property Name="IsThesisIncluded" Type="bit" />
   </EntityType>
   <EntityType Name="SAMS_Files">
     <Key>
@@ -189,14 +201,26 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK_SAMS_Department_Program">
+  <Association Name="FK_SAMS_DepartmentProgramRel_SAMS_Department">
+    <End Role="SAMS_Department" Type="Self.SAMS_Department" Multiplicity="0..1" />
+    <End Role="SAMS_DepartmentProgramRel" Type="Self.SAMS_DepartmentProgramRel" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="SAMS_Department">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="SAMS_DepartmentProgramRel">
+        <PropertyRef Name="DepartmentId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_SAMS_DepartmentProgramRel_SAMS_Program">
     <End Role="SAMS_Program" Type="Self.SAMS_Program" Multiplicity="0..1" />
-    <End Role="SAMS_Department" Type="Self.SAMS_Department" Multiplicity="*" />
+    <End Role="SAMS_DepartmentProgramRel" Type="Self.SAMS_DepartmentProgramRel" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="SAMS_Program">
         <PropertyRef Name="Id" />
       </Principal>
-      <Dependent Role="SAMS_Department">
+      <Dependent Role="SAMS_DepartmentProgramRel">
         <PropertyRef Name="ProgramId" />
       </Dependent>
     </ReferentialConstraint>
@@ -252,6 +276,7 @@
   <EntityContainer Name="StudentApprovalManagementModelStoreContainer">
     <EntitySet Name="SAMS_ApplicationStatus" EntityType="Self.SAMS_ApplicationStatus" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="SAMS_Department" EntityType="Self.SAMS_Department" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="SAMS_DepartmentProgramRel" EntityType="Self.SAMS_DepartmentProgramRel" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="SAMS_Files" EntityType="Self.SAMS_Files" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="SAMS_Program" EntityType="Self.SAMS_Program" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="SAMS_StudentApplications" EntityType="Self.SAMS_StudentApplications" Schema="dbo" store:Type="Tables" />
@@ -281,9 +306,13 @@
       <End Role="SAMS_Program" EntitySet="SAMS_Program" />
       <End Role="SAMS_Users" EntitySet="SAMS_Users" />
     </AssociationSet>
-    <AssociationSet Name="FK_SAMS_Department_Program" Association="Self.FK_SAMS_Department_Program">
-      <End Role="SAMS_Program" EntitySet="SAMS_Program" />
+    <AssociationSet Name="FK_SAMS_DepartmentProgramRel_SAMS_Department" Association="Self.FK_SAMS_DepartmentProgramRel_SAMS_Department">
       <End Role="SAMS_Department" EntitySet="SAMS_Department" />
+      <End Role="SAMS_DepartmentProgramRel" EntitySet="SAMS_DepartmentProgramRel" />
+    </AssociationSet>
+    <AssociationSet Name="FK_SAMS_DepartmentProgramRel_SAMS_Program" Association="Self.FK_SAMS_DepartmentProgramRel_SAMS_Program">
+      <End Role="SAMS_Program" EntitySet="SAMS_Program" />
+      <End Role="SAMS_DepartmentProgramRel" EntitySet="SAMS_DepartmentProgramRel" />
     </AssociationSet>
     <AssociationSet Name="FK_SAMS_Users_ProfilePhoto" Association="Self.FK_SAMS_Users_ProfilePhoto">
       <End Role="SAMS_Files" EntitySet="SAMS_Files" />

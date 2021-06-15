@@ -9,7 +9,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, shrink-to-fit=no">
-    <title>Login Cover | CORK - Multipurpose Bootstrap Dashboard Template </title>
+    <title>Login Cover</title>
     <style>
         .field-validation-error {
             color: red;
@@ -17,7 +17,7 @@
 
         .login-image {
             background-image: url('../../Assets/img/loginpage.jpeg') !important;
-            position: absolute !important;
+            position: absolute !important;            
             top: 0 !important;
             left: 0 !important;
             width: 100% !important;
@@ -44,6 +44,7 @@
     <link rel="stylesheet" type="text/css" href="/Assets/V1/assets/css/forms/theme-checkbox-radio.css">
     <link rel="stylesheet" type="text/css" href="/Assets/V1/assets/css/forms/switches.css">
 </head>
+
 <body class="form">
     <div class="form-container">
         <div class="form-form">
@@ -99,15 +100,6 @@
                                         </div>
                                     </div>
                                     <label class="field-validation-error">@ViewBag.LoginErrorMessage</label>
-                                    @*<div class="field-wrapper text-center keep-logged-in">
-                                        <div class="n-chk new-checkbox checkbox-outline-primary">
-                                            <label class="new-control new-checkbox checkbox-outline-primary">
-                                                <input type="checkbox" class="new-control-input">
-                                                <span class="new-control-indicator"></span>Keep me logged in
-                                            </label>
-                                        </div>
-                                    </div>*@
-
                                     <div class="field-wrapper">
                                         <a href="@Url.Action("ForgotPassword", "Login", new { area = "" })" class="forgot-pass-link">Forgot Password?</a>
                                     </div>

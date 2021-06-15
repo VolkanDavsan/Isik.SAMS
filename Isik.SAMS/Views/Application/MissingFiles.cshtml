@@ -1,0 +1,38 @@
+﻿@model Isik.SAMS.Models.Entity.SAMS_StudentApplications
+
+@{
+    ViewBag.Title = "Missing Files";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@using (Html.BeginForm("MissingFiles", "Application", FormMethod.Post, new Dictionary<string, object>() {
+    { "class", "form-horizontal" },
+    { "role", "form" },
+    { "id", "MissingFiles" },
+    { "data-selector", "modalContainer" }
+}))
+{
+    @Html.AntiForgeryToken();
+    @Html.HiddenFor(model => model.Id)
+
+    <div class="row">
+        <div class="form-group col-md-12">
+            <label class="req" for="code">Enter the Description</label>
+            @Html.TextAreaFor(model => model.missingFiles, new Dictionary<string, object>()
+            {
+                {"class", "form-control"},
+                {"placeholder", "Please enter the description."},
+                {"required", "" },
+                {"oninvalid","this.setCustomValidity('Please enter the description.')" },
+                {"oninput","this.setCustomValidity('')" }
+            })
+        </div>
+    </div>
+    <div class="buttons">
+        <button class="btn btn-md btn-danger pull-left" data-dismiss="modal">Close</button>
+        <button class="btn btn-md btn-success pull-right" type="submit" OnClick="">Save</button>
+    </div>
+}
+
+
+

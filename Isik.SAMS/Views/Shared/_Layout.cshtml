@@ -8,7 +8,7 @@
     <title>@ViewBag.Title</title>
     <link rel="icon" type="image/x-icon" href="#">
 
-    <link href="assets/css/auth/user-profile.css" rel="stylesheet" type="text/css">
+    <link href="/Assets/css/Auth/user-profile.css" rel="stylesheet" type="text/css">
     <link href="https://fonts.googleapis.com/css?family=Quicksand:400,500,600,700&display=swap" rel="stylesheet">
     <link href="/Assets/lib/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
     <link href="/Assets/lib/Fontello/css/fontello.css" rel="stylesheet" />
@@ -16,26 +16,35 @@
     <link href="/Assets/V1/assets/css/components/tabs-accordian/custom-tabs.css" rel="stylesheet" />
     <link href="/Assets/lib/bootstrap-dialog/css/bootstrap-dialog.min.css" rel="stylesheet" />
     <link href="/Assets/lib/loadingmodal/css/jquery.loadingModal.min.css" rel="stylesheet" type="text/css" />
+    <link href="/Assets/lib/toastr/css/toastr.min.css" rel="stylesheet" type="text/css" />
     <link href="/Assets/lib/sweetalerts/sweetalert2.min.css" rel="stylesheet" />
     <link href="/Assets/css/site.css" rel="stylesheet" />
-    <link href="~/Content/Gridmvc.css" rel="stylesheet" />
+    <link href="~/Assets/lib/apex/apexcharts.css" rel="stylesheet" />
+    <link href="~/Assets/css/Dashboard/dash_1.css" rel="stylesheet" />
+    <link href="@Url.Content("~/Content/Gridmvc.css")" rel="stylesheet" type="text/css" />
+    <link href="~/Assets/css/Auth/form-1.css" rel="stylesheet" />
+    <link href="~/Assets/css/Auth/form-2.css" rel="stylesheet" />
     <link href="~/Assets/lib/sweetalerts/sweetalert.css" rel="stylesheet" />
-    <script src="~/Scripts/gridmvc.js"></script>
-    <script src="~/Scripts/gridmvc.min.js"></script>
+    <link href="~/Assets/css/Auth/account-setting.css" rel="stylesheet" />
     <script src="/Assets/lib/jquery/jquery-3.1.1.min.js"></script>
     <script src="/Assets/lib/jquery/jquery-migrate-3.0.0.min.js"></script>
     <script src="/Assets/lib/bootstrap/js/popper.min.js"></script>
     <script src="/Assets/lib/font-icons/feather/feather.min.js"></script>
     <script src="/Assets/lib/bootstrap/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.js"></script>
     <script src="/Assets/lib/jquery-cookie/jquery.cookie.js"></script>
     <script src="/Assets/lib/linq/jquery.linq.min.js"></script>
     <script src="/Assets/lib/loadingmodal/js/jquery.loadingModal.min.js"></script>
     <script src="~/Assets/lib/bootstrap-dialog/js/bootstrap-dialog.min.js"></script>
     <script src="/Assets/lib/livequery/jquery.livequery.min.js"></script>
-    <script src="/Assets/lib/sweetalerts/sweetalert2.min.js"></script>
-    <script src="/Assets/lib/sweetalerts/sweetalert.js"></script>
+    <script src="/Assets/lib/toastr/js/toastr.min.js"></script>
+    <script src="/Assets/lib/validator/Validator.js"></script>
+    <script src="/Assets/lib/perfect-scrollbar/perfect-scrollbar.min.js"></script>
     <script src="/Assets/V1/assets/js/app.js"></script>
     <script src="/Assets/V1/assets/js/custom.js"></script>
+    <script src="~/Scripts/gridmvc.min.js"></script>
+    <script src="/Assets/lib/sweetalerts/sweetalert2.min.js"></script>
+    <script src="/Assets/lib/sweetalerts/sweetalert.js"></script>
     <style>
         .req::after {
             content: "*";
@@ -99,13 +108,12 @@
                             <div class="media mx-auto">
                                 @if (Session["ProfilePhoto"] != null)
                                 {
-                                    <img src="@(Session["ProfilePhoto"])" onerror="ImageError(this, '@(Session["ProfilePhoto"])'" class="img-fluid mr-2" alt="avatar">
+                                    <img src="@(Session["ProfilePhoto"])" onerror="ImageError(this,'/Assets/img/defaultpp.jpeg')" alt="avatar">
                                 }
                                 else
                                 {
-                                    <img src="/Assets/img/unkown-profile-foto.jpg" onerror="ImageError(this,'/Assets/img/unkown-profile-foto.jpg')" class="img-fluid mr-2" alt="avatar">
+                                    <img src="/Assets/img/defaultpp.jpeg" onerror="ImageError(this,'/Assets/img/defaultpp.jpeg')" alt="avatar">
                                 }
-
                                 <div class="media-body">
                                     <h5 class="">@Session["FirstName"] @Session["LastName"]</h5>
                                     <p class="">@Session["Email"]</p>
@@ -136,11 +144,11 @@
                     <div class="user-info">
                         @if (Session["ProfilePhoto"] != null)
                         {
-                            <img src="@(Session["ProfilePhoto"])" onerror="ImageError(this, '@(Session["ProfilePhoto"])'" alt="avatar">
+                            <img src="@(Session["ProfilePhoto"])" onerror="ImageError(this,'/Assets/img/defaultpp.jpeg')" alt="avatar">
                         }
                         else
                         {
-                            <img src="/Assets/img/unkown-profile-foto.jpg" onerror="ImageError(this,'/Assets/img/unkown-profile-foto.jpg')" alt="avatar">
+                            <img src="/Assets/img/defaultpp.jpeg" onerror="ImageError(this,'/Assets/img/defaultpp.jpeg')" alt="avatar">
                         }
                         <h6 class="">@Session["FirstName"] @Session["LastName"]</h6>
                         <p class="">@Session["Email"]</p>
@@ -170,6 +178,14 @@
                                 <div class="">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-folder"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path></svg>
                                     <span>Departments</span>
+                                </div>
+                            </a>
+                        </li>
+                        <li class="menu">
+                            <a href="@Url.Action("Index","DepartmentProgram")" aria-expanded="false" class="dropdown-toggle">
+                                <div class="">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-folder"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path></svg>
+                                    <span>Add Department Program</span>
                                 </div>
                             </a>
                         </li>

@@ -1,0 +1,57 @@
+﻿@using Isik.SAMS.Models.Entity
+@using GridMvc.Html
+@model Isik.SAMS.Models.Entity.SAMS_DepartmentProgramRel
+
+@{
+    ViewBag.Title = "Programs";
+    Layout = "~/Views/Shared/_Layout1.cshtml";
+}
+
+<div style="width:100%; margin-top:10px;">
+    <p style="text-align:center; font-size:22px; font-weight:bold;">PROGRAMS</p>
+</div>
+
+<div class="form-check" style="float:left;">
+
+    @using (Html.BeginForm("Programs", "StudentApplication", FormMethod.Post, new Dictionary<string, object>() {
+            { "class", "form-horizontal" },
+            { "role", "form" },
+            { "id", "Programs" }
+        }))
+    {
+        @Html.AntiForgeryToken();
+        @Html.HiddenFor(model => model.Id)
+
+        <div class="row">
+            <div class="col-md-12">
+                <div class="form-group" id="ddlProgram">
+                    <label for="code">Program</label>
+                    @Html.DropDownListFor(model => model.ProgramId, ViewBag.Programs as SelectList, "All", new { @class = "form-control", @onchange = "this.form.submit()" })
+                </div>
+            </div>
+        </div>
+    }
+</div>
+
+<div class="col-md-12">
+    <div class="statbox widget box box-shadow">
+        <div class="widget-header">
+            <div class="row">
+                <div class="col-xl-8 col-md-8 col-sm-8 col-8">
+                    <h4>Application List</h4>
+                </div>
+            </div>
+        </div>
+        <div class="widget-content widget-content-area">
+            @Html.Grid(ViewBag.Departments as List<SAMS_DepartmentProgramRel>).Columns(columns =>
+       {
+           columns.Add(c => c.DepartmentName).Titled("Department Name").Filterable(true);
+           columns.Add(c => c.ProgramName).Titled("Program Name");
+           columns.Add(c => c.Duration).Titled("Duration");
+           columns.Add(c => c.Quota).Titled("Quota");
+           columns.Add(c => c.IsThesisIncluded).Titled("Thesis/non-Thesis").RenderValueAs(c => c.IsThesisIncluded == false ? "Non-Thesis" : "Thesis");
+       }).WithPaging(10).Sortable(true).WithMultipleFilters().EmptyText("There is no data available.")
+        </div>
+    </div>
+</div>
+

@@ -14,31 +14,75 @@ namespace Isik.SAMS.Controllers
         // GET: Profile
         public ActionResult Index()
         {
-            var user = db.SAMS_Users.Find(Session["UserId"]);
-            if (user == null)
+            if (Session["UserId"] == null && Session["AdminId"] == null)
             {
-                user = db.SAMS_Users.Find(Session["AdminId"]);
+                return RedirectToAction("Index", "Login");
             }
             else
             {
-                if (user.UserType == 1)
+                var user = db.SAMS_Users.Find(Session["UserId"]);
+                if (user == null)
                 {
-                    var dep = db.SAMS_Department.Find(user.DepartmentId);
-                    var prog = db.SAMS_Program.Find(user.ProgramId);
-                    ViewBag.DepartmentName = dep.DepartmentName;
-                    ViewBag.ProgramName = prog.ProgramName;
+                    user = db.SAMS_Users.Find(Session["AdminId"]);
                 }
                 else
                 {
-                    var dep = db.SAMS_Department.Find(user.DepartmentId);
-                    ViewBag.DepartmentName = dep.DepartmentName;
+                    if (user.UserType == 1)
+                    {
+                        var dep = db.SAMS_Department.Find(user.DepartmentId);
+                        var prog = db.SAMS_Program.Find(user.ProgramId);
+                        ViewBag.DepartmentName = dep.DepartmentName;
+                        ViewBag.ProgramName = prog.ProgramName;
+                    }
+                    else
+                    {
+                        var dep = db.SAMS_Department.Find(user.DepartmentId);
+                        ViewBag.DepartmentName = dep.DepartmentName;
+                    }
+
                 }
 
+                ViewBag.Message = TempData["message"] == null ? null : TempData["message"].ToString();
+                ViewBag.MessageClass = TempData["messageClass"] == null ? null : TempData["messageClass"].ToString();
+                return View();
             }
+        }
 
-            ViewBag.Message = TempData["message"] == null ? null : TempData["message"].ToString();
-            ViewBag.MessageClass = TempData["messageClass"] == null ? null : TempData["messageClass"].ToString();
-            return View();
+        public ActionResult UserProfile(int? id)
+        {
+            if (Session["UserId"] != null && Session["AdminId"] == null)
+            {
+                return RedirectToAction("Index", "Application");
+            }
+            else if (Session["UserId"] == null && Session["AdminId"] == null)
+            {
+                return RedirectToAction("Index", "Login");
+            }
+            else
+            {
+                var user = db.SAMS_Users.Find(id);
+                if (user != null)
+                {
+                    if (user.UserType == 1)
+                    {
+                        var dep = db.SAMS_Department.Find(user.DepartmentId);
+                        var prog = db.SAMS_Program.Find(user.ProgramId);
+                        ViewBag.DepartmentName = dep.DepartmentName;
+                        ViewBag.ProgramName = prog.ProgramName;
+                    }
+                    else
+                    {
+                        var dep = db.SAMS_Department.Find(user.DepartmentId);
+                        ViewBag.DepartmentName = dep.DepartmentName;
+                    }
+                    var profilePhoto = db.SAMS_Files.Find(user.ProfilePhotoId);
+                    if (profilePhoto != null)
+                    {
+                        ViewBag.ProfilePhoto = "data:" + "" + MimeMapping.GetMimeMapping(profilePhoto.FileName) + ";base64," + Convert.ToBase64String(profilePhoto.FileData);
+                    }
+                }
+                return View(user);
+            }
         }
 
         [HttpGet]

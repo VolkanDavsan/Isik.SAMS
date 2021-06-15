@@ -15,6 +15,10 @@
         padding: 8px 16px 8px 8px;
         cursor: pointer;
     }
+
+    .pull-left {
+        color: black !important;
+    }
 </style>
 
 <script>
@@ -32,9 +36,7 @@
     <div class="statbox widget box box-shadow">
         <div class="widget-header">
             <div class="cover">
-                <div class="cover-head" style="background-image: url('/Assets/img/account1.jpg');">
-                    <span class="cover-label" style="font-size:18px;background:#fff;padding:5px 10px;border-radius:2px;float:right;">
-                    </span>
+                <div class="cover-head" style="background-image: url('/Assets/img/background2.jpg');">
                 </div>
                 <div class="cover-content">
                     <span class="cover-label">
@@ -52,7 +54,7 @@
                     </span>
                     <span class="cover-label">
                         <strong>Status</strong>
-                        <span>@Model.StatusName</span>
+                        <span style="color:@(Model.Status == 1 || Model.Status == 3 || Model.Status == 7 ? "darkorange" : Model.Status == 2 || Model.Status == 4 || Model.Status == 6 || Model.Status == 9 ? "green" : Model.Status == 5 ? "red" : "blue"); font-weight:bold;">@Model.StatusName</span>
                     </span>
                     <span class="cover-label">
 
@@ -64,7 +66,7 @@
                     {
                         <div class="pull-right">
                             <a class="btn btn-info btn-sm pull-right ml-1" href="@Url.Action("DownloadAllFiles", "Application", new { Id = Model.Id })">
-                                <i class="icon-download"></i> Download the files
+                                <i class="icon-download-1"></i> Download the files
                             </a>
                         </div>
                     }
@@ -72,27 +74,27 @@
                     {
                         <div class="pull-right">
                             <a class="btn btn-info btn-sm pull-right ml-1" href="@Url.Action("DownloadAllFiles", "Application", new { Id = Model.Id })">
-                                <i class="icon-download"></i> Download the files
+                                <i class="icon-download-1"></i> Download the files
                             </a>
                             <button class="btn btn-danger btn-sm pull-right ml-1" onclick="rejectApplication('@(Model.Id)')">
-                                <i class="icon-cancel-2"></i> Reject
+                                <i class="icon-cancel-1"></i> Reject
                             </button>
                             @if (Convert.ToInt32(Session["UserType"]) == 2)
                             {
                                 <button class="btn btn-warning btn-sm pull-right ml-1" data-task="Insert" data-method="GET" data-href="@Url.Action("MeetingLink","Application", new { Id = Model.Id })">
-                                    <i class="icon-ok-2"></i> Send Meeting Link
+                                    <i class="icon-mail-1"></i> Send Meeting Link
                                 </button>
                                 <button class="btn btn-success btn-sm pull-right ml-1" data-task="Insert" data-method="GET" data-href="@Url.Action("Scholarship","Application", new { Id = Model.Id })">
-                                    <i class="icon-ok-2"></i> Approve
+                                    <i class="icon-thumbs-up-1"></i> Approve
                                 </button>
                             }
                             else
                             {
-                                <button class="btn btn-warning btn-sm pull-right ml-1" onclick="requestMissingFiles('@(Model.Id)');">
-                                    <i class="icon-ok-2"></i> Request Missing Files
+                                <button class="btn btn-warning btn-sm pull-right ml-1" data-task="Insert" data-method="GET" data-href="@Url.Action("MissingFiles","Application", new { Id = Model.Id })">
+                                    <i class="icon-mail-1"></i> Request Missing Files
                                 </button>
                                 <button class="btn btn-success btn-sm pull-right ml-1" onclick="approveApplication('@(Model.Id)');">
-                                    <i class="icon-ok-2"></i> Approve
+                                    <i class="icon-thumbs-up-1"></i> Approve
                                 </button>
                             }
                         </div>
@@ -101,13 +103,13 @@
                     {
                         <div class="pull-right">
                             <a class="btn btn-info btn-sm pull-right ml-1" href="@Url.Action("DownloadAllFiles", "Application", new { Id = Model.Id })">
-                                <i class="icon-download"></i> Download the files
+                                <i class="icon-download-1"></i> Download the files
                             </a>
                             <button class="btn btn-warning btn-sm pull-right ml-1" onclick="requestPayment('@(Model.Id)');">
-                                <i class="icon-ok-2"></i> Request Payment
+                                <i class="icon-money-1"></i> Request Payment
                             </button>
                             <button class="btn btn-danger btn-sm pull-right ml-1" onclick="rejectApplication('@(Model.Id)')">
-                                <i class="icon-cancel-2"></i> Reject
+                                <i class="icon-cancel-1"></i> Reject
                             </button>
                         </div>
                     }
@@ -115,10 +117,10 @@
                     {
                         <div class="pull-right">
                             <a class="btn btn-info btn-sm pull-right ml-1" href="@Url.Action("DownloadAllFiles", "Application", new { Id = Model.Id })">
-                                <i class="icon-download"></i> Download the files
+                                <i class="icon-download-2"></i> Download the files
                             </a>
                             <button class="btn btn-warning btn-sm pull-right ml-1" onclick="requestPayment('@(Model.Id)');">
-                                <i class="icon-ok-2"></i> Request Payment
+                                <i class="icon-money-2"></i> Request Payment
                             </button>
                             <button class="btn btn-danger btn-sm pull-right ml-1" onclick="rejectApplication('@(Model.Id)')">
                                 <i class="icon-cancel-2"></i> Reject
@@ -134,16 +136,14 @@
         <div class="widget-content widget-content-area animated-underline-content">
             <ul class="nav nav-tabs" id="simpletab" role="tablist">
                 <li class="nav-item">
-                    <a class="nav-link active" id="general-tab" data-toggle="tab" href="#general" role="tab" aria-controls="general" aria-selected="true">Personal Information</a>
+                    <a style="font-weight:bold;" class="nav-link active" id="general-tab" data-toggle="tab" href="#general" role="tab" aria-controls="general" aria-selected="true">Personal Information</a>
                 </li>
-                <li class="nav-item" data-href="/EMP/VWEMP_Leave/DataSource">
-                    <a class="nav-link" id="leave-tab2" data-toggle="tab" href="#leave" role="tab" aria-controls="leave" aria-selected="false">Educational Information</a>
+                <li class="nav-item">
+                    <a style="font-weight:bold;" class="nav-link" id="leave-tab2" data-toggle="tab" href="#leave" role="tab" aria-controls="leave" aria-selected="false">Educational Information</a>
                 </li>
                 <li class="nav-item pull-right">
-                    <a class="nav-link" id="employeeFiles-tab2" data-toggle="tab" href="#employeeFiles" role="tab" aria-controls="employeeFiles" aria-selected="false">Documents</a>
+                    <a style="font-weight:bold;" class="nav-link" id="employeeFiles-tab2" data-toggle="tab" href="#employeeFiles" role="tab" aria-controls="employeeFiles" aria-selected="false">Documents</a>
                 </li>
-
-
             </ul>
             <div class="tab-content" id="simpletabContent">
                 <div class="tab-pane fade show active" id="general" role="tabpanel" aria-labelledby="general-tab">
@@ -367,19 +367,12 @@
                         }
                     </div>
                 </div>
-                @*<div class="tab-pane fade" id="healthreport" role="tabpanel" aria-labelledby="healthreport-tab" data-href="/EMP/VWEMP_HealthReport/DataSource">
-                        <div class="k-widget k-grid" id="VWEMP_HealthReport" data-role="grid"><div class="k-header k-grid-toolbar k-grid-top"><button class="pull-right k-button k-button-icontext k-grid-pdf"><span class="k-icon k-i-pdf"></span></button><button class="pull-right k-button k-button-icontext k-grid-excel" type="button"><span class="k-icon k-i-excel"></span></button><a class="k-button k-button-icontext " data-method="GET" data-show="always" href="/EMP/VWEMP_HealthReport/Insert?employeeId=64d6abed-8e83-4775-aedc-af494725dfb1"><span></span><i class="icon-plus-circled"></i> Sağlık Raporu Oluştur</a><a class="k-button k-button-icontext " data-method="GET" data-show="single" href="/EMP/VWEMP_HealthReport/Update"><span></span><i data-original-title="Sağlık Raporu Düzenle" class="icon-edit"></i></a><a class="k-button k-button-icontext " data-ask="" href="/EMP/VWEMP_HealthReport/Delete"><span></span><i data-original-title="Sağlık Raporu Sil" class="icon-trash"></i></a></div><div class="k-grid-header" style="padding-right: 8px;"><div class="k-grid-header-wrap k-auto-scrollable" data-role="resizable" style="touch-action: none;"><table role="grid" tabindex="-1"><colgroup><col style="width:150px"><col style="width:150px"><col style="width:150px"><col style="width:150px"><col style="width:150px"></colgroup><thead role="rowgroup"><tr role="row"><th class="k-header k-filterable k-with-icon" data-field="type_Title" data-index="0" data-title="Rapor Tipi" scope="col" data-role="columnsorter"><a class="k-grid-filter" href="javascript:void(0)" tabindex="-1"><span class="k-icon k-filter"></span></a><a class="k-link" href="/EMP/VWEMP_HealthReport/DataSource/64d6abed-8e83-4775-aedc-af494725dfb1?VWEMP_HealthReport-sort=type_Title-asc" tabindex="-1">Rapor Tipi</a></th><th class="k-header k-filterable k-with-icon" data-field="startDate" data-index="1" data-title="Rapor Başlangıç Tarihi" scope="col" data-role="columnsorter"><a class="k-grid-filter" href="javascript:void(0)" tabindex="-1"><span class="k-icon k-filter"></span></a><a class="k-link" href="/EMP/VWEMP_HealthReport/DataSource/64d6abed-8e83-4775-aedc-af494725dfb1?VWEMP_HealthReport-sort=startDate-asc" tabindex="-1">Rapor Başlangıç Tarihi</a></th><th class="k-header k-filterable k-with-icon" data-field="endDate" data-index="2" data-title="Rapor Bitiş Tarihi" scope="col" data-role="columnsorter"><a class="k-grid-filter" href="javascript:void(0)" tabindex="-1"><span class="k-icon k-filter"></span></a><a class="k-link" href="/EMP/VWEMP_HealthReport/DataSource/64d6abed-8e83-4775-aedc-af494725dfb1?VWEMP_HealthReport-sort=endDate-asc" tabindex="-1">Rapor Bitiş Tarihi</a></th><th class="k-header k-filterable k-with-icon" data-field="status" data-index="3" data-title="Rapor Durumu" scope="col" data-role="columnsorter"><a class="k-grid-filter" href="javascript:void(0)" tabindex="-1"><span class="k-icon k-filter"></span></a><a class="k-link" href="/EMP/VWEMP_HealthReport/DataSource/64d6abed-8e83-4775-aedc-af494725dfb1?VWEMP_HealthReport-sort=status-asc" tabindex="-1">Rapor Durumu</a></th><th class="k-header k-filterable k-with-icon" data-field="dayCount" data-index="4" data-title="Raporlu Gün Sayısı" scope="col" data-role="columnsorter"><a class="k-grid-filter" href="javascript:void(0)" tabindex="-1"><span class="k-icon k-filter"></span></a><a class="k-link" href="/EMP/VWEMP_HealthReport/DataSource/64d6abed-8e83-4775-aedc-af494725dfb1?VWEMP_HealthReport-sort=dayCount-asc" tabindex="-1">Raporlu Gün Sayısı</a></th></tr></thead></table></div></div><div class="k-grid-content" style="height:365px"><table role="grid" tabindex="0" data-role="selectable" class="k-selectable" style="touch-action: none;"><colgroup><col style="width:150px"><col style="width:150px"><col style="width:150px"><col style="width:150px"><col style="width:150px"></colgroup><tbody role="rowgroup"><tr class="k-no-data"><td colspan="5"></td></tr></tbody></table></div><div class="k-pager-wrap k-grid-pager k-widget k-floatwrap" data-role="pager"><a class="k-link k-pager-nav k-state-disabled k-pager-first" data-page="1" href="#" title="İlk sayfaya git"><span class="k-icon k-i-seek-w">seek-w</span></a><a class="k-link k-pager-nav k-state-disabled" data-page="0" href="#" title="Bir önceki sayfaya git"><span class="k-icon k-i-arrow-w">arrow-w</span></a><ul class="k-pager-numbers k-reset"><li><span class="k-state-selected" data-page="1">1</span></li></ul><a class="k-link k-pager-nav k-state-disabled" data-page="2" href="#" title="Bir sonraki sayfaya git"><span class="k-icon k-i-arrow-e">arrow-e</span></a><a class="k-link k-pager-nav k-state-disabled k-pager-last" data-page="1" href="#" title="Son sayfaya git"><span class="k-icon k-i-seek-e">seek-e</span></a><span class="k-pager-sizes k-label"><span title="" class="k-widget k-dropdown k-header" unselectable="on" role="listbox" aria-haspopup="true" aria-expanded="false" tabindex="0" aria-owns="" aria-disabled="false" aria-readonly="false" aria-busy="false" aria-activedescendant="362dce9d-8d1c-4288-ba2a-69f89f283381" style=""><span unselectable="on" class="k-dropdown-wrap k-state-default"><span unselectable="on" class="k-input">10</span><span unselectable="on" class="k-select"><span unselectable="on" class="k-icon k-i-arrow-s">select</span></span></span><select data-role="dropdownlist" style="display: none;"><option value="10" selected="selected">10</option><option value="100">100</option></select></span>Sayfa başına ürün</span><a class="k-pager-refresh k-link" href="/EMP/VWEMP_HealthReport/DataSource/64d6abed-8e83-4775-aedc-af494725dfb1" title="Yenile"><span class="k-icon k-i-refresh">Yenile</span></a><span class="k-pager-info k-label">No items to display</span></div></div>
-                        <script>
-                            jQuery(function () { jQuery("#VWEMP_HealthReport").kendoGrid({ "excelExport": Kendo_ExcelExport, "dataBound": Kendo_GridLoad, "change": Kendo_GridChange, "columns": [{ "title": "Rapor Tipi", "headerAttributes": { "data-field": "type_Title", "data-title": "Rapor Tipi" }, "width": "150px", "field": "type_Title", "encoded": true }, { "title": "Rapor Başlangıç Tarihi", "headerAttributes": { "data-field": "startDate", "data-title": "Rapor Başlangıç Tarihi" }, "width": "150px", "field": "startDate", "format": "{0:d.MM.yyyy}", "encoded": true }, { "title": "Rapor Bitiş Tarihi", "headerAttributes": { "data-field": "endDate", "data-title": "Rapor Bitiş Tarihi" }, "width": "150px", "field": "endDate", "format": "{0:d.MM.yyyy}", "encoded": true }, { "title": "Rapor Durumu", "headerAttributes": { "data-field": "status", "data-title": "Rapor Durumu" }, "width": "150px", "field": "status", "encoded": true }, { "title": "Raporlu Gün Sayısı", "headerAttributes": { "data-field": "dayCount", "data-title": "Raporlu Gün Sayısı" }, "width": "150px", "field": "dayCount", "encoded": true }], "pageable": { "autoBind": false, "refresh": true, "pageSizes": [10, 100], "buttonCount": 10, "messages": { "allPages": "Tümünü getir", "itemsPerPage": "Sayfa başına ürün", "first": "İlk sayfaya git", "previous": "Bir önceki sayfaya git", "next": "Bir sonraki sayfaya git", "last": "Son sayfaya git", "refresh": "Yenile" } }, "sortable": { "mode": "multiple" }, "selectable": "Single, Row", "filterable": { "operators": { "string": { "contains": "İçeriyor", "startswith": "İle Başlar", "eq": "Eşit", "neq": "Eşit Değil", "endswith": "İle Biter", "doesnotcontain": "İçermiyor" } } }, "excel": { "fileName": "Çalışan Kartı-5.06.2021 12:49:26.xlsx", "allPages": true }, "pdf": { "allPages": true, "fileName": "Çalışan Kartı-5.06.2021 12:49:26.pdf", "landscape": true, "margin": { "top": 1, "right": 1, "bottom": 1, "left": 1 }, "title": "Çalışan Kartı" }, "resizable": true, "scrollable": { "height": "365px" }, "toolbar": { "command": [{ "name": null, "attr": " class=\"pull-right hide\"", "buttonType": "ImageAndText", "text": "Export to PDF" }, { "name": null, "attr": " class=\"pull-right hide\" type=\"button\"", "buttonType": "ImageAndText", "text": "Export to Excel" }, { "name": null, "attr": " data-show=\"always\" data-method=\"GET\"", "buttonType": "ImageAndText", "text": "\u003ci class=\u0027icon-plus-circled\u0027\u003e\u003c/i\u003e Sağlık Raporu Oluştur" }, { "name": null, "attr": " data-show=\"single\" data-method=\"GET\"", "buttonType": "ImageAndText", "text": "\u003ci data-original-title=\u0027Sağlık Raporu Düzenle\u0027 class=\u0027icon-edit\u0027\u003e\u003c/i\u003e" }, { "name": null, "attr": " data-ask=\"\"", "buttonType": "ImageAndText", "text": "\u003ci data-original-title=\u0027Sağlık Raporu Sil\u0027 class=\u0027icon-trash\u0027\u003e\u003c/i\u003e" }] }, "noRecords": { "template": "Görüntülenecek bir kayıt bulunamadı." }, "messages": { "noRecords": "No records available." }, "autoBind": false, "dataSource": { "type": (function () { if (kendo.data.transports['aspnetmvc-ajax']) { return 'aspnetmvc-ajax'; } else { throw new Error('The kendo.aspnetmvc.min.js script is not included.'); } })(), "transport": { "read": { "url": "/EMP/VWEMP_HealthReport/DataSource" }, "prefix": "" }, "pageSize": 25, "page": 1, "total": 0, "serverPaging": true, "serverSorting": true, "serverFiltering": true, "serverGrouping": true, "serverAggregates": true, "filter": [{ "field": "employeeId", "operator": "eq", "value": "64d6abed-8e83-4775-aedc-af494725dfb1" }], "schema": { "data": "Data", "total": "Total", "errors": "Errors", "model": { "fields": { "employeeId": { "type": "string", "defaultValue": null }, "type": { "type": "number", "defaultValue": null }, "startDate": { "type": "date", "defaultValue": null }, "endDate": { "type": "date", "defaultValue": null }, "status": { "type": "number", "defaultValue": null }, "dayCount": { "type": "number", "defaultValue": null }, "createdby_Title": { "type": "string" }, "changedby_Title": { "type": "string" }, "employeeId_Title": { "type": "string" }, "type_Title": { "type": "string" }, "status_Title": { "type": "string" }, "jobStartDate": { "type": "date", "defaultValue": null }, "identityNumber": { "type": "string" }, "id": { "type": "string" }, "created": { "type": "date", "defaultValue": null }, "changed": { "type": "date", "defaultValue": null }, "changedby": { "type": "string", "defaultValue": null }, "createdby": { "type": "string", "defaultValue": null } } } } }, "navigatable": true }); });
-                        </script>
-                    </div>*@
-
                 <div class="tab-pane fade" id="employeeFiles" role="tabpanel" aria-labelledby="employeeFiles-tab">
 
                     <div class="clearfix">
                         @if (Model.ProgramId == 2)
                         {
-                            if (Model.Status == 9)
+                            if (Model.Status == 9 || Model.Status == 6)
                             {
                                 <fieldset data-filtre="Bank Receipt">
                                     <legend>Bank Receipt</legend>
@@ -387,7 +380,7 @@
                                         @if (Model.bankReceiptContentResult != null)
                                         {
                                             <div class="fileButtonGroup">
-                                                <a href="@Url.Action("DownloadFile", "StudentApplication", new { id = Model.Id, name = "BankReceipt" })" class="btn btn-info btn-block">
+                                                <a href="@Url.Action("DownloadFile", "Application", new { id = Model.Id, name = "BankReceipt" })" class="btn btn-info btn-block">
                                                     <i class="icon-download icon-white"></i>
                                                     <span>
                                                         <strong>Download Bank Receipt</strong>
@@ -404,7 +397,7 @@
                                     @if (Model.cvContentResult != null)
                                     {
                                         <div class="fileButtonGroup">
-                                            <a href="@Url.Action("DownloadFile", "StudentApplication", new { id = Model.Id, name = "CV" })" class="btn btn-info btn-block">
+                                            <a href="@Url.Action("DownloadFile", "Application", new { id = Model.Id, name = "CV" })" class="btn btn-info btn-block">
                                                 <i class="icon-download icon-white"></i>
                                                 <span>
                                                     <strong>Download CV</strong>
@@ -426,7 +419,7 @@
                                     @if (Model.bachelorDiplomaContentResult != null)
                                     {
                                         <div class="fileButtonGroup">
-                                            <a href="@Url.Action("DownloadFile", "StudentApplication", new { id = Model.Id, name = "BachelorDiploma" })" class="btn btn-info btn-block">
+                                            <a href="@Url.Action("DownloadFile", "Application", new { id = Model.Id, name = "BachelorDiploma" })" class="btn btn-info btn-block">
                                                 <i class="icon-download icon-white"></i>
                                                 <span>
                                                     <strong>Download Bachelor Diploma</strong>
@@ -448,7 +441,7 @@
                                     @if (Model.bachelorTranscriptContentResult != null)
                                     {
                                         <div class="fileButtonGroup">
-                                            <a href="@Url.Action("DownloadFile", "StudentApplication", new { id = Model.Id, name = "BachelorTranscript" })" class="btn btn-info btn-block">
+                                            <a href="@Url.Action("DownloadFile", "Application", new { id = Model.Id, name = "BachelorTranscript" })" class="btn btn-info btn-block">
                                                 <i class="icon-download icon-white"></i>
                                                 <span>
                                                     <strong>Download Bachelor Transcript</strong>
@@ -470,7 +463,7 @@
                                     @if (Model.IdorPassportCopyContentResult != null)
                                     {
                                         <div class="fileButtonGroup">
-                                            <a href="@Url.Action("DownloadFile", "StudentApplication", new { id = Model.Id, name = "CopyofPassportorIDCard" })" class="btn btn-info btn-block">
+                                            <a href="@Url.Action("DownloadFile", "Application", new { id = Model.Id, name = "CopyofPassportorIDCard" })" class="btn btn-info btn-block">
                                                 <i class="icon-download icon-white"></i>
                                                 <span>
                                                     <strong>Download Copy of Passport / ID Card</strong>
@@ -492,7 +485,7 @@
                                     @if (Model.englishLanguageProfScoreContentResult != null)
                                     {
                                         <div class="fileButtonGroup">
-                                            <a href="@Url.Action("DownloadFile", "StudentApplication", new { id = Model.Id, name = "EnglishLanguageProficiencyScore" })" class="btn btn-info btn-block">
+                                            <a href="@Url.Action("DownloadFile", "Application", new { id = Model.Id, name = "EnglishLanguageProficiencyScore" })" class="btn btn-info btn-block">
                                                 <i class="icon-download icon-white"></i>
                                                 <span>
                                                     <strong>Download English Language Proficiency Score</strong>
@@ -511,7 +504,7 @@
                         }
                         @if (Model.ProgramId == 1)
                         {
-                            if (Model.Status == 9)
+                            if (Model.Status == 9 || Model.Status == 6)
                             {
                                 <fieldset data-filtre="Bank Receipt">
                                     <legend>Bank Receipt</legend>
@@ -519,7 +512,7 @@
                                         @if (Model.bankReceiptContentResult != null)
                                         {
                                             <div class="fileButtonGroup">
-                                                <a href="@Url.Action("DownloadFile", "StudentApplication", new { id = Model.Id, name = "BankReceipt" })" class="btn btn-info btn-block">
+                                                <a href="@Url.Action("DownloadFile", "Application", new { id = Model.Id, name = "BankReceipt" })" class="btn btn-info btn-block">
                                                     <i class="icon-download icon-white"></i>
                                                     <span>
                                                         <strong>Download Bank Receipt</strong>
@@ -536,7 +529,7 @@
                                     @if (Model.highSchoolTranscriptContentResult != null)
                                     {
                                         <div class="fileButtonGroup">
-                                            <a href="@Url.Action("DownloadFile", "StudentApplication", new { id = Model.Id, name = "HighSchoolTranscript" })" class="btn btn-info btn-block">
+                                            <a href="@Url.Action("DownloadFile", "Application", new { id = Model.Id, name = "HighSchoolTranscript" })" class="btn btn-info btn-block">
                                                 <i class="icon-download icon-white"></i>
                                                 <span>
                                                     <strong>Download High School Transcript</strong>
@@ -558,7 +551,7 @@
                                     @if (Model.IdorPassportCopyContentResult != null)
                                     {
                                         <div class="fileButtonGroup">
-                                            <a href="@Url.Action("DownloadFile", "StudentApplication", new { id = Model.Id, name = "CopyofPassportorIDCard" })" class="btn btn-info btn-block">
+                                            <a href="@Url.Action("DownloadFile", "Application", new { id = Model.Id, name = "CopyofPassportorIDCard" })" class="btn btn-info btn-block">
                                                 <i class="icon-download icon-white"></i>
                                                 <span>
                                                     <strong>Download Copy of Passport / ID Card</strong>
@@ -580,7 +573,7 @@
                                     @if (Model.englishLanguageProfScoreContentResult != null)
                                     {
                                         <div class="fileButtonGroup">
-                                            <a href="@Url.Action("DownloadFile", "StudentApplication", new { id = Model.Id, name = "EnglishLanguageProficiencyScore" })" class="btn btn-info btn-block">
+                                            <a href="@Url.Action("DownloadFile", "Application", new { id = Model.Id, name = "EnglishLanguageProficiencyScore" })" class="btn btn-info btn-block">
                                                 <i class="icon-download icon-white"></i>
                                                 <span>
                                                     <strong>Download English Language Proficiency Score</strong>
@@ -602,7 +595,7 @@
                                     @if (Model.residencePermitContentResult != null)
                                     {
                                         <div class="fileButtonGroup">
-                                            <a href="@Url.Action("DownloadFile", "StudentApplication", new { id = Model.Id, name = "ResidencePermit" })" class="btn btn-info btn-block">
+                                            <a href="@Url.Action("DownloadFile", "Application", new { id = Model.Id, name = "ResidencePermit" })" class="btn btn-info btn-block">
                                                 <i class="icon-download icon-white"></i>
                                                 <span>
                                                     <strong>Download Residence Permit</strong>
@@ -624,7 +617,7 @@
                                     @if (Model.equivalenceCertificateContentResult != null)
                                     {
                                         <div class="fileButtonGroup">
-                                            <a href="@Url.Action("DownloadFile", "StudentApplication", new { id = Model.Id, name = "EquivalenceCertificate" })" class="btn btn-info btn-block">
+                                            <a href="@Url.Action("DownloadFile", "Application", new { id = Model.Id, name = "EquivalenceCertificate" })" class="btn btn-info btn-block">
                                                 <i class="icon-download icon-white"></i>
                                                 <span>
                                                     <strong>Download Equivalence Certificate</strong>
@@ -646,7 +639,7 @@
                                     @if (Model.highSchoolDiplomaContentResult != null)
                                     {
                                         <div class="fileButtonGroup">
-                                            <a href="@Url.Action("DownloadFile", "StudentApplication", new { id = Model.Id, name = "HighSchoolDiploma" })" class="btn btn-info btn-block">
+                                            <a href="@Url.Action("DownloadFile", "Application", new { id = Model.Id, name = "HighSchoolDiploma" })" class="btn btn-info btn-block">
                                                 <i class="icon-download icon-white"></i>
                                                 <span>
                                                     <strong>Download High School Diploma</strong>
@@ -668,7 +661,7 @@
                                     @if (Model.studentPhotoContentResult != null)
                                     {
                                         <div class="fileButtonGroup">
-                                            <a href="@Url.Action("DownloadFile", "StudentApplication", new { id = Model.Id, name = "StudentPhoto" })" class="btn btn-info btn-block">
+                                            <a href="@Url.Action("DownloadFile", "Application", new { id = Model.Id, name = "StudentPhoto" })" class="btn btn-info btn-block">
                                                 <i class="icon-download icon-white"></i>
                                                 <span>
                                                     <strong>Download Student Photo</strong>
@@ -690,7 +683,7 @@
                                     @if (Model.internationalExamScoreContentResult != null)
                                     {
                                         <div class="fileButtonGroup">
-                                            <a href="@Url.Action("DownloadFile", "StudentApplication", new { id = Model.Id, name = "InternationalExamScore" })" class="btn btn-info btn-block">
+                                            <a href="@Url.Action("DownloadFile", "Application", new { id = Model.Id, name = "InternationalExamScore" })" class="btn btn-info btn-block">
                                                 <i class="icon-download icon-white"></i>
                                                 <span>
                                                     <strong>Download International Exam Score</strong>
@@ -709,7 +702,7 @@
                         }
                         @if (Model.ProgramId == 3)
                         {
-                            if (Model.Status == 9)
+                            if (Model.Status == 9 || Model.Status == 6)
                             {
                                 <fieldset data-filtre="Bank Receipt">
                                     <legend>Bank Receipt</legend>
@@ -717,7 +710,7 @@
                                         @if (Model.bankReceiptContentResult != null)
                                         {
                                             <div class="fileButtonGroup">
-                                                <a href="@Url.Action("DownloadFile", "StudentApplication", new { id = Model.Id, name = "BankReceipt" })" class="btn btn-info btn-block">
+                                                <a href="@Url.Action("DownloadFile", "Application", new { id = Model.Id, name = "BankReceipt" })" class="btn btn-info btn-block">
                                                     <i class="icon-download icon-white"></i>
                                                     <span>
                                                         <strong>Download Bank Receipt</strong>
@@ -734,7 +727,7 @@
                                     @if (Model.cvContentResult != null)
                                     {
                                         <div class="fileButtonGroup">
-                                            <a href="@Url.Action("DownloadFile", "StudentApplication", new { id = Model.Id, name = "CV" })" class="btn btn-info btn-block">
+                                            <a href="@Url.Action("DownloadFile", "Application", new { id = Model.Id, name = "CV" })" class="btn btn-info btn-block">
                                                 <i class="icon-download icon-white"></i>
                                                 <span>
                                                     <strong>Download CV</strong>
@@ -756,7 +749,7 @@
                                     @if (Model.bachelorDiplomaContentResult != null)
                                     {
                                         <div class="fileButtonGroup">
-                                            <a href="@Url.Action("DownloadFile", "StudentApplication", new { id = Model.Id, name = "BachelorDiploma" })" class="btn btn-info btn-block">
+                                            <a href="@Url.Action("DownloadFile", "Application", new { id = Model.Id, name = "BachelorDiploma" })" class="btn btn-info btn-block">
                                                 <i class="icon-download icon-white"></i>
                                                 <span>
                                                     <strong>Download Bachelor Diploma</strong>
@@ -778,7 +771,7 @@
                                     @if (Model.bachelorTranscriptContentResult != null)
                                     {
                                         <div class="fileButtonGroup">
-                                            <a href="@Url.Action("DownloadFile", "StudentApplication", new { id = Model.Id, name = "BachelorTranscript" })" class="btn btn-info btn-block">
+                                            <a href="@Url.Action("DownloadFile", "Application", new { id = Model.Id, name = "BachelorTranscript" })" class="btn btn-info btn-block">
                                                 <i class="icon-download icon-white"></i>
                                                 <span>
                                                     <strong>Download Bachelor Transcript</strong>
@@ -800,7 +793,7 @@
                                     @if (Model.masterDiplomaContentResult != null)
                                     {
                                         <div class="fileButtonGroup">
-                                            <a href="@Url.Action("DownloadFile", "StudentApplication", new { id = Model.Id, name = "MasterDiploma" })" class="btn btn-info btn-block">
+                                            <a href="@Url.Action("DownloadFile", "Application", new { id = Model.Id, name = "MasterDiploma" })" class="btn btn-info btn-block">
                                                 <i class="icon-download icon-white"></i>
                                                 <span>
                                                     <strong>Download Master Diploma</strong>
@@ -822,7 +815,7 @@
                                     @if (Model.masterTranscriptContentResult != null)
                                     {
                                         <div class="fileButtonGroup">
-                                            <a href="@Url.Action("DownloadFile", "StudentApplication", new { id = Model.Id, name = "MasterTranscript" })" class="btn btn-info btn-block">
+                                            <a href="@Url.Action("DownloadFile", "Application", new { id = Model.Id, name = "MasterTranscript" })" class="btn btn-info btn-block">
                                                 <i class="icon-download icon-white"></i>
                                                 <span>
                                                     <strong>Download Master Transcript</strong>
@@ -844,7 +837,7 @@
                                     @if (Model.IdorPassportCopyContentResult != null)
                                     {
                                         <div class="fileButtonGroup">
-                                            <a href="@Url.Action("DownloadFile", "StudentApplication", new { id = Model.Id, name = "CopyofPassportorIDCard" })" class="btn btn-info btn-block">
+                                            <a href="@Url.Action("DownloadFile", "Application", new { id = Model.Id, name = "CopyofPassportorIDCard" })" class="btn btn-info btn-block">
                                                 <i class="icon-download icon-white"></i>
                                                 <span>
                                                     <strong>Download Copy of Passport / ID Card</strong>
@@ -866,7 +859,7 @@
                                     @if (Model.englishLanguageProfScoreContentResult != null)
                                     {
                                         <div class="fileButtonGroup">
-                                            <a href="@Url.Action("DownloadFile", "StudentApplication", new { id = Model.Id, name = "EnglishLanguageProficiencyScore" })" class="btn btn-info btn-block">
+                                            <a href="@Url.Action("DownloadFile", "Application", new { id = Model.Id, name = "EnglishLanguageProficiencyScore" })" class="btn btn-info btn-block">
                                                 <i class="icon-download icon-white"></i>
                                                 <span>
                                                     <strong>Download English Language Proficiency Score</strong>
@@ -888,7 +881,7 @@
                                     @if (Model.referenceLetter1ContentResult != null)
                                     {
                                         <div class="fileButtonGroup">
-                                            <a href="@Url.Action("DownloadFile", "StudentApplication", new { id = Model.Id, name = "ReferenceLetter1" })" class="btn btn-info btn-block">
+                                            <a href="@Url.Action("DownloadFile", "Application", new { id = Model.Id, name = "ReferenceLetter1" })" class="btn btn-info btn-block">
                                                 <i class="icon-download icon-white"></i>
                                                 <span>
                                                     <strong>Download Reference Letter 1</strong>
@@ -910,7 +903,7 @@
                                     @if (Model.referenceLetter2ContentResult != null)
                                     {
                                         <div class="fileButtonGroup">
-                                            <a href="@Url.Action("DownloadFile", "StudentApplication", new { id = Model.Id, name = "ReferenceLetter2" })" class="btn btn-info btn-block">
+                                            <a href="@Url.Action("DownloadFile", "Application", new { id = Model.Id, name = "ReferenceLetter2" })" class="btn btn-info btn-block">
                                                 <i class="icon-download icon-white"></i>
                                                 <span>
                                                     <strong>Download Reference Letter 2</strong>
@@ -1007,45 +1000,6 @@
         $.ajax({
             type: "POST",
             url: '/Application/RejectMessage/',
-            contentType: "application/json; charset=utf-8",
-            dataType: "text",
-            success: function (response) {
-                window.location.href = "/Application/";
-            }
-        });
-    }
-
-    function requestMissingFiles(id) {
-        swal({
-            title: "Missing File Request",
-            text: "Do you want to send an mail to the applicant about the missing files?",
-            type: "warning",
-            showCancelButton: true,
-            confirmButtonText: "Yes!",
-            confirmButtonColor: "#ec6c62"
-        }).then((result) => {
-            if (result) {
-                $.ajax({
-                    dataType: 'JSON',
-                    type: 'POST',
-                    async: false,
-                    timeout: 600000,
-                    url: "/Application/RequestMissingFiles?id=" + id,
-                    success: function () {
-                        showReqMissingFilesMessage();
-                    },
-                    error: function () {
-                        swal("Oops", "We couldn't connect to the server!", "error");
-                    }
-                });
-            }
-        });
-    }
-
-    function showReqMissingFilesMessage() {
-        $.ajax({
-            type: "POST",
-            url: '/Application/MissingFilesMessage/',
             contentType: "application/json; charset=utf-8",
             dataType: "text",
             success: function (response) {

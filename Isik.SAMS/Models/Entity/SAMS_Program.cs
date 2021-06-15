@@ -19,7 +19,7 @@ namespace Isik.SAMS.Models.Entity
         {
             this.SAMS_StudentApplications = new HashSet<SAMS_StudentApplications>();
             this.SAMS_Users = new HashSet<SAMS_Users>();
-            this.SAMS_Department = new HashSet<SAMS_Department>();
+            this.SAMS_DepartmentProgramRel = new HashSet<SAMS_DepartmentProgramRel>();
         }
     
         public int Id { get; set; }
@@ -34,6 +34,6 @@ namespace Isik.SAMS.Models.Entity
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<SAMS_Users> SAMS_Users { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<SAMS_Department> SAMS_Department { get; set; }
+        public virtual ICollection<SAMS_DepartmentProgramRel> SAMS_DepartmentProgramRel { get; set; }
     }
 }

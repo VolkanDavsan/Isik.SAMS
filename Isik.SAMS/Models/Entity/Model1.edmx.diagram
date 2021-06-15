@@ -11,7 +11,7 @@
         <EntityTypeShape EntityType="StudentApprovalManagementModel.SAMS_Program" Width="1.5" PointX="3" PointY="8.625" IsExpanded="true" />
         <EntityTypeShape EntityType="StudentApprovalManagementModel.SAMS_StudentApplications" Width="1.5" PointX="5.25" PointY="6.125" IsExpanded="true" />
         <EntityTypeShape EntityType="StudentApprovalManagementModel.SAMS_Users" Width="1.5" PointX="8.25" PointY="5.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="StudentApprovalManagementModel.SAMS_UserType" Width="1.5" PointX="6" PointY="3.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="StudentApprovalManagementModel.SAMS_UserType" Width="1.5" PointX="6.25" PointY="3.75" IsExpanded="true" />
         <AssociationConnector Association="StudentApprovalManagementModel.FK_Status_StudentApplications" ManuallyRouted="false" />
         <AssociationConnector Association="StudentApprovalManagementModel.FK_DepartmentId_StudentApplications" ManuallyRouted="false" />
         <AssociationConnector Association="StudentApprovalManagementModel.FK_DepartmentId_Users" ManuallyRouted="false" />
@@ -21,8 +21,10 @@
         <AssociationConnector Association="StudentApprovalManagementModel.FK_ApprovedBy_StudentApplications" ManuallyRouted="false" />
         <AssociationConnector Association="StudentApprovalManagementModel.FK_EnrolledBy_StudentApplications" ManuallyRouted="false" />
         <AssociationConnector Association="StudentApprovalManagementModel.FK_UserType_Users" ManuallyRouted="false" />
-        <AssociationConnector Association="StudentApprovalManagementModel.FK_SAMS_Department_Program" />
         <AssociationConnector Association="StudentApprovalManagementModel.FK_SAMS_Users_ProfilePhoto" />
+        <EntityTypeShape EntityType="StudentApprovalManagementModel.SAMS_DepartmentProgramRel" Width="1.5" PointX="5.25" PointY="0.5" />
+        <AssociationConnector Association="StudentApprovalManagementModel.FK_SAMS_DepartmentProgramRel_SAMS_Department" />
+        <AssociationConnector Association="StudentApprovalManagementModel.FK_SAMS_DepartmentProgramRel_SAMS_Program" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

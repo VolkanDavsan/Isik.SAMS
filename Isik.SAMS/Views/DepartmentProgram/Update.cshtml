@@ -1,0 +1,106 @@
+﻿@model Isik.SAMS.Models.Entity.SAMS_DepartmentProgramRel
+
+@{
+    ViewBag.Title = "Update Department Program";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@using (Html.BeginForm("Update", "DepartmentProgram", FormMethod.Post, new Dictionary<string, object>() {
+    { "class", "form-horizontal" },
+    { "role", "form" },
+    { "id", "DepartmentProgram" },
+    { "data-selector", "modalContainer" }
+}))
+{
+    @Html.AntiForgeryToken()
+    @Html.HiddenFor(model => model.Id)
+    <style>
+        .radiobuttons {
+            margin-top: 15px;
+            margin-left: 22px;
+        }
+    </style>
+
+    <div class="row">
+        <div class="form-group col-md-6" id="ddlProgram">
+            <label class="req" for="code">Your Selected Program</label>
+            @Html.DropDownListFor(model => model.ProgramId, ViewBag.Programs as SelectList, "Select Program", new Dictionary<string, object>()
+            {
+                {"class", "form-control"},
+                {"required", "" },
+                {"onchange","hideThesis()" },
+                {"oninvalid","this.setCustomValidity('Please select a program.')" },
+                {"oninput","this.setCustomValidity('')" }
+            })
+        </div>
+        <div class="form-group col-md-6" id="ddlDepartment">
+            <label class="req" for="code">Department</label>
+            @Html.DropDownListFor(model => model.DepartmentId, ViewBag.Departments as SelectList, "Select Department", new Dictionary<string, object>()
+            {
+                {"class", "form-control"},
+                {"required", "" },
+                {"oninvalid","this.setCustomValidity('Please select a department.')" },
+                {"oninput","this.setCustomValidity('')" }
+            })
+        </div>
+        <div class="form-group col-md-6">
+            <label class="req" for="code">Quota</label>
+            @Html.TextBoxFor(model => model.Quota, new Dictionary<string, object>()
+            {
+                {"class", "form-control"},
+                {"placeholder", "Please enter the Quota"},
+                {"type", "number"},
+                {"required", "" },
+                {"oninvalid","this.setCustomValidity('Please enter a Quota.')" },
+                {"oninput","this.setCustomValidity('')" }
+            })
+        </div>
+        <div class="form-group col-md-6">
+            <label class="req" for="code">Duration</label>
+            @Html.TextBoxFor(model => model.Duration, new Dictionary<string, object>()
+            {
+                {"class", "form-control"},
+                {"placeholder", "Please enter the Duration"},
+                {"type", "number"},
+                {"required", "" },
+                {"oninvalid","this.setCustomValidity('Please enter a Duration.')" },
+                {"oninput","this.setCustomValidity('')" }
+            })
+        </div>
+        <div class="form-group col-md-6" id="Thesis">
+            <div class="radiobuttons">
+                <div class="custom-control custom-switch">
+                    @Html.CheckBoxFor(model => model.IsThesisIncluded, new Dictionary<string, object>()
+                    {
+                    {"class", "custom-control-input form-control"},
+                    {"id", "IsThesisIncluded" }
+                })
+                    <label class="custom-control-label" for="IsThesisIncluded">Thesis / non-Thesis</label>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.js"></script>
+    <script type="text/javascript">
+        function hideThesis() {
+            debugger;
+            var programId = document.getElementById("ProgramId");
+            var thesis = document.getElementById("Thesis");
+            thesis.style.display = programId.options[programId.selectedIndex].value == 1 ? "none" : "block";
+        }
+
+        $(document).ready(function () {
+            var programId = document.getElementById("ProgramId");
+            var thesis = document.getElementById("Thesis");
+            thesis.style.display = programId.options[programId.selectedIndex].value == 1 ? "none" : "block";
+        });
+    </script>
+    <div class="buttons">
+        <button class="btn btn-md btn-danger pull-left" data-task="modalClose">Close</button>
+        <button class="btn btn-md btn-success pull-right" type="submit">Save</button>
+    </div>
+
+}
+
+
+

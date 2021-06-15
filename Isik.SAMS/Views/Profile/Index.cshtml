@@ -23,11 +23,6 @@
         userType = "Admin";
         id = Convert.ToInt32(Session["AdminId"]);
     }
-
-    if (Session["UserId"] == null && Session["AdminId"] == null)
-    {
-        Response.Redirect("/Login/Index");
-    }
 }
 <style>
     img {
@@ -57,18 +52,18 @@
                 <a data-task="Insert" data-method="GET" data-href="@Url.Action("Update", "Profile", new {Id = @id})" class="mt-2 edit-profile"> <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-edit-3"><path d="M12 20h9"></path><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path></svg></a>
             </div>
             <div class="text-center user-info">
+
                 @if (Session["ProfilePhoto"] != null)
                 {
-                    <img src="@(Session["ProfilePhoto"])" onerror="ImageError(this, '@(Session["ProfilePhoto"])'" alt="avatar">
+                    <img src="@(Session["ProfilePhoto"])" onerror="ImageError(this,'/Assets/img/defaultpp.jpeg')" alt="avatar">
                 }
                 else
                 {
-                    <img src="/Assets/img/unkown-profile-foto.jpg" onerror="ImageError(this,'/Assets/img/unkown-profile-foto.jpg')" alt="avatar">
+                    <img src="/Assets/img/defaultpp.jpeg" onerror="ImageError(this,'/Assets/img/defaultpp.jpeg')" alt="avatar">
                 }
                 <p class="">@Session["FirstName"] @Session["LastName"]</p>
             </div>
             <div class="user-info-list">
-
                 <div class="">
                     <ul class="contacts-block list-unstyled">
                         <li class="contacts-block__item">
@@ -100,7 +95,6 @@
             </div>
         </div>
     </div>
-
 </div>
 
 <script>

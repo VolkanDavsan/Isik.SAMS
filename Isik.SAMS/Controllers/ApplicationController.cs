@@ -16,51 +16,106 @@ namespace Isik.SAMS.Controllers
     public class ApplicationController : Controller
     {
         StudentApprovalManagementEntities db = new StudentApprovalManagementEntities();
+
         // GET: Application
         public ActionResult Index()
         {
-            var user = db.SAMS_Users.Find(Convert.ToInt32(Session["UserId"]));
-            var model = db.SAMS_StudentApplications.ToList();
-            if (user.UserType == 2)
+            if (Session["UserId"] == null && Session["AdminId"] == null)
             {
-                model = db.SAMS_StudentApplications.Where(x => x.Status == 2 || x.Status == 4 || x.Status == 5 || x.Status == 6).ToList();
+                return RedirectToAction("Index", "Login");
             }
-
-            foreach (var a in model)
+            else if (Session["UserId"] == null && Session["AdminId"] != null)
             {
-                var dep = db.SAMS_Department.Find(a.DepartmentId);
-                if (dep != null)
+                return RedirectToAction("Index", "Account");
+            }
+            else
+            {
+                var user = db.SAMS_Users.Find(Convert.ToInt32(Session["UserId"]));
+                var model = db.SAMS_StudentApplications.OrderBy(m => m.Status).ThenBy(n => n.CreatedTime).ToList();
+                if (user.UserType == 2)
                 {
-                    a.DepartmentName = dep.DepartmentName;
+                    model = db.SAMS_StudentApplications.Where(x => (x.Status == 2 || x.Status == 4 || x.Status == 5 || x.Status == 6) &&
+                                                                   (x.DepartmentId == user.DepartmentId)).OrderBy(m => m.Status)
+                                                                   .ThenBy(n => n.CreatedTime).ToList();
+                }
+                if (user.UserType == 1)
+                {
+                    model = db.SAMS_StudentApplications.Where(x => x.DepartmentId == user.DepartmentId &&
+                                                                   x.ProgramId == user.ProgramId).OrderBy(m => m.Status).ThenBy(n => n.CreatedTime).ToList();
                 }
 
-                var prog = db.SAMS_Program.Find(a.ProgramId);
-                if (prog != null)
+                foreach (var a in model)
                 {
-                    a.ProgramName = prog.ProgramName;
+                    var users = db.SAMS_Users.Find(a.ApprovedBy);
+                    if (users != null)
+                    {
+                        a.approvedByName = users.FirstName + " " + users.LastName;
+                    }
+                    else
+                    {
+                        a.approvedByName = "Not yet evaluated";
+                    }
+
+                    var enrolledUsers = db.SAMS_Users.Find(a.EnrolledBy);
+                    if (enrolledUsers != null)
+                    {
+                        a.enrolledByName = enrolledUsers.FirstName + " " + enrolledUsers.LastName;
+                    }
+                    else
+                    {
+                        a.enrolledByName = "Not yet evaluated";
+                    }
+
+                    var dep = db.SAMS_Department.Find(a.DepartmentId);
+                    if (dep != null)
+                    {
+                        a.DepartmentName = dep.DepartmentName;
+                    }
+
+                    var prog = db.SAMS_Program.Find(a.ProgramId);
+                    if (prog != null)
+                    {
+                        a.ProgramName = prog.ProgramName;
+                    }
+
+                    var statusName = db.SAMS_ApplicationStatus.Find(a.Status);
+                    if (statusName != null)
+                    {
+                        a.StatusName = statusName.StatusName;
+                    }
                 }
 
-                var statusName = db.SAMS_ApplicationStatus.Find(a.Status);
-                if (statusName != null)
+
+
+                ViewBag.Message = TempData["message"] == null ? null : TempData["message"].ToString();
+                ViewBag.MessageClass = TempData["messageClass"] == null ? null : TempData["messageClass"].ToString();
+                string prev = "";
+                if (Request.UrlReferrer != null)
                 {
-                    a.StatusName = statusName.StatusName;
+                    prev = Request.UrlReferrer.ToString();
+                    if (prev != "https://localhost:44320/Application/")
+                    {
+                        TempData.Keep("message");
+                        TempData.Keep("messageClass");
+                    }
                 }
+
+                return View(model);
             }
-            string prev = Request.UrlReferrer.ToString();
-            ViewBag.Message = TempData["message"] == null ? null : TempData["message"].ToString();
-            ViewBag.MessageClass = TempData["messageClass"] == null ? null : TempData["messageClass"].ToString();
-            if (prev != "https://localhost:44320/Application/")
-            {
-                TempData.Keep("message");
-                TempData.Keep("messageClass");
-            }
-            return View(model);
         }
 
         public ActionResult Detail(int? id)
         {
-            var model = db.SAMS_StudentApplications.ToList();
+            if (Session["UserId"] == null && Session["AdminId"] == null)
+            {
+                return RedirectToAction("Index", "Login");
+            }
+            else if (Session["UserId"] == null && Session["AdminId"] != null)
+            {
+                return RedirectToAction("Index", "Account");
+            }
 
+            var model = db.SAMS_StudentApplications.ToList();
             foreach (var a in model)
             {
                 var dep = db.SAMS_Department.Find(a.DepartmentId);
@@ -191,6 +246,14 @@ namespace Isik.SAMS.Controllers
 
         public FileResult DownloadFile(int id, string name)
         {
+            if (Session["UserId"] == null && Session["AdminId"] == null)
+            {
+                Response.Redirect("/Login/Index");
+            }
+            else if (Session["UserId"] == null && Session["AdminId"] != null)
+            {
+                Response.Redirect("/Account/Index");
+            }
             var files = db.SAMS_Files.Where(x => x.StudentApplicationId == id).ToList();
             if (files != null)
             {
@@ -207,6 +270,14 @@ namespace Isik.SAMS.Controllers
 
         public FileResult DownloadAllFiles(int id)
         {
+            if (Session["UserId"] == null && Session["AdminId"] == null)
+            {
+                Response.Redirect("/Login/Index");
+            }
+            else if (Session["UserId"] == null && Session["AdminId"] != null)
+            {
+                Response.Redirect("/Account/Index");
+            }
             var app = db.SAMS_StudentApplications.Find(id);
             string fileDownloadName = app.StudentFirstName + " " + app.StudentLastName + " " + app.CreatedTime + ".zip";
             var files = db.SAMS_Files.Where(x => x.StudentApplicationId == id).ToList();
@@ -234,6 +305,14 @@ namespace Isik.SAMS.Controllers
         [HttpGet]
         public ActionResult MeetingLink(int? Id)
         {
+            if (Session["UserId"] == null && Session["AdminId"] == null)
+            {
+                return RedirectToAction("Index", "Login");
+            }
+            else if (Session["UserId"] == null && Session["AdminId"] != null)
+            {
+                return RedirectToAction("Index", "Account");
+            }
             if (Id != null)
             {
                 var application = db.SAMS_StudentApplications.Find(Id);
@@ -248,6 +327,14 @@ namespace Isik.SAMS.Controllers
         [HttpPost]
         public ActionResult MeetingLink(SAMS_StudentApplications app)
         {
+            if (Session["UserId"] == null && Session["AdminId"] == null)
+            {
+                return RedirectToAction("Index", "Login");
+            }
+            else if (Session["UserId"] == null && Session["AdminId"] != null)
+            {
+                return RedirectToAction("Index", "Account");
+            }
             var application = db.SAMS_StudentApplications.Find(app.Id);
             if (application != null)
             {
@@ -282,6 +369,8 @@ namespace Isik.SAMS.Controllers
                     smtp.Disconnect(true);
                     TempData["IsMailSent"] = "true";
                 }
+                TempData["Message"] = "Mail successfully sent.";
+                TempData["messageClass"] = "alert-success";
                 return RedirectToAction("Index");
             }
             else
@@ -293,6 +382,14 @@ namespace Isik.SAMS.Controllers
         [HttpGet]
         public ActionResult Scholarship(int? Id)
         {
+            if (Session["UserId"] == null && Session["AdminId"] == null)
+            {
+                return RedirectToAction("Index", "Login");
+            }
+            else if (Session["UserId"] == null && Session["AdminId"] != null)
+            {
+                return RedirectToAction("Index", "Account");
+            }
             var application = db.SAMS_StudentApplications.Find(Id);
             if (application != null)
             {
@@ -315,6 +412,14 @@ namespace Isik.SAMS.Controllers
         [HttpPost]
         public ActionResult Scholarship(SAMS_StudentApplications app)
         {
+            if (Session["UserId"] == null && Session["AdminId"] == null)
+            {
+                return RedirectToAction("Index", "Login");
+            }
+            else if (Session["UserId"] == null && Session["AdminId"] != null)
+            {
+                return RedirectToAction("Index", "Account");
+            }
             var application = db.SAMS_StudentApplications.Find(app.Id);
             if (application != null)
             {
@@ -373,6 +478,14 @@ namespace Isik.SAMS.Controllers
 
         public ActionResult ApprovalMessage()
         {
+            if (Session["UserId"] == null && Session["AdminId"] == null)
+            {
+                return RedirectToAction("Index", "Login");
+            }
+            else if (Session["UserId"] == null && Session["AdminId"] != null)
+            {
+                return RedirectToAction("Index", "Account");
+            }
             if (TempData["isDeleted"] != null)
             {
                 TempData["Message"] = "Operation failed.";
@@ -390,6 +503,14 @@ namespace Isik.SAMS.Controllers
 
         public JsonResult Approval(int? id)
         {
+            if (Session["UserId"] == null && Session["AdminId"] == null)
+            {
+                Response.Redirect("/Login/Index");
+            }
+            else if (Session["UserId"] == null && Session["AdminId"] != null)
+            {
+                Response.Redirect("/Account/Index");
+            }
             bool result = false;
             var applications = db.SAMS_StudentApplications.Find(id);
             var dep = db.SAMS_Department.Find(applications.DepartmentId);
@@ -451,6 +572,14 @@ namespace Isik.SAMS.Controllers
 
         public ActionResult RejectMessage()
         {
+            if (Session["UserId"] == null && Session["AdminId"] == null)
+            {
+                return RedirectToAction("Index", "Login");
+            }
+            else if (Session["UserId"] == null && Session["AdminId"] != null)
+            {
+                return RedirectToAction("Index", "Account");
+            }
             if (TempData["isDeleted"] != null)
             {
                 TempData["Message"] = "Operation failed.";
@@ -468,6 +597,14 @@ namespace Isik.SAMS.Controllers
 
         public JsonResult Reject(int? id)
         {
+            if (Session["UserId"] == null && Session["AdminId"] == null)
+            {
+                Response.Redirect("/Login/Index");
+            }
+            else if (Session["UserId"] == null && Session["AdminId"] != null)
+            {
+                Response.Redirect("/Account/Index");
+            }
             bool result = false;
             var applications = db.SAMS_StudentApplications.Find(id);
             if (applications != null)
@@ -543,103 +680,96 @@ namespace Isik.SAMS.Controllers
             return Json(result, JsonRequestBehavior.AllowGet);
         }
 
-        public ActionResult MissingFilesMessage()
+        [HttpPost]
+        public ActionResult MissingFiles(SAMS_StudentApplications app)
         {
-            if (TempData["isDeleted"] != null)
+            if (Session["UserId"] == null && Session["AdminId"] == null)
+            {
+                return RedirectToAction("Index", "Login");
+            }
+            else if (Session["UserId"] == null && Session["AdminId"] != null)
+            {
+                return RedirectToAction("Index", "Account");
+            }
+            var applications = db.SAMS_StudentApplications.Find(app.Id);
+            if (applications != null)
+            {
+                applications.Status = 3;
+                applications.RejectedBy = Convert.ToInt32(Session["UserId"]);
+                db.SaveChanges();
+                var email = new MimeMessage();
+                var from = "SAMS SAMS";
+                var subject = "SAMS info - Missing Application Files";
+                email.From.Add(new MailboxAddress(from, "samsinfo.noreply@gmail.com"));
+                email.To.Add(new MailboxAddress(applications.Email, applications.Email));
+                email.Subject = subject;
+                email.Body = new TextPart(TextFormat.Html)
+                {
+                    Text = @"<h1> As the SAMS team, </h1>" +
+                    @"<h3>Your application has some missing files. </h3>" +
+                    @"<br/>" +
+                    @"<p>" + app.missingFiles + ".</p>" +
+                    @"<p>Please a click below link to edit your application and upload the missing documents.</p>" +
+                    @"<br/>" +
+                    @"<a href='" + System.Configuration.ConfigurationManager.AppSettings["ProjectDirectory"] + "/StudentApplication/AuthenticateGuid?guid=" + applications.GUID + "'>Click here.</a>"
+                };
+
+                using (SmtpClient smtp = new SmtpClient())
+                {
+                    smtp.Connect("smtp.gmail.com", 465, true);
+                    smtp.Authenticate("samsinfo.noreply@gmail.com", "qultbqdkozwvfhgt");
+                    smtp.Send(email);
+                    smtp.Disconnect(true);
+                    TempData["IsMailSent"] = "true";
+                }
+                TempData["Message"] = "Mail successfully sent.";
+                TempData["messageClass"] = "alert-success";
+                TempData.Keep("Message");
+                TempData.Keep("messageClass");
+                return RedirectToAction("Index");
+            }
+            else
             {
                 TempData["Message"] = "Operation failed.";
                 TempData["messageClass"] = "alert-danger";
+                TempData.Keep("Message");
+                TempData.Keep("messageClass");
+                return RedirectToAction("Index");
             }
-            else
-            {
-                TempData["Message"] = "Mail Successfully Sent.";
-                TempData["messageClass"] = "alert-success";
-            }
-            TempData.Keep("Message");
-            TempData.Keep("messageClass");
-            return RedirectToAction("Index");
         }
-
-        public JsonResult RequestMissingFiles(int? id)
+        [HttpGet]
+        public ActionResult MissingFiles(int? id)
         {
-            bool result = false;
+            if (Session["UserId"] == null && Session["AdminId"] == null)
+            {
+                return RedirectToAction("Index", "Login");
+            }
+            else if (Session["UserId"] == null && Session["AdminId"] != null)
+            {
+                return RedirectToAction("Index", "Account");
+            }
             var applications = db.SAMS_StudentApplications.Find(id);
             if (applications != null)
             {
-                var user = db.SAMS_Users.Find(Convert.ToInt32(Session["UserId"]));
-                if (user.UserType == 1)
-                {
-                    applications.Status = 3;
-                    applications.RejectedBy = Convert.ToInt32(Session["UserId"]);
-                    db.SaveChanges();
-                    var email = new MimeMessage();
-                    var from = "SAMS SAMS";
-                    var subject = "SAMS info - Missing Application Files";
-                    email.From.Add(new MailboxAddress(from, "samsinfo.noreply@gmail.com"));
-                    email.To.Add(new MailboxAddress(applications.Email, applications.Email));
-                    email.Subject = subject;
-                    email.Body = new TextPart(TextFormat.Html)
-                    {
-                        Text = @"<h1> As the SAMS team, </h1>" +
-                        @"<h3>Your application has some missing files. </h3>" +
-                        @"<br/>" +
-                        @"<p>Please a click below link to edit your application and upload the missing documents.</p>" +
-                        @"<br/>" +
-                        @"<a href='" + System.Configuration.ConfigurationManager.AppSettings["ProjectDirectory"] + "/StudentApplication/AuthenticateGuid?guid=" + applications.GUID + "'>Click here.</a>"
-                    };
-
-                    using (SmtpClient smtp = new SmtpClient())
-                    {
-                        smtp.Connect("smtp.gmail.com", 465, true);
-                        smtp.Authenticate("samsinfo.noreply@gmail.com", "qultbqdkozwvfhgt");
-                        smtp.Send(email);
-                        smtp.Disconnect(true);
-                        TempData["IsMailSent"] = "true";
-                    }
-                }
-                else
-                {
-                    //applications.Status = 5;
-                    applications.RejectedBy = Convert.ToInt32(Session["UserId"]);
-                    db.SaveChanges();
-                    var email = new MimeMessage();
-                    var from = "SAMS SAMS";
-                    var subject = "SAMS info - E-Mail Verification";
-                    email.From.Add(new MailboxAddress(from, "samsinfo.noreply@gmail.com"));
-                    email.To.Add(new MailboxAddress(applications.Email, applications.Email));
-                    email.Subject = subject;
-                    email.Body = new TextPart(TextFormat.Html)
-                    {
-                        Text = @"<h1> As the SAMS team, </h1>" +
-                        @"<h3>We are really sorry to tell you that your application has been rejected.</h3>" +
-                        @"<br/>" +
-                        @"<p>Even tho you have been passed the previous phase. Your application wasn't met the standards of the second phase.</p>" +
-                        @"<br/>"
-                    };
-
-                    using (SmtpClient smtp = new SmtpClient())
-                    {
-                        smtp.Connect("smtp.gmail.com", 465, true);
-                        smtp.Authenticate("samsinfo.noreply@gmail.com", "qultbqdkozwvfhgt");
-                        smtp.Send(email);
-                        smtp.Disconnect(true);
-                        TempData["IsMailSent"] = "true";
-                    }
-                }
-                result = true;
+                return View(applications);
             }
             else
             {
-                TempData["isApprovedBySecretary"] = false;
-                TempData["isApprovedByHoD"] = false;
-                TempData.Keep("isApprovedBySecretary");
-                TempData.Keep("isApprovedByHoD");
+                return RedirectToAction("Index");
             }
-            return Json(result, JsonRequestBehavior.AllowGet);
+
         }
 
         public ActionResult RequestPaymentMessage()
         {
+            if (Session["UserId"] == null && Session["AdminId"] == null)
+            {
+                return RedirectToAction("Index", "Login");
+            }
+            else if (Session["UserId"] == null && Session["AdminId"] != null)
+            {
+                return RedirectToAction("Index", "Account");
+            }
             if (TempData["isDeleted"] != null)
             {
                 TempData["Message"] = "Operation failed.";
@@ -657,6 +787,14 @@ namespace Isik.SAMS.Controllers
 
         public JsonResult RequestPayment(int? id)
         {
+            if (Session["UserId"] == null && Session["AdminId"] == null)
+            {
+                Response.Redirect("/Login/Index");
+            }
+            else if (Session["UserId"] == null && Session["AdminId"] != null)
+            {
+                Response.Redirect("/Account/Index");
+            }
             bool result = false;
             var applications = db.SAMS_StudentApplications.Find(id);
             var bankReceipt = db.SAMS_Files.Where(x => x.StudentApplicationId == applications.Id &&
@@ -695,7 +833,8 @@ namespace Isik.SAMS.Controllers
                         TempData["IsMailSent"] = "true";
                     }
                     result = true;
-                } else
+                }
+                else
                 {
                     applications.Status = 7;
                     db.SaveChanges();
@@ -725,7 +864,7 @@ namespace Isik.SAMS.Controllers
                     }
                     result = true;
                 }
-                
+
             }
             else
             {
@@ -739,6 +878,14 @@ namespace Isik.SAMS.Controllers
 
         public ActionResult EnrollMessage()
         {
+            if (Session["UserId"] == null && Session["AdminId"] == null)
+            {
+                return RedirectToAction("Index", "Login");
+            }
+            else if (Session["UserId"] == null && Session["AdminId"] != null)
+            {
+                return RedirectToAction("Index", "Account");
+            }
             if (TempData["isDeleted"] != null)
             {
                 TempData["Message"] = "Operation failed.";
@@ -756,6 +903,14 @@ namespace Isik.SAMS.Controllers
 
         public JsonResult Enroll(int? id)
         {
+            if (Session["UserId"] == null && Session["AdminId"] == null)
+            {
+                Response.Redirect("/Login/Index");
+            }
+            else if (Session["UserId"] == null && Session["AdminId"] != null)
+            {
+                Response.Redirect("/Account/Index");
+            }
             bool result = false;
             var applications = db.SAMS_StudentApplications.Find(id);
             if (applications != null)

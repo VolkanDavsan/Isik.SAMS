@@ -2,14 +2,6 @@
 @{
     ViewBag.Title = "Add Account";
     Layout = "~/Views/Shared/_Layout.cshtml";
-    if (Session["UserId"] != null && Session["AdminId"] == null)
-    {
-        Response.Redirect("/Application/Index");
-    }
-    else if (Session["UserId"] == null && Session["AdminId"] == null)
-    {
-        Response.Redirect("/Login/Index");
-    }
 }
 <div class="col-md-6">
     <div class="statbox widget box box-shadow">
@@ -56,9 +48,10 @@
                         {
                             {"class", "form-control"},
                             {"placeholder", "Please enter an e-mail."},
-                                       {"required", "" },
-                       {"oninvalid","this.setCustomValidity('Please enter an e-mail.')" },
-                       {"oninput","this.setCustomValidity('')" }
+                            {"type","email" },
+                            {"required", "" },
+                            {"oninvalid","this.setCustomValidity('Please enter an e-mail.')" },
+                            {"oninput","this.setCustomValidity('')" }
                         })
                     </div>
                     <div class="form-group col-md-6">
@@ -120,13 +113,6 @@
                 </div>
 
                 <script type="text/javascript">
-
-                    window.onload(function () {
-                        var element = document.getElementById("ddlProgram");
-                        var rbSec = document.getElementById("rbSec");
-                        element.style.display = rbSec.checked == "checked" ? "block" : "none";
-                    });
-
                     function showHideProgram() {
                         var element = document.getElementById("ddlProgram");
                         var rbHoD = document.getElementById("rbHoD");

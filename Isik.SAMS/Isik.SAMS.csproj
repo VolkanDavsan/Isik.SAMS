@@ -150,6 +150,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\ApplicationController.cs" />
+    <Compile Include="Controllers\DepartmentProgramController.cs" />
     <Compile Include="Controllers\StudentApplicationController.cs" />
     <Compile Include="Controllers\DepartmentController.cs" />
     <Compile Include="Controllers\LoginController.cs" />
@@ -178,6 +179,9 @@
     <Compile Include="Models\Entity\SAMS_Department.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\Entity\SAMS_DepartmentProgramRel.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\Entity\SAMS_Files.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
@@ -196,6 +200,12 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Assets\css\Auth\account-setting.css" />
+    <Content Include="Assets\css\Auth\form-1.css" />
+    <Content Include="Assets\css\Auth\form-2.css" />
+    <Content Include="Assets\css\Auth\user-profile.css" />
+    <Content Include="Assets\css\Dashboard\dash_1.css" />
+    <Content Include="Assets\css\Dashboard\dash_2.css" />
     <Content Include="Assets\css\site.css" />
     <Content Include="Assets\img\account1.jpg" />
     <Content Include="Assets\img\account2.jpg" />
@@ -203,6 +213,8 @@
     <Content Include="Assets\img\accountbg.jpg" />
     <Content Include="Assets\img\arrow-down.png" />
     <Content Include="Assets\img\Bachelor.jpg" />
+    <Content Include="Assets\img\background1.jpg" />
+    <Content Include="Assets\img\background2.jpg" />
     <Content Include="Assets\img\favicon.ico" />
     <Content Include="Assets\img\figure.jpg" />
     <Content Include="Assets\img\loginimg.jpg" />
@@ -211,8 +223,11 @@
     <Content Include="Assets\img\Phd.jpg" />
     <Content Include="Assets\img\sams2.png" />
     <Content Include="Assets\img\selected.jpg" />
-    <Content Include="Assets\img\background.jpg" />
+    <Content Include="Assets\img\defaultpp.jpeg" />
     <Content Include="Assets\js\master.js" />
+    <Content Include="Assets\lib\apex\apexcharts.css" />
+    <Content Include="Assets\lib\apex\apexcharts.min.js" />
+    <Content Include="Assets\lib\apex\custom-apexcharts.js" />
     <Content Include="Assets\lib\autocomplete\autocomplete.css" />
     <Content Include="Assets\lib\autocomplete\countries.js" />
     <Content Include="Assets\lib\autocomplete\demo.js" />
@@ -587,6 +602,9 @@
     <Content Include="Assets\lib\sweetalerts\sweetalert.js" />
     <Content Include="Assets\lib\sweetalerts\sweetalert2.min.css" />
     <Content Include="Assets\lib\sweetalerts\sweetalert2.min.js" />
+    <Content Include="Assets\lib\toastr\css\toastr.min.css" />
+    <Content Include="Assets\lib\toastr\js\toastr.min.js" />
+    <Content Include="Assets\lib\validator\Validator.js" />
     <Content Include="Assets\V1\assets\css\apps\contacts.css" />
     <Content Include="Assets\V1\assets\css\apps\invoice.css" />
     <Content Include="Assets\V1\assets\css\apps\mailbox.css" />
@@ -830,6 +848,13 @@
     <Content Include="Views\Application\MeetingLink.cshtml" />
     <Content Include="Views\Application\Scholarship.cshtml" />
     <Content Include="Views\StudentApplication\UploadBankReceipt.cshtml" />
+    <Content Include="Views\Application\MissingFiles.cshtml" />
+    <Content Include="Views\Profile\UserProfile.cshtml" />
+    <Content Include="Views\DepartmentProgram\Index.cshtml" />
+    <Content Include="Views\DepartmentProgram\Insert.cshtml" />
+    <Content Include="Views\DepartmentProgram\Update.cshtml" />
+    <Content Include="Views\StudentApplication\Programs.cshtml" />
+    <Content Include="Views\Shared\_Layout1.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

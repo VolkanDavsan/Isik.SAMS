@@ -1,1453 +1,1357 @@
 ﻿@model Isik.SAMS.Models.Entity.SAMS_StudentApplications
 @{
     ViewBag.Title = "Student Application";
-    Layout = null;
-
-    if (Session["ApplicationId"] == null && Session["ProgramId"] == null)
-    {
-        Response.Redirect("/StudentApplication/Index");
-    }
+    Layout = "~/Views/Shared/_Layout1.cshtml";
 }
+<style>
+    .personalInfo {
+        margin-top: 25px;
+    }
+</style>
 
-<!DOCTYPE html>
-<html>
-<head>
+<div class="radio-buttons">
 
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@ViewBag.Title</title>
-    <link rel="icon" type="image/x-icon" href="#">
-
-    <link href="assets/css/auth/user-profile.css" rel="stylesheet" type="text/css">
-    <link href="https://fonts.googleapis.com/css?family=Quicksand:400,500,600,700&display=swap" rel="stylesheet">
-    <link href="/Assets/lib/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
-    <link href="/Assets/lib/Fontello/css/fontello.css" rel="stylesheet" />
-    <link href="/Assets/V1/assets/css/plugins.css" rel="stylesheet" type="text/css" />
-    <link href="/Assets/V1/assets/css/components/tabs-accordian/custom-tabs.css" rel="stylesheet" />
-    <link href="/Assets/lib/bootstrap-dialog/css/bootstrap-dialog.min.css" rel="stylesheet" />
-    <link href="/Assets/lib/loadingmodal/css/jquery.loadingModal.min.css" rel="stylesheet" type="text/css" />
-    <link href="/Assets/lib/toastr/css/toastr.min.css" rel="stylesheet" type="text/css" />
-    <link href="/Assets/lib/sweetalerts/sweetalert2.min.css" rel="stylesheet" />
-    <link href="/Assets/css/site.css" rel="stylesheet" />
-    <link href="~/Assets/lib/apex/apexcharts.css" rel="stylesheet" />
-    <link href="~/Assets/css/Dashboard/dash_1.css" rel="stylesheet" />
-    <link href="~/Content/Gridmvc.css" rel="stylesheet" />
-    <link href="~/Assets/lib/sweetalerts/sweetalert.css" rel="stylesheet" />
-    <script src="~/Scripts/gridmvc.js"></script>
-    <script src="~/Scripts/gridmvc.min.js"></script>
-    <script src="/Assets/lib/jquery/jquery-3.1.1.min.js"></script>
-    <script src="/Assets/lib/jquery/jquery-migrate-3.0.0.min.js"></script>
-    <script src="/Assets/lib/bootstrap/js/popper.min.js"></script>
-    <script src="/Assets/lib/font-icons/feather/feather.min.js"></script>
-    <script src="/Assets/lib/bootstrap/js/bootstrap.min.js"></script>
-    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.js"></script>
-    <script src="/Assets/lib/jquery-cookie/jquery.cookie.js"></script>
-    <script src="/Assets/lib/linq/jquery.linq.min.js"></script>
-    <script src="/Assets/lib/loadingmodal/js/jquery.loadingModal.min.js"></script>
-    <script src="~/Assets/lib/bootstrap-dialog/js/bootstrap-dialog.min.js"></script>
-    <script src="/Assets/lib/livequery/jquery.livequery.min.js"></script>
-    <script src="/Assets/lib/toastr/js/toastr.min.js"></script>
-    <script src="/Assets/lib/sweetalerts/sweetalert2.min.js"></script>
-    <script src="/Assets/lib/sweetalerts/sweetalert.js"></script>
-    <script src="/Assets/lib/validator/Validator.js"></script>
-    <script src="/Assets/lib/perfect-scrollbar/perfect-scrollbar.min.js"></script>
-    <script src="/Assets/V1/assets/js/app.js"></script>
-    <script src="/Assets/V1/assets/js/custom.js"></script>
-    <script src="~/Assets/js/Dashboard/dash_1.js"></script>
-    <script src="/Assets/lib/harita/js/jQuery.Print.js"></script>
-    <script src="/Assets/lib/harita/data/projlist.js"></script>
-    <script src="/Assets/lib/harita/js/proj4.js"></script>
-    <script src="/Assets/lib/harita/js/turf.min.js"></script>
-    <script src="/Assets/lib/harita/js/ol.js"></script>
-    <script src="/Assets/lib/harita/js/ol.extensions.js"></script>
-    <script src="/Assets/lib/harita/js/ol.custom.js"></script>
-    <script src="/Assets/lib/fileupload/js/InfolineFileUpload.js"></script>
-    <script src="~/Assets/lib/apex/apexcharts.min.js"></script>
-    <style>
-        .req::after {
-            content: "*";
-            margin-left: 5px;
-            color: #f00;
-        }
-
-        .fileButtonGroup {
-            margin-top: 15px;
-        }
-
-        .form-horizontal .form-group > label:not(.k-checkbox-label) {
-            text-transform: uppercase;
-            margin-bottom: 0px !important;
-            position: absolute;
-            font-weight: bold;
-            font-size: 12px;
-            z-index: 99;
-            background: #fff;
-            padding: 3px;
-            left: 5px;
-            top: -12px;
-            color: black;
-        }
-
-        .row {
-            margin-left: 0px !important;
-            margin-right: 0px !important;
-        }
-
-        /*        .layout-top-spacing {
-            width: 100% !important;
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            padding: 10px;
-        }*/
-
-        .main-content {
-            margin-top: 100px;
-            overflow-y: auto;
-            overflow-x: hidden;
-        }
-
-        .checkboxes {
-            margin-left: 30px !important;
-            width: 100% !important;
-        }
-
-        .form-horizontal .form-group {
-            width: 100% !important;
-        }
-
-        .form-control {
-            width: 100% !important;
-        }
-
-        .layout-top-spacing {
-            width: 100% !important;
-        }
-
-        .layout-px-spacing {
-            width: 100% !important;
-        }
-
-        .img {
-            height: 177px;
-            width: 177px;
-        }
-
-        .field-validation-error {
-            color: red;
-            background: inherit;
-        }
-
-        .emailVerification {
-            width: 50% !important;
-            position: absolute;
-            left: 50%;
-            top: 50%;
-            transform: translate(-50%, -50%);
-            padding: 10px;
-        }
-
-        .content {
-            margin-top: 85px;
-            margin-bottom: 15px;
-        }
-    </style>
-    <script src="/Assets/js/master.js"></script>
-</head>
-<body>
-    <div class="header-container fixed-top">
-        <header class="header navbar navbar-expand-sm">
-            <ul class="navbar-nav theme-brand flex-row text-center" style="margin-left:2% !important;">
-                <li class="nav-item theme-text">
-                    <a href="@Url.Action("Index", "StudentApplication", new { area = "" })" class="nav-link">
-                        <img src="~/Assets/img/sams2.png" style="height:44px;" alt="logo" />
-                    </a>
-                </li>
-                <li class="nav-item toggle-sidebar" style="">
-
-                </li>
-            </ul>
-            <ul class="navbar-item flex-row" style="margin-left:17%;">
-                <li class="nav-item align-self-center search-animated">
-                    <div class="field-wrapper">
-                        <a href="@Url.Action("Index", "StudentApplication")" style="color:white; font-size:22px;">
-                            Application Form
-                        </a>
-                    </div>
-                </li>
-            </ul>
-            <ul class="navbar-item flex-row" style="margin-left:15%;">
-                <li class="nav-item align-self-center search-animated">
-                    <div class="field-wrapper">
-                        <a href="@Url.Action("Programs", "StudentApplication")" style="color:white; font-size:22px;">
-                            Programs
-                        </a>
-                    </div>
-                </li>
-            </ul>
-            <ul class="navbar-item flex-row search-ul">
-                <li class="nav-item align-self-center search-animated">
-                    <div class="field-wrapper">
-                        <button type="button" class="btn btn-primary" onclick="location.href = '@Url.Action("Index", "Login")'">Log In</button>
-                    </div>
-                </li>
-            </ul>
-        </header>
-    </div>
-    <div class="content">
-        <div class="layout-px-spacing">
-            <div class="row layout-top-spacing">
-                @if (ViewBag.IsAuthenticated == "false" || ViewBag.IsAuthenticated == null)
-                {
-                    <div class="emailVerification">
-                        <p style="text-align:center; font-size:22px; color:black; font-weight:bold;">E-MAIL VERIFICATION</p>
-                        @using (Html.BeginForm("EmailVerification", "StudentApplication", FormMethod.Post, new Dictionary<string, object>() {
-                                { "class", "form-horizontal" },
-                                { "role", "form" },
-                                }))
-                        {
-                            if (ViewBag.isMailSent == "false" || ViewBag.isMailSent == null)
+    @if (ViewBag.IsAuthenticated == "false" || ViewBag.IsAuthenticated == null)
+    {
+        <div class="emailVerification">
+            <p class="col-md-12" style="text-align:center; font-size:22px; color:black; font-weight:bold;">E-MAIL VERIFICATION</p>
+            @using (Html.BeginForm("EmailVerification", "StudentApplication", FormMethod.Post, new Dictionary<string, object>
+                () {
+                { "class", "form-horizontal" },
+                { "role", "form" },
+                }))
+            {
+                <div class="row">
+                    @if (ViewBag.isMailSent == "false" || ViewBag.isMailSent == null)
+                    {
+                        <div class="form-group col-md-12">
+                            <label class="req" for="code">Email</label>
+                            @Html.TextBoxFor(model => model.Email, new Dictionary<string, object>()
                             {
-                                <div class="row">
-                                    <div class="form-group">
-                                        <label class="req" for="code">Email</label>
-                                        @Html.TextBoxFor(model => model.Email, new Dictionary<string, object>()
-                                        {
-                                            {"class", "form-control"},
-                                            {"placeholder", "Please enter an e-mail."},
-                                            {"required", "" },
-                                            {"oninvalid","this.setCustomValidity('Please enter an e-mail.')" },
-                                            {"oninput","this.setCustomValidity('')" }
-                                        })
-                                    </div>
-                                </div>
-                            }
-                            if (ViewBag.VerificationErrorMessage != null)
+                                {"class", "form-control"},
+                                {"placeholder", "Please enter an e-mail."},
+                                {"type","email" },
+                                {"required", "" },
+                                {"oninvalid","this.setCustomValidity('Please enter an e-mail.')" },
+                                {"oninput","this.setCustomValidity('')" }
+                            })
+                        </div>
+                    }
+                    @if (ViewBag.VerificationErrorMessage != null)
+                    {
+                        <p class="col-md-12" id="wrongVerificationMessage" style="text-align:center; font-size:15px; color:red;">@ViewBag.VerificationErrorMessage</p>
+                    }
+                    @if (ViewBag.isMailSent == "true" && ViewBag.isMailSent != null)
+                    {
+                        <div class="form-group col-md-12">
+                            <label class="req" for="code">Email</label>
+                            @Html.TextBoxFor(model => model.Email, new Dictionary<string, object>()
                             {
-                                <div class="row">
-                                    <p id="wrongVerificationMessage" style="text-align:center; font-size:15px; color:red;">@ViewBag.VerificationErrorMessage</p>
-                                </div>
-                            }
-
-                            if (ViewBag.isMailSent == "true" && ViewBag.isMailSent != null)
+                                {"class", "form-control"},
+                                {"placeholder", "Please enter an e-mail."},
+                                {"readonly", "true" },
+                                {"oninvalid","this.setCustomValidity('Please enter an e-mail.')" },
+                                {"oninput","this.setCustomValidity('')" }
+                            })
+                        </div>
+                        <div class="form-group col-md-12">
+                            <label class="req" for="code">Verification Code</label>
+                            @Html.TextBoxFor(model => model.VerificationCode, new Dictionary<string, object>()
                             {
-                                <div class="row">
-                                    <div class="form-group">
-                                        <label class="req" for="code">Email</label>
-                                        @Html.TextBoxFor(model => model.Email, new Dictionary<string, object>()
-                                        {
-                                            {"class", "form-control"},
-                                            {"placeholder", "Please enter an e-mail."},
-                                            {"readonly", "true" },
-                                            {"oninvalid","this.setCustomValidity('Please enter an e-mail.')" },
-                                            {"oninput","this.setCustomValidity('')" }
-                                        })
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="form-group">
-                                        <label class="req" for="code">Verification Code</label>
-                                        @Html.TextBoxFor(model => model.VerificationCode, new Dictionary<string, object>()
-                                        {
-                                            {"class", "form-control"},
-                                            {"placeholder", "Please enter the verification code."},
-                                            {"required", "" },
-                                            {"oninvalid","this.setCustomValidity('Please enter the verification code.')" },
-                                            {"oninput","this.setCustomValidity('')" },
-                                            { "onkeyup", "hideMessage()" }
-                                        })
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="d-sm-flex justify-content-between">
-                                        <div class="d-sm-flex justify-content-between">
-                                            <div class="field-wrapper">
-                                                <button type="submit" class="btn btn-primary" value="">Verify E-Mail</button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="field-wrapper">
-                                        <a href="@Url.Action("Index", "StudentApplication", new { area = "" })" class="forgot-pass-link">Back to Program Selection.</a>
-                                    </div>
-                                </div>
-                            }
-                            else
-                            {
-                                <div class="row">
-                                    <div class="d-sm-flex justify-content-between">
-                                        <div class="field-wrapper">
-                                            <button type="submit" class="btn btn-primary" value="">Send Mail</button>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="field-wrapper">
-                                        <a href="@Url.Action("Index", "StudentApplication", new { area = "" })" class="forgot-pass-link">Back to Program Selection.</a>
-                                    </div>
-                                </div>
-                                <br />
-                            }
+                                {"class", "form-control"},
+                                {"placeholder", "Please enter the verification code."},
+                                {"required", "" },
+                                {"oninvalid","this.setCustomValidity('Please enter the verification code.')" },
+                                {"oninput","this.setCustomValidity('')" },
+                                { "onkeyup", "hideMessage()" }
+                            })
+                        </div>
+                        <div class="pull-left col-md-6">
+                            <a href="@Url.Action("Index", "StudentApplication", new { area = "" })">Back to Program Selection</a>
+                        </div>
+                        <div class="col-md-6">
+                            <button class="btn btn-primary pull-right" type="submit">Verify E-Mail</button>
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="pull-left col-md-6">
+                            <a href="@Url.Action("Index", "StudentApplication", new { area = "" })">Back to Program Selection</a>
+                        </div>
+                        <div class="col-md-6">
+                            <button class="btn btn-primary pull-right" type="submit">Send Mail</button>
+                        </div>
+                    }
+                </div>
+            }
 
-                        }
-                    </div>
-                }
+        </div>
+    }
 
-                @if (ViewBag.IsAuthenticated == "true")
-                {
-                    using (Html.BeginForm("Insert", "StudentApplication", FormMethod.Post, new Dictionary<string, object>() {
+    @if (ViewBag.IsAuthenticated == "true")
+    {
+        <p style="text-align:center; font-size:22px; color:black; font-weight:bold;">APPLICATION FORM</p>
+        <p style="text-align:center; font-size:16px; color:black; font-weight:bold; margin-bottom:15px">PERSONAL INFORMATION</p>
+        using (Html.BeginForm("Insert", "StudentApplication", FormMethod.Post, new Dictionary<string, object>() {
                                 { "class", "form-horizontal" },
                                 { "role", "form" },
                                 { "enctype", "multipart/form-data"},
                                 }))
+        {
+            @Html.AntiForgeryToken()
+            @Html.HiddenFor(model => model.Id)
+            <ul class="nav nav-tabs" id="simpletab" role="tablist">
+                @if (ViewBag.IsPersonalInfoEntered == null && ViewBag.IsEducationalInfoEntered == null)
+                {
+                    <li class="nav-item">
+                        <a style="font-weight:bold;" class="nav-link active" id="personal-tab" data-toggle="tab" href="#personal" role="tab" aria-controls="personal" aria-selected="true">Personal Information</a>
+                    </li>
+                    <li class="nav-item">
+                        <button disabled style="font-weight:bold;" class="nav-link" id="leave-tab2" data-toggle="tab" href="#education" role="tab" aria-controls="leave" aria-selected="false">Educational Information</button>
+                    </li>
+                    <li class="nav-item pull-right">
+                        <button disabled style="font-weight:bold;" class="nav-link" id="files-tab2" data-toggle="tab" href="#files" role="tab" aria-controls="employeeFiles" aria-selected="false">File Upload</button>
+                    </li>
+                }
+                @if (ViewBag.IsPersonalInfoEntered != null && ViewBag.IsEducationalInfoEntered == null)
+                {
+                    <li class="nav-item">
+                        <a style="font-weight:bold;" class="nav-link" id="personal-tab" data-toggle="tab" href="#personal" role="tab" aria-controls="personal" aria-selected="false">Personal Information</a>
+                    </li>
+                    <li class="nav-item">
+                        <a style="font-weight:bold;" class="nav-link active" id="educational-tab2" data-toggle="tab" href="#educational" role="tab" aria-controls="educational" aria-selected="true">Educational Information</a>
+                    </li>
+                    <li class="nav-item pull-right">
+                        <button disabled style="font-weight:bold;" class="nav-link" id="files-tab2" data-toggle="tab" href="#files" role="tab" aria-controls="files" aria-selected="false">File Upload</button>
+                    </li>
+                }
+                @if (ViewBag.IsEducationalInfoEntered != null && ViewBag.IsPersonalInfoEntered != null)
+                {
+                    <li class="nav-item">
+                        <a style="font-weight:bold;" class="nav-link" id="personal-tab" data-toggle="tab" href="#personal" role="tab" aria-controls="personal" aria-selected="false">Personal Information</a>
+                    </li>
+                    <li class="nav-item">
+                        <a style="font-weight:bold;" class="nav-link" id="educational-tab2" data-toggle="tab" href="#educational" role="tab" aria-controls="educational" aria-selected="false">Educational Information</a>
+                    </li>
+                    <li class="nav-item pull-right">
+                        <a style="font-weight:bold;" class="nav-link active" id="files-tab2" data-toggle="tab" href="#files" role="tab" aria-controls="files" aria-selected="true">File Upload</a>
+                    </li>
+                }
+            </ul>
+            <div class="tab-content" id="simpletabContent">
+                <div class="tab-pane fade show active" id="personal" role="tabpanel" aria-labelledby="personal-tab">
+                    <div class="row">
+                        <div class="form-group col-md-6" id="ddlProgram">
+                            <label class="req" for="code">Your Selected Program</label>
+                            @Html.DropDownListFor(model => model.ProgramId, ViewBag.Programs as SelectList, new { @class = "form-control", @disabled = "disabled" })
+                        </div>
+                        <div class="form-group col-md-6" id="ddlDepartment">
+                            <label class="req" for="code">Department</label>
+                            @Html.DropDownListFor(model => model.DepartmentId, ViewBag.Departments as SelectList, "Select Department", new Dictionary<string, object>()
+                            {
+                                {"class", "form-control"},
+                                {"required", "" },
+                                {"oninvalid","this.setCustomValidity('Please select a department.')" },
+                                {"oninput","this.setCustomValidity('')" }
+                            })
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label class="req" for="code">First Name</label>
+                            @Html.TextBoxFor(model => model.StudentFirstName, new Dictionary<string, object>()
+                            {
+                                {"class", "form-control"},
+                                {"placeholder", "Please enter the First Name"},
+                                {"required", "" },
+                                {"oninvalid","this.setCustomValidity('Please enter a first name.')" },
+                                {"oninput","this.setCustomValidity('')" }
+                            })
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label class="req" for="code">Last Name</label>
+                            @Html.TextBoxFor(model => model.StudentLastName, new Dictionary<string, object>()
+                            {
+                                {"class", "form-control"},
+                                {"placeholder", "Please enter the Last Name"},
+                                {"required", "" },
+                                {"oninvalid","this.setCustomValidity('Please enter a last name.')" },
+                                {"oninput","this.setCustomValidity('')" }
+                            })
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label class="req" for="code">City of Birth</label>
+                            @Html.TextBoxFor(model => model.CityofBirth, new Dictionary<string, object>()
+                            {
+                                {"class", "form-control"},
+                                {"placeholder", "Please enter your City of Birth."},
+                                {"required", "" },
+                                {"oninvalid","this.setCustomValidity('Please enter your City of Birth.')" },
+                                {"oninput","this.setCustomValidity('')" }
+                            })
+                        </div>
+                        <div class="form-group col-md-6" id="ddlGender">
+                            <label class="req" for="code">Gender</label>
+                            @Html.DropDownListFor(model => model.Gender, ViewBag.StudentGenders as SelectList, "Select your Gender", new { @class = "form-control" })
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label class="req" for="code">Date of Birth</label>
+                            @Html.TextBoxFor(model => model.DateofBirth, "{0:yyyy-MM-dd}", new Dictionary<string, object>()
+                            {
+                                {"class", "form-control"},
+                                {"placeholder", "Please enter your Birthday."},
+                                {"type", "date" },
+                                {"required", "" },
+                                {"oninvalid","this.setCustomValidity('Please enter your Birthday.')" },
+                                {"oninput","this.setCustomValidity('')" }
+                            })
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label class="req" for="code">Phone Number</label>
+                            @Html.TextBoxFor(model => model.PhoneNumber, new Dictionary<string, object>()
+                            {
+                                {"class", "form-control"},
+                                {"placeholder", "Please enter the Phone Number"},
+                                {"type", "number" },
+                                {"required", "" },
+                                {"oninvalid","this.setCustomValidity('Please enter a phone number.')" },
+                                {"oninput","this.setCustomValidity('')" }
+                            })
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label class="req" for="code">Address</label>
+                            @Html.TextBoxFor(model => model.Address, new Dictionary<string, object>()
+                            {
+                                {"class", "form-control"},
+                                {"placeholder", "Please enter your address."},
+                                {"required", "" },
+                                {"oninvalid","this.setCustomValidity('Please enter your address.')" },
+                                {"oninput","this.setCustomValidity('')" }
+                            })
+                        </div>
+                        <div class="form-group col-md-6" id="ddlCountry">
+                            <label class="req" for="code">Country</label>
+                            @Html.DropDownListFor(model => model.Country, ViewBag.Countries as SelectList, "Select one", new { @class = "form-control" })
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label class="req" for="code">Citizenship</label>
+                            @Html.TextBoxFor(model => model.Citizenship, new Dictionary<string, object>()
+                            {
+                                {"class", "form-control"},
+                                {"placeholder", "Please enter your Citizenship."},
+                                {"required", "" },
+                                {"oninvalid","this.setCustomValidity('Please enter your Citizenship.')" },
+                                {"oninput","this.setCustomValidity('')" }
+                            })
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label class="req" for="code">Passport Number</label>
+                            @Html.TextBoxFor(model => model.PassportNumber, new Dictionary<string, object>()
+                            {
+                                {"class", "form-control"},
+                                {"placeholder", "Please enter your Passport Number."},
+                                {"type", "number" },
+                                {"required", "" },
+                                {"oninvalid","this.setCustomValidity('Please enter your Passport Number.')" },
+                                {"oninput","this.setCustomValidity('')" }
+                            })
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label class="req" for="code">Mother Name</label>
+                            @Html.TextBoxFor(model => model.MotherName, new Dictionary<string, object>()
+                            {
+                                {"class", "form-control"},
+                                {"placeholder", "Please enter your Mother's Name."},
+                                {"required", "" },
+                                {"oninvalid","this.setCustomValidity('Please enter your Mother's Name.')" },
+                                {"oninput","this.setCustomValidity('')" }
+                            })
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label class="req" for="code">Father Name</label>
+                            @Html.TextBoxFor(model => model.FatherName, new Dictionary<string, object>()
+                            {
+                                {"class", "form-control"},
+                                {"placeholder", "Please enter your Father's Name."},
+                                {"required", "" },
+                                {"oninvalid","this.setCustomValidity('Please enter your Father's Name.')" },
+                                {"oninput","this.setCustomValidity('')" }
+                            })
+                        </div>
+                        <div class="buttons col-md-12">
+                            <a class="btn btn-md btn-danger pull-left" href="/StudentApplication/Index">Back</a>
+                            @if (ViewBag.IsEducationalInfoEntered == null && ViewBag.IsPersonalInfoEntered == null)
+                            {
+                                <button class="btn btn-md btn-success pull-right" type="submit" OnClick="">Save</button>
+                            }
+                        </div>
+                    </div>
+                </div>
+                <div class="tab-pane fade" id="educational" role="tabpanel" aria-labelledby="educational-tab">
+                    @if (ViewBag.IsPersonalInfoEntered != null)
                     {
-                        @Html.AntiForgeryToken()
-                        @Html.HiddenFor(model => model.Id)
-                        <div class="personalInfo">
-                            <p style="text-align:center; font-size:22px; color:black; font-weight:bold;">APPLICATION FORM</p>
-                            <p style="text-align:center; font-size:16px; color:black; font-weight:bold; margin-bottom:15px">PERSONAL INFORMATION</p>
-                            <div class="row">
-                                <div class="form-group col-md-6" id="ddlProgram">
-                                    <label class="req" for="code">Your Selected Program</label>
-                                    @Html.DropDownListFor(model => model.ProgramId, ViewBag.Programs as SelectList, new { @class = "form-control", @disabled = "disabled" })
-                                </div>
-                                <div class="form-group col-md-6" id="ddlDepartment">
-                                    <label class="req" for="code">Department</label>
-                                    @Html.DropDownListFor(model => model.DepartmentId, ViewBag.Departments as SelectList, "Select Department", new Dictionary<string, object>()
+                        <p style="text-align:center; font-size:16px; margin-bottom:15px; color:black; font-weight:bold;">EDUCATIONAL INFORMATION</p>
+                        <div class="row">
+                            @if (Model.ProgramId == 2)
+                            {
+                                <div class="form-group col-md-6">
+                                    <label class="req" for="code">Bachelor University</label>
+                                    @Html.TextBoxFor(model => model.BachelorUni, new Dictionary<string, object>()
                                     {
                                         {"class", "form-control"},
+                                        {"placeholder", "Please enter your Bachelor Degree University."},
                                         {"required", "" },
-                                        {"oninvalid","this.setCustomValidity('Please select a department.')" },
+                                        {"oninvalid","this.setCustomValidity('Please enter your Bachelor Degree University.')" },
                                         {"oninput","this.setCustomValidity('')" }
                                     })
                                 </div>
                                 <div class="form-group col-md-6">
-                                    <label class="req" for="code">First Name</label>
-                                    @Html.TextBoxFor(model => model.StudentFirstName, new Dictionary<string, object>()
+                                    <label class="req" for="code">Bachelor Program</label>
+                                    @Html.TextBoxFor(model => model.BachelorProgram, new Dictionary<string, object>()
                                     {
                                         {"class", "form-control"},
-                                        {"placeholder", "Please enter the First Name"},
+                                        {"placeholder", "Please enter your Bachelor Degree Program."},
                                         {"required", "" },
-                                        {"oninvalid","this.setCustomValidity('Please enter a first name.')" },
+                                        {"oninvalid","this.setCustomValidity('Please enter your Bachelor Degree Program.')" },
                                         {"oninput","this.setCustomValidity('')" }
                                     })
                                 </div>
-                                <div class="form-group col-md-6">
-                                    <label class="req" for="code">Last Name</label>
-                                    @Html.TextBoxFor(model => model.StudentLastName, new Dictionary<string, object>()
-                                    {
-                                        {"class", "form-control"},
-                                        {"placeholder", "Please enter the Last Name"},
-                                        {"required", "" },
-                                        {"oninvalid","this.setCustomValidity('Please enter a last name.')" },
-                                        {"oninput","this.setCustomValidity('')" }
-                                    })
+                                <div class="form-group col-md-6" id="ddlBachelorCountry">
+                                    <label class="req" for="code">Bachelor University Country</label>
+                                    @Html.DropDownListFor(model => model.BachelorCountry, ViewBag.Countries as SelectList, "Select one", new { @class = "form-control" })
                                 </div>
                                 <div class="form-group col-md-6">
-                                    <label class="req" for="code">City of Birth</label>
-                                    @Html.TextBoxFor(model => model.CityofBirth, new Dictionary<string, object>()
+                                    <label class="req" for="code">Bachelor Graduation Date</label>
+                                    @Html.TextBoxFor(model => model.BachelorGradDate, "{0:yyyy-MM-dd}", new Dictionary<string, object>()
                                     {
                                         {"class", "form-control"},
-                                        {"placeholder", "Please enter your City of Birth."},
-                                        {"required", "" },
-                                        {"oninvalid","this.setCustomValidity('Please enter your City of Birth.')" },
-                                        {"oninput","this.setCustomValidity('')" }
-                                    })
-                                </div>
-                                <div class="form-group col-md-6" id="ddlGender">
-                                    <label class="req" for="code">Gender</label>
-                                    @Html.DropDownListFor(model => model.Gender, ViewBag.StudentGenders as SelectList, "Select your Gender", new { @class = "form-control" })
-                                </div>
-                                <div class="form-group col-md-6">
-                                    <label class="req" for="code">Date of Birth</label>
-                                    @Html.TextBoxFor(model => model.DateofBirth, "{0:yyyy-MM-dd}", new Dictionary<string, object>()
-                                    {
-                                        {"class", "form-control"},
-                                        {"placeholder", "Please enter your Birthday."},
+                                        {"placeholder", "Please enter your Bachelor ."},
                                         {"type", "date" },
                                         {"required", "" },
-                                        {"oninvalid","this.setCustomValidity('Please enter your Birthday.')" },
+                                        {"oninvalid","this.setCustomValidity('Please enter your Bachelor Graduation Date.')" },
                                         {"oninput","this.setCustomValidity('')" }
                                     })
                                 </div>
                                 <div class="form-group col-md-6">
-                                    <label class="req" for="code">Phone Number</label>
-                                    @Html.TextBoxFor(model => model.PhoneNumber, new Dictionary<string, object>()
+                                    <label class="req" for="code">Bachelor GPA</label>
+                                    @Html.TextBoxFor(model => model.BachelorGPA, new Dictionary<string, object>()
                                     {
                                         {"class", "form-control"},
-                                        {"placeholder", "Please enter the Phone Number"},
-                                        {"type", "number" },
+                                        {"placeholder", "Please enter your Bachelor ."},
+                                        {"type", "text" },
+                                        {"min", "0" },
+                                        {"max", "4" },
+                                        {"step", ".01" },
                                         {"required", "" },
-                                        {"oninvalid","this.setCustomValidity('Please enter a phone number.')" },
+                                        {"oninvalid","this.setCustomValidity('Please enter your Bachelor GPA.')" },
+                                        {"oninput","this.setCustomValidity('')" }
+                                    })
+                                </div>
+                                <div class="form-group col-md-6" id="ddlLanguageProficiency">
+                                    <label class="req" for="code">Language Proficiency</label>
+                                    @Html.DropDownListFor(model => model.LanguageProficiency, ViewBag.Proficiency as SelectList, "Select One", new { @class = "form-control" })
+                                </div>
+                            }
+                            @if (Model.ProgramId == 1)
+                            {
+                                <div class="checkboxes">
+                                    <div class="form-group col-md-6">
+                                        <div class="custom-control custom-switch">
+                                            @Html.CheckBoxFor(model => model.DualCitizenship, new Dictionary<string, object>()
+                                            {
+                                            {"class", "custom-control-input form-control"},
+                                            {"id", "dualCitizenship" }
+                                        })
+                                            <label class="custom-control-label" for="dualCitizenship">Dual Citizenship</label>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group col-md-6">
+                                        <div class="custom-control custom-switch">
+                                            @Html.CheckBoxFor(model => model.BlueCardOwner, new Dictionary<string, object>()
+                                            {
+                                            {"class", "custom-control-input form-control"},
+                                            {"id", "BlueCard" }
+                                        })
+                                            <label class="custom-control-label" for="BlueCard">Do you have Blue Card? (Turkish applicant only)</label>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group col-md-6">
+                                        <div class="custom-control custom-switch">
+                                            @Html.CheckBoxFor(model => model.IsGradFromUni, new Dictionary<string, object>()
+                                            {
+                                            {"class", "custom-control-input form-control"},
+                                            {"id", "IsGradFromUni" }
+                                        })
+                                            <label class="custom-control-label" for="IsGradFromUni">Did you graduated from university?</label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label class="req" for="code">High School Name</label>
+                                    @Html.TextBoxFor(model => model.HighSchoolName, new Dictionary<string, object>()
+                                    {
+                                        {"class", "form-control"},
+                                        {"placeholder", "Please enter your High School Name."},
+                                        {"required", "" },
+                                        {"oninvalid","this.setCustomValidity('Please enter your High School Name.')" },
+                                        {"oninput","this.setCustomValidity('')" }
+                                    })
+                                </div>
+                                <div class="form-group col-md-6" id="ddlHighSchoolCountry">
+                                    <label class="req" for="code">High School Country</label>
+                                    @Html.DropDownListFor(model => model.HighSchoolCountry, ViewBag.Countries as SelectList, "Select one", new { @class = "form-control" })
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label class="req" for="code">High School City</label>
+                                    @Html.TextBoxFor(model => model.HighSchoolCity, new Dictionary<string, object>()
+                                    {
+                                        {"class", "form-control"},
+                                        {"placeholder", "Please enter your High School Country."},
+                                        {"required", "" },
+                                        {"oninvalid","this.setCustomValidity('Please enter your High School Country.')" },
                                         {"oninput","this.setCustomValidity('')" }
                                     })
                                 </div>
                                 <div class="form-group col-md-6">
-                                    <label class="req" for="code">Address</label>
-                                    @Html.TextBoxFor(model => model.Address, new Dictionary<string, object>()
+                                    <label class="req" for="code">High School Country Graduation Year</label>
+                                    @Html.TextBoxFor(model => model.HighSchoolGradYear, new Dictionary<string, object>()
                                     {
                                         {"class", "form-control"},
-                                        {"placeholder", "Please enter your address."},
+                                        {"placeholder", "Please enter your Bachelor ."},
+                                        {"type", "text" },
                                         {"required", "" },
-                                        {"oninvalid","this.setCustomValidity('Please enter your address.')" },
-                                        {"oninput","this.setCustomValidity('')" }
-                                    })
-                                </div>
-                                <div class="form-group col-md-6" id="ddlCountry">
-                                    <label class="req" for="code">Country</label>
-                                    @Html.DropDownListFor(model => model.Country, ViewBag.Countries as SelectList, "Select one", new { @class = "form-control" })
-                                </div>
-                                <div class="form-group col-md-6">
-                                    <label class="req" for="code">Citizenship</label>
-                                    @Html.TextBoxFor(model => model.Citizenship, new Dictionary<string, object>()
-                                    {
-                                        {"class", "form-control"},
-                                        {"placeholder", "Please enter your Citizenship."},
-                                        {"required", "" },
-                                        {"oninvalid","this.setCustomValidity('Please enter your Citizenship.')" },
+                                        {"oninvalid","this.setCustomValidity('Please enter your High School Graduation Year.')" },
                                         {"oninput","this.setCustomValidity('')" }
                                     })
                                 </div>
                                 <div class="form-group col-md-6">
-                                    <label class="req" for="code">Passport Number</label>
-                                    @Html.TextBoxFor(model => model.PassportNumber, new Dictionary<string, object>()
+                                    <label class="req" for="code">High School GPA</label>
+                                    @Html.TextBoxFor(model => model.HighSchoolGPA, new Dictionary<string, object>()
                                     {
                                         {"class", "form-control"},
-                                        {"placeholder", "Please enter your Passport Number."},
-                                        {"type", "number" },
+                                        {"placeholder", "Please enter your High School GPA ."},
+                                        {"type", "text" },
+                                        {"min", "0" },
+                                        {"max", "4" },
+                                        {"step", ".01" },
                                         {"required", "" },
-                                        {"oninvalid","this.setCustomValidity('Please enter your Passport Number.')" },
+                                        {"oninvalid","this.setCustomValidity('Please enter your High School GPA.')" },
+                                        {"oninput","this.setCustomValidity('')" }
+                                    })
+                                </div>
+                                <div class="form-group col-md-6" id="ddlLanguageProficiency">
+                                    <label class="req" for="code">Language Proficiency</label>
+                                    @Html.DropDownListFor(model => model.LanguageProficiency, ViewBag.Proficiency as SelectList, "Select One", new { @class = "form-control" })
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label class="req" for="code">Language Exam Score</label>
+                                    @Html.TextBoxFor(model => model.LanguageExamScore, new Dictionary<string, object>()
+                                    {
+                                        {"class", "form-control"},
+                                        {"placeholder", "Please enter your Language Exam Score."},
+                                        {"type", "text" },
+                                        {"min", "0" },
+                                        {"max", "100" },
+                                        {"step", "1" },
+                                        {"required", "" },
+                                        {"oninvalid","this.setCustomValidity('Please enter your Language Exam Score.')" },
+                                        {"oninput","this.setCustomValidity('')" }
+                                    })
+                                </div>
+                            }
+                            @if (Model.ProgramId == 3)
+                            {
+                                <div class="form-group col-md-6">
+                                    <label class="req" for="code">Master University</label>
+                                    @Html.TextBoxFor(model => model.MasterUni, new Dictionary<string, object>()
+                                    {
+                                        {"class", "form-control"},
+                                        {"placeholder", "Please enter your Master Degree University."},
+                                        {"required", "" },
+                                        {"oninvalid","this.setCustomValidity('Please enter your Master Degree University.')" },
                                         {"oninput","this.setCustomValidity('')" }
                                     })
                                 </div>
                                 <div class="form-group col-md-6">
-                                    <label class="req" for="code">Mother Name</label>
-                                    @Html.TextBoxFor(model => model.MotherName, new Dictionary<string, object>()
+                                    <label class="req" for="code">Master Program</label>
+                                    @Html.TextBoxFor(model => model.MasterProgram, new Dictionary<string, object>()
                                     {
                                         {"class", "form-control"},
-                                        {"placeholder", "Please enter your Mother's Name."},
+                                        {"placeholder", "Please enter your Master Degree Program."},
                                         {"required", "" },
-                                        {"oninvalid","this.setCustomValidity('Please enter your Mother's Name.')" },
+                                        {"oninvalid","this.setCustomValidity('Please enter your Master Degree Program.')" },
+                                        {"oninput","this.setCustomValidity('')" }
+                                    })
+                                </div>
+                                <div class="form-group col-md-6" id="ddlMasterCountry">
+                                    <label class="req" for="code">Master Country</label>
+                                    @Html.DropDownListFor(model => model.MasterCountry, ViewBag.Countries as SelectList, "Select one", new { @class = "form-control" })
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label class="req" for="code">Master Graduation Date</label>
+                                    @Html.TextBoxFor(model => model.MasterGradDate, "{0:yyyy-MM-dd}", new Dictionary<string, object>()
+                                    {
+                                        {"class", "form-control"},
+                                        {"placeholder", "Please enter your Master Graduation Date."},
+                                        {"type", "date" },
+                                        {"required", "" },
+                                        {"oninvalid","this.setCustomValidity('Please enter your Master Graduation Date.')" },
                                         {"oninput","this.setCustomValidity('')" }
                                     })
                                 </div>
                                 <div class="form-group col-md-6">
-                                    <label class="req" for="code">Father Name</label>
-                                    @Html.TextBoxFor(model => model.FatherName, new Dictionary<string, object>()
+                                    <label class="req" for="code">Master GPA</label>
+                                    @Html.TextBoxFor(model => model.MasterGPA, new Dictionary<string, object>()
                                     {
                                         {"class", "form-control"},
-                                        {"placeholder", "Please enter your Father's Name."},
+                                        {"placeholder", "Please enter your Master GPA ."},
+                                        {"type", "text" },
+                                        {"min", "0" },
+                                        {"max", "4" },
+                                        {"step", ".01" },
                                         {"required", "" },
-                                        {"oninvalid","this.setCustomValidity('Please enter your Father's Name.')" },
+                                        {"oninvalid","this.setCustomValidity('Please enter your Master GPA.')" },
                                         {"oninput","this.setCustomValidity('')" }
                                     })
                                 </div>
+                                <div class="form-group col-md-6" id="ddlLanguageProficiency">
+                                    <label class="req" for="code">Language Proficiency</label>
+                                    @Html.DropDownListFor(model => model.LanguageProficiency, ViewBag.Proficiency as SelectList, "Select One", new { @class = "form-control" })
+                                </div>
+                            }
+                            <div class="buttons col-md-12">
+                                <a class="btn btn-md btn-danger pull-left" onclick="backtoPersonal()">Back</a>
+                                @if (ViewBag.IsEducationalInfoEntered == null)
+                                {
+                                    <button class="btn btn-md btn-success pull-right" type="submit" OnClick="">Save</button>
+                                }
                             </div>
+
                         </div>
-                        <div class="educationInfo">
-                            @if (ViewBag.IsPersonalInfoEntered != null)
+                    }
+                </div>
+                <div class="tab-pane fade" id="files" role="tabpanel" aria-labelledby="files-tab">
+                    @if (ViewBag.IsEducationalInfoEntered == "true")
+                    {
+                        <p style="text-align:center; font-size:16px; color:black; font-weight:bold; margin-bottom:15px">FILE UPLOADS</p>
+                        <div class="row">
+                            @if (Model.ProgramId == 2)
                             {
-                                <p style="text-align:center; font-size:16px; margin-bottom:15px; color:black; font-weight:bold;">EDUCATIONAL INFORMATION</p>
-                                <div class="row">
-
-                                    @if (Model.ProgramId == 2)
+                                <div class="form-group col-md-6">
+                                    <label class="req" for="code">CV</label>
+                                    @if (Model.cvContentResult != null)
                                     {
-                                        <div class="form-group col-md-6">
-                                            <label class="req" for="code">Bachelor University</label>
-                                            @Html.TextBoxFor(model => model.BachelorUni, new Dictionary<string, object>()
-                                            {
-                                                {"class", "form-control"},
-                                                {"placeholder", "Please enter your Bachelor Degree University."},
-                                                {"required", "" },
-                                                {"oninvalid","this.setCustomValidity('Please enter your Bachelor Degree University.')" },
-                                                {"oninput","this.setCustomValidity('')" }
-                                            })
-                                        </div>
-                                        <div class="form-group col-md-6">
-                                            <label class="req" for="code">Bachelor Program</label>
-                                            @Html.TextBoxFor(model => model.BachelorProgram, new Dictionary<string, object>()
-                                            {
-                                                {"class", "form-control"},
-                                                {"placeholder", "Please enter your Bachelor Degree Program."},
-                                                {"required", "" },
-                                                {"oninvalid","this.setCustomValidity('Please enter your Bachelor Degree Program.')" },
-                                                {"oninput","this.setCustomValidity('')" }
-                                            })
-                                        </div>
-                                        <div class="form-group col-md-6" id="ddlBachelorCountry">
-                                            <label class="req" for="code">Bachelor University Country</label>
-                                            @Html.DropDownListFor(model => model.BachelorCountry, ViewBag.Countries as SelectList, "Select one", new { @class = "form-control" })
-                                        </div>
-                                        <div class="form-group col-md-6">
-                                            <label class="req" for="code">Bachelor Graduation Date</label>
-                                            @Html.TextBoxFor(model => model.BachelorGradDate, "{0:yyyy-MM-dd}", new Dictionary<string, object>()
-                                            {
-                                                {"class", "form-control"},
-                                                {"placeholder", "Please enter your Bachelor ."},
-                                                {"type", "date" },
-                                                {"required", "" },
-                                                {"oninvalid","this.setCustomValidity('Please enter your Bachelor Graduation Date.')" },
-                                                {"oninput","this.setCustomValidity('')" }
-                                            })
-                                        </div>
-                                        <div class="form-group col-md-6">
-                                            <label class="req" for="code">Bachelor GPA</label>
-                                            @Html.TextBoxFor(model => model.BachelorGPA, new Dictionary<string, object>()
-                                            {
-                                                {"class", "form-control"},
-                                                {"placeholder", "Please enter your Bachelor ."},
-                                                {"type", "text" },
-                                                {"min", "0" },
-                                                {"max", "4" },
-                                                {"step", ".01" },
-                                                {"required", "" },
-                                                {"oninvalid","this.setCustomValidity('Please enter your Bachelor GPA.')" },
-                                                {"oninput","this.setCustomValidity('')" }
-                                            })
-                                        </div>
-                                        <div class="form-group col-md-6" id="ddlLanguageProficiency">
-                                            <label class="req" for="code">Language Proficiency</label>
-                                            @Html.DropDownListFor(model => model.LanguageProficiency, ViewBag.Proficiency as SelectList, "Select One", new { @class = "form-control" })
+                                        <div class="fileButtonGroup">
+                                            <a href="@Url.Action("DownloadFile", "StudentApplication", new { id = Model.Id, name = "CV" })" class="btn btn-primary">
+                                                <i class="icon-download icon-white"></i>
+                                                <span>
+                                                    <strong>Download</strong>
+                                                </span>
+                                            </a>
+                                            <a href="@Url.Action("DeleteFile", "StudentApplication", new { id = Model.Id, name = "CV" })" class="btn btn-primary">
+                                                <i class="icon-trash icon-white"></i>
+                                                <span>
+                                                    <strong>Delete</strong>
+                                                </span>
+                                            </a>
                                         </div>
                                     }
-                                    @if (Model.ProgramId == 1)
+                                    else
                                     {
-                                        <div class="checkboxes">
-                                            <div class="form-group col-md-6">
-                                                <div class="custom-control custom-switch">
-                                                    @Html.CheckBoxFor(model => model.DualCitizenship, new Dictionary<string, object>()
-                                                    {
-                                                    {"class", "custom-control-input form-control"},
-                                                    {"id", "dualCitizenship" }
-                                                })
-                                                    <label class="custom-control-label" for="dualCitizenship">Dual Citizenship</label>
-                                                </div>
-                                            </div>
-
-                                            <div class="form-group col-md-6">
-                                                <div class="custom-control custom-switch">
-                                                    @Html.CheckBoxFor(model => model.BlueCardOwner, new Dictionary<string, object>()
-                                                    {
-                                                    {"class", "custom-control-input form-control"},
-                                                    {"id", "BlueCard" }
-                                                })
-                                                    <label class="custom-control-label" for="BlueCard">Do you have Blue Card? (Turkish applicant only)</label>
-                                                </div>
-                                            </div>
-
-                                            <div class="form-group col-md-6">
-                                                <div class="custom-control custom-switch">
-                                                    @Html.CheckBoxFor(model => model.IsGradFromUni, new Dictionary<string, object>()
-                                                    {
-                                                    {"class", "custom-control-input form-control"},
-                                                    {"id", "IsGradFromUni" }
-                                                })
-                                                    <label class="custom-control-label" for="IsGradFromUni">Did you graduated from university?</label>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="form-group col-md-6">
-                                            <label class="req" for="code">High School Name</label>
-                                            @Html.TextBoxFor(model => model.HighSchoolName, new Dictionary<string, object>()
-                                            {
-                                                {"class", "form-control"},
-                                                {"placeholder", "Please enter your High School Name."},
-                                                {"required", "" },
-                                                {"oninvalid","this.setCustomValidity('Please enter your High School Name.')" },
-                                                {"oninput","this.setCustomValidity('')" }
-                                            })
-                                        </div>
-                                        <div class="form-group col-md-6" id="ddlHighSchoolCountry">
-                                            <label class="req" for="code">High School Country</label>
-                                            @Html.DropDownListFor(model => model.HighSchoolCountry, ViewBag.Countries as SelectList, "Select one", new { @class = "form-control" })
-                                        </div>
-                                        <div class="form-group col-md-6">
-                                            <label class="req" for="code">High School City</label>
-                                            @Html.TextBoxFor(model => model.HighSchoolCity, new Dictionary<string, object>()
-                                            {
-                                                {"class", "form-control"},
-                                                {"placeholder", "Please enter your High School Country."},
-                                                {"required", "" },
-                                                {"oninvalid","this.setCustomValidity('Please enter your High School Country.')" },
-                                                {"oninput","this.setCustomValidity('')" }
-                                            })
-                                        </div>
-                                        <div class="form-group col-md-6">
-                                            <label class="req" for="code">High School Country Graduation Year</label>
-                                            @Html.TextBoxFor(model => model.HighSchoolGradYear, new Dictionary<string, object>()
-                                            {
-                                                {"class", "form-control"},
-                                                {"placeholder", "Please enter your Bachelor ."},
-                                                {"type", "text" },
-                                                {"required", "" },
-                                                {"oninvalid","this.setCustomValidity('Please enter your High School Graduation Year.')" },
-                                                {"oninput","this.setCustomValidity('')" }
-                                            })
-                                        </div>
-                                        <div class="form-group col-md-6">
-                                            <label class="req" for="code">High School GPA</label>
-                                            @Html.TextBoxFor(model => model.HighSchoolGPA, new Dictionary<string, object>()
-                                            {
-                                                {"class", "form-control"},
-                                                {"placeholder", "Please enter your High School GPA ."},
-                                                {"type", "text" },
-                                                {"min", "0" },
-                                                {"max", "4" },
-                                                {"step", ".01" },
-                                                {"required", "" },
-                                                {"oninvalid","this.setCustomValidity('Please enter your High School GPA.')" },
-                                                {"oninput","this.setCustomValidity('')" }
-                                            })
-                                        </div>
-                                        <div class="form-group col-md-6" id="ddlLanguageProficiency">
-                                            <label class="req" for="code">Language Proficiency</label>
-                                            @Html.DropDownListFor(model => model.LanguageProficiency, ViewBag.Proficiency as SelectList, "Select One", new { @class = "form-control" })
-                                        </div>
-                                        <div class="form-group col-md-6">
-                                            <label class="req" for="code">Language Exam Score</label>
-                                            @Html.TextBoxFor(model => model.LanguageExamScore, new Dictionary<string, object>()
-                                            {
-                                                {"class", "form-control"},
-                                                {"placeholder", "Please enter your Language Exam Score."},
-                                                {"type", "text" },
-                                                {"min", "0" },
-                                                {"max", "100" },
-                                                {"step", "1" },
-                                                {"required", "" },
-                                                {"oninvalid","this.setCustomValidity('Please enter your Language Exam Score.')" },
-                                                {"oninput","this.setCustomValidity('')" }
-                                            })
-                                        </div>
+                                        @Html.TextBoxFor(model => model.cv, new Dictionary<string, object>()
+                                        {
+                                            {"class", "form-control"},
+                                            {"type", "file" },
+                                            {"id", "fileName" },
+                                            {"required", "" },
+                                            {"oninvalid","this.setCustomValidity('Please choose a file.')" },
+                                            {"oninput","this.setCustomValidity('')" },
+                                            {"accept", ".jpeg, .png, .jpg, .pdf, .docx" }
+                                        })
                                     }
-                                    @if (Model.ProgramId == 3)
-                                    {
-                                        <div class="form-group col-md-6">
-                                            <label class="req" for="code">Master University</label>
-                                            @Html.TextBoxFor(model => model.MasterUni, new Dictionary<string, object>()
-                                            {
-                                                {"class", "form-control"},
-                                                {"placeholder", "Please enter your Master Degree University."},
-                                                {"required", "" },
-                                                {"oninvalid","this.setCustomValidity('Please enter your Master Degree University.')" },
-                                                {"oninput","this.setCustomValidity('')" }
-                                            })
-                                        </div>
-                                        <div class="form-group col-md-6">
-                                            <label class="req" for="code">Master Program</label>
-                                            @Html.TextBoxFor(model => model.MasterProgram, new Dictionary<string, object>()
-                                            {
-                                                {"class", "form-control"},
-                                                {"placeholder", "Please enter your Master Degree Program."},
-                                                {"required", "" },
-                                                {"oninvalid","this.setCustomValidity('Please enter your Master Degree Program.')" },
-                                                {"oninput","this.setCustomValidity('')" }
-                                            })
-                                        </div>
-                                        <div class="form-group col-md-6" id="ddlMasterCountry">
-                                            <label class="req" for="code">Master Country</label>
-                                            @Html.DropDownListFor(model => model.MasterCountry, ViewBag.Countries as SelectList, "Select one", new { @class = "form-control" })
-                                        </div>
-                                        <div class="form-group col-md-6">
-                                            <label class="req" for="code">Master Graduation Date</label>
-                                            @Html.TextBoxFor(model => model.MasterGradDate, "{0:yyyy-MM-dd}", new Dictionary<string, object>()
-                                            {
-                                                {"class", "form-control"},
-                                                {"placeholder", "Please enter your Master Graduation Date."},
-                                                {"type", "date" },
-                                                {"required", "" },
-                                                {"oninvalid","this.setCustomValidity('Please enter your Master Graduation Date.')" },
-                                                {"oninput","this.setCustomValidity('')" }
-                                            })
-                                        </div>
-                                        <div class="form-group col-md-6">
-                                            <label class="req" for="code">Master GPA</label>
-                                            @Html.TextBoxFor(model => model.MasterGPA, new Dictionary<string, object>()
-                                            {
-                                                {"class", "form-control"},
-                                                {"placeholder", "Please enter your Master GPA ."},
-                                                {"type", "text" },
-                                                {"min", "0" },
-                                                {"max", "4" },
-                                                {"step", ".01" },
-                                                {"required", "" },
-                                                {"oninvalid","this.setCustomValidity('Please enter your Master GPA.')" },
-                                                {"oninput","this.setCustomValidity('')" }
-                                            })
-                                        </div>
-                                        <div class="form-group col-md-6" id="ddlLanguageProficiency">
-                                            <label class="req" for="code">Language Proficiency</label>
-                                            @Html.DropDownListFor(model => model.LanguageProficiency, ViewBag.Proficiency as SelectList, "Select One", new { @class = "form-control" })
-                                        </div>
-                                    }
-
                                 </div>
-                            }
-                        </div>
-                        <div class="fileUploads">
-                            @if (ViewBag.IsEducationalInfoEntered == "true")
-                            {
-                                <p style="text-align:center; font-size:16px; color:black; font-weight:bold; margin-bottom:15px">FILE UPLOADS</p>
-                                <div class="row">
-                                    @if (Model.ProgramId == 2)
+                                <div class="form-group col-md-6">
+                                    <label class="req" for="code">Bachelor Diploma</label>
+                                    @if (Model.bachelorDiplomaContentResult != null)
                                     {
-                                        <div class="form-group col-md-6">
-                                            <label class="req" for="code">CV</label>
-                                            @if (Model.cvContentResult != null)
-                                            {
-                                                <div class="fileButtonGroup">
-                                                    <a href="@Url.Action("DownloadFile", "StudentApplication", new { id = Model.Id, name = "CV" })" class="btn btn-primary">
-                                                        <i class="icon-download icon-white"></i>
-                                                        <span>
-                                                            <strong>Download</strong>
-                                                        </span>
-                                                    </a>
-                                                    <a href="@Url.Action("DeleteFile", "StudentApplication", new { id = Model.Id, name = "CV" })" class="btn btn-primary">
-                                                        <i class="icon-trash icon-white"></i>
-                                                        <span>
-                                                            <strong>Delete</strong>
-                                                        </span>
-                                                    </a>
-                                                </div>
-                                            }
-                                            else
-                                            {
-                                                @Html.TextBoxFor(model => model.cv, new Dictionary<string, object>()
-                                                {
-                                                    {"class", "form-control"},
-                                                    {"type", "file" },
-                                                    {"id", "fileName" },
-                                                    {"required", "" },
-                                                    {"oninvalid","this.setCustomValidity('Please choose a file.')" },
-                                                    {"oninput","this.setCustomValidity('')" },
-                                                    {"accept", ".jpeg, .png, .jpg, .pdf, .docx" }
-                                                })
-                                            }
-                                        </div>
-                                        <div class="form-group col-md-6">
-                                            <label class="req" for="code">Bachelor Diploma</label>
-                                            @if (Model.bachelorDiplomaContentResult != null)
-                                            {
-                                                <div class="fileButtonGroup">
-                                                    <a href="@Url.Action("DownloadFile", "StudentApplication", new { id = Model.Id, name = "BachelorDiploma" })" class="btn btn-primary">
-                                                        <i class="icon-download icon-white"></i>
-                                                        <span>
-                                                            <strong>Download</strong>
-                                                        </span>
-                                                    </a>
-                                                    <a href="@Url.Action("DeleteFile", "StudentApplication", new { id = Model.Id, name = "BachelorDiploma" })" class="btn btn-primary">
-                                                        <i class="icon-trash icon-white"></i>
-                                                        <span>
-                                                            <strong>Delete</strong>
-                                                        </span>
-                                                    </a>
-                                                </div>
-                                            }
-                                            else
-                                            {
-                                                @Html.TextBoxFor(model => model.bachelorDiploma, new Dictionary<string, object>()
-                                                {
-                                                    {"class", "form-control"},
-                                                    {"type", "file" },
-                                                    {"id", "fileName" },
-                                                    {"required", "" },
-                                                    {"oninvalid","this.setCustomValidity('Please choose a file.')" },
-                                                    {"oninput","this.setCustomValidity('')" },
-                                                    {"accept", ".jpeg, .png, .jpg, .pdf, .docx" }
-                                                })
-                                            }
-                                        </div>
-                                        <div class="form-group col-md-6">
-                                            <label class="req" for="code">Bachelor Transcript</label>
-                                            @if (Model.bachelorTranscriptContentResult != null)
-                                            {
-                                                <div class="fileButtonGroup">
-                                                    <a href="@Url.Action("DownloadFile", "StudentApplication", new { id = Model.Id, name = "BachelorTranscript" })" class="btn btn-primary">
-                                                        <i class="icon-download icon-white"></i>
-                                                        <span>
-                                                            <strong>Download</strong>
-                                                        </span>
-                                                    </a>
-                                                    <a href="@Url.Action("DeleteFile", "StudentApplication", new { id = Model.Id, name = "BachelorTranscript" })" class="btn btn-primary">
-                                                        <i class="icon-trash icon-white"></i>
-                                                        <span>
-                                                            <strong>Delete</strong>
-                                                        </span>
-                                                    </a>
-                                                </div>
-                                            }
-                                            else
-                                            {
-                                                @Html.TextBoxFor(model => model.bachelorTranscript, new Dictionary<string, object>()
-                                                {
-                                                    {"class", "form-control"},
-                                                    {"type", "file" },
-                                                    {"id", "fileName" },
-                                                    {"required", "" },
-                                                    {"oninvalid","this.setCustomValidity('Please choose a file.')" },
-                                                    {"oninput","this.setCustomValidity('')" },
-                                                    {"accept", ".jpeg, .png, .jpg, .pdf, .docx" }
-                                                })
-                                            }
-                                        </div>
-                                        <div class="form-group col-md-6">
-                                            <label class="req" for="code">Copy of Passport / ID Card</label>
-                                            @if (Model.IdorPassportCopyContentResult != null)
-                                            {
-                                                <div class="fileButtonGroup">
-                                                    <a href="@Url.Action("DownloadFile", "StudentApplication", new { id = Model.Id, name = "CopyofPassportorIDCard" })" class="btn btn-primary">
-                                                        <i class="icon-download icon-white"></i>
-                                                        <span>
-                                                            <strong>Download</strong>
-                                                        </span>
-                                                    </a>
-                                                    <a href="@Url.Action("DeleteFile", "StudentApplication", new { id = Model.Id, name = "CopyofPassportorIDCard" })" class="btn btn-primary">
-                                                        <i class="icon-trash icon-white"></i>
-                                                        <span>
-                                                            <strong>Delete</strong>
-                                                        </span>
-                                                    </a>
-                                                </div>
-                                            }
-                                            else
-                                            {
-                                                @Html.TextBoxFor(model => model.IdorPassportCopy, new Dictionary<string, object>()
-                                                {
-                                                    {"class", "form-control"},
-                                                    {"type", "file" },
-                                                    {"id", "fileName" },
-                                                    {"required", "" },
-                                                    {"oninvalid","this.setCustomValidity('Please choose a file.')" },
-                                                    {"oninput","this.setCustomValidity('')" },
-                                                    {"accept", ".jpeg, .png, .jpg, .pdf, .docx" }
-                                                })
-                                            }
-                                        </div>
-                                        <div class="form-group col-md-6">
-                                            <label class="req" for="code">English Language Proficiency Score</label>
-                                            @if (Model.englishLanguageProfScoreContentResult != null)
-                                            {
-                                                <div class="fileButtonGroup">
-                                                    <a href="@Url.Action("DownloadFile", "StudentApplication", new { id = Model.Id, name = "EnglishLanguageProficiencyScore" })" class="btn btn-primary">
-                                                        <i class="icon-download icon-white"></i>
-                                                        <span>
-                                                            <strong>Download</strong>
-                                                        </span>
-                                                    </a>
-                                                    <a href="@Url.Action("DeleteFile", "StudentApplication", new { id = Model.Id, name = "EnglishLanguageProficiencyScore" })" class="btn btn-primary">
-                                                        <i class="icon-trash icon-white"></i>
-                                                        <span>
-                                                            <strong>Delete</strong>
-                                                        </span>
-                                                    </a>
-                                                </div>
-                                            }
-                                            else
-                                            {
-                                                @Html.TextBoxFor(model => model.englishLanguageProfScore, new Dictionary<string, object>()
-                                                {
-                                                    {"class", "form-control"},
-                                                    {"type", "file" },
-                                                    {"id", "fileName" },
-                                                    {"accept", ".jpeg, .png, .jpg, .pdf, .docx" }
-                                                })
-                                            }
+                                        <div class="fileButtonGroup">
+                                            <a href="@Url.Action("DownloadFile", "StudentApplication", new { id = Model.Id, name = "BachelorDiploma" })" class="btn btn-primary">
+                                                <i class="icon-download icon-white"></i>
+                                                <span>
+                                                    <strong>Download</strong>
+                                                </span>
+                                            </a>
+                                            <a href="@Url.Action("DeleteFile", "StudentApplication", new { id = Model.Id, name = "BachelorDiploma" })" class="btn btn-primary">
+                                                <i class="icon-trash icon-white"></i>
+                                                <span>
+                                                    <strong>Delete</strong>
+                                                </span>
+                                            </a>
                                         </div>
                                     }
-                                    @if (Model.ProgramId == 1)
+                                    else
                                     {
-                                        <div class="form-group col-md-6">
-                                            <label class="req" for="code">High School Transcript</label>
-                                            @if (Model.highSchoolTranscriptContentResult != null)
-                                            {
-                                                <div class="fileButtonGroup">
-                                                    <a href="@Url.Action("DownloadFile", "StudentApplication", new { id = Model.Id, name = "HighSchoolTranscript" })" class="btn btn-primary">
-                                                        <i class="icon-download icon-white"></i>
-                                                        <span>
-                                                            <strong>Download</strong>
-                                                        </span>
-                                                    </a>
-                                                    <a href="@Url.Action("DeleteFile", "StudentApplication", new { id = Model.Id, name = "HighSchoolTranscript" })" class="btn btn-primary">
-                                                        <i class="icon-trash icon-white"></i>
-                                                        <span>
-                                                            <strong>Delete</strong>
-                                                        </span>
-                                                    </a>
-                                                </div>
-                                            }
-                                            else
-                                            {
-                                                @Html.TextBoxFor(model => model.highSchoolTranscript, new Dictionary<string, object>()
-                                                {
-                                                    {"class", "form-control"},
-                                                    {"type", "file" },
-                                                    {"required", "" },
-                                                    {"id", "fileName" },
-                                                    {"oninvalid","this.setCustomValidity('Please choose a file.')" },
-                                                    {"oninput","this.setCustomValidity('')" },
-                                                    {"accept", ".jpeg, .png, .jpg, .pdf, .docx" }
-                                                })
-                                            }
-                                        </div>
-                                        <div class="form-group col-md-6">
-                                            <label class="req" for="code">High School Diploma</label>
-                                            @if (Model.highSchoolDiplomaContentResult != null)
-                                            {
-                                                <div class="fileButtonGroup">
-                                                    <a href="@Url.Action("DownloadFile", "StudentApplication", new { id = Model.Id, name = "HighSchoolDiploma" })" class="btn btn-primary">
-                                                        <i class="icon-download icon-white"></i>
-                                                        <span>
-                                                            <strong>Download</strong>
-                                                        </span>
-                                                    </a>
-                                                    <a href="@Url.Action("DeleteFile", "StudentApplication", new { id = Model.Id, name = "HighSchoolDiploma" })" class="btn btn-primary">
-                                                        <i class="icon-trash icon-white"></i>
-                                                        <span>
-                                                            <strong>Delete</strong>
-                                                        </span>
-                                                    </a>
-                                                </div>
-                                            }
-                                            else
-                                            {
-                                                @Html.TextBoxFor(model => model.highSchoolDiploma, new Dictionary<string, object>()
-                                                {
-                                                    {"class", "form-control"},
-                                                    {"type", "file" },
-                                                    {"id", "fileName" },
-                                                    {"accept", ".jpeg, .png, .jpg, .pdf, .docx" }
-                                                })
-                                            }
-                                        </div>
-                                        <div class="form-group col-md-6">
-                                            <label class="req" for="code">Residence Permit</label>
-                                            @if (Model.residencePermitContentResult != null)
-                                            {
-                                                <div class="fileButtonGroup">
-                                                    <a href="@Url.Action("DownloadFile", "StudentApplication", new { id = Model.Id, name = "ResidencePermit" })" class="btn btn-primary">
-                                                        <i class="icon-download icon-white"></i>
-                                                        <span>
-                                                            <strong>Download</strong>
-                                                        </span>
-                                                    </a>
-                                                    <a href="@Url.Action("DeleteFile", "StudentApplication", new { id = Model.Id, name = "ResidencePermit" })" class="btn btn-primary">
-                                                        <i class="icon-trash icon-white"></i>
-                                                        <span>
-                                                            <strong>Delete</strong>
-                                                        </span>
-                                                    </a>
-                                                </div>
-                                            }
-                                            else
-                                            {
-                                                @Html.TextBoxFor(model => model.residencePermit, new Dictionary<string, object>()
-                                                {
-                                                    {"class", "form-control"},
-                                                    {"type", "file" },
-                                                    {"id", "fileName" },
-                                                    {"accept", ".jpeg, .png, .jpg, .pdf, .docx" }
-                                                })
-                                            }
-                                        </div>
-                                        <div class="form-group col-md-6">
-                                            <label class="req" for="code">Equivalence Certificate</label>
-                                            @if (Model.equivalenceCertificateContentResult != null)
-                                            {
-                                                <div class="fileButtonGroup">
-                                                    <a href="@Url.Action("DownloadFile", "StudentApplication", new { id = Model.Id, name = "EquivalenceCertificate" })" class="btn btn-primary">
-                                                        <i class="icon-download icon-white"></i>
-                                                        <span>
-                                                            <strong>Download</strong>
-                                                        </span>
-                                                    </a>
-                                                    <a href="@Url.Action("DeleteFile", "StudentApplication", new { id = Model.Id, name = "EquivalenceCertificate" })" class="btn btn-primary">
-                                                        <i class="icon-trash icon-white"></i>
-                                                        <span>
-                                                            <strong>Delete</strong>
-                                                        </span>
-                                                    </a>
-                                                </div>
-                                            }
-                                            else
-                                            {
-                                                @Html.TextBoxFor(model => model.equivalenceCertificate, new Dictionary<string, object>()
-                                                {
-                                                    {"class", "form-control"},
-                                                    {"type", "file" },
-                                                    {"id", "fileName" },
-                                                    {"accept", ".jpeg, .png, .jpg, .pdf, .docx" }
-                                                })
-                                            }
-                                        </div>
-                                        <div class="form-group col-md-6">
-                                            <label class="req" for="code">Student Photo</label>
-                                            @if (Model.studentPhotoContentResult != null)
-                                            {
-                                                <div class="fileButtonGroup">
-                                                    <a href="@Url.Action("DownloadFile", "StudentApplication", new { id = Model.Id, name = "StudentPhoto" })" class="btn btn-primary">
-                                                        <i class="icon-download icon-white"></i>
-                                                        <span>
-                                                            <strong>Download</strong>
-                                                        </span>
-                                                    </a>
-                                                    <a href="@Url.Action("DeleteFile", "StudentApplication", new { id = Model.Id, name = "StudentPhoto" })" class="btn btn-primary">
-                                                        <i class="icon-trash icon-white"></i>
-                                                        <span>
-                                                            <strong>Delete</strong>
-                                                        </span>
-                                                    </a>
-                                                </div>
-                                            }
-                                            else
-                                            {
-                                                @Html.TextBoxFor(model => model.studentPhoto, new Dictionary<string, object>()
-                                                {
-                                                    {"class", "form-control"},
-                                                    {"type", "file" },
-                                                    {"id", "fileName" },
-                                                    {"accept", ".jpeg, .png, .jpg, .pdf, .docx" }
-                                                })
-                                            }
-                                        </div>
-                                        <div class="form-group col-md-6">
-                                            <label class="req" for="code">International Exam Score</label>
-                                            @if (Model.internationalExamScoreContentResult != null)
-                                            {
-                                                <div class="fileButtonGroup">
-                                                    <a href="@Url.Action("DownloadFile", "StudentApplication", new { id = Model.Id, name = "InternationalExamScore" })" class="btn btn-primary">
-                                                        <i class="icon-download icon-white"></i>
-                                                        <span>
-                                                            <strong>Download</strong>
-                                                        </span>
-                                                    </a>
-                                                    <a href="@Url.Action("DeleteFile", "StudentApplication", new { id = Model.Id, name = "InternationalExamScore" })" class="btn btn-primary">
-                                                        <i class="icon-trash icon-white"></i>
-                                                        <span>
-                                                            <strong>Delete</strong>
-                                                        </span>
-                                                    </a>
-                                                </div>
-                                            }
-                                            else
-                                            {
-                                                @Html.TextBoxFor(model => model.internationalExamScore, new Dictionary<string, object>()
-                                                {
-                                                    {"class", "form-control"},
-                                                    {"type", "file" },
-                                                    {"id", "fileName" },
-                                                    {"accept", ".jpeg, .png, .jpg, .pdf, .docx" }
-                                                })
-                                            }
-                                        </div>
-                                        <div class="form-group col-md-6">
-                                            <label class="req" for="code">Copy of Passport / ID Card</label>
-                                            @if (Model.IdorPassportCopyContentResult != null)
-                                            {
-                                                <div class="fileButtonGroup">
-                                                    <a href="@Url.Action("DownloadFile", "StudentApplication", new { id = Model.Id, name = "CopyofPassportorIDCard" })" class="btn btn-primary">
-                                                        <i class="icon-download icon-white"></i>
-                                                        <span>
-                                                            <strong>Download</strong>
-                                                        </span>
-                                                    </a>
-                                                    <a href="@Url.Action("DeleteFile", "StudentApplication", new { id = Model.Id, name = "CopyofPassportorIDCard" })" class="btn btn-primary">
-                                                        <i class="icon-trash icon-white"></i>
-                                                        <span>
-                                                            <strong>Delete</strong>
-                                                        </span>
-                                                    </a>
-                                                </div>
-                                            }
-                                            else
-                                            {
-                                                @Html.TextBoxFor(model => model.IdorPassportCopy, new Dictionary<string, object>()
-                                                {
-                                                    {"class", "form-control"},
-                                                    {"type", "file" },
-                                                    {"id", "fileName" },
-                                                    {"required", "" },
-                                                    {"oninvalid","this.setCustomValidity('Please choose a file.')" },
-                                                    {"oninput","this.setCustomValidity('')" },
-                                                    {"accept", ".jpeg, .png, .jpg, .pdf, .docx" }
-                                                })
-                                            }
-                                        </div>
-                                        <div class="form-group col-md-6">
-                                            <label class="req" for="code">English Language Proficiency Score</label>
-                                            @if (Model.englishLanguageProfScoreContentResult != null)
-                                            {
-                                                <div class="fileButtonGroup">
-                                                    <a href="@Url.Action("DownloadFile", "StudentApplication", new { id = Model.Id, name = "EnglishLanguageProficiencyScore" })" class="btn btn-primary">
-                                                        <i class="icon-download icon-white"></i>
-                                                        <span>
-                                                            <strong>Download</strong>
-                                                        </span>
-                                                    </a>
-                                                    <a href="@Url.Action("DeleteFile", "StudentApplication", new { id = Model.Id, name = "EnglishLanguageProficiencyScore" })" class="btn btn-primary">
-                                                        <i class="icon-trash icon-white"></i>
-                                                        <span>
-                                                            <strong>Delete</strong>
-                                                        </span>
-                                                    </a>
-                                                </div>
-                                            }
-                                            else
-                                            {
-                                                @Html.TextBoxFor(model => model.englishLanguageProfScore, new Dictionary<string, object>()
-                                                {
-                                                    {"class", "form-control"},
-                                                    {"type", "file" },
-                                                    {"id", "fileName" },
-                                                    {"accept", ".jpeg, .png, .jpg, .pdf, .docx" }
-                                                })
-                                            }
+                                        @Html.TextBoxFor(model => model.bachelorDiploma, new Dictionary<string, object>()
+                                        {
+                                            {"class", "form-control"},
+                                            {"type", "file" },
+                                            {"id", "fileName" },
+                                            {"required", "" },
+                                            {"oninvalid","this.setCustomValidity('Please choose a file.')" },
+                                            {"oninput","this.setCustomValidity('')" },
+                                            {"accept", ".jpeg, .png, .jpg, .pdf, .docx" }
+                                        })
+                                    }
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label class="req" for="code">Bachelor Transcript</label>
+                                    @if (Model.bachelorTranscriptContentResult != null)
+                                    {
+                                        <div class="fileButtonGroup">
+                                            <a href="@Url.Action("DownloadFile", "StudentApplication", new { id = Model.Id, name = "BachelorTranscript" })" class="btn btn-primary">
+                                                <i class="icon-download icon-white"></i>
+                                                <span>
+                                                    <strong>Download</strong>
+                                                </span>
+                                            </a>
+                                            <a href="@Url.Action("DeleteFile", "StudentApplication", new { id = Model.Id, name = "BachelorTranscript" })" class="btn btn-primary">
+                                                <i class="icon-trash icon-white"></i>
+                                                <span>
+                                                    <strong>Delete</strong>
+                                                </span>
+                                            </a>
                                         </div>
                                     }
-                                    @if (Model.ProgramId == 3)
+                                    else
                                     {
-                                        <div class="form-group col-md-6">
-                                            <label class="req" for="code">CV</label>
-                                            @if (Model.cvContentResult != null)
-                                            {
-                                                <div class="fileButtonGroup">
-                                                    <a href="@Url.Action("DownloadFile", "StudentApplication", new { id = Model.Id, name = "CV" })" class="btn btn-primary">
-                                                        <i class="icon-download icon-white"></i>
-                                                        <span>
-                                                            <strong>Download</strong>
-                                                        </span>
-                                                    </a>
-                                                    <a href="@Url.Action("DeleteFile", "StudentApplication", new { id = Model.Id, name = "CV" })" class="btn btn-primary">
-                                                        <i class="icon-trash icon-white"></i>
-                                                        <span>
-                                                            <strong>Delete</strong>
-                                                        </span>
-                                                    </a>
-                                                </div>
-                                            }
-                                            else
-                                            {
-                                                @Html.TextBoxFor(model => model.cv, new Dictionary<string, object>()
-                                                {
-                                                    {"class", "form-control"},
-                                                    {"type", "file" },
-                                                    {"id", "fileName" },
-                                                    {"required", "" },
-                                                    {"oninvalid","this.setCustomValidity('Please choose a file.')" },
-                                                    {"oninput","this.setCustomValidity('')" },
-                                                    {"accept", ".jpeg, .png, .jpg, .pdf, .docx" }
-                                                })
-                                            }
+                                        @Html.TextBoxFor(model => model.bachelorTranscript, new Dictionary<string, object>()
+                                        {
+                                            {"class", "form-control"},
+                                            {"type", "file" },
+                                            {"id", "fileName" },
+                                            {"required", "" },
+                                            {"oninvalid","this.setCustomValidity('Please choose a file.')" },
+                                            {"oninput","this.setCustomValidity('')" },
+                                            {"accept", ".jpeg, .png, .jpg, .pdf, .docx" }
+                                        })
+                                    }
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label class="req" for="code">Copy of Passport / ID Card</label>
+                                    @if (Model.IdorPassportCopyContentResult != null)
+                                    {
+                                        <div class="fileButtonGroup">
+                                            <a href="@Url.Action("DownloadFile", "StudentApplication", new { id = Model.Id, name = "CopyofPassportorIDCard" })" class="btn btn-primary">
+                                                <i class="icon-download icon-white"></i>
+                                                <span>
+                                                    <strong>Download</strong>
+                                                </span>
+                                            </a>
+                                            <a href="@Url.Action("DeleteFile", "StudentApplication", new { id = Model.Id, name = "CopyofPassportorIDCard" })" class="btn btn-primary">
+                                                <i class="icon-trash icon-white"></i>
+                                                <span>
+                                                    <strong>Delete</strong>
+                                                </span>
+                                            </a>
                                         </div>
-                                        <div class="form-group col-md-6">
-                                            <label class="req" for="code">Bachelor Diploma</label>
-                                            @if (Model.bachelorDiplomaContentResult != null)
-                                            {
-                                                <div class="fileButtonGroup">
-                                                    <a href="@Url.Action("DownloadFile", "StudentApplication", new { id = Model.Id, name = "BachelorDiploma" })" class="btn btn-primary">
-                                                        <i class="icon-download icon-white"></i>
-                                                        <span>
-                                                            <strong>Download</strong>
-                                                        </span>
-                                                    </a>
-                                                    <a href="@Url.Action("DeleteFile", "StudentApplication", new { id = Model.Id, name = "BachelorDiploma" })" class="btn btn-primary">
-                                                        <i class="icon-trash icon-white"></i>
-                                                        <span>
-                                                            <strong>Delete</strong>
-                                                        </span>
-                                                    </a>
-                                                </div>
-                                            }
-                                            else
-                                            {
-                                                @Html.TextBoxFor(model => model.bachelorDiploma, new Dictionary<string, object>()
-                                                {
-                                                    {"class", "form-control"},
-                                                    {"type", "file" },
-                                                    {"id", "fileName" },
-                                                    {"required", "" },
-                                                    {"oninvalid","this.setCustomValidity('Please choose a file.')" },
-                                                    {"oninput","this.setCustomValidity('')" },
-                                                    {"accept", ".jpeg, .png, .jpg, .pdf, .docx" }
-                                                })
-                                            }
+                                    }
+                                    else
+                                    {
+                                        @Html.TextBoxFor(model => model.IdorPassportCopy, new Dictionary<string, object>()
+                                        {
+                                            {"class", "form-control"},
+                                            {"type", "file" },
+                                            {"id", "fileName" },
+                                            {"required", "" },
+                                            {"oninvalid","this.setCustomValidity('Please choose a file.')" },
+                                            {"oninput","this.setCustomValidity('')" },
+                                            {"accept", ".jpeg, .png, .jpg, .pdf, .docx" }
+                                        })
+                                    }
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label for="code">English Language Proficiency Score</label>
+                                    @if (Model.englishLanguageProfScoreContentResult != null)
+                                    {
+                                        <div class="fileButtonGroup">
+                                            <a href="@Url.Action("DownloadFile", "StudentApplication", new { id = Model.Id, name = "EnglishLanguageProficiencyScore" })" class="btn btn-primary">
+                                                <i class="icon-download icon-white"></i>
+                                                <span>
+                                                    <strong>Download</strong>
+                                                </span>
+                                            </a>
+                                            <a href="@Url.Action("DeleteFile", "StudentApplication", new { id = Model.Id, name = "EnglishLanguageProficiencyScore" })" class="btn btn-primary">
+                                                <i class="icon-trash icon-white"></i>
+                                                <span>
+                                                    <strong>Delete</strong>
+                                                </span>
+                                            </a>
                                         </div>
-                                        <div class="form-group col-md-6">
-                                            <label class="req" for="code">Bachelor Transcript</label>
-                                            @if (Model.bachelorTranscriptContentResult != null)
-                                            {
-                                                <div class="fileButtonGroup">
-                                                    <a href="@Url.Action("DownloadFile", "StudentApplication", new { id = Model.Id, name = "BachelorTranscript" })" class="btn btn-primary">
-                                                        <i class="icon-download icon-white"></i>
-                                                        <span>
-                                                            <strong>Download</strong>
-                                                        </span>
-                                                    </a>
-                                                    <a href="@Url.Action("DeleteFile", "StudentApplication", new { id = Model.Id, name = "BachelorTranscript" })" class="btn btn-primary">
-                                                        <i class="icon-trash icon-white"></i>
-                                                        <span>
-                                                            <strong>Delete</strong>
-                                                        </span>
-                                                    </a>
-                                                </div>
-                                            }
-                                            else
-                                            {
-                                                @Html.TextBoxFor(model => model.bachelorTranscript, new Dictionary<string, object>()
-                                                {
-                                                    {"class", "form-control"},
-                                                    {"type", "file" },
-                                                    {"id", "fileName" },
-                                                    {"required", "" },
-                                                    {"oninvalid","this.setCustomValidity('Please choose a file.')" },
-                                                    {"oninput","this.setCustomValidity('')" },
-                                                    {"accept", ".jpeg, .png, .jpg, .pdf, .docx" }
-                                                })
-                                            }
-                                        </div>
-                                        <div class="form-group col-md-6">
-                                            <label class="req" for="code">Master Diploma</label>
-                                            @if (Model.masterDiplomaContentResult != null)
-                                            {
-                                                <div class="fileButtonGroup">
-                                                    <a href="@Url.Action("DownloadFile", "StudentApplication", new { id = Model.Id, name = "MasterDiploma" })" class="btn btn-primary">
-                                                        <i class="icon-download icon-white"></i>
-                                                        <span>
-                                                            <strong>Download</strong>
-                                                        </span>
-                                                    </a>
-                                                    <a href="@Url.Action("DeleteFile", "StudentApplication", new { id = Model.Id, name = "MasterDiploma" })" class="btn btn-primary">
-                                                        <i class="icon-trash icon-white"></i>
-                                                        <span>
-                                                            <strong>Delete</strong>
-                                                        </span>
-                                                    </a>
-                                                </div>
-                                            }
-                                            else
-                                            {
-                                                @Html.TextBoxFor(model => model.masterDiploma, new Dictionary<string, object>()
-                                                {
-                                                    {"class", "form-control"},
-                                                    {"type", "file" },
-                                                    {"id", "fileName" },
-                                                    {"required", "" },
-                                                    {"oninvalid","this.setCustomValidity('Please choose a file.')" },
-                                                    {"oninput","this.setCustomValidity('')" },
-                                                    {"accept", ".jpeg, .png, .jpg, .pdf, .docx" }
-                                                })
-                                            }
-                                        </div>
-                                        <div class="form-group col-md-6">
-                                            <label class="req" for="code">Master Transcript</label>
-                                            @if (Model.masterTranscriptContentResult != null)
-                                            {
-                                                <div class="fileButtonGroup">
-                                                    <a href="@Url.Action("DownloadFile", "StudentApplication", new { id = Model.Id, name = "MasterTranscript" })" class="btn btn-primary">
-                                                        <i class="icon-download icon-white"></i>
-                                                        <span>
-                                                            <strong>Download</strong>
-                                                        </span>
-                                                    </a>
-                                                    <a href="@Url.Action("DeleteFile", "StudentApplication", new { id = Model.Id, name = "MasterTranscript" })" class="btn btn-primary">
-                                                        <i class="icon-trash icon-white"></i>
-                                                        <span>
-                                                            <strong>Delete</strong>
-                                                        </span>
-                                                    </a>
-                                                </div>
-                                            }
-                                            else
-                                            {
-                                                @Html.TextBoxFor(model => model.masterTranscript, new Dictionary<string, object>()
-                                                {
-                                                    {"class", "form-control"},
-                                                    {"type", "file" },
-                                                    {"id", "fileName" },
-                                                    {"required", "" },
-                                                    {"oninvalid","this.setCustomValidity('Please choose a file.')" },
-                                                    {"oninput","this.setCustomValidity('')" },
-                                                    {"accept", ".jpeg, .png, .jpg, .pdf, .docx" }
-                                                })
-                                            }
-                                        </div>
-                                        <div class="form-group col-md-6">
-                                            <label class="req" for="code">Copy of Passport / ID Card</label>
-                                            @if (Model.IdorPassportCopyContentResult != null)
-                                            {
-                                                <div class="fileButtonGroup">
-                                                    <a href="@Url.Action("DownloadFile", "StudentApplication", new { id = Model.Id, name = "CopyofPassportorIDCard" })" class="btn btn-primary">
-                                                        <i class="icon-download icon-white"></i>
-                                                        <span>
-                                                            <strong>Download</strong>
-                                                        </span>
-                                                    </a>
-                                                    <a href="@Url.Action("DeleteFile", "StudentApplication", new { id = Model.Id, name = "CopyofPassportorIDCard" })" class="btn btn-primary">
-                                                        <i class="icon-trash icon-white"></i>
-                                                        <span>
-                                                            <strong>Delete</strong>
-                                                        </span>
-                                                    </a>
-                                                </div>
-                                            }
-                                            else
-                                            {
-                                                @Html.TextBoxFor(model => model.IdorPassportCopy, new Dictionary<string, object>()
-                                                {
-                                                    {"class", "form-control"},
-                                                    {"type", "file" },
-                                                    {"id", "fileName" },
-                                                    {"required", "" },
-                                                    {"oninvalid","this.setCustomValidity('Please choose a file.')" },
-                                                    {"oninput","this.setCustomValidity('')" },
-                                                    {"accept", ".jpeg, .png, .jpg, .pdf, .docx" }
-                                                })
-                                            }
-                                        </div>
-                                        <div class="form-group col-md-6">
-                                            <label class="req" for="code">English Language Proficiency Score</label>
-                                            @if (Model.englishLanguageProfScoreContentResult != null)
-                                            {
-                                                <div class="fileButtonGroup">
-                                                    <a href="@Url.Action("DownloadFile", "StudentApplication", new { id = Model.Id, name = "EnglishLanguageProficiencyScore" })" class="btn btn-primary">
-                                                        <i class="icon-download icon-white"></i>
-                                                        <span>
-                                                            <strong>Download</strong>
-                                                        </span>
-                                                    </a>
-                                                    <a href="@Url.Action("DeleteFile", "StudentApplication", new { id = Model.Id, name = "EnglishLanguageProficiencyScore" })" class="btn btn-primary">
-                                                        <i class="icon-trash icon-white"></i>
-                                                        <span>
-                                                            <strong>Delete</strong>
-                                                        </span>
-                                                    </a>
-                                                </div>
-                                            }
-                                            else
-                                            {
-                                                @Html.TextBoxFor(model => model.englishLanguageProfScore, new Dictionary<string, object>()
-                                                {
-                                                    {"class", "form-control"},
-                                                    {"type", "file" },
-                                                    {"id", "fileName" },
-                                                    {"accept", ".jpeg, .png, .jpg, .pdf, .docx" }
-                                                })
-                                            }
-                                        </div>
-                                        <div class="form-group col-md-6">
-                                            <label class="req" for="code">Reference Letter 1</label>
-                                            @if (Model.referenceLetter1ContentResult != null)
-                                            {
-                                                <div class="fileButtonGroup">
-                                                    <a href="@Url.Action("DownloadFile", "StudentApplication", new { id = Model.Id, name = "ReferenceLetter1" })" class="btn btn-primary">
-                                                        <i class="icon-download icon-white"></i>
-                                                        <span>
-                                                            <strong>Download</strong>
-                                                        </span>
-                                                    </a>
-                                                    <a href="@Url.Action("DeleteFile", "StudentApplication", new { id = Model.Id, name = "ReferenceLetter1" })" class="btn btn-primary">
-                                                        <i class="icon-trash icon-white"></i>
-                                                        <span>
-                                                            <strong>Delete</strong>
-                                                        </span>
-                                                    </a>
-                                                </div>
-                                            }
-                                            else
-                                            {
-                                                @Html.TextBoxFor(model => model.referenceLetter1, new Dictionary<string, object>()
-                                                {
-                                                    {"class", "form-control"},
-                                                    {"type", "file" },
-                                                    {"id", "fileName" },
-                                                    {"accept", ".jpeg, .png, .jpg, .pdf, .docx" }
-                                                })
-                                            }
-                                        </div>
-                                        <div class="form-group col-md-6">
-                                            <label class="req" for="code">Reference Letter 2</label>
-                                            @if (Model.referenceLetter2ContentResult != null)
-                                            {
-                                                <div class="fileButtonGroup">
-                                                    <a href="@Url.Action("DownloadFile", "StudentApplication", new { id = Model.Id, name = "ReferenceLetter2" })" class="btn btn-primary">
-                                                        <i class="icon-download icon-white"></i>
-                                                        <span>
-                                                            <strong>Download</strong>
-                                                        </span>
-                                                    </a>
-                                                    <a href="@Url.Action("DeleteFile", "StudentApplication", new { id = Model.Id, name = "ReferenceLetter2" })" class="btn btn-primary">
-                                                        <i class="icon-trash icon-white"></i>
-                                                        <span>
-                                                            <strong>Delete</strong>
-                                                        </span>
-                                                    </a>
-                                                </div>
-                                            }
-                                            else
-                                            {
-                                                @Html.TextBoxFor(model => model.referenceLetter2, new Dictionary<string, object>()
-                                                {
-                                                    {"class", "form-control"},
-                                                    {"type", "file" },
-                                                    {"id", "fileName" },
-                                                    {"accept", ".jpeg, .png, .jpg, .pdf, .docx" }
-                                                })
-                                            }
-                                        </div>
+                                    }
+                                    else
+                                    {
+                                        @Html.TextBoxFor(model => model.englishLanguageProfScore, new Dictionary<string, object>()
+                                        {
+                                            {"class", "form-control"},
+                                            {"type", "file" },
+                                            {"id", "fileName" },
+                                            {"accept", ".jpeg, .png, .jpg, .pdf, .docx" }
+                                        })
                                     }
                                 </div>
                             }
-                            <div class="buttons">
-                                <button class="btn btn-md btn-danger pull-left">Close</button>
-                                <button class="btn btn-md btn-success pull-right" type="submit" OnClick="">Save</button>
+                            @if (Model.ProgramId == 1)
+                            {
+                                <div class="form-group col-md-6">
+                                    <label class="req" for="code">High School Transcript</label>
+                                    @if (Model.highSchoolTranscriptContentResult != null)
+                                    {
+                                        <div class="fileButtonGroup">
+                                            <a href="@Url.Action("DownloadFile", "StudentApplication", new { id = Model.Id, name = "HighSchoolTranscript" })" class="btn btn-primary">
+                                                <i class="icon-download icon-white"></i>
+                                                <span>
+                                                    <strong>Download</strong>
+                                                </span>
+                                            </a>
+                                            <a href="@Url.Action("DeleteFile", "StudentApplication", new { id = Model.Id, name = "HighSchoolTranscript" })" class="btn btn-primary">
+                                                <i class="icon-trash icon-white"></i>
+                                                <span>
+                                                    <strong>Delete</strong>
+                                                </span>
+                                            </a>
+                                        </div>
+                                    }
+                                    else
+                                    {
+                                        @Html.TextBoxFor(model => model.highSchoolTranscript, new Dictionary<string, object>()
+                                        {
+                                            {"class", "form-control"},
+                                            {"type", "file" },
+                                            {"required", "" },
+                                            {"id", "fileName" },
+                                            {"oninvalid","this.setCustomValidity('Please choose a file.')" },
+                                            {"oninput","this.setCustomValidity('')" },
+                                            {"accept", ".jpeg, .png, .jpg, .pdf, .docx" }
+                                        })
+                                    }
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label for="code">High School Diploma</label>
+                                    @if (Model.highSchoolDiplomaContentResult != null)
+                                    {
+                                        <div class="fileButtonGroup">
+                                            <a href="@Url.Action("DownloadFile", "StudentApplication", new { id = Model.Id, name = "HighSchoolDiploma" })" class="btn btn-primary">
+                                                <i class="icon-download icon-white"></i>
+                                                <span>
+                                                    <strong>Download</strong>
+                                                </span>
+                                            </a>
+                                            <a href="@Url.Action("DeleteFile", "StudentApplication", new { id = Model.Id, name = "HighSchoolDiploma" })" class="btn btn-primary">
+                                                <i class="icon-trash icon-white"></i>
+                                                <span>
+                                                    <strong>Delete</strong>
+                                                </span>
+                                            </a>
+                                        </div>
+                                    }
+                                    else
+                                    {
+                                        @Html.TextBoxFor(model => model.highSchoolDiploma, new Dictionary<string, object>()
+                                        {
+                                            {"class", "form-control"},
+                                            {"type", "file" },
+                                            {"id", "fileName" },
+                                            {"accept", ".jpeg, .png, .jpg, .pdf, .docx" }
+                                        })
+                                    }
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label for="code">Residence Permit</label>
+                                    @if (Model.residencePermitContentResult != null)
+                                    {
+                                        <div class="fileButtonGroup">
+                                            <a href="@Url.Action("DownloadFile", "StudentApplication", new { id = Model.Id, name = "ResidencePermit" })" class="btn btn-primary">
+                                                <i class="icon-download icon-white"></i>
+                                                <span>
+                                                    <strong>Download</strong>
+                                                </span>
+                                            </a>
+                                            <a href="@Url.Action("DeleteFile", "StudentApplication", new { id = Model.Id, name = "ResidencePermit" })" class="btn btn-primary">
+                                                <i class="icon-trash icon-white"></i>
+                                                <span>
+                                                    <strong>Delete</strong>
+                                                </span>
+                                            </a>
+                                        </div>
+                                    }
+                                    else
+                                    {
+                                        @Html.TextBoxFor(model => model.residencePermit, new Dictionary<string, object>()
+                                        {
+                                            {"class", "form-control"},
+                                            {"type", "file" },
+                                            {"id", "fileName" },
+                                            {"accept", ".jpeg, .png, .jpg, .pdf, .docx" }
+                                        })
+                                    }
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label for="code">Equivalence Certificate</label>
+                                    @if (Model.equivalenceCertificateContentResult != null)
+                                    {
+                                        <div class="fileButtonGroup">
+                                            <a href="@Url.Action("DownloadFile", "StudentApplication", new { id = Model.Id, name = "EquivalenceCertificate" })" class="btn btn-primary">
+                                                <i class="icon-download icon-white"></i>
+                                                <span>
+                                                    <strong>Download</strong>
+                                                </span>
+                                            </a>
+                                            <a href="@Url.Action("DeleteFile", "StudentApplication", new { id = Model.Id, name = "EquivalenceCertificate" })" class="btn btn-primary">
+                                                <i class="icon-trash icon-white"></i>
+                                                <span>
+                                                    <strong>Delete</strong>
+                                                </span>
+                                            </a>
+                                        </div>
+                                    }
+                                    else
+                                    {
+                                        @Html.TextBoxFor(model => model.equivalenceCertificate, new Dictionary<string, object>()
+                                        {
+                                            {"class", "form-control"},
+                                            {"type", "file" },
+                                            {"id", "fileName" },
+                                            {"accept", ".jpeg, .png, .jpg, .pdf, .docx" }
+                                        })
+                                    }
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label for="code">Student Photo</label>
+                                    @if (Model.studentPhotoContentResult != null)
+                                    {
+                                        <div class="fileButtonGroup">
+                                            <a href="@Url.Action("DownloadFile", "StudentApplication", new { id = Model.Id, name = "StudentPhoto" })" class="btn btn-primary">
+                                                <i class="icon-download icon-white"></i>
+                                                <span>
+                                                    <strong>Download</strong>
+                                                </span>
+                                            </a>
+                                            <a href="@Url.Action("DeleteFile", "StudentApplication", new { id = Model.Id, name = "StudentPhoto" })" class="btn btn-primary">
+                                                <i class="icon-trash icon-white"></i>
+                                                <span>
+                                                    <strong>Delete</strong>
+                                                </span>
+                                            </a>
+                                        </div>
+                                    }
+                                    else
+                                    {
+                                        @Html.TextBoxFor(model => model.studentPhoto, new Dictionary<string, object>()
+                                        {
+                                            {"class", "form-control"},
+                                            {"type", "file" },
+                                            {"id", "fileName" },
+                                            {"accept", ".jpeg, .png, .jpg, .pdf, .docx" }
+                                        })
+                                    }
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label for="code">International Exam Score</label>
+                                    @if (Model.internationalExamScoreContentResult != null)
+                                    {
+                                        <div class="fileButtonGroup">
+                                            <a href="@Url.Action("DownloadFile", "StudentApplication", new { id = Model.Id, name = "InternationalExamScore" })" class="btn btn-primary">
+                                                <i class="icon-download icon-white"></i>
+                                                <span>
+                                                    <strong>Download</strong>
+                                                </span>
+                                            </a>
+                                            <a href="@Url.Action("DeleteFile", "StudentApplication", new { id = Model.Id, name = "InternationalExamScore" })" class="btn btn-primary">
+                                                <i class="icon-trash icon-white"></i>
+                                                <span>
+                                                    <strong>Delete</strong>
+                                                </span>
+                                            </a>
+                                        </div>
+                                    }
+                                    else
+                                    {
+                                        @Html.TextBoxFor(model => model.internationalExamScore, new Dictionary<string, object>()
+                                        {
+                                            {"class", "form-control"},
+                                            {"type", "file" },
+                                            {"id", "fileName" },
+                                            {"accept", ".jpeg, .png, .jpg, .pdf, .docx" }
+                                        })
+                                    }
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label class="req" for="code">Copy of Passport / ID Card</label>
+                                    @if (Model.IdorPassportCopyContentResult != null)
+                                    {
+                                        <div class="fileButtonGroup">
+                                            <a href="@Url.Action("DownloadFile", "StudentApplication", new { id = Model.Id, name = "CopyofPassportorIDCard" })" class="btn btn-primary">
+                                                <i class="icon-download icon-white"></i>
+                                                <span>
+                                                    <strong>Download</strong>
+                                                </span>
+                                            </a>
+                                            <a href="@Url.Action("DeleteFile", "StudentApplication", new { id = Model.Id, name = "CopyofPassportorIDCard" })" class="btn btn-primary">
+                                                <i class="icon-trash icon-white"></i>
+                                                <span>
+                                                    <strong>Delete</strong>
+                                                </span>
+                                            </a>
+                                        </div>
+                                    }
+                                    else
+                                    {
+                                        @Html.TextBoxFor(model => model.IdorPassportCopy, new Dictionary<string, object>()
+                                        {
+                                            {"class", "form-control"},
+                                            {"type", "file" },
+                                            {"id", "fileName" },
+                                            {"required", "" },
+                                            {"oninvalid","this.setCustomValidity('Please choose a file.')" },
+                                            {"oninput","this.setCustomValidity('')" },
+                                            {"accept", ".jpeg, .png, .jpg, .pdf, .docx" }
+                                        })
+                                    }
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label for="code">English Language Proficiency Score</label>
+                                    @if (Model.englishLanguageProfScoreContentResult != null)
+                                    {
+                                        <div class="fileButtonGroup">
+                                            <a href="@Url.Action("DownloadFile", "StudentApplication", new { id = Model.Id, name = "EnglishLanguageProficiencyScore" })" class="btn btn-primary">
+                                                <i class="icon-download icon-white"></i>
+                                                <span>
+                                                    <strong>Download</strong>
+                                                </span>
+                                            </a>
+                                            <a href="@Url.Action("DeleteFile", "StudentApplication", new { id = Model.Id, name = "EnglishLanguageProficiencyScore" })" class="btn btn-primary">
+                                                <i class="icon-trash icon-white"></i>
+                                                <span>
+                                                    <strong>Delete</strong>
+                                                </span>
+                                            </a>
+                                        </div>
+                                    }
+                                    else
+                                    {
+                                        @Html.TextBoxFor(model => model.englishLanguageProfScore, new Dictionary<string, object>()
+                                        {
+                                            {"class", "form-control"},
+                                            {"type", "file" },
+                                            {"id", "fileName" },
+                                            {"accept", ".jpeg, .png, .jpg, .pdf, .docx" }
+                                        })
+                                    }
+                                </div>
+                            }
+                            @if (Model.ProgramId == 3)
+                            {
+                                <div class="form-group col-md-6">
+                                    <label class="req" for="code">CV</label>
+                                    @if (Model.cvContentResult != null)
+                                    {
+                                        <div class="fileButtonGroup">
+                                            <a href="@Url.Action("DownloadFile", "StudentApplication", new { id = Model.Id, name = "CV" })" class="btn btn-primary">
+                                                <i class="icon-download icon-white"></i>
+                                                <span>
+                                                    <strong>Download</strong>
+                                                </span>
+                                            </a>
+                                            <a href="@Url.Action("DeleteFile", "StudentApplication", new { id = Model.Id, name = "CV" })" class="btn btn-primary">
+                                                <i class="icon-trash icon-white"></i>
+                                                <span>
+                                                    <strong>Delete</strong>
+                                                </span>
+                                            </a>
+                                        </div>
+                                    }
+                                    else
+                                    {
+                                        @Html.TextBoxFor(model => model.cv, new Dictionary<string, object>()
+                                        {
+                                            {"class", "form-control"},
+                                            {"type", "file" },
+                                            {"id", "fileName" },
+                                            {"required", "" },
+                                            {"oninvalid","this.setCustomValidity('Please choose a file.')" },
+                                            {"oninput","this.setCustomValidity('')" },
+                                            {"accept", ".jpeg, .png, .jpg, .pdf, .docx" }
+                                        })
+                                    }
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label class="req" for="code">Bachelor Diploma</label>
+                                    @if (Model.bachelorDiplomaContentResult != null)
+                                    {
+                                        <div class="fileButtonGroup">
+                                            <a href="@Url.Action("DownloadFile", "StudentApplication", new { id = Model.Id, name = "BachelorDiploma" })" class="btn btn-primary">
+                                                <i class="icon-download icon-white"></i>
+                                                <span>
+                                                    <strong>Download</strong>
+                                                </span>
+                                            </a>
+                                            <a href="@Url.Action("DeleteFile", "StudentApplication", new { id = Model.Id, name = "BachelorDiploma" })" class="btn btn-primary">
+                                                <i class="icon-trash icon-white"></i>
+                                                <span>
+                                                    <strong>Delete</strong>
+                                                </span>
+                                            </a>
+                                        </div>
+                                    }
+                                    else
+                                    {
+                                        @Html.TextBoxFor(model => model.bachelorDiploma, new Dictionary<string, object>()
+                                        {
+                                            {"class", "form-control"},
+                                            {"type", "file" },
+                                            {"id", "fileName" },
+                                            {"required", "" },
+                                            {"oninvalid","this.setCustomValidity('Please choose a file.')" },
+                                            {"oninput","this.setCustomValidity('')" },
+                                            {"accept", ".jpeg, .png, .jpg, .pdf, .docx" }
+                                        })
+                                    }
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label class="req" for="code">Bachelor Transcript</label>
+                                    @if (Model.bachelorTranscriptContentResult != null)
+                                    {
+                                        <div class="fileButtonGroup">
+                                            <a href="@Url.Action("DownloadFile", "StudentApplication", new { id = Model.Id, name = "BachelorTranscript" })" class="btn btn-primary">
+                                                <i class="icon-download icon-white"></i>
+                                                <span>
+                                                    <strong>Download</strong>
+                                                </span>
+                                            </a>
+                                            <a href="@Url.Action("DeleteFile", "StudentApplication", new { id = Model.Id, name = "BachelorTranscript" })" class="btn btn-primary">
+                                                <i class="icon-trash icon-white"></i>
+                                                <span>
+                                                    <strong>Delete</strong>
+                                                </span>
+                                            </a>
+                                        </div>
+                                    }
+                                    else
+                                    {
+                                        @Html.TextBoxFor(model => model.bachelorTranscript, new Dictionary<string, object>()
+                                        {
+                                            {"class", "form-control"},
+                                            {"type", "file" },
+                                            {"id", "fileName" },
+                                            {"required", "" },
+                                            {"oninvalid","this.setCustomValidity('Please choose a file.')" },
+                                            {"oninput","this.setCustomValidity('')" },
+                                            {"accept", ".jpeg, .png, .jpg, .pdf, .docx" }
+                                        })
+                                    }
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label class="req" for="code">Master Diploma</label>
+                                    @if (Model.masterDiplomaContentResult != null)
+                                    {
+                                        <div class="fileButtonGroup">
+                                            <a href="@Url.Action("DownloadFile", "StudentApplication", new { id = Model.Id, name = "MasterDiploma" })" class="btn btn-primary">
+                                                <i class="icon-download icon-white"></i>
+                                                <span>
+                                                    <strong>Download</strong>
+                                                </span>
+                                            </a>
+                                            <a href="@Url.Action("DeleteFile", "StudentApplication", new { id = Model.Id, name = "MasterDiploma" })" class="btn btn-primary">
+                                                <i class="icon-trash icon-white"></i>
+                                                <span>
+                                                    <strong>Delete</strong>
+                                                </span>
+                                            </a>
+                                        </div>
+                                    }
+                                    else
+                                    {
+                                        @Html.TextBoxFor(model => model.masterDiploma, new Dictionary<string, object>()
+                                        {
+                                            {"class", "form-control"},
+                                            {"type", "file" },
+                                            {"id", "fileName" },
+                                            {"required", "" },
+                                            {"oninvalid","this.setCustomValidity('Please choose a file.')" },
+                                            {"oninput","this.setCustomValidity('')" },
+                                            {"accept", ".jpeg, .png, .jpg, .pdf, .docx" }
+                                        })
+                                    }
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label class="req" for="code">Master Transcript</label>
+                                    @if (Model.masterTranscriptContentResult != null)
+                                    {
+                                        <div class="fileButtonGroup">
+                                            <a href="@Url.Action("DownloadFile", "StudentApplication", new { id = Model.Id, name = "MasterTranscript" })" class="btn btn-primary">
+                                                <i class="icon-download icon-white"></i>
+                                                <span>
+                                                    <strong>Download</strong>
+                                                </span>
+                                            </a>
+                                            <a href="@Url.Action("DeleteFile", "StudentApplication", new { id = Model.Id, name = "MasterTranscript" })" class="btn btn-primary">
+                                                <i class="icon-trash icon-white"></i>
+                                                <span>
+                                                    <strong>Delete</strong>
+                                                </span>
+                                            </a>
+                                        </div>
+                                    }
+                                    else
+                                    {
+                                        @Html.TextBoxFor(model => model.masterTranscript, new Dictionary<string, object>()
+                                        {
+                                            {"class", "form-control"},
+                                            {"type", "file" },
+                                            {"id", "fileName" },
+                                            {"required", "" },
+                                            {"oninvalid","this.setCustomValidity('Please choose a file.')" },
+                                            {"oninput","this.setCustomValidity('')" },
+                                            {"accept", ".jpeg, .png, .jpg, .pdf, .docx" }
+                                        })
+                                    }
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label class="req" for="code">Copy of Passport / ID Card</label>
+                                    @if (Model.IdorPassportCopyContentResult != null)
+                                    {
+                                        <div class="fileButtonGroup">
+                                            <a href="@Url.Action("DownloadFile", "StudentApplication", new { id = Model.Id, name = "CopyofPassportorIDCard" })" class="btn btn-primary">
+                                                <i class="icon-download icon-white"></i>
+                                                <span>
+                                                    <strong>Download</strong>
+                                                </span>
+                                            </a>
+                                            <a href="@Url.Action("DeleteFile", "StudentApplication", new { id = Model.Id, name = "CopyofPassportorIDCard" })" class="btn btn-primary">
+                                                <i class="icon-trash icon-white"></i>
+                                                <span>
+                                                    <strong>Delete</strong>
+                                                </span>
+                                            </a>
+                                        </div>
+                                    }
+                                    else
+                                    {
+                                        @Html.TextBoxFor(model => model.IdorPassportCopy, new Dictionary<string, object>()
+                                        {
+                                            {"class", "form-control"},
+                                            {"type", "file" },
+                                            {"id", "fileName" },
+                                            {"required", "" },
+                                            {"oninvalid","this.setCustomValidity('Please choose a file.')" },
+                                            {"oninput","this.setCustomValidity('')" },
+                                            {"accept", ".jpeg, .png, .jpg, .pdf, .docx" }
+                                        })
+                                    }
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label for="code">English Language Proficiency Score</label>
+                                    @if (Model.englishLanguageProfScoreContentResult != null)
+                                    {
+                                        <div class="fileButtonGroup">
+                                            <a href="@Url.Action("DownloadFile", "StudentApplication", new { id = Model.Id, name = "EnglishLanguageProficiencyScore" })" class="btn btn-primary">
+                                                <i class="icon-download icon-white"></i>
+                                                <span>
+                                                    <strong>Download</strong>
+                                                </span>
+                                            </a>
+                                            <a href="@Url.Action("DeleteFile", "StudentApplication", new { id = Model.Id, name = "EnglishLanguageProficiencyScore" })" class="btn btn-primary">
+                                                <i class="icon-trash icon-white"></i>
+                                                <span>
+                                                    <strong>Delete</strong>
+                                                </span>
+                                            </a>
+                                        </div>
+                                    }
+                                    else
+                                    {
+                                        @Html.TextBoxFor(model => model.englishLanguageProfScore, new Dictionary<string, object>()
+                                        {
+                                            {"class", "form-control"},
+                                            {"type", "file" },
+                                            {"id", "fileName" },
+                                            {"accept", ".jpeg, .png, .jpg, .pdf, .docx" }
+                                        })
+                                    }
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label for="code">Reference Letter 1</label>
+                                    @if (Model.referenceLetter1ContentResult != null)
+                                    {
+                                        <div class="fileButtonGroup">
+                                            <a href="@Url.Action("DownloadFile", "StudentApplication", new { id = Model.Id, name = "ReferenceLetter1" })" class="btn btn-primary">
+                                                <i class="icon-download icon-white"></i>
+                                                <span>
+                                                    <strong>Download</strong>
+                                                </span>
+                                            </a>
+                                            <a href="@Url.Action("DeleteFile", "StudentApplication", new { id = Model.Id, name = "ReferenceLetter1" })" class="btn btn-primary">
+                                                <i class="icon-trash icon-white"></i>
+                                                <span>
+                                                    <strong>Delete</strong>
+                                                </span>
+                                            </a>
+                                        </div>
+                                    }
+                                    else
+                                    {
+                                        @Html.TextBoxFor(model => model.referenceLetter1, new Dictionary<string, object>()
+                                        {
+                                            {"class", "form-control"},
+                                            {"type", "file" },
+                                            {"id", "fileName" },
+                                            {"accept", ".jpeg, .png, .jpg, .pdf, .docx" }
+                                        })
+                                    }
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label for="code">Reference Letter 2</label>
+                                    @if (Model.referenceLetter2ContentResult != null)
+                                    {
+                                        <div class="fileButtonGroup">
+                                            <a href="@Url.Action("DownloadFile", "StudentApplication", new { id = Model.Id, name = "ReferenceLetter2" })" class="btn btn-primary">
+                                                <i class="icon-download icon-white"></i>
+                                                <span>
+                                                    <strong>Download</strong>
+                                                </span>
+                                            </a>
+                                            <a href="@Url.Action("DeleteFile", "StudentApplication", new { id = Model.Id, name = "ReferenceLetter2" })" class="btn btn-primary">
+                                                <i class="icon-trash icon-white"></i>
+                                                <span>
+                                                    <strong>Delete</strong>
+                                                </span>
+                                            </a>
+                                        </div>
+                                    }
+                                    else
+                                    {
+                                        @Html.TextBoxFor(model => model.referenceLetter2, new Dictionary<string, object>()
+                                        {
+                                            {"class", "form-control"},
+                                            {"type", "file" },
+                                            {"id", "fileName" },
+                                            {"accept", ".jpeg, .png, .jpg, .pdf, .docx" }
+                                        })
+                                    }
+                                </div>
+                            }
+                            <div class="buttons col-md-12">
+                                <a class="btn btn-md btn-danger pull-left" onclick="backtoEducational()">Back</a>
+                                @if (ViewBag.IsEducationalInfoEntered != null && ViewBag.IsPersonalInfoEntered != null)
+                                {
+                                    <button class="btn btn-md btn-success pull-right" type="submit" OnClick="">Save</button>
+                                }
                             </div>
                         </div>
                     }
-                }
+                </div>
             </div>
-        </div>
-    </div>
-    @if (ViewBag.ExtensionNotAllowed != null)
-    {
-        <script>
+        }
+    }
+</div>
+@if (ViewBag.IsPersonalInfoEntered != null)
+{
+    <script>
+        $(document).ready(function () {
+            $("#personal").removeClass("show");
+            $("#personal").removeClass("active");
+            $("#educational").addClass("show");
+            $("#educational").addClass("active");
+        });
+    </script>
+}
+
+@if (ViewBag.IsEducationalInfoEntered != null)
+{
+    <script>
+        $(document).ready(function () {
+            $("#personal").removeClass("show");
+            $("#personal").removeClass("active");
+            $("#educational").removeClass("show");
+            $("#educational").removeClass("active");
+            $("#files").addClass("show");
+            $("#files").addClass("active");
+        });
+    </script>
+}
+
+@if (ViewBag.ExtensionNotAllowed != null && ViewBag.FileSizeWarining == null)
+{
+    <script>
             $(document).ready(function () {
                 swal('@(ViewBag.ExtensionNotAllowed)');
             });
-        </script>
-    }
-
-    @if (ViewBag.FileSizeWarining != null)
-    {
-        <script>
+    </script>
+}
+@if (ViewBag.FileSizeWarining != null && ViewBag.ExtensionNotAllowed == null)
+{
+    <script>
             $(document).ready(function () {
                 swal('@(ViewBag.FileSizeWarining)');
             });
-        </script>
+    </script>
+}
+@if (ViewBag.FileSizeWarining != null && ViewBag.ExtensionNotAllowed != null)
+{
+    <script>
+            $(document).ready(function () {
+                swal('@(ViewBag.FileSizeWarining)' + ' and ' + '@(ViewBag.ExtensionNotAllowed)');
+            });
+    </script>
+}
+@if (ViewBag.FilesUploaded != null && ViewBag.ExtensionNotAllowed == null && ViewBag.FileSizeWarining == null)
+{
+    <script>
+        $(document).ready(function () {
+            swal({
+                title: "Thank You!",
+                text: "Your application has been saved. Please stay tuned.",
+                type: "success",
+                confirmButtonText: "OK!",
+                confirmButtonColor: "#ec6c62"
+            }).then(() => {
+                window.location.href = "/StudentApplication/Index";
+            });
+        });
+    </script>
+}
+<script>
+    function hideMessage() {
+        document.getElementById("wrongVerificationMessage").hidden = true;
     }
 
-    @if (ViewBag.FilesUploaded != null)
-    {
-        <script>
-            $(document).ready(function () {
-                swal({
-                    title: "Thank You!",
-                    text: "Your application has been saved. Please stay tuned.",
-                    type: "success",
-                    confirmButtonText: "OK!",
-                    confirmButtonColor: "#ec6c62"
-                }).then(() => {
-                    window.location.href = "/StudentApplication/Index";
-                });
-            });
-        </script>
+    function backtoPersonal() {
+        debugger;
+        $("#educational").removeClass("show");
+        $("#educational").removeClass("active");
+        $("#personal").addClass("show");
+        $("#personal").addClass("active");
+        $("#educational-tab2").attr('aria-selected', false);
+        $("#personal-tab").attr('aria-selected', true);
+        $("#educational-tab2").removeClass("active");
+        $("#personal-tab").addClass("active");
     }
-    <script>
-        function hideMessage() {
-            document.getElementById("wrongVerificationMessage").hidden = true;
-        }
-    </script>
-</body>
-</html>
+
+    function backtoEducational() {
+        $("#personal").removeClass("show");
+        $("#personal").removeClass("active");
+        $("#files").removeClass("show");
+        $("#files").removeClass("active");
+        $("#educational").addClass("show");
+        $("#educational").addClass("active");
+        $("#personal-tab").attr('aria-selected', false);
+        $("#educational-tab2").attr('aria-selected', true);
+        $("#personal-tab").removeClass("active");
+        $("#files-tab2").removeClass("active");
+        $("#educational-tab2").addClass("active");
+    }
+</script>
+
 
 
 
